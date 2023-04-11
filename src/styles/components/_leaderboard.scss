@@ -1,0 +1,24 @@
+.c-leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__subtitle {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 3rem;
+
+    > span {
+      color: #ea4050;
+    }
+  }
+
+  &__scores {
+    &__list {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      list-style: none;
+    }
+  }
+}

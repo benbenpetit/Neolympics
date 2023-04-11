@@ -1,47 +1,28 @@
 <template>
   <div>
-    <div v-for="({ points }, index) in topScores">
-      <span>.0{{ index + 1 }} : {{ points }} pts</span>
-    </div>
-    <div v-for="{ points } in surroundingScores">
-      <span>{{ points }} pts</span>
-    </div>
-    <button
-      @click="
-        addScoreSkate({
-          points: Math.floor(Math.random() * 40),
-          userId: 'kZL5VUAUmZejNP1mYAx8SedtxqE3',
-        })
-      "
-    >
-      Click add score
-    </button>
+    <GameNav />
+    <h1>{{ $route.params.id }}</h1>
+    <KeepAlive>
+      <component :is="dynamicComponent"></component>
+    </KeepAlive>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getAllScoresBySport, addScoreSkate } from '@/core/services/api/leaderboardApi'
-import { IScore } from '@/core/types/IScore'
-import { ref, onMounted } from 'vue'
-import { useCurrentUser } from 'vuefire'
+import GameNav from '@/components/common/GameNav.vue'
+import Skate from '@/components/modules/Game/Skate/Skate.vue'
+import Surf from '@/components/modules/Game/Surf/Surf.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
-const topScores = ref<IScore[]>([])
-const surroundingScores = ref<IScore[]>([])
-const user = useCurrentUser()
+const route = useRoute()
 
-const getUserSurroundingScores = (userId: string = '', inScores: IScore[]) => {
-  const userScoreIndex = inScores.map((score) => score.userId).indexOf(userId)
-
-  if (userScoreIndex === -1) {
-    return []
+const dynamicComponent = computed(() => {
+  switch (route.params.id) {
+    case 'skate':
+      return Skate
+    case 'surf':
+      return Surf
   }
-
-  return inScores.slice(userScoreIndex - 1, userScoreIndex + 2)
-}
-
-onMounted(async () => {
-  const allSkateScores = await getAllScoresBySport('skate')
-  topScores.value = allSkateScores.slice(0, 3)
-  surroundingScores.value = getUserSurroundingScores(user.value?.uid, allSkateScores)
 })
 </script>

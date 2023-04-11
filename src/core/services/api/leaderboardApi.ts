@@ -9,10 +9,10 @@ import {
   limitToLast,
   getDoc,
   doc,
-  DocumentReference,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { IScore } from '@/core/types/IScore'
+import { IMaxSessionWUser, IScore } from '@/core/types/IScore'
+import { IUser } from '@/core/types/IUser'
 
 export const addScoreSkate = async (sport: IScore) => {
   sport = { ...sport, createdAt: new Date(), sportId: 'skate' }
@@ -68,6 +68,33 @@ export const getAllScoresBySport = async (sportId: string) => {
   scoresQuerySnapshot.forEach((doc) => scores.push(doc.data()))
 
   return scores
+}
+
+export const getUser = async (userId: string) => {
+  let user: IUser | undefined
+
+  const userQuerySnapshot = await getDoc(doc(db, 'users', userId))
+
+  user = userQuerySnapshot.data()
+
+  return user
+}
+
+export const getAllMaxSessions = async () => {
+  let maxSessions: IMaxSessionWUser[] = []
+
+  const maxScoresQuerySnapshot = await getDocs(
+    query(collection(db, 'maxSessions') as CollectionReference<IScore>),
+  )
+
+  maxScoresQuerySnapshot.forEach(async (doc) => {
+    maxSessions.push({
+      maxSession: doc.data(),
+    })
+    console.log(await getUser(doc.data().userId || ''))
+  })
+
+  return maxSessions
 }
 
 export const getRankingScoresFromUser = async (

@@ -1,7 +1,6 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link>
-    <router-link to="/feed">Feed</router-link>
     <router-link to="/game">Game</router-link>
     <router-link to="/register">Register</router-link>
     <router-link to="/sign-in">SignIn</router-link>
@@ -14,6 +13,7 @@
 import router from '@/core/router'
 import { Auth, getAuth, onAuthStateChanged, signOut } from '@firebase/auth'
 import { onMounted, ref } from 'vue'
+import { updateUserInDB } from '@/core/services/api/userApi'
 
 const isLoggedIn = ref(false)
 let auth: Auth
@@ -23,6 +23,7 @@ onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true
+      // updateUserInDB(user)
     } else {
       isLoggedIn.value = false
     }

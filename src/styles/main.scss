@@ -26,3 +26,7 @@
   src: local('MonumentExtended'),
     url('public/fonts/MonumentExtended/MonumentExtended-Ultrabold.otf') format('opentype');
 }
+
+* {
+  box-sizing: border-box;
+}

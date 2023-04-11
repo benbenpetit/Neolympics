@@ -9,6 +9,5 @@ export const updateUserInDB = async (user: User) => {
     displayName: user.displayName ?? undefined,
     photoURL: user.photoURL ?? undefined,
   }
-
-  return await updateDoc(doc(collection(db, 'users', dataUser.id)), { ...dataUser })
+  // return await updateDoc(doc(collection(db, 'users', dataUser.id)), { ...dataUser })
 }

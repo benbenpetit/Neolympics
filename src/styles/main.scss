@@ -2,29 +2,28 @@
 
 @font-face {
   font-family: 'Anybody-Regular';
-  src: local('Anybody'),
-    url('public/fonts/Anybody/Anybody-Regular.ttf') format('truetype');
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Anybody-Black';
-  src: local('Anybody'), url('public/fonts/Anybody/Anybody-Black.ttf') format('truetype');
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Black.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Anybody-Bold';
-  src: local('Anybody'), url('public/fonts/Anybody/Anybody-Bold.ttf') format('truetype');
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'Anybody-Light';
-  src: local('Anybody'), url('public/fonts/Anybody/Anybody-Light.ttf') format('truetype');
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Light.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'MonumentExtended-Ultrabold';
   src: local('MonumentExtended'),
-    url('public/fonts/MonumentExtended/MonumentExtended-Ultrabold.otf') format('opentype');
+    url('/fonts/MonumentExtended/MonumentExtended-Ultrabold.otf') format('opentype');
 }
 
 * {

@@ -8,6 +8,6 @@
 import { ref } from 'vue'
 
 const volume = ref(true)
-const soundOnSrc = 'public/icon/sound-on.svg'
-const soundOffSrc = 'public/icon/sound-off.svg'
+const soundOnSrc = '/icon/sound-on.svg'
+const soundOffSrc = '/icon/sound-off.svg'
 </script>

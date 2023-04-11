@@ -20,14 +20,10 @@
 
   <Preparation>
     <template v-slot:footer>
-      <ButtonUI
-        imgSrc="public/icon/barbell.svg"
-        class="--white"
-        @handleClick="startTraining"
-      >
+      <ButtonUI imgSrc="/icon/barbell.svg" class="--white" @handleClick="startTraining">
         <template v-slot:label>ENTRAINEMENT</template>
       </ButtonUI>
-      <ButtonUI imgSrc="public/icon/play.svg" class="--red" @handleClick="startTrial">
+      <ButtonUI imgSrc="/icon/play.svg" class="--red" @handleClick="startTrial">
         <template v-slot:label>EPREUVE OLYMPIQUE</template>
       </ButtonUI>
     </template>

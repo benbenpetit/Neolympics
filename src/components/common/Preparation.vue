@@ -8,7 +8,7 @@
 
       <DisplayCharacter>
         <template v-slot:display>
-          <img src="public/img/perso-lapin.png" alt="character" style="width: 400px" />
+          <img src="/img/perso-lapin.png" alt="character" style="width: 400px" />
         </template>
       </DisplayCharacter>
 

@@ -1,9 +1,7 @@
 <template>
-	<div>
-		<Button label="Click me" />
-	</div>
+  <UIComponents />
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/common/Button.vue'
+import UIComponents from '@/components/common/UIComponents.vue'
 </script>

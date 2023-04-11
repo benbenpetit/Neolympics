@@ -1,0 +1,38 @@
+.c-header-game-wrapper {
+  width: 100%;
+}
+
+.c-header-game {
+  background-color: #3656ff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  height: 80px;
+
+  .--left {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+  }
+
+  .--middle {
+    img {
+      height: 70px;
+    }
+
+    h1 {
+      color: white;
+      font-family: MonumentExtended-Ultrabold;
+      font-size: 3em;
+      margin: 0px 10px;
+    }
+  }
+
+  .--right {
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+  }
+}

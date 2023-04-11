@@ -1,0 +1,28 @@
+.c-nametag {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding-left: 20px;
+
+  &.--blue {
+    .c-nametag-name {
+      color: #3656ff;
+    }
+  }
+
+  &.--red {
+    .c-nametag-name {
+      color: #ea4050;
+    }
+  }
+
+  .c-nametag-name {
+    font-size: 4em;
+    font-family: Anybody-Black;
+  }
+  .c-nametag-info {
+    font-size: 2em;
+    font-family: Anybody-Bold;
+  }
+}

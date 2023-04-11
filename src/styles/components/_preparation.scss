@@ -1,0 +1,23 @@
+.c-preparation-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .c-preparation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .c-3Dcanvas img {
+      height: 300px;
+    }
+  }
+
+  .c-preparation-buttons {
+    display: flex;
+    flex-direction: row;
+  }
+}

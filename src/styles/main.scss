@@ -1,31 +1,5 @@
+@use 'settings';
+@use 'generic';
+@use 'objects';
 @use 'components';
-
-@font-face {
-  font-family: 'Anybody-Regular';
-  src: local('Anybody'), url('/fonts/Anybody/Anybody-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Anybody-Black';
-  src: local('Anybody'), url('/fonts/Anybody/Anybody-Black.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Anybody-Bold';
-  src: local('Anybody'), url('/fonts/Anybody/Anybody-Bold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Anybody-Light';
-  src: local('Anybody'), url('/fonts/Anybody/Anybody-Light.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'MonumentExtended-Ultrabold';
-  src: local('MonumentExtended'),
-    url('/fonts/MonumentExtended/MonumentExtended-Ultrabold.otf') format('opentype');
-}
-
-* {
-  box-sizing: border-box;
-}
+@use 'utilities';

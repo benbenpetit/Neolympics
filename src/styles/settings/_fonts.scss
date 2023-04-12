@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Anybody';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anybody';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Anybody'), url('/fonts/Anybody/Anybody-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'MonumentExtended';
+  font-style: normal;
+  font-weight: 800;
+  src: local('MonumentExtended'),
+    url('/fonts/MonumentExtended/MonumentExtended-Ultrabold.otf') format('opentype');
+}

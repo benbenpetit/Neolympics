@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-leaderboard {
   display: flex;
   flex-direction: column;
@@ -7,13 +9,17 @@
     text-transform: uppercase;
     text-align: center;
     font-size: 3rem;
+    font-weight: 900;
 
     > span {
-      color: #ea4050;
+      color: $color-red;
+      font-style: italic;
     }
   }
 
   &__scores {
+    margin-top: 2rem;
+
     &__list {
       display: flex;
       justify-content: space-between;

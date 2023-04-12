@@ -1,9 +1,14 @@
 <template>
   <div class="c-result-card">
-    <img class="c-result-card__pic" :src="user?.photoURL ?? placeholderPic" alt="" />
+    <img
+      class="c-result-card__pic"
+      :src="user?.photoURL ?? placeholderPic"
+      :alt="`${user?.displayName}'s profile picture`"
+      referrerpolicy="no-referrer"
+    />
     <span class="c-result-card__pseudo">@{{ user?.displayName ?? 'Pseudo' }}</span>
     <div class="c-result-card__stat">
-      <span>{{ sportPoints }}pts + {{ quizPoints }} stars</span>
+      <span>{{ sportPoints }}pts + {{ quizPoints }}✨</span>
     </div>
   </div>
 </template>

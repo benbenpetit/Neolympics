@@ -3,7 +3,7 @@
     <GameNav />
     <h1>{{ $route.params.id }}</h1>
     <KeepAlive>
-      <component :is="dynamicComponent"></component>
+      <component :is="dynamicComponent" />
     </KeepAlive>
   </div>
 </template>

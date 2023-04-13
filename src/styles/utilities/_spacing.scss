@@ -1,0 +1,32 @@
+$spacing-directions: (
+  't': '-top',
+  'r': '-right',
+  'b': '-bottom',
+  'l': '-left',
+  'h': '-left' '-right',
+  'v': '-top' '-bottom',
+);
+
+$spacing-properties: (
+  'p': 'padding',
+  'm': 'margin',
+);
+
+$spacing-sizes: (
+  '-double': 32px,
+  '': 16px,
+  '-small': 8px,
+  '-none': 0px,
+);
+
+@each $property-namespace, $property in $spacing-properties {
+  @each $direction-namespace, $direction-rules in $spacing-directions {
+    @each $size-namespace, $size in $spacing-sizes {
+      .u-#{$property-namespace}#{$direction-namespace}#{$size-namespace} {
+        @each $direction in $direction-rules {
+          #{$property}#{$direction}: $size !important;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+.c-divider {
+  text-align: center;
+  font-weight: 700;
+  font-style: italic;
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &__inside {
+    flex-shrink: 0;
+    margin: 0 1.5rem;
+  }
+
+  &:hover {
+    &::before,
+    &::after {
+      transform: scaleY(1.2);
+    }
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 100%;
+    background-color: #000000;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+  }
+}

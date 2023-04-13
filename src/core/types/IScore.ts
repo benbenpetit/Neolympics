@@ -25,6 +25,8 @@ export interface IMaxSession {
   skateQuiz?: number
   surf?: number
   surfQuiz?: number
+  totalScore?: number
+  rank?: number
 }
 
 export interface IMaxSessionWUser {

@@ -11,13 +11,27 @@ import {
   doc,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { IMaxSessionWUser, IScore } from '@/core/types/IScore'
+import { IMaxSession, IMaxSessionWUser, IScore } from '@/core/types/IScore'
 
 export const addScoreSkate = async (sport: IScore) => {
   sport = { ...sport, createdAt: new Date(), sportId: 'skate' }
 
-  return await addDoc(collection(db, 'scores'), {
+  await addDoc(collection(db, 'scores'), {
     ...sport,
+  })
+}
+
+export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
+  const totalScore =
+    (maxSession?.break ?? 0) +
+    (maxSession?.skate ?? 0) +
+    (maxSession?.surf ?? 0) +
+    (maxSession?.climbing ?? 0)
+
+  await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
+    ...maxSession,
+    userId,
+    totalScore,
   })
 }
 

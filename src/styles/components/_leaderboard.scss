@@ -17,7 +17,7 @@
     }
   }
 
-  &__scores {
+  &__top-scores {
     margin-top: 2rem;
     width: 100%;
 
@@ -25,9 +25,6 @@
       display: flex;
       justify-content: center;
       align-items: stretch;
-      list-style: none;
-      padding: 0;
-      margin: 0;
       gap: 2rem;
 
       > li {
@@ -40,6 +37,22 @@
           flex: 1;
           min-width: 0;
         }
+      }
+    }
+  }
+
+  &__low-scores {
+    margin-top: 2rem;
+    width: 100%;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      > * {
+        flex: 1;
+        width: 100%;
       }
     }
   }

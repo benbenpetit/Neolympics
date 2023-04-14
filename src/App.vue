@@ -5,6 +5,7 @@
     <router-link to="/register">Register</router-link>
     <router-link to="/sign-in">SignIn</router-link>
     <router-link to="/three">Three</router-link>
+    <router-link to="/pattern">Pattern</router-link>
     <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
   </nav>
   <router-view />

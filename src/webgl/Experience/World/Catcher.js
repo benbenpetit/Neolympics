@@ -28,7 +28,6 @@ export default class Catcher {
       this.animation.actions.walk.weight = 1
       this.animation.actions.walk.play()
       this.direction.x = 1
-      console.log(this.model)
     })
     window.addEventListener('keyup', () => {
       this.animation.actions.walk.fadeOut(1)
@@ -77,7 +76,6 @@ export default class Catcher {
         },
         playIdle: () => {
           this.animation.actions.current.fadeOut(1)
-          console.log(this.animation.actions.current)
         },
       }
       this.debugFolder.add(this.debugObject, 'playWalk')

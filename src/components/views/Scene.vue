@@ -1,16 +1,15 @@
 <template>
   <div>
-    <h1>Scene Vue</h1>
-    <Button label="Click me" />
+    <Timer />
   </div>
   <canvas class="webgl"></canvas>
 </template>
 
 <script setup lang="ts">
 import Button from '@/components/common/Button.vue'
-import Sketch from '@/webgl/Sketch'
 import { onMounted } from 'vue'
 import Experience from '@/webgl/Experience/Experience'
+import Timer from '@/components/common/Timer.vue'
 
 onMounted(() => {
   const experience = new Experience(document.querySelector('canvas.webgl'))

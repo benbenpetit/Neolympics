@@ -2,6 +2,8 @@ import GameVue from '@/pages/Game.vue'
 import HomeVue from '@/pages/Home.vue'
 import RegisterVue from '@/pages/Register.vue'
 import SignInVue from '@/pages/SignIn.vue'
+import PatternVue from '@/pages/Pattern.vue'
+import SceneVue from '@/components/views/Scene.vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -11,6 +13,8 @@ const routes = [
   { path: '/sign-in', component: SignInVue },
   { path: '/game/', component: GameVue, meta: { requiresAuth: true } },
   { path: '/game/:id', component: GameVue, meta: { requiresAuth: true } },
+  { path: '/three', component: SceneVue },
+  { path: '/pattern', component: PatternVue },
 ]
 
 const router = createRouter({

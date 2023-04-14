@@ -4,6 +4,8 @@
     <router-link to="/game">Game</router-link>
     <router-link to="/register">Register</router-link>
     <router-link to="/sign-in">SignIn</router-link>
+    <router-link to="/quiz">Quiz</router-link>
+    <router-link to="/choix-epreuve">Choix épreuve</router-link>
     <router-link to="/three">Three</router-link>
     <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
   </nav>

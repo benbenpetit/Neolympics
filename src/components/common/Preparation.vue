@@ -13,7 +13,7 @@
       </DisplayCharacter>
 
       <div class="c-difficulty-selector">
-        <Modal class="--blue">
+        <Modal imgSrc="null" class="--blue">
           <template v-slot:title>Difficulté</template>
           <template v-slot:content>blabla</template>
         </Modal>

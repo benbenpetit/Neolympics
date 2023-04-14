@@ -1,0 +1,13 @@
+.c-trialrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 20px;
+  width: 100%;
+  padding: 0px 50px;
+
+  .c-sportcard-wrapper {
+    width: 400px;
+    height: 600px;
+  }
+}

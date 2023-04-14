@@ -1,0 +1,81 @@
+.c-quiz {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 20px;
+
+  .c-modal-wrapper {
+    max-width: 800px;
+    min-width: 500px;
+
+    .c-modal {
+      width: 100%;
+
+      .c-modal-content {
+        p {
+          text-align: justify;
+          color: black;
+          font-family: Anybody-Regular;
+          font-size: 1em;
+        }
+      }
+    }
+    .c-modal-buttons {
+      display: flex;
+      flex-flow: row wrap;
+      transform: translateY(-25px);
+      :nth-child(3),
+      :nth-child(4) {
+        transform: translateX(-25px) skew(-30deg);
+      }
+
+      .c-buttonUI {
+        flex: 1 1 35%;
+        flex-wrap: wrap;
+
+        &.--correct {
+          background-color: #32bd40;
+          border-color: #66e372;
+
+          .c-buttonUI-content {
+            p {
+              color: white;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+        }
+
+        &[disabled] {
+          filter: brightness(95%);
+          // transition: all 0.2s ease-in-out;
+        }
+
+        &.--wrong {
+          background-color: #d66526;
+          border-color: #ea783a;
+          .c-buttonUI-content {
+            p {
+              color: white;
+              transition: all 0.2s ease-in-out;
+            }
+          }
+        }
+
+        &:hover {
+          &:not([disabled], .--no-hover) {
+            background-color: #d4dbff;
+            border-color: #3656ff;
+
+            .c-buttonUI-content {
+              p {
+                color: #3656ff;
+                transition: all 0.2s ease-in-out;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

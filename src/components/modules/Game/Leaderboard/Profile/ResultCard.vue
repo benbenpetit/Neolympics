@@ -1,19 +1,14 @@
 <template>
   <div class="c-result-card" :class="isHorizontal && '--horizontal'">
-    <div class="c-result-card__rank" v-if="isHorizontal">
-      <span>{{ rank }}</span>
-    </div>
-    <div>
-      <img
-        class="c-result-card__pic"
-        :src="user?.photoURL ?? placeholderPic"
-        :alt="`${user?.displayName}'s profile picture`"
-        referrerpolicy="no-referrer"
-      />
-      <span class="c-result-card__pseudo">@{{ user?.displayName ?? 'Pseudo' }}</span>
-      <div class="c-result-card__stat">
-        <span>{{ sportPoints }}pts + {{ quizPoints }}✨</span>
-      </div>
+    <img
+      class="c-result-card__pic"
+      :src="user?.photoURL ?? placeholderPic"
+      :alt="`${user?.displayName}'s profile picture`"
+      referrerpolicy="no-referrer"
+    />
+    <span class="c-result-card__pseudo">@{{ user?.displayName ?? 'Pseudo' }}</span>
+    <div class="c-result-card__stat">
+      <span>{{ sportPoints }}pts + {{ quizPoints }}✨</span>
     </div>
   </div>
 </template>

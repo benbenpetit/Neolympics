@@ -1,9 +1,9 @@
 <template>
-  <div class="c-leaderboard">
+  <div class="c-leaderboard o-container">
     <h2 class="c-leaderboard__subtitle">Les <span>big freak</span> des olympiques</h2>
     <div class="c-leaderboard__top-scores o-container">
       <ul class="c-leaderboard__top-scores__list">
-        <li v-for="maxSession in maxSessionsRanked.slice(0, 5)">
+        <li v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(0, 5)">
           <ResultCard :user="maxSession?.user" :maxSession="maxSession.maxSession" />
         </li>
       </ul>
@@ -15,7 +15,7 @@
     </Divider>
     <div class="c-leaderboard__low-scores">
       <ul class="c-leaderboard__low-scores__list">
-        <li v-for="maxSession in maxSessionsRanked.slice(5)">
+        <li v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(5)">
           <ResultCard
             :user="maxSession?.user"
             :maxSession="maxSession.maxSession"
@@ -32,7 +32,6 @@
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
 import { IMaxSessionWUser } from '@/core/types/IScore'
-import { reactive } from 'vue'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 
 interface Props {
@@ -40,5 +39,4 @@ interface Props {
 }
 
 const { maxSessions } = defineProps<Props>()
-const maxSessionsRanked = reactive(getSortedMaxSessionsWUser(maxSessions))
 </script>

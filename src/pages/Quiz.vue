@@ -1,6 +1,6 @@
 <template>
   <div class="c-quiz">
-    <div></div>
+    <!-- <div></div> -->
     <!-- <DisplayCharacter>
       <template v-slot:display>
         <img src="/img/perso.png" alt="character" style="width: 400px" />

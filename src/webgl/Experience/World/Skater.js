@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../Experience'
+import mittInstance from '@/core/lib/MittInstance'
 
 export default class Skater {
   constructor() {
@@ -19,7 +20,6 @@ export default class Skater {
 
     this.setModel()
     this.setAnimation()
-    console.log(this.experience.camera)
   }
 
   setModel() {
@@ -52,7 +52,7 @@ export default class Skater {
     )
 
     this.animation.actions.current = this.animation.actions.staying
-    this.animation.actions.current.play()
+    // this.animation.actions.current.play()
 
     this.animation.play = (name) => {
       const newAction = this.animation.actions[name]
@@ -86,18 +86,19 @@ export default class Skater {
       this.debugFolder.add(debugObject, 'playRoll')
       this.debugFolder.add(debugObject, 'playStay')
     }
+    mittInstance.on('bntStart', () => {
+      this.animation.play('staying')
+    })
   }
   update() {
-    this.model.position.x = 3 * Math.cos(this.time.elapsed * 0.001)
-    this.model.position.y = Math.abs(Math.sin(this.time.elapsed * 0.002 + 3))
-    this.model.position.z = 4 * Math.sin(this.time.elapsed * 0.001)
+    // this.model.position.x = 3 * Math.cos(this.time.elapsed * 0.001)
+    // this.model.position.y = Math.abs(Math.sin(this.time.elapsed * 0.002 + 3))
+    // this.model.position.z = 4 * Math.sin(this.time.elapsed * 0.001)
     this.animation.mixer.update(this.time.delta * 0.001)
-
-    const relativeCameraOffset = new THREE.Vector3(3, 4, -5)
-    var cameraOffset = relativeCameraOffset.applyMatrix4(this.model.matrixWorld)
-
-    // Définition de la position et de la direction de la caméra
-    this.experience.camera.instance.position.copy(cameraOffset)
-    this.experience.camera.instance.lookAt(this.model.position)
+    // const relativeCameraOffset = new THREE.Vector3(3, 4, -5)
+    // var cameraOffset = relativeCameraOffset.applyMatrix4(this.model.matrixWorld)
+    // // Définition de la position et de la direction de la caméra
+    // this.experience.camera.instance.position.copy(cameraOffset)
+    // this.experience.camera.instance.lookAt(this.model.position)
   }
 }

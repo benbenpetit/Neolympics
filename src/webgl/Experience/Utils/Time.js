@@ -1,6 +1,6 @@
 import Experience from '@/webgl/Experience/Experience'
 import EventEmitter from './EventEmitter'
-import MittInstance from '@/core/lib/MittInstance'
+import mittInstance from '@/core/lib/MittInstance'
 
 export default class Time extends EventEmitter {
   constructor() {
@@ -25,7 +25,7 @@ export default class Time extends EventEmitter {
     this.elapsed = this.current - this.start
 
     this.trigger('tick')
-    MittInstance.emit('tickFromEmit')
+    mittInstance.emit('tickFromEmit')
 
     window.requestAnimationFrame(() => {
       this.tick()

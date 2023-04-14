@@ -7,6 +7,7 @@
     <router-link to="/quiz">Quiz</router-link>
     <router-link to="/choix-epreuve">Choix épreuve</router-link>
     <router-link to="/three">Three</router-link>
+    <router-link to="/pattern">Pattern</router-link>
     <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
   </nav>
   <router-view />

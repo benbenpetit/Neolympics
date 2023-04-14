@@ -4,6 +4,8 @@ import QuizVue from '@/pages/Quiz.vue'
 import ChoixEpreuveVue from '@/pages/ChoixEpreuve.vue'
 import RegisterVue from '@/pages/Register.vue'
 import SignInVue from '@/pages/SignIn.vue'
+import PatternVue from '@/pages/Pattern.vue'
+import SceneVue from '@/components/views/Scene.vue'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -15,6 +17,8 @@ const routes = [
   { path: '/choix-epreuve', component: ChoixEpreuveVue },
   { path: '/game/', component: GameVue, meta: { requiresAuth: true } },
   { path: '/game/:id', component: GameVue, meta: { requiresAuth: true } },
+  { path: '/three', component: SceneVue },
+  { path: '/pattern', component: PatternVue },
 ]
 
 const router = createRouter({

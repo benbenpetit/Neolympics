@@ -19,7 +19,6 @@ export default class Camera {
   }
 
   setDebug() {
-    console.log(this.instance)
     this.debugFolder = this.debug.ui.addFolder('Camera')
     this.debugFolder.add(this.instance.position, 'x', -10, 10, 0.1).name('Camera X')
     this.debugFolder.add(this.instance.position, 'y', -10, 10, 0.1).name('Camera X')

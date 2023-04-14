@@ -17,9 +17,7 @@ export default class World {
     this.resources.on('ready', () => {
       this.floor = new Floor()
       // Setup
-      // this.skater = new Skater()
-      this.catcher = new Catcher()
-      // this.path = new Path()
+      this.skater = new Skater()
       this.environment = new Environment()
       this.animations = new Animations()
     })

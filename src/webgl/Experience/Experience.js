@@ -46,6 +46,9 @@ export default class Experience {
     mittInstance.on('tickFromEmit', () => {
       this.update()
     })
+    mittInstance.on('bntStart', () => {
+      console.log('Bouton Démarrer cliqué')
+    })
   }
 
   resize() {

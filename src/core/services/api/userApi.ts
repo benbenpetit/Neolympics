@@ -1,7 +1,7 @@
 import { IUser } from '@/core/types/IUser'
 import { db } from '@/firebase'
 import { User } from 'firebase/auth'
-import { addDoc, collection, setDoc, updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 
 export const updateUserInDB = async (user: User) => {
   const dataUser: IUser = {
@@ -9,5 +9,18 @@ export const updateUserInDB = async (user: User) => {
     displayName: user.displayName ?? undefined,
     photoURL: user.photoURL ?? undefined,
   }
-  // return await updateDoc(doc(collection(db, 'users', dataUser.id)), { ...dataUser })
+
+  const userDocRef = doc(db, 'users', user.uid)
+
+  getDoc(userDocRef)
+    .then((doc) => {
+      if (doc.exists()) {
+        updateDoc(userDocRef, { ...dataUser })
+      } else {
+        setDoc(userDocRef, { ...dataUser })
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
 }

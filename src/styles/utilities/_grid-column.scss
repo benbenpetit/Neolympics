@@ -1,0 +1,32 @@
+@use '/src/styles/settings/' as *;
+
+$colsMax: $base-column-nb + 1;
+
+$breakpoints: (
+  'null' null,
+  'from-tiny' $from-tiny,
+  'from-small' $from-small,
+  'from-medium' $from-medium,
+  'from-large' $from-large,
+  'from-big' $from-big
+) !default;
+
+@each $breakpoint, $mediaquery in $breakpoints {
+  @for $fromIndex from 1 through $colsMax {
+    @for $toIndex from 1 through $colsMax {
+      @if $mediaquery == null {
+        .u-gc-#{$fromIndex}\/#{$toIndex} {
+          --gc-start: #{$fromIndex};
+          --gc-end: #{$toIndex};
+        }
+      } @else {
+        .u-gc-#{$fromIndex}\/#{$toIndex}\@#{$breakpoint} {
+          @media (min-width: #{$mediaquery}) {
+            --gc-start: #{$fromIndex};
+            --gc-end: #{$toIndex};
+          }
+        }
+      }
+    }
+  }
+}

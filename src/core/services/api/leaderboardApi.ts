@@ -11,30 +11,45 @@ import {
   doc,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { IMaxSessionWUser, IScore } from '@/core/types/IScore'
-import { IUser } from '@/core/types/IUser'
+import { IMaxSession, IMaxSessionWUser, IScore } from '@/core/types/IScore'
 
 export const addScoreSkate = async (sport: IScore) => {
   sport = { ...sport, createdAt: new Date(), sportId: 'skate' }
 
-  return await addDoc(collection(db, 'scores'), {
+  await addDoc(collection(db, 'scores'), {
     ...sport,
   })
 }
 
-export const getAllScoresByUserId = async (userId: string) => {
-  let scoresSkate: IScore[] = []
+export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
+  const totalScore =
+    (maxSession?.break ?? 0) +
+    (maxSession?.skate ?? 0) +
+    (maxSession?.surf ?? 0) +
+    (maxSession?.climbing ?? 0)
 
-  const scoresSkateQuerySnapshot = await getDocs(
+  await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
+    ...maxSession,
+    userId,
+    totalScore,
+  })
+}
+
+export const getAllScoresByUserId = async (userId: string) => {
+  let scores: IScore[] = []
+
+  const scoresQuerySnapshot = await getDocs(
     query(
       collection(db, 'scores') as CollectionReference<IScore>,
       where('userId', '==', userId),
     ),
   )
 
-  scoresSkateQuerySnapshot.forEach((doc) => scoresSkate.push(doc.data()))
+  for (const scoreDoc of scoresQuerySnapshot.docs) {
+    scores.push(scoreDoc.data())
+  }
 
-  return scoresSkate
+  return scores
 }
 
 export const getTopScoresBySport = async (sportId: string, limit = 10) => {
@@ -49,7 +64,9 @@ export const getTopScoresBySport = async (sportId: string, limit = 10) => {
     ),
   )
 
-  scoresQuerySnapshot.forEach((doc) => scores.push(doc.data()))
+  for (const scoreDoc of scoresQuerySnapshot.docs) {
+    scores.push(scoreDoc.data())
+  }
 
   return scores
 }
@@ -65,19 +82,17 @@ export const getAllScoresBySport = async (sportId: string) => {
     ),
   )
 
-  scoresQuerySnapshot.forEach((doc) => scores.push(doc.data()))
+  for (const scoreDoc of scoresQuerySnapshot.docs) {
+    scores.push(scoreDoc.data())
+  }
 
   return scores
 }
 
 export const getUser = async (userId: string) => {
-  let user: IUser | undefined
-
   const userQuerySnapshot = await getDoc(doc(db, 'users', userId))
 
-  user = userQuerySnapshot.data()
-
-  return user
+  return userQuerySnapshot.data()
 }
 
 export const getAllMaxSessions = async () => {
@@ -87,12 +102,15 @@ export const getAllMaxSessions = async () => {
     query(collection(db, 'maxSessions') as CollectionReference<IScore>),
   )
 
-  maxScoresQuerySnapshot.forEach(async (doc) => {
+  for (const maxSessionDoc of maxScoresQuerySnapshot.docs) {
+    const userId = maxSessionDoc.get('userId')
+    const userDoc = await getDoc(doc(db, 'users', userId))
+
     maxSessions.push({
-      maxSession: doc.data(),
+      maxSession: maxSessionDoc.data(),
+      user: userDoc.data(),
     })
-    console.log(await getUser(doc.data().userId || ''))
-  })
+  }
 
   return maxSessions
 }
@@ -124,7 +142,9 @@ export const getRankingScoresFromUser = async (
     ),
   )
 
-  scoresQuerySnapshot.forEach((doc) => scores.push(doc.data()))
+  for (const scoreDoc of scoresQuerySnapshot.docs) {
+    scores.push(scoreDoc.data())
+  }
 
   return scores
 }

@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-leaderboard {
   display: flex;
   flex-direction: column;
@@ -7,18 +9,51 @@
     text-transform: uppercase;
     text-align: center;
     font-size: 3rem;
+    font-weight: 900;
 
     > span {
-      color: #ea4050;
+      color: $color-red;
+      font-style: italic;
     }
   }
 
-  &__scores {
+  &__top-scores {
+    margin-top: 2rem;
+    width: 100%;
+
     &__list {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      list-style: none;
+      justify-content: center;
+      align-items: stretch;
+      gap: 2rem;
+
+      > li {
+        flex: 1 1 100%;
+        max-width: 16.5rem;
+        min-width: 0;
+        display: flex;
+
+        > * {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+    }
+  }
+
+  &__low-scores {
+    margin-top: 2rem;
+    width: 100%;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      > * {
+        flex: 1;
+        width: 100%;
+      }
     }
   }
 }

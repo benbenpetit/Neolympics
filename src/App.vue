@@ -26,7 +26,7 @@ onMounted(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       isLoggedIn.value = true
-      // updateUserInDB(user)
+      updateUserInDB(user)
     } else {
       isLoggedIn.value = false
     }

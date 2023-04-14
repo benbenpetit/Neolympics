@@ -10,17 +10,18 @@
   },
   "dependencies": {
     "firebase": "^9.18.0",
-    "pinia": "^2.0.33",
-    "pinia-plugin-persistedstate": "^3.1.0",
-    "url": "^0.11.0",
-    "vue": "^3.2.47",
-    "vue-router": "^4.1.6",
-    "vuefire": "^3.1.0",
     "gsap": "^3.11.5",
     "lil-gui": "^0.18.1",
     "mitt": "^3.0.0",
+    "normalize.css": "^8.0.1",
+    "pinia": "^2.0.33",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "three": "^0.150.1",
-    "tweakpane": "^3.1.7"
+    "tweakpane": "^3.1.7",
+    "url": "^0.11.0",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6",
+    "vuefire": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.3",

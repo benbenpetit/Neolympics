@@ -1,12 +1,12 @@
 @use '/src/styles/settings/' as *;
 
 .c-result-card {
+  position: relative;
   border-radius: 16px;
   box-shadow: 0px 4px 37px rgba(40, 48, 92, 0.06);
   border: 1px solid #b0baec;
   background-color: #ffffff;
   cursor: pointer;
-  overflow: hidden;
   transition: 0.2s box-shadow ease-in-out;
 
   &:hover {
@@ -31,6 +31,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 
     .c-result-card.--active & {
       background-color: $color-blue;
@@ -57,12 +59,16 @@
       flex-direction: row;
       padding: 1rem 1.5rem;
     }
+
+    .c-result-card.--big & {
+      padding-bottom: 2.5rem;
+    }
   }
 
   &__pic {
     min-width: 0;
     width: 100%;
-    max-width: 10rem;
+    max-width: 9.5rem;
     min-height: 0;
     height: auto;
     border-radius: 9999px;
@@ -72,6 +78,10 @@
       width: 64px;
       height: 64px;
       flex-shrink: 0;
+    }
+
+    .c-result-card.--big & {
+      max-width: 10.75rem;
     }
   }
 
@@ -104,6 +114,19 @@
 
     .c-result-card.--horizontal & {
       align-self: initial;
+    }
+  }
+
+  &__sticker {
+    position: absolute;
+    top: 100%;
+    transform: translateY(-30%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .c-result-card.--big & {
+      transform: translateY(-35%);
     }
   }
 }

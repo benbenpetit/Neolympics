@@ -1,9 +1,13 @@
 <template>
   <div
     class="c-result-card"
-    :class="[isHorizontal && '--horizontal', isActive && '--active']"
+    :class="[
+      isHorizontal && '--horizontal',
+      isActive && '--active',
+      podium === 1 && '--big',
+    ]"
   >
-    <div class="c-result-card__rank" v-if="isHorizontal">
+    <div class="c-result-card__rank" v-if="isHorizontal && (rank || maxSession?.rank)">
       <span>{{ rank ?? maxSession?.rank }}e</span>
     </div>
     <div class="c-result-card__content">
@@ -22,6 +26,9 @@
         :isHorizontal="isHorizontal"
         :onlyTotalSession="onlyTotalSession"
       />
+      <div class="c-result-card__sticker" v-if="podium">
+        <img :src="rankBrush[podium - 1]" />
+      </div>
     </div>
   </div>
 </template>
@@ -40,9 +47,17 @@ interface Props {
   rank?: number
   isHorizontal?: boolean
   onlyTotalSession?: boolean
+  podium?: number
 }
 
-const { user, maxSession, rank, isHorizontal, onlyTotalSession } = defineProps<Props>()
+const { user, maxSession, rank, isHorizontal, onlyTotalSession, podium } =
+  defineProps<Props>()
 const isActive = computed(() => maxSession?.userId === currentUser?.value?.uid)
 const currentUser = useCurrentUser()
+
+const rankBrush: string[] = [
+  '/img/rank-brush-1.png',
+  '/img/rank-brush-2.png',
+  '/img/rank-brush-3.png',
+]
 </script>

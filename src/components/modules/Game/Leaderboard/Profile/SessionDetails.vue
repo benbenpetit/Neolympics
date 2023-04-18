@@ -31,7 +31,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import ScoreSport from '@/components/modules/Game/Leaderboard/Profile/ScoreSport.vue'
 import { IMaxSession } from '@/core/types/IScore'
 import { computed } from '@vue/reactivity'

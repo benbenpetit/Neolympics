@@ -1,10 +1,20 @@
 <template>
   <div class="c-leaderboard o-container">
     <h2 class="c-leaderboard__subtitle">Les <span>big freak</span> des olympiques</h2>
-    <div class="c-leaderboard__top-scores o-container">
+    <div class="c-leaderboard__top-scores">
       <ul class="c-leaderboard__top-scores__list">
-        <li v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(0, 5)">
-          <ResultCard :user="maxSession?.user" :maxSession="maxSession.maxSession" />
+        <li
+          v-for="(maxSession, index) in getSortedMaxSessionsWUser(maxSessions).slice(
+            0,
+            3,
+          )"
+        >
+          <ResultCard
+            :user="maxSession?.user"
+            :maxSession="maxSession.maxSession"
+            onlyTotalSession
+            :podium="index + 1"
+          />
         </li>
       </ul>
     </div>
@@ -15,7 +25,7 @@
     </Divider>
     <div class="c-leaderboard__low-scores">
       <ul class="c-leaderboard__low-scores__list">
-        <li v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(5)">
+        <li v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(3)">
           <ResultCard
             :user="maxSession?.user"
             :maxSession="maxSession.maxSession"

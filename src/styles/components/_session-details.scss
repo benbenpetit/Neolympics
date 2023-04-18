@@ -1,0 +1,15 @@
+.c-session-details {
+  display: flex;
+  gap: 0.5rem 1rem;
+  align-items: stretch;
+  flex-direction: column;
+
+  &.--horizontal {
+    flex-direction: row;
+  }
+
+  > * {
+    max-width: 13.5rem;
+    min-width: 9rem;
+  }
+}

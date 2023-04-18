@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-modal-wrapper {
   display: flex;
   flex-direction: column;
@@ -12,13 +14,13 @@
 
   &.--blue {
     .c-modal {
-      background-color: #3656ff;
+      background-color: $color-blue;
     }
   }
 
   &.--red {
     .c-modal {
-      background-color: #ea4050;
+      background-color: $color-red;
     }
   }
 

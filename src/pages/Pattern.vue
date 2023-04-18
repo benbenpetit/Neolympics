@@ -1,5 +1,5 @@
 <template>
-  <svg class="lines">
+  <svg class="lines" draggable="false">
     <line
       v-for="(line, index) in lines"
       :x1="`${line.coords.start.x}px`"
@@ -8,12 +8,13 @@
       :y2="`${line.coords.end.y}px`"
     />
   </svg>
-  <div class="pattern-wrapper">
+  <div class="pattern-wrapper" draggable="false">
     <div
       class="pattern-container"
       @mouseup="handleMouseUp"
       @mousemove="handleMouseMove($event)"
       ref="gridRef"
+      draggable="false"
       :style="`grid-template-columns: repeat(${numCols}, 1fr); grid-template-rows: repeat(${numRows}, 1fr);`"
     >
       <div
@@ -45,14 +46,15 @@
         <h2>Résultat</h2>
         <span>{{ isCorrectPattern ? 'Gagné' : 'Perdu' }}</span>
       </div>
-      <button class="pattern-generator" @click="generatePattern">
-        Générer un pattern à faire
-      </button>
+      <ButtonUI @click="generatePattern" imgSrc="null" class="pattern-generator">
+        <template v-slot:label>Générer un pattern à faire</template>
+      </ButtonUI>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ButtonUI from '@/components/common/ButtonUI.vue'
 import { onMounted, ref } from 'vue'
 
 interface Point {
@@ -205,73 +207,3 @@ onMounted(() => {
   setPointsCoords()
 })
 </script>
-
-<style scoped lang="scss">
-.lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  line {
-    stroke-width: 6px;
-    stroke: peachpuff;
-  }
-}
-.pattern-wrapper {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .pattern-container {
-    position: relative;
-    width: 50%;
-    height: 50%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: center;
-    justify-items: center;
-    .pattern-point__zone {
-      height: 80px;
-      width: 80px;
-      background: rgba($color: #000000, $alpha: 0.3);
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .pattern-point {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        background-color: rgba(255, 218, 185, 0.3);
-      }
-      &.active {
-        background: rgba(43, 184, 43, 0.2);
-      }
-    }
-  }
-  .game-side {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    .pattern-to-do,
-    .current-pattern {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      h2 {
-        margin-right: 20px;
-      }
-    }
-  }
-}
-</style>

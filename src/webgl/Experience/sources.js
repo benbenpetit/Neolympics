@@ -10,8 +10,13 @@ export default [
     path: 'models/SkateAnims.glb',
   },
   {
-    name: 'catcherModel',
+    name: 'skaterLapinModel',
     type: 'gltfModel',
-    path: 'models/Catcher.glb',
+    path: 'models/Running.glb',
+  },
+  {
+    name: 'skateparkModel',
+    type: 'gltfModel',
+    path: 'models/Skatepark.glb',
   },
 ]

@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@theatre/core": "^0.6.0",
+    "@theatre/studio": "^0.6.0",
     "firebase": "^9.18.0",
     "gsap": "^3.11.5",
     "lil-gui": "^0.18.1",

@@ -1,6 +1,7 @@
 <template>
   <div>
     <Timer />
+    <SkateModal />
   </div>
   <canvas class="webgl"></canvas>
 </template>
@@ -10,6 +11,7 @@ import Button from '@/components/common/Button.vue'
 import { onMounted } from 'vue'
 import Experience from '@/webgl/Experience/Experience'
 import Timer from '@/components/common/Timer.vue'
+import SkateModal from '@/components/common/SkateModal.vue'
 
 onMounted(() => {
   const experience = new Experience(document.querySelector('canvas.webgl'))

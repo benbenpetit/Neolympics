@@ -6,6 +6,8 @@ import Experience from '../Experience'
 import Environment from './Environment'
 import Floor from './Floor'
 import Skater from './Skater'
+import Skatepark from './Skatepark'
+import SkaterLapin from './SkaterLapin'
 
 export default class World {
   constructor() {
@@ -17,7 +19,10 @@ export default class World {
     this.resources.on('ready', () => {
       this.floor = new Floor()
       // Setup
-      this.skater = new Skater()
+      // this.skater = new Skater()
+      // this.catcher = new Catcher()
+      this.skater = new SkaterLapin()
+      this.skatepark = new Skatepark()
       this.environment = new Environment()
       this.animations = new Animations()
     })

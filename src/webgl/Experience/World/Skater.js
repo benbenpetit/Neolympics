@@ -24,7 +24,10 @@ export default class Skater {
 
   setModel() {
     this.model = this.resource.scene
-    this.scene.add(this.model)
+    this.group = new THREE.Group()
+    this.group.add(this.model)
+    this.group.add(this.experience.camera.instance)
+    this.scene.add(this.group)
 
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {

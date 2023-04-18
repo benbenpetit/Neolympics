@@ -8,12 +8,12 @@
     </DisplayCharacter> -->
     <Modal imgSrc="/icon/mic.svg" class="--blue" v-if="showQuiz && !quizCompleted">
       <template v-slot:upper-img>
-        <img :src="getCurrentQuestion.img" alt="" style="height: 200px" />
+        <img :src="getCurrentQuestion?.img" alt="" style="height: 200px" />
       </template>
       <template v-slot:title>Journaliste</template>
       <template v-slot:content>
         <img src="/icon/quote-open.svg" alt="" style="height: 20px" />
-        <p>{{ getCurrentQuestion.question }}</p>
+        <p>{{ getCurrentQuestion?.question }}</p>
         <img
           src="/icon/quote-close.svg"
           alt=""
@@ -24,7 +24,7 @@
         <ButtonUI
           imgSrc="null"
           @click="handleQuizClick(index)"
-          v-for="(option, index) in getCurrentQuestion.options"
+          v-for="(option, index) in getCurrentQuestion?.options"
           :key="index"
           class="--white"
           :class="getOptionClasses(index)"
@@ -45,7 +45,7 @@
       <Modal imgSrc="/icon/info.svg" class="--blue">
         <template v-slot:title>Informations</template>
         <template v-slot:content>
-          <p>{{ getCurrentQuestion.info }}</p>
+          <p>{{ getCurrentQuestion?.info }}</p>
         </template>
         <template v-slot:buttons>
           <ButtonUI imgSrc="/icon/go.svg" @click="nextQuestion" class="--no-hover">
@@ -61,53 +61,30 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import DisplayCharacter from '@/components/common/DisplayCharacter.vue'
 import Modal from '@/components/common/Modal.vue'
-import { ref, computed } from 'vue'
+import { IQuestion } from '@/core/types/IQuiz'
+import { ref, computed, onMounted } from 'vue'
+import { QUESTIONS_DATA } from '@/data/constants'
+
+onMounted(async () => {
+  questions.value = QUESTIONS_DATA
+})
 
 let score = 0
-let showQuiz = ref(true)
-
+const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)
 const quizCompleted = ref(false)
 const currentQuestion = ref(0)
-const questions = ref([
-  {
-    question:
-      'Très belle performance, mais cette troisième figure était si complexe que vous l’avez ratée ! Qu’est-ce que c’était ?',
-    answer: 0,
-    options: ['KICKFLIP', 'OLLIE', 'SHOVE-IT', 'PIGEON FLIP'],
-    selected: null,
-    img: '/img/skater.jpg',
-    info: `Les Regular mettent le pied gauche devant.
-          Les Goofy mettent le pied droit devant.
-
-          Cette étape est déterminante puisqu’elle définit quel est votre pied avant et toutes les techniques de glisse et de virage à adapter en fonction.
-          Notez qu’un Regular n’est pas forcément un gaucher, et un Goofy un droitier. En effet 75% des pratiquants évoluent en Regular (d'où le nom anglais de "Regular"...).`,
-  },
-  {
-    question: "C'est quoi un skate ?",
-    answer: 3,
-    options: ['quoi', 'cou', 'beh', 'feur'],
-    selected: null,
-    img: '/img/quoi.jpeg',
-    info: 'informations suplémentaires question 2',
-  },
-  {
-    question: 'Tu préfères mourir ou devenir riche ????',
-    answer: 2,
-    options: ['rep1', 'rep2', 'rep3', 'rep4'],
-    selected: null,
-    img: '/img/guez.jpeg',
-    info: 'informations suplémentaires question 3',
-  },
-])
+const questions = ref<IQuestion[]>([])
 
 const getCurrentQuestion = computed(() => {
-  let question: any = questions.value[currentQuestion.value]
+  const question: IQuestion = questions.value[currentQuestion.value]
+  if (!question) return
   question.index = currentQuestion.value
   return question
 })
 
 const handleQuizClick = (index: number) => {
+  if (!getCurrentQuestion.value) return
   selectedAnswer.value = index
   // console.log(selectedAnswer)
 
@@ -123,6 +100,7 @@ const handleQuizClick = (index: number) => {
 }
 
 const getOptionClasses = (index: number) => {
+  if (!getCurrentQuestion.value) return
   const isCorrect =
     selectedAnswer.value !== null && index === getCurrentQuestion.value.answer
   const isWrong =

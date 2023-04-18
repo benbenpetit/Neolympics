@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-buttonUI {
   font-family: Anybody;
   font-weight: 700;
@@ -11,7 +13,7 @@
   transition: all 0.2s ease-in-out;
 
   &.--red {
-    background-color: #ea4050;
+    background-color: $color-red;
     border: solid 1px white;
 
     .c-buttonUI-content {
@@ -28,6 +30,15 @@
         color: black;
         transition: all 0.2s ease-in-out;
       }
+    }
+  }
+
+  &.--black {
+    background-color: black;
+    border: solid 1px white;
+
+    .c-buttonUI-content {
+      color: white;
     }
   }
 }

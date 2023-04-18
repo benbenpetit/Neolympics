@@ -1,0 +1,103 @@
+@use '/src/styles/settings' as *;
+
+.c-sportslider-wrapper {
+  margin: auto;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url('icon/star.svg');
+  background-repeat: space;
+  z-index: 0;
+  .c-sportslider-content {
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .c-sportslider-button {
+      button {
+        display: flex;
+        flex-direction: row;
+        background: none;
+        border: none;
+        align-items: center;
+        column-gap: 10px;
+        margin: 0px 10px;
+        z-index: 20;
+
+        h3 {
+          font-weight: 300;
+          font-size: 1.5em;
+          color: $color-darkgrey;
+          transform: translateY(2px);
+          margin: 0px 10px;
+          z-index: 20;
+        }
+        img {
+          height: 2em;
+          z-index: 20;
+        }
+      }
+    }
+
+    .c-sportslider-center {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      p {
+        font-weight: 300;
+        text-align: justify;
+        padding: 2em 0em;
+        max-width: 650px;
+      }
+
+      img {
+        max-width: 70%;
+        z-index: 10;
+      }
+
+      .dropshadow {
+        z-index: 10;
+        margin-top: 10px;
+        height: 30px;
+        width: 100%;
+        background: radial-gradient($color-blue, rgba(255, 255, 255, 0) 50%);
+        opacity: 0.5;
+      }
+
+      h1 {
+        font-size: 8rem;
+        font-family: MonumentExtended;
+        color: white;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: $color-blue;
+        filter: blur(2px);
+        position: relative;
+        top: 0;
+        z-index: 2;
+        position: absolute;
+        top: 40%;
+        align-self: center;
+      }
+    }
+  }
+
+  footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+    .footer-left {
+    }
+    .footer-center {
+    }
+    .footer-right {
+    }
+  }
+}

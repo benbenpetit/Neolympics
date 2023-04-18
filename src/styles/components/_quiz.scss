@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-quiz {
   display: flex;
   flex-direction: row;
@@ -65,12 +67,12 @@
 
         &:hover {
           &:not([disabled], .--no-hover) {
-            background-color: #d4dbff;
-            border-color: #3656ff;
+            background-color: $color-blue-hover;
+            border-color: $color-blue;
 
             .c-buttonUI-content {
               p {
-                color: #3656ff;
+                color: $color-blue;
                 transition: all 0.2s ease-in-out;
               }
             }

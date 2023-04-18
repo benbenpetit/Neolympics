@@ -31,8 +31,8 @@ let startTime: any = null
 let timerIntervalId: any = null
 
 const startTimer = () => {
-  console.log(Experience)
   if (!isRunning.value) {
+    mittInstance.emit('Start skate intro')
     if (stoppedTime.value === 0) {
       startTime = new Date().getTime()
     } else {

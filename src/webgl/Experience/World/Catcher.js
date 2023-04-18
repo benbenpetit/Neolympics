@@ -9,6 +9,10 @@ export default class Catcher {
     this.time = this.experience.time
     this.debug = this.experience.debug
 
+    console.log(this.resources)
+
+    this.direction = { x: null, z: null }
+
     // Debug
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder('Catcher')
@@ -27,11 +31,28 @@ export default class Catcher {
       this.animation.actions.walk.reset()
       this.animation.actions.walk.weight = 1
       this.animation.actions.walk.play()
-      this.direction.x = 1
+      console.log(e)
+      switch (e.key) {
+        case 'ArrowUp':
+          this.direction.z = 1
+          break
+        case 'ArrowDown':
+          this.direction.z = -1
+          break
+        case 'ArrowLeft':
+          this.direction.x = 1
+          break
+        case 'ArrowRight':
+          this.direction.x = -1
+          break
+        default:
+          break
+      }
     })
     window.addEventListener('keyup', () => {
       this.animation.actions.walk.fadeOut(1)
       this.direction.x = 0
+      this.direction.z = 0
     })
   }
 
@@ -75,7 +96,7 @@ export default class Catcher {
           this.animation.play('walk')
         },
         playIdle: () => {
-          this.animation.actions.current.fadeOut(1)
+          this.animation.actions.current.fadeOut(5)
         },
       }
       this.debugFolder.add(this.debugObject, 'playWalk')
@@ -88,8 +109,9 @@ export default class Catcher {
 
     const relativeCameraOffset = new THREE.Vector3(3, 4, -5)
     var cameraOffset = relativeCameraOffset.applyMatrix4(this.model.matrixWorld)
-    if (this.direction == 1) {
-      this.model.position.x += 0.01
+    if (this.direction.x != 0 || this.direction.z != 0) {
+      this.model.position.x += this.direction.x * 0.1
+      this.model.position.z += this.direction.z * 0.1
     }
 
     // Définition de la position et de la direction de la caméra

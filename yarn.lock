@@ -572,6 +572,27 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@theatre/core@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@theatre/core/-/core-0.6.0.tgz#bc6e640b4f5aba7098b2cc7cac7091cfdd4cc096"
+  integrity sha512-HyOoEQapeVbgKBBVfv1rjklN8oAY1/6RZuzntdL9Nfqb5UVzyVR0Im9q4WBPHx6d1dB1BKpAwIw6PzqlKoyehA==
+  dependencies:
+    "@theatre/dataverse" "0.6.0"
+
+"@theatre/dataverse@0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@theatre/dataverse/-/dataverse-0.6.0.tgz#f98409b1814ccbe07c3d0d640438b1cc004735b0"
+  integrity sha512-1W7b8bQTZeRmmrY64HTQzEtjLJWBmdOkfK/liR+LSSjgAylY3CjZ4/vaDUMmRQr4zCeQjyNVmrvwaIZ/33s+tQ==
+  dependencies:
+    lodash-es "^4.17.21"
+
+"@theatre/studio@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@theatre/studio/-/studio-0.6.0.tgz#87bb6d04c0b90fb10132b43445df1ff7c9e416ef"
+  integrity sha512-DH53wWSkIDevbYJUybLH5nIx+rFgiWlykYOmDKC9WK9QUQFYRpnaBu4UNIo+RmGZ+I2ZMSHx1RfrfnBJCr1j6A==
+  dependencies:
+    "@theatre/dataverse" "0.6.0"
+
 "@types/long@^4.0.1":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.2.tgz#b74129719fc8d11c01868010082d483b7545591a"
@@ -1004,6 +1025,11 @@ lil-gui@^0.18.1:
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/lil-gui/-/lil-gui-0.18.1.tgz#879035a72400d458ef4ec41e0f7ca4fd690875b2"
   integrity sha512-nsDJLflFGro81hcGqaiDNBEKgkMKNF9okmMmW3Xc6sPXP1zyfD3oIftyctvBQD2iTIUgWDw6CuME1IQZD+OvLw==
+
+lodash-es@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
 lodash.camelcase@^4.3.0:
   version "4.3.0"

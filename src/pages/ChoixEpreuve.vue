@@ -65,15 +65,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import publicRouters from '@/data/publicRouters'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import SportCard from '@/components/common/SportCard.vue'
 import SportSlider from '@/components/common/SportSlider.vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
-import { ref } from 'vue'
 
 gsap.registerPlugin(CustomEase)
 
+const router = useRouter()
 let selectedTrial = ref<boolean>(false)
 let currentSport = ref<number>(0)
 // let sliderDirection = ref<string | null>(null)
@@ -125,7 +128,9 @@ const setNextSport = () => {
 }
 
 const gotoTrial = () => {
-  console.log('go to ' + sportParams[currentSport.value].title)
+  router.push(
+    `${publicRouters.COMPETITION}/${sportParams[currentSport.value].title.toLowerCase()}`,
+  )
 }
 
 const gotoNextSport = () => {
@@ -145,7 +150,7 @@ const gotoPreviousSport = () => {
 const sportParams = [
   {
     title: 'SKATE',
-    info: 'L’épreuve de Street se déroule dans un décor reproduisant les éléments d’une rue, comme les escaliers, les rails, les bancs... Les athlètes doivent enchaîner 5 figures dans un run de 45 secondes, et sont jugés sur leur capacité à maîtriser leur planche.',
+    info: `L'épreuve de Street se déroule dans un décor reproduisant les éléments d'une rue, comme les escaliers, les rails, les bancs... Les athlètes doivent enchaîner 5 figures dans un run de 45 secondes, et sont jugés sur leur capacité à maîtriser leur planche.`,
     img: '/img/planche-skate-horizontale.png',
     available: true,
   },
@@ -157,13 +162,13 @@ const sportParams = [
   },
   {
     title: 'BREAKING',
-    info: `Les athlètes enchaîneront les « powermoves » comme les coupoles, les six-step ou encore les freezes en s’adaptant et en improvisant sur le son du DJ pour s’adjuger les votes des juges.`,
+    info: `Les athlètes enchaîneront les « powermoves » comme les coupoles, les six-step ou encore les freezes en s'adaptant et en improvisant sur le son du DJ pour s'adjuger les votes des juges.`,
     img: '/img/basket-breaking.png',
     available: false,
   },
   {
     title: 'ESCALADE',
-    info: `L’épreuve de vitesse s’effectue sur un mur de 15 mètres et les athlètes sont assurés par des assureurs automatiques. Les athlètes doivent terminer une voie d’un niveau de complexité très élevé sans tomber, car une chute résulte en la fin de leur essai.`,
+    info: `L'épreuve de vitesse s'effectue sur un mur de 15 mètres et les athlètes sont assurés par des assureurs automatiques. Les athlètes doivent terminer une voie d'un niveau de complexité très élevé sans tomber, car une chute résulte en la fin de leur essai.`,
     img: '/img/hand.png',
     available: false,
   },

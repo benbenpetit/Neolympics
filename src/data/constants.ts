@@ -52,3 +52,5 @@ export const QUESTIONS_DATA: IQuestion[] = [
     info: `Le ollie est une figure de base en skateboard qui consiste à sauter avec la planche sans utiliser les mains pour la faire décoller. Pour réaliser un ollie, le skateur doit taper la queue de la planche contre le sol, puis glisser son pied avant vers l'avant de la planche pour la faire décoller, tout en sautant avec les deux pieds en même temps. Le ollie est souvent utilisé comme base pour de nombreuses autres figures en skateboard, et est considéré comme une compétence fondamentale à maîtriser pour les skateurs débutants.`,
   },
 ]
+
+export const SPORTS: string[] = ['break', 'climbing', 'skate', 'surf']

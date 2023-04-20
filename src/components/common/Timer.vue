@@ -41,7 +41,13 @@ import IconContainer from '@/components/common/IconContainer.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import Experience from '@/webgl/Experience/Experience'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useScoreStore } from '@/core/store/score'
+import { IScore } from '@/core/types/IScore'
+import publicRouters from '@/data/publicRouters'
 
+const router = useRouter()
+const { setCurrentScore } = useScoreStore()
 const isRunning = ref(false)
 const elapsedTime = ref(0)
 const stoppedTime = ref(0)
@@ -92,6 +98,12 @@ const resetTimer = () => {
   elapsedTime.value = 0
   stoppedTime.value = 0
   timebarWidth.value = 0
+}
+
+const endSport = () => {
+  const score: IScore = { points: 90, sportId: 'skate' }
+  setCurrentScore(score)
+  router.push(`${publicRouters.COMPETITION_LEADERBOARD}`)
 }
 
 const formatTime = (time: number) => {

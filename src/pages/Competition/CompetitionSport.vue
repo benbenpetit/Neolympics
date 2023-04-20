@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import Surf from '@/components/modules/Game/Surf/Surf.vue'
 import Skate from '@/pages/Competition/Sports/Skate.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

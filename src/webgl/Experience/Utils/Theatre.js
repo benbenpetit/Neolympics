@@ -19,7 +19,12 @@ export default class Theatre {
   }
   setAnimations() {
     mittInstance.on('Start skate intro', () => {
-      this.introSkate.sequence.play({ iterationCount: 1 })
+      this.project.ready.then(() => {
+        this.introSkate.sequence.play({ iterationCount: 1 })
+        setTimeout(() => {
+          mittInstance.emit('Skate intro finished')
+        }, 5000)
+      })
     })
   }
 }

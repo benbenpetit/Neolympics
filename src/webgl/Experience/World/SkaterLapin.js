@@ -27,9 +27,7 @@ export default class SkaterLapin {
     this.group.add(this.experience.camera.instance)
     this.model.scale.set(50, 50, 50)
     this.model.position.set(-520, 70, 188)
-    console.log(this.model.position)
     this.experience.camera.instance.lookAt(this.model.position)
-    console.log(this.experience.camera.instance)
     this.scene.add(this.group)
 
     this.model.traverse((child) => {
@@ -37,12 +35,9 @@ export default class SkaterLapin {
         child.castShadow = true
       }
     })
-
-    console.log(this.model)
   }
 
   setDebug() {
-    console.log(this.resource)
     this.debugFolder
       .add(this.resource.scene.position, 'x', -1000, 1000, 0.1)
       .name('Skater X')

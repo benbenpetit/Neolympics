@@ -96,4 +96,53 @@
       // min-width: 200px;
     }
   }
+  &.skate-tutorial {
+    width: 60vw;
+    margin: 0 auto;
+    .c-modal-content {
+      padding: 3.65vw 0px 5.47vw 0px;
+      .tutoriel-content {
+        display: flex;
+        flex-direction: column;
+        .skate-container {
+          margin-bottom: 50px;
+        }
+      }
+    }
+    .c-modal-buttons {
+      width: 100%;
+      justify-content: space-between;
+      padding: 0 7.3vw;
+      transform: translate3d(0, -50%, 0);
+      .trial-details {
+        display: flex;
+        align-items: center;
+        column-gap: 1.3vw;
+        .detail-container {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 22px;
+          background-color: $color-blue-grey;
+          border: 1px solid $color-blue-hover;
+          border-radius: 9px;
+          font-family: 'Avenir';
+          font-weight: 800;
+          font-size: 1.15vw;
+          line-height: 1.61vw;
+          color: $color-darkgrey;
+          .o-icon {
+            margin-right: 8px;
+          }
+        }
+      }
+      .c-buttonUI {
+        flex: inherit;
+        width: fit-content;
+        font-size: 1.25vw;
+        line-height: 1.25vw;
+        padding: 1.04vw 3.65vw;
+      }
+    }
+  }
 }

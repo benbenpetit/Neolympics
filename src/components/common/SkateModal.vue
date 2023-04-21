@@ -1,21 +1,11 @@
 <template>
-  <div class="c-sportcard-wrapper">
-    <div class="c-sportcard">
-      <div class="c-sportcard-sportname">
-        <slot name="sportname"></slot>
-      </div>
-      <div class="c-sportcard-content">
-        <div class="c-sportcard-sportimg">
-          <slot name="sportimg"></slot>
-        </div>
-      </div>
-      <div class="c-sportcard-footer">
-        <slot name="footer"></slot>
-      </div>
-    </div>
+  <div class="w-modal">
+    <div class="pattern-title"><div>REPRODUIS CE TRACE</div></div>
+    <Pattern />
   </div>
 </template>
 
 <script setup lang="ts">
 import ButtonUI from '@/components/common/ButtonUI.vue'
+import Pattern from '@/pages/Pattern.vue'
 </script>

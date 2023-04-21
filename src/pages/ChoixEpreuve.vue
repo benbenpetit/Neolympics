@@ -8,7 +8,7 @@
       </template>
       <template v-slot:footer>
         <p>DISPONIBLE</p>
-        <img src="public/icon/go.svg" alt="" />
+        <img src="/icon/go.svg" alt="" />
       </template>
     </SportCard>
 
@@ -19,7 +19,7 @@
       </template>
       <template v-slot:footer>
         <p>À VENIR</p>
-        <img src="public/icon/lock.svg" alt="" />
+        <img src="/icon/lock.svg" alt="" />
       </template>
     </SportCard>
 
@@ -28,7 +28,7 @@
       <template v-slot:sportimg> <img src="/img/basket-breaking.png" alt="" /> </template>
       <template v-slot:footer>
         <p>À VENIR</p>
-        <img src="public/icon/lock.svg" alt="" />
+        <img src="/icon/lock.svg" alt="" />
       </template>
     </SportCard>
 
@@ -37,7 +37,7 @@
       <template v-slot:sportimg> <img src="/img/hand.png" alt="" /> </template>
       <template v-slot:footer>
         <p>À VENIR</p>
-        <img src="public/icon/lock.svg" alt="" />
+        <img src="/icon/lock.svg" alt="" />
       </template>
     </SportCard>
   </div>

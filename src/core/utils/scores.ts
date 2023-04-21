@@ -31,3 +31,8 @@ export const getUserSurroundingScores = (userId: string = '', inScores: IScore[]
 
   return inScores.slice(userScoreIndex - 1, userScoreIndex + 2)
 }
+
+export const getSortedInProgressMaxSessions = (maxSessions: IMaxSessionWUser[]) => {
+  console.log(maxSessions)
+  return maxSessions.sort((a, b) => 2 - 1)
+}

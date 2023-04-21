@@ -38,6 +38,8 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 
+const experience = ref<Experience | null>(null)
+
 onMounted(() => {
   const experience = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')

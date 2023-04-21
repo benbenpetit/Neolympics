@@ -12,8 +12,8 @@ export const useScoreStore = defineStore(
       maxSession: {},
     })
 
-    const setScoreState = (globalScores: IGlobalScores) => {
-      scoreState.value = globalScores
+    const setScoreState = (state: IGlobalScores) => {
+      scoreState.value = state
     }
 
     const setCurrentScore = (score: IScore) => {

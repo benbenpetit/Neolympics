@@ -2,30 +2,36 @@
   <div class="c-session-details" :class="isHorizontal && '--horizontal'">
     <ScoreSport v-if="onlyTotalSession" :points="sportPoints" :stars="quizPoints" />
     <template v-else>
-      <ScoreSport
-        v-if="maxSession?.break"
-        sport="break"
-        :points="maxSession?.break"
-        :stars="maxSession?.breakQuiz"
-      />
-      <ScoreSport
-        v-if="maxSession?.climbing"
-        sport="climbing"
-        :points="maxSession?.climbing"
-        :stars="maxSession?.climbingQuiz"
-      />
-      <ScoreSport
-        v-if="maxSession?.skate"
-        sport="skate"
-        :points="maxSession?.skate"
-        :stars="maxSession?.skateQuiz"
-      />
-      <ScoreSport
-        v-if="maxSession?.surf"
-        sport="surf"
-        :points="maxSession?.surf"
-        :stars="maxSession?.surfQuiz"
-      />
+      <template v-if="isInProgress">
+        <ScoreSport
+          v-for="sportLabel in sportsOrder"
+          :sport="sportLabel"
+          :points="(maxSession as any)[sportLabel]"
+          :stars="(maxSession as any)[sportLabel + 'Quiz']"
+        />
+      </template>
+      <template v-else>
+        <ScoreSport
+          sport="break"
+          :points="maxSession?.break"
+          :stars="maxSession?.breakQuiz"
+        />
+        <ScoreSport
+          sport="climbing"
+          :points="maxSession?.climbing"
+          :stars="maxSession?.climbingQuiz"
+        />
+        <ScoreSport
+          sport="skate"
+          :points="maxSession?.skate"
+          :stars="maxSession?.skateQuiz"
+        />
+        <ScoreSport
+          sport="surf"
+          :points="maxSession?.surf"
+          :stars="maxSession?.surfQuiz"
+        />
+      </template>
     </template>
   </div>
 </template>
@@ -34,14 +40,25 @@
 import ScoreSport from '@/components/modules/Game/Leaderboard/Profile/ScoreSport.vue'
 import { IMaxSession } from '@/core/types/IScore'
 import { computed } from '@vue/reactivity'
+import { useSportStore } from '@/core/store/sport'
+import { SPORTS } from '@/data/constants'
+import { getArrayUnique } from '@/core/utils/functions'
 
 interface Props {
   maxSession?: IMaxSession
   isHorizontal?: boolean
   onlyTotalSession?: boolean
+  isInProgress?: boolean
 }
 
-const { maxSession, isHorizontal, onlyTotalSession } = defineProps<Props>()
+const { maxSession, isHorizontal, onlyTotalSession, isInProgress } = defineProps<Props>()
+const { sportState } = useSportStore()
+const sportsOrder = computed(() =>
+  getArrayUnique([
+    ...sportState.doneSports.map((doneSport) => doneSport.sport),
+    ...SPORTS,
+  ]),
+)
 
 const sportPoints = computed(() => {
   return (

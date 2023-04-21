@@ -14,6 +14,7 @@
             :maxSession="maxSession.maxSession"
             onlyTotalSession
             :podium="index + 1"
+            :isInProgress="isInProgress"
           />
         </li>
       </ul>
@@ -31,6 +32,7 @@
             :maxSession="maxSession.maxSession"
             :rank="maxSession?.maxSession?.rank"
             isHorizontal
+            :isInProgress="isInProgress"
           />
         </li>
       </ul>
@@ -46,7 +48,8 @@ import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 
 interface Props {
   maxSessions: IMaxSessionWUser[]
+  isInProgress?: boolean
 }
 
-const { maxSessions } = defineProps<Props>()
+const { maxSessions, isInProgress } = defineProps<Props>()
 </script>

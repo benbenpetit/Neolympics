@@ -1,4 +1,5 @@
 import { IQuestion } from '@/core/types/IQuiz'
+import { ISport } from '@/core/types/ISport'
 
 export const QUESTIONS_DATA: IQuestion[] = [
   {
@@ -53,4 +54,4 @@ export const QUESTIONS_DATA: IQuestion[] = [
   },
 ]
 
-export const SPORTS: string[] = ['break', 'climbing', 'skate', 'surf']
+export const SPORTS: ISport[] = ['break', 'climbing', 'skate', 'surf']

@@ -43,11 +43,13 @@ import Experience from '@/webgl/Experience/Experience'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useScoreStore } from '@/core/store/score'
+import { useSportStore } from '@/core/store/sport'
 import { IScore } from '@/core/types/IScore'
 import publicRouters from '@/data/publicRouters'
 
 const router = useRouter()
 const { setCurrentScore } = useScoreStore()
+const { setSportStep } = useSportStore()
 const isRunning = ref(false)
 const elapsedTime = ref(0)
 const stoppedTime = ref(0)
@@ -103,7 +105,7 @@ const resetTimer = () => {
 const endSport = () => {
   const score: IScore = { points: 90, sportId: 'skate' }
   setCurrentScore(score)
-  router.push(`${publicRouters.COMPETITION_LEADERBOARD}`)
+  setSportStep('skate', 1)
 }
 
 const formatTime = (time: number) => {

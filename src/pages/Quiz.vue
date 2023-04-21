@@ -75,11 +75,13 @@ import { IQuestion } from '@/core/types/IQuiz'
 import { ref, computed, onMounted } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
 import { gsap } from 'gsap'
+import { useSportStore } from '@/core/store/sport'
 
 onMounted(async () => {
   questions.value = QUESTIONS_DATA
 })
 
+const { setSportStep } = useSportStore()
 let score = 0
 const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)

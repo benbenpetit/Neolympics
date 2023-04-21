@@ -12,12 +12,22 @@
   border-radius: 4px;
   transition: all 0.2s ease-in-out;
 
+  .c-buttonUI-content {
+    p {
+      transform: translateY(2px);
+    }
+  }
+
   &.--red {
     background-color: $color-red;
     border: solid 1px white;
 
     .c-buttonUI-content {
       color: white;
+    }
+
+    &:hover {
+      background-color: $color-red-hover;
     }
   }
 
@@ -30,15 +40,6 @@
         color: black;
         transition: all 0.2s ease-in-out;
       }
-    }
-  }
-
-  &.--black {
-    background-color: black;
-    border: solid 1px white;
-
-    .c-buttonUI-content {
-      color: white;
     }
   }
 }

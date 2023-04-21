@@ -9,8 +9,6 @@ export default class Catcher {
     this.time = this.experience.time
     this.debug = this.experience.debug
 
-    console.log(this.resources)
-
     this.direction = { x: null, z: null }
 
     // Debug
@@ -31,7 +29,6 @@ export default class Catcher {
       this.animation.actions.walk.reset()
       this.animation.actions.walk.weight = 1
       this.animation.actions.walk.play()
-      console.log(e)
       switch (e.key) {
         case 'ArrowUp':
           this.direction.z = 1

@@ -1,0 +1,11 @@
+@use '/src/styles/settings/' as *;
+
+.o-icon {
+  color: $color-blue-hover;
+  &.--valid {
+    color: $color-blue;
+  }
+  &.--error {
+    color: $color-red;
+  }
+}

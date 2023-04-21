@@ -1,54 +1,65 @@
 <template>
-  <svg class="lines" draggable="false">
-    <line
-      v-for="(line, index) in lines"
-      :x1="`${line.coords.start.x}px`"
-      :y1="`${line.coords.start.y}px`"
-      :x2="`${line.coords.end.x}px`"
-      :y2="`${line.coords.end.y}px`"
-    />
-  </svg>
-  <div class="pattern-wrapper" draggable="false">
+  <div class="skate-container">
+    <div class="skate-layout">
+      <div v-for="n in 24" class="layout-cell"></div>
+    </div>
     <div
-      class="pattern-container"
-      @mouseup="handleMouseUp"
-      @mousemove="handleMouseMove($event)"
-      ref="gridRef"
+      class="pattern-wrapper"
       draggable="false"
-      :style="`grid-template-columns: repeat(${numCols}, 1fr); grid-template-rows: repeat(${numRows}, 1fr);`"
+      ref="wrapperBox"
+      @mousemove="handleMouseMove($event)"
+      @mouseup="handleMouseUp"
     >
+      <svg class="lines" draggable="false">
+        <line
+          stroke-linecap="round"
+          draggable="false"
+          v-for="(line, index) in lines"
+          :x1="`${line.coords.start.x}px`"
+          :y1="`${line.coords.start.y}px`"
+          :x2="`${line.coords.end.x}px`"
+          :y2="`${line.coords.end.y}px`"
+        />
+      </svg>
       <div
-        v-for="(point, index) in points"
-        :key="point.id"
-        class="pattern-point__zone"
+        class="pattern-container"
+        ref="gridRef"
         draggable="false"
-        :class="{ active: point.isActive }"
-        :ref="(ref: any) => handleSetRefPoints(index, ref)"
-        @mouseover="handleMouseOver(point)"
+        :style="`grid-template-columns: repeat(${numCols}, 1fr); grid-template-rows: repeat(${numRows}, 1fr);`"
       >
         <div
-          class="pattern-point"
-          @mousedown="handleMouseDown(point, $event)"
+          v-for="(point, index) in points"
+          :key="point.id"
+          class="pattern-point__zone"
           draggable="false"
-        ></div>
+          :class="{ active: point.isActive }"
+          :ref="(ref: any) => handleSetRefPoints(index, ref)"
+          @mouseover="handleMouseOver(point)"
+        >
+          <div
+            class="pattern-point"
+            @mousedown="handleMouseDown(point, $event)"
+            draggable="false"
+          ></div>
+        </div>
       </div>
-    </div>
-    <div class="game-side">
-      <div class="pattern-to-do">
-        <h2>Pattern à faire</h2>
-        <span>{{ patternToDo }}</span>
-      </div>
-      <div class="current-pattern">
-        <h2>Pattern en cours</h2>
-        <span>{{ currentPattern }}</span>
-      </div>
-      <div class="current-pattern">
-        <h2>Résultat</h2>
-        <span>{{ isCorrectPattern ? 'Gagné' : 'Perdu' }}</span>
-      </div>
-      <ButtonUI @click="generatePattern" imgSrc="null" class="pattern-generator">
-        <template v-slot:label>Générer un pattern à faire</template>
-      </ButtonUI>
+      <!-- <div class="game-side">
+        <div class="pattern-to-do">
+          <h2>Pattern à faire</h2>
+          <span>{{ patternToDo }}</span>
+        </div>
+        <div class="current-pattern">
+          <h2>Pattern en cours</h2>
+          <span>{{ currentPattern }}</span>
+        </div>
+        <div class="current-pattern">
+          <h2>Résultat</h2>
+          <span>{{ isCorrectPattern ? 'Gagné' : 'Perdu' }}</span>
+        </div>
+        <ButtonUI @click="generatePattern" imgSrc="null" class="pattern-generator">
+          <template v-slot:label>Générer un pattern à faire</template>
+        </ButtonUI>
+      </div> -->
     </div>
   </div>
 </template>
@@ -80,8 +91,8 @@ interface Line {
   }
 }
 
-const numRows = ref(4) // Nombre de lignes dans la grille
-const numCols = ref(3) // Nombre de colonnes dans la grille
+const numRows = ref(3) // Nombre de lignes dans la grille
+const numCols = ref(5) // Nombre de colonnes dans la grille
 const pointRefs: Element[] = [] // Ref des Point dans le DOM
 const lineRefs: Element[] = [] // Ref des Lignes dans le DOM
 const isDragging = ref(false)
@@ -96,6 +107,7 @@ const startPoint = ref<any>({ x: 0, y: 0 })
 const currentPoint = ref<any>({ x: 0, y: 0 })
 
 const currentLine = ref<any>()
+const wrapperBox = ref<HTMLDivElement | null>(null)
 
 for (let i = 1; i <= numRows.value * numCols.value; i++) {
   points.value.push({ id: i, isActive: false, coords: { x: 0, y: 0 } })
@@ -110,6 +122,8 @@ for (let i = 1; i <= numRows.value * numCols.value - 1; i++) {
 }
 
 const handleMouseDown = (point: any, event: MouseEvent) => {
+  const wrapperBoxLeft = wrapperBox.value?.getBoundingClientRect().left || 0
+  const wrapperBoxTop = wrapperBox.value?.getBoundingClientRect().top || 0
   point.isActive = true
   isDragging.value = true
 
@@ -121,15 +135,15 @@ const handleMouseDown = (point: any, event: MouseEvent) => {
   currentLine.value.isTracing = true
   currentLine.value.coords.start.x = point.coords.x
   currentLine.value.coords.start.y = point.coords.y
-  currentLine.value.coords.end.x = event.clientX
-  currentLine.value.coords.end.y = event.clientY
+  currentLine.value.coords.end.x = event.clientX - wrapperBoxLeft
+  currentLine.value.coords.end.y = event.clientY - wrapperBoxTop
 }
 
 const handleMouseUp = () => {
-  points.value = points.value.map((point) => ({ ...point, isActive: false }))
   isDragging.value = false
   isCorrectPattern.value = checkIfWon()
   setTimeout(() => {
+    points.value = points.value.map((point) => ({ ...point, isActive: false }))
     clearPattern()
   }, 1000)
 }
@@ -152,9 +166,11 @@ const checkIfWon = () => {
 }
 
 const handleMouseMove = (event: MouseEvent) => {
+  const wrapperBoxLeft = wrapperBox.value?.getBoundingClientRect().left || 0
+  const wrapperBoxTop = wrapperBox.value?.getBoundingClientRect().top || 0
   if (isDragging.value && currentLine.value.isTracing) {
-    currentLine.value.coords.end.x = event.clientX
-    currentLine.value.coords.end.y = event.clientY
+    currentLine.value.coords.end.x = event.clientX - wrapperBoxLeft
+    currentLine.value.coords.end.y = event.clientY - wrapperBoxTop
   }
 }
 
@@ -187,9 +203,11 @@ const generatePattern = () => {
 
 const setPointsCoords = () => {
   points.value = points.value.map((point, index) => {
+    const wrapperBoxLeft = wrapperBox.value?.getBoundingClientRect().left || 0
+    const wrapperBoxTop = wrapperBox.value?.getBoundingClientRect().top || 0
     const pointBounds = pointRefs[index].getBoundingClientRect()
-    const x = pointBounds.left + pointBounds.width / 2
-    const y = pointBounds.top + pointBounds.height / 2
+    const x = pointBounds.left + pointBounds.width / 2 - wrapperBoxLeft
+    const y = pointBounds.top + pointBounds.height / 2 - wrapperBoxTop
 
     return { ...point, coords: { x, y } }
   })

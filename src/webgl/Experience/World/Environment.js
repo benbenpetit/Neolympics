@@ -17,7 +17,6 @@ export default class Environment {
     // Setup
     this.setSunLight()
     // this.setEnvironmentMap();
-    console.log(this.experience.camera.instance)
   }
 
   setSunLight() {

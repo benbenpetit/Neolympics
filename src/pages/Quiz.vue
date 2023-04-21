@@ -1,58 +1,67 @@
 <template>
-  <div class="c-quiz">
-    <!-- <div></div> -->
-    <!-- <DisplayCharacter>
-      <template v-slot:display>
-        <img src="/img/perso.png" alt="character" style="width: 400px" />
-      </template>
-    </DisplayCharacter> -->
-    <Modal imgSrc="/icon/mic.svg" class="--blue" v-if="showQuiz && !quizCompleted">
-      <template v-slot:upper-img>
-        <img :src="getCurrentQuestion?.img" alt="" style="height: 200px" />
-      </template>
-      <template v-slot:title>Journaliste</template>
-      <template v-slot:content>
-        <img src="/icon/quote-open.svg" alt="" style="height: 20px" />
-        <p>{{ getCurrentQuestion?.question }}</p>
-        <img
-          src="/icon/quote-close.svg"
-          alt=""
-          style="height: 20px; align-self: flex-end"
-        />
-      </template>
-      <template v-slot:buttons>
-        <ButtonUI
-          imgSrc="null"
-          @click="handleQuizClick(index)"
-          v-for="(option, index) in getCurrentQuestion?.options"
-          :key="index"
-          class="--white"
-          :class="getOptionClasses(index)"
-          :disabled="selectedAnswer != null"
-        >
-          <template v-slot:label>
-            {{ option }}
-          </template>
-        </ButtonUI>
-      </template>
-    </Modal>
-    <section v-if="quizCompleted">
-      <h1>fin du quiz</h1>
-      <p>score :{{ score }}/3</p>
-    </section>
+  <div class="quiz-background"></div>
+  <QuizOverlay />
 
-    <div class="c-info" v-if="!showQuiz">
-      <Modal imgSrc="/icon/info.svg" class="--blue">
-        <template v-slot:title>Informations</template>
-        <template v-slot:content>
-          <p>{{ getCurrentQuestion?.info }}</p>
+  <div class="c-quiz-wrapper" style="visibility: hidden">
+    <div class="c-quiz">
+      <DisplayCharacter>
+        <template v-slot:display>
+          <img src="/img/perso.png" alt="character" style="width: 400px" />
         </template>
-        <template v-slot:buttons>
-          <ButtonUI imgSrc="/icon/go.svg" @click="nextQuestion" class="--no-hover">
-            <template v-slot:label>SUIVANT</template>
-          </ButtonUI>
-        </template>
-      </Modal>
+      </DisplayCharacter>
+      <div class="c-quiz-modals">
+        <Modal imgSrc="/icon/mic.svg" class="--blue" v-if="showQuiz && !quizCompleted">
+          <template v-slot:upper-img>
+            <img
+              :src="getCurrentQuestion?.img"
+              alt=""
+              style="height: 200px, z-index::10"
+            />
+          </template>
+          <template v-slot:title>Journaliste</template>
+          <template v-slot:content>
+            <img src="/icon/quote-open.svg" alt="" style="height: 20px" />
+            <p>{{ getCurrentQuestion?.question }}</p>
+            <img
+              src="/icon/quote-close.svg"
+              alt=""
+              style="height: 20px; align-self: flex-end"
+            />
+          </template>
+          <template v-slot:buttons>
+            <ButtonUI
+              imgSrc="null"
+              @click="handleQuizClick(index)"
+              v-for="(option, index) in getCurrentQuestion?.options"
+              :key="index"
+              class="--white"
+              :class="getOptionClasses(index)"
+              :disabled="selectedAnswer != null"
+            >
+              <template v-slot:label>
+                {{ option }}
+              </template>
+            </ButtonUI>
+          </template>
+        </Modal>
+        <section v-if="quizCompleted">
+          <h1>fin du quiz</h1>
+          <p>score :{{ score }}/3</p>
+        </section>
+        <div class="c-info" v-if="!showQuiz">
+          <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue">
+            <template v-slot:title>Informations</template>
+            <template v-slot:content>
+              <p>{{ getCurrentQuestion?.info }}</p>
+            </template>
+            <template v-slot:buttons>
+              <ButtonUI imgSrc="/icon/go.svg" @click="nextQuestion" class="--no-hover">
+                <template v-slot:label>SUIVANT</template>
+              </ButtonUI>
+            </template>
+          </Modal>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -61,9 +70,11 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import DisplayCharacter from '@/components/common/DisplayCharacter.vue'
 import Modal from '@/components/common/Modal.vue'
+import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
 import { IQuestion } from '@/core/types/IQuiz'
 import { ref, computed, onMounted } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
+import { gsap } from 'gsap'
 
 onMounted(async () => {
   questions.value = QUESTIONS_DATA
@@ -75,7 +86,12 @@ const selectedAnswer = ref<number | null>(null)
 const quizCompleted = ref(false)
 const currentQuestion = ref(0)
 const questions = ref<IQuestion[]>([])
-
+const quizOverlayTimeline = gsap.timeline({
+  onComplete: function () {
+    quizAnimation()
+  },
+})
+const quizTimeline = gsap.timeline({})
 const getCurrentQuestion = computed(() => {
   const question: IQuestion = questions.value[currentQuestion.value]
   if (!question) return
@@ -116,11 +132,7 @@ const getOptionClasses = (index: number) => {
     .join(' ')
 }
 
-const displayInfo = () => {
-  showQuiz.value = false
-}
-
-const nextQuestion = () => {
+const setNextQuestion = () => {
   showQuiz.value = true
   selectedAnswer.value = null
   if (currentQuestion.value <= 1) {
@@ -129,4 +141,150 @@ const nextQuestion = () => {
     quizCompleted.value = true
   }
 }
+
+const quizOverlayAnimation = () => {
+  quizOverlayTimeline.fromTo(
+    '.intro-quiz-title img',
+    {
+      x: '-100%',
+    },
+    {
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+  )
+  quizOverlayTimeline.fromTo(
+    '.intro-quiz-title .text p',
+    {
+      x: '-300%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    {
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.2',
+  )
+  quizOverlayTimeline.fromTo(
+    '.intro-quiz-mic',
+    {
+      x: '150%',
+      rotation: '45_short',
+    },
+    {
+      x: '10%',
+      rotation: '355_short',
+      duration: 0.8,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  quizOverlayTimeline.to('.intro-quiz-title img', {
+    x: '-100%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+
+  quizOverlayTimeline.to(
+    '.intro-quiz-title .text p',
+    {
+      x: '-300%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.4',
+  )
+
+  quizOverlayTimeline.to(
+    '.intro-quiz-mic',
+    {
+      x: '150%',
+      rotation: '45_short',
+      duration: 0.6,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.4',
+  )
+
+  quizOverlayTimeline.to('.intro-quiz-wrapper', {
+    visibility: 'hidden',
+    duration: 0,
+  })
+}
+
+const quizAnimation = () => {
+  quizTimeline.fromTo(
+    '.c-quiz-wrapper',
+    {
+      visibility: 'hidden',
+      y: '-100%',
+    },
+    {
+      visibility: 'visible',
+      y: '0%',
+      duration: 0,
+      ease: 'Power4.easeInOut',
+    },
+  )
+
+  quizTimeline.from('.c-display-character', {
+    x: '-100%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+
+  quizTimeline.from(
+    '.c-modal-wrapper',
+    {
+      x: '100%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.3',
+  )
+}
+
+const displayInfo = () => {
+  quizTimeline.to('.c-quiz-modals', {
+    x: '120%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+
+  quizTimeline.add(function () {
+    showQuiz.value = false
+  })
+
+  quizTimeline.to('.c-quiz-modals', {
+    x: '0%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+}
+
+const nextQuestion = () => {
+  quizTimeline.to('.c-quiz-modals', {
+    x: '120%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+
+  quizTimeline.add(function () {
+    setNextQuestion()
+  })
+
+  quizTimeline.to('.c-quiz-modals', {
+    x: '0%',
+    duration: 0.4,
+    ease: 'Power4.easeInOut',
+  })
+}
+
+onMounted(() => {
+  quizOverlayAnimation()
+})
 </script>

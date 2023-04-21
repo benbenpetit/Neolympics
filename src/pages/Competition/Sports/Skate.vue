@@ -55,6 +55,7 @@ watch(sportState.doneSports, async () => {
 
   maxSessions.value = getSortedInProgressMaxSessions(
     firebaseMaxSessions.concat(currentMaxSession),
+    sportState.doneSports.map(({ sport }) => sport),
   )
 })
 </script>

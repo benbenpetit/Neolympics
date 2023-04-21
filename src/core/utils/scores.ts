@@ -1,4 +1,5 @@
 import { IMaxSession, IMaxSessionWUser, IScore } from '@/core/types/IScore'
+import { ISport } from '@/core/types/ISport'
 
 export const getSessionSum = (session: IMaxSession) => {
   return (
@@ -32,7 +33,22 @@ export const getUserSurroundingScores = (userId: string = '', inScores: IScore[]
   return inScores.slice(userScoreIndex - 1, userScoreIndex + 2)
 }
 
-export const getSortedInProgressMaxSessions = (maxSessions: IMaxSessionWUser[]) => {
-  console.log(maxSessions)
-  return maxSessions.sort((a, b) => 2 - 1)
+export const getSortedInProgressMaxSessions = (
+  maxSessions: IMaxSessionWUser[],
+  doneSports: ISport[],
+) => {
+  const truncateMaxSessions = maxSessions.map((maxSession) => ({
+    ...maxSession,
+    maxSession: Object.assign(
+      {
+        userId: maxSession.maxSession.userId,
+      },
+      ...doneSports.map((doneSport) => ({
+        [doneSport]: maxSession.maxSession[doneSport],
+        [doneSport + 'Quiz']: (maxSession.maxSession as any)[doneSport + 'Quiz'],
+      })),
+    ),
+  }))
+
+  return truncateMaxSessions
 }

@@ -18,7 +18,7 @@
         referrerpolicy="no-referrer"
       />
       <div class="c-result-card__pseudo">
-        <span>@{{ user?.displayName ?? 'Pseudo' }}</span>
+        <span>@{{ user?.displayName ?? 'Moi' }}</span>
       </div>
       <SessionDetails
         class="c-result-card__stat"

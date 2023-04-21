@@ -14,7 +14,19 @@ import { db } from '@/firebase'
 import { IMaxSession, IMaxSessionWUser, IScore } from '@/core/types/IScore'
 
 export const addScoreSkate = async (sport: IScore) => {
-  sport = { ...sport, createdAt: new Date(), sportId: 'skate' }
+  sport = {
+    ...sport,
+    createdAt: sport.createdAt ?? new Date(),
+    sportId: 'skate',
+  }
+
+  await addDoc(collection(db, 'scores'), {
+    ...sport,
+  })
+}
+
+export const addScore = async (sport: IScore) => {
+  sport = { ...sport, createdAt: new Date() }
 
   await addDoc(collection(db, 'scores'), {
     ...sport,

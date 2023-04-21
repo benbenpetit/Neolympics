@@ -7,16 +7,16 @@ export default [
   {
     name: 'skaterModel',
     type: 'gltfModel',
-    path: 'models/SkateAnims.glb',
+    path: '/models/SkateAnims.glb',
   },
   {
     name: 'skaterLapinModel',
     type: 'gltfModel',
-    path: 'models/Running.glb',
+    path: '/models/Running.glb',
   },
   {
     name: 'skateparkModel',
     type: 'gltfModel',
-    path: 'models/Skatepark.glb',
+    path: '/models/Skatepark.glb',
   },
 ]

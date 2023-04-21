@@ -33,3 +33,38 @@ export interface IMaxSessionWUser {
   user?: IUser
   maxSession: IMaxSession
 }
+
+export interface IGlobalScores {
+  currentScores: {
+    break?: number
+    breakQuiz?: number
+    climbing?: number
+    climbingQuiz?: number
+    skate?: number
+    skateQuiz?: number
+    surf?: number
+    surfQuiz?: number
+  }
+  maxScores: {
+    break?: number
+    breakQuiz?: number
+    climbing?: number
+    climbingQuiz?: number
+    skate?: number
+    skateQuiz?: number
+    surf?: number
+    surfQuiz?: number
+  }
+  maxSession: {
+    break?: number
+    breakQuiz?: number
+    climbing?: number
+    climbingQuiz?: number
+    skate?: number
+    skateQuiz?: number
+    surf?: number
+    surfQuiz?: number
+    totalScore?: number
+    rank?: number
+  }
+}

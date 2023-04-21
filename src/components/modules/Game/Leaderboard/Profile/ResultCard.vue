@@ -18,13 +18,14 @@
         referrerpolicy="no-referrer"
       />
       <div class="c-result-card__pseudo">
-        <span>@{{ user?.displayName ?? 'Pseudo' }}</span>
+        <span>@{{ user?.displayName ?? 'Moi' }}</span>
       </div>
       <SessionDetails
         class="c-result-card__stat"
         :maxSession="maxSession"
         :isHorizontal="isHorizontal"
         :onlyTotalSession="onlyTotalSession"
+        :isInProgress="isInProgress"
       />
       <div class="c-result-card__sticker" v-if="podium">
         <img :src="rankBrush[podium - 1]" />
@@ -48,9 +49,10 @@ interface Props {
   isHorizontal?: boolean
   onlyTotalSession?: boolean
   podium?: number
+  isInProgress?: boolean
 }
 
-const { user, maxSession, rank, isHorizontal, onlyTotalSession, podium } =
+const { user, maxSession, rank, isHorizontal, onlyTotalSession, podium, isInProgress } =
   defineProps<Props>()
 const isActive = computed(() => maxSession?.userId === currentUser?.value?.uid)
 const currentUser = useCurrentUser()

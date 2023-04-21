@@ -14,12 +14,10 @@
   &__inside {
     flex-shrink: 0;
     margin: 0 1.5rem;
-  }
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
 
-  &:hover {
-    &::before,
-    &::after {
-      transform: scaleY(2);
+    .c-divider:hover & {
+      transform: skewX(-10deg);
     }
   }
 
@@ -30,6 +28,5 @@
     height: 2px;
     width: 100%;
     background-color: #000000;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
   }
 }

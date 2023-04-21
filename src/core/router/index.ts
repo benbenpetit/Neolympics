@@ -1,3 +1,5 @@
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { createRouter, createWebHistory } from 'vue-router'
 import GameVue from '@/pages/Game.vue'
 import HomeVue from '@/pages/Home.vue'
 import QuizVue from '@/pages/Quiz.vue'
@@ -6,8 +8,12 @@ import RegisterVue from '@/pages/Register.vue'
 import SignInVue from '@/pages/SignIn.vue'
 import PatternVue from '@/pages/Pattern.vue'
 import SceneVue from '@/components/views/Scene.vue'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { createRouter, createWebHistory } from 'vue-router'
+import CompetitionVue from '@/pages/Competition/Competition.vue'
+import CompetitionLeaderboardVue from '@/pages/Competition/Leaderboard.vue'
+import CompetitionSportVue from '@/pages/Competition/CompetitionSport.vue'
+import TrainingVue from '@/pages/Training/Training.vue'
+import TrainingSportVue from '@/pages/Training/TrainingSport.vue'
+import publicRouters from '@/data/publicRouters'
 
 const routes = [
   { path: '/', component: HomeVue },
@@ -19,6 +25,16 @@ const routes = [
   { path: '/game/:id', component: GameVue, meta: { requiresAuth: true } },
   { path: '/three', component: SceneVue },
   { path: '/pattern', component: PatternVue },
+
+  { path: `${publicRouters.COMPETITION}`, component: CompetitionVue },
+  { path: `${publicRouters.COMPETITION_PREPARATION}`, component: ChoixEpreuveVue },
+  { path: `${publicRouters.COMPETITION}/:sportSlug`, component: CompetitionSportVue },
+  {
+    path: `${publicRouters.COMPETITION_LEADERBOARD}`,
+    component: CompetitionLeaderboardVue,
+  },
+  { path: `${publicRouters.TRAINING}`, component: TrainingVue },
+  { path: `${publicRouters.TRAINING}/:sportSlug`, component: TrainingSportVue },
 ]
 
 const router = createRouter({

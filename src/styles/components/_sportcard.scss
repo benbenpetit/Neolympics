@@ -26,7 +26,7 @@
 
     .c-sportcard-sportname {
       font-family: MonumentExtended;
-      font-size: 4em;
+      font-size: 5rem;
       text-align: center;
       color: $color-blue;
       writing-mode: vertical-lr;
@@ -35,6 +35,8 @@
       position: absolute;
       left: 0;
       user-select: none;
+      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-color: $color-blue;
     }
 
     .c-sportcard-content {
@@ -51,10 +53,11 @@
         z-index: 10;
         user-select: none;
         img {
-          transition: 0.2s all ease-in-out;
+          // transition: 0.2s all ease-in-out;
           object-fit: contain;
           max-height: 100%;
           max-width: 100%;
+          transition: 0.2s all ease-in-out;
         }
       }
     }
@@ -85,7 +88,7 @@
       .c-sportcard-sportname {
         left: auto;
         color: rgba(0, 0, 0, 0);
-        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-width: 3px;
         -webkit-text-stroke-color: $color-darkgrey;
       }
       .c-sportcard-content {
@@ -99,9 +102,24 @@
     .c-sportcard-footer {
       height: 60px;
       background-color: $color-darkgrey;
+      transition: 0.2s all ease-in-out;
       border-radius: 8px 8px 0px 0px;
       p {
         font-weight: 300;
+      }
+    }
+
+    &:hover {
+      .c-sportcard-content {
+        .c-sportcard-sportimg {
+          img {
+            transform: translateY(7px);
+          }
+        }
+      }
+      .c-sportcard-footer {
+        background-color: black;
+        transition: 0.2s all ease-in-out;
       }
     }
   }
@@ -114,6 +132,10 @@
           transition: 0.2s all ease-in-out;
         }
       }
+    }
+    .c-sportcard-footer {
+      background-color: $color-red-hover;
+      transition: 0.2s all ease-in-out;
     }
   }
 }

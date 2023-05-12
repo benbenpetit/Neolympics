@@ -24,17 +24,23 @@
         </button>
       </div>
     </div>
-    <footer class="c-sportslider-footer">
-      <div class="footer-left"><slot name="footerL"></slot></div>
-      <div class="footer-center"><slot name="footerC"></slot></div>
-      <div class="footer-right"><slot name="footerR"></slot></div>
-    </footer>
+    <div class="footer-wrapper">
+      <footer class="c-sportslider-footer">
+        <div class="footer-left"><slot name="footerL"></slot></div>
+        <div class="footer-center"><slot name="footerC"></slot></div>
+        <div class="footer-right"><slot name="footerR"></slot></div>
+      </footer>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { gsap } from 'gsap'
+import { CustomEase } from 'gsap/CustomEase'
+
+gsap.registerPlugin(CustomEase)
+
 
 const sliderEntry = gsap.timeline({})
 
@@ -50,31 +56,36 @@ onMounted(() => {
       opacity: 1,
     },
   )
+
   sliderEntry.fromTo(
     '.dropshadow',
     {
-      scaleX: 0,
+      scale: 0,
     },
     {
-      scaleX: 1,
-      duration: 0.3,
-      ease: 'Power2easeInOut',
-    },
+      scale: 1,
+      duration: 0.4,
+      opacity: 1,
+      ease: CustomEase.create("custom", "M0,0,C0.2,0,0.604,1.392,1,1"),
+    }, '-=0.2',
   )
 
   sliderEntry.fromTo(
     '.sportimg img',
     {
       scale: 0,
-      y: '150%',
+      y: '100%',
       opacity: 0,
+      filter: 'blur(20px)',
     },
+
     {
       scale: 1,
       y: '0%',
       duration: 0.5,
-      ease: 'Power2.easeInOut',
+      ease: CustomEase.create("custom", "M0,0 C0.256,-0.054 0.616,1.426 1,1 "),
       opacity: 1,
+      filter: 'blur(0px)'
     },
     '-=0.2',
   )
@@ -82,14 +93,28 @@ onMounted(() => {
   sliderEntry.fromTo(
     '.c-sportslider-center p',
     {
-      opacity: 0,
+      y: '-100%',
     },
     {
-      duration: 0.5,
+      y: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.1',
+  )
+
+  sliderEntry.fromTo(
+    '.footer-wrapper',
+    {
+      y: '100%',
+    },
+    {
+      y:'0%',
+      duration: 0.4,
       ease: 'Power2.easeInOut',
       opacity: 1,
     },
-    '-=0.2',
+    '-=0.4',
   )
 
   sliderEntry.fromTo(
@@ -105,17 +130,5 @@ onMounted(() => {
     '-=0.2',
   )
 
-  sliderEntry.fromTo(
-    '.c-sportslider-wrapper footer',
-    {
-      opacity: 0,
-    },
-    {
-      duration: 0.5,
-      ease: 'Power2.easeInOut',
-      opacity: 1,
-    },
-    '-=0.2',
-  )
 })
 </script>

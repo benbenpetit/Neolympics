@@ -6,7 +6,7 @@
     <div class="c-quiz">
       <DisplayCharacter>
         <template v-slot:display>
-          <img src="/img/perso.png" alt="character" style="width: 400px" />
+          <img src="/img/lapin-perso.png" alt="character" style="height: 600px" />
         </template>
       </DisplayCharacter>
       <div class="c-quiz-modals">
@@ -83,17 +83,20 @@ onMounted(async () => {
 
 const { setSportStep } = useSportStore()
 let score = 0
+let questionAnswered = 0
 const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)
 const quizCompleted = ref(false)
 const currentQuestion = ref(0)
 const questions = ref<IQuestion[]>([])
+
 const quizOverlayTimeline = gsap.timeline({
   onComplete: function () {
     quizAnimation()
   },
 })
 const quizTimeline = gsap.timeline({})
+
 const getCurrentQuestion = computed(() => {
   const question: IQuestion = questions.value[currentQuestion.value]
   if (!question) return
@@ -137,8 +140,11 @@ const getOptionClasses = (index: number) => {
 const setNextQuestion = () => {
   showQuiz.value = true
   selectedAnswer.value = null
-  if (currentQuestion.value <= 1) {
+  // let randQuestId = Math.floor(Math.random() * questions.value.length)
+  if (questionAnswered < 2) {
+    // currentQuestion.value = randQuestId
     currentQuestion.value++
+    questionAnswered++
   } else {
     quizCompleted.value = true
   }
@@ -153,7 +159,7 @@ const quizOverlayAnimation = () => {
     {
       x: '0%',
       duration: 0.4,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
   )
   quizOverlayTimeline.fromTo(
@@ -161,14 +167,14 @@ const quizOverlayAnimation = () => {
     {
       x: '-300%',
       duration: 0.4,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
     {
       x: '0%',
       duration: 0.4,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
-    '-=0.2',
+    '-=0.3',
   )
   quizOverlayTimeline.fromTo(
     '.intro-quiz-mic',
@@ -180,7 +186,7 @@ const quizOverlayAnimation = () => {
       x: '10%',
       rotation: '355_short',
       duration: 0.8,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
     '-=0.2',
   )
@@ -188,7 +194,7 @@ const quizOverlayAnimation = () => {
   quizOverlayTimeline.to('.intro-quiz-title img', {
     x: '-100%',
     duration: 0.4,
-    ease: 'Power4.easeInOut',
+    ease: 'Power2.easeInOut',
   })
 
   quizOverlayTimeline.to(
@@ -196,7 +202,7 @@ const quizOverlayAnimation = () => {
     {
       x: '-300%',
       duration: 0.4,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
     '-=0.4',
   )
@@ -207,7 +213,7 @@ const quizOverlayAnimation = () => {
       x: '150%',
       rotation: '45_short',
       duration: 0.6,
-      ease: 'Power4.easeInOut',
+      ease: 'Power2.easeInOut',
     },
     '-=0.4',
   )

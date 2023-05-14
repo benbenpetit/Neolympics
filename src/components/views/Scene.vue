@@ -27,7 +27,7 @@
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
       <div>
-        <p>Bravo tu as fini l'épruve !</p>
+        <p>Bravo tu as fini l'épreuve !</p>
         <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
           <template v-slot:label>Continuer</template>
         </ButtonUI>

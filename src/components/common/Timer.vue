@@ -33,8 +33,8 @@
     </button>
     <button @click="stopTimer">Arrêter</button>
     <button @click="resetTimer">Réinitialiser</button>
-    <button @click="endSport">Terminer</button>
-  </div> -->
+    <button @click="endSport">Terminer</button> -->
+  </div>
 </template>
 
 <script setup lang="ts">

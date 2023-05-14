@@ -56,8 +56,13 @@ import mittInstance from '@/core/lib/MittInstance'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
+import { IScore } from '@/core/types/IScore'
+import { useScoreStore } from '@/core/store/score'
+import { useSportStore } from '@/core/store/sport'
 
 const experience = ref<Experience | null>(null)
+const { setCurrentScore } = useScoreStore()
+const { setSportStep } = useSportStore()
 
 onMounted(() => {
   // const experience = new Experience(document.querySelector('canvas.webgl'))
@@ -107,7 +112,11 @@ const startTimer = () => {
   step.value = step.value + 1
 }
 
-const endEpreuve = () => {}
+const endEpreuve = () => {
+  const score: IScore = { points: 87, sportId: 'skate' }
+  setCurrentScore(score)
+  setSportStep('skate', 1)
+}
 </script>
 
 <style>

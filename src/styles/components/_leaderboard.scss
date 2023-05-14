@@ -4,18 +4,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  // margin-top: 2rem;
+  padding-bottom: 6rem;
 
-  &__subtitle {
-    text-transform: uppercase;
-    text-align: center;
-    font-size: 3rem;
-    font-weight: 900;
+  &__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background-image: url(/img/leaderboard-brush.png);
+    background-size: cover;
+    background-position: bottom right;
+    padding: 2rem 1rem;
 
-    > span {
-      color: $color-red;
-      font-style: italic;
+    > h1 {
+      color: white;
+      font-family: MonumentExtended;
+      font-size: 80px;
+      margin: 0px 10px;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    > img {
+      width: 100px;
+      height: auto;
+      display: block;
     }
   }
 
@@ -61,15 +76,13 @@
   &__low-scores {
     align-self: stretch;
     padding: 0;
-    z-index: 20;
+    z-index: 1;
     left: 0;
     right: 0;
     bottom: 0;
+    padding: 0 1rem;
 
     &.--sticky {
-      padding-left: 1rem;
-      padding-right: 1rem;
-
       &::-webkit-scrollbar {
         display: none;
       }
@@ -85,5 +98,17 @@
         width: 100%;
       }
     }
+  }
+
+  &__footer {
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 }

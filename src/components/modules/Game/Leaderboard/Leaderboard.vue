@@ -1,6 +1,9 @@
 <template>
-  <div class="c-leaderboard o-container">
-    <h2 class="c-leaderboard__subtitle">Les <span>big freak</span> des olympiques</h2>
+  <div class="c-leaderboard">
+    <header class="c-leaderboard__header">
+      <h1>Leaderboard</h1>
+      <img src="/img/leaderboard-world.png" />
+    </header>
     <div class="c-leaderboard__top-scores">
       <ul class="c-leaderboard__top-scores__list">
         <li
@@ -47,10 +50,19 @@
         </li>
       </ul>
     </div>
+    <footer class="c-leaderboard__footer">
+      <ButtonUI :isActive="false" class="--no-hover">
+        <template v-slot:label>ENREGISTER MON SCORE</template>
+      </ButtonUI>
+      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover">
+        <template v-slot:label>SUIVANT</template>
+      </ButtonUI>
+    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
+import ButtonUI from '@/components/common/ButtonUI.vue'
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
 import { IMaxSessionWUser } from '@/core/types/IScore'

@@ -42,10 +42,15 @@
     </SportCard>
   </div>
 
-  <SportSlider v-if="selectedTrial" @previous="gotoPreviousSport" @next="gotoNextSport" :class="[!sportParams[currentSport].available ? '--disabled' : '' ]">
+  <SportSlider
+    v-if="selectedTrial"
+    @previous="gotoPreviousSport"
+    @next="gotoNextSport"
+    :class="[!sportParams[currentSport].available ? '--disabled' : '']"
+  >
     <template v-slot:sportinfo>{{ sportParams[currentSport].info }}</template>
     <template v-slot:sportimg>
-      <img :src="sportParams[currentSport].img" alt=""/>
+      <img :src="sportParams[currentSport].img" alt="" />
     </template>
     <template v-slot:sporttitle>{{ sportParams[currentSport].title }}</template>
     <template v-slot:buttonLtext>{{
@@ -58,7 +63,7 @@
     <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
     <template v-slot:footerC v-if="!sportParams[currentSport].available">
       <p>À VENIR</p>
-      <img src="/icon/lock.svg" alt="">
+      <img src="/icon/lock.svg" alt="" />
     </template>
     <template v-slot:footerR v-if="sportParams[currentSport].available">
       <ButtonUI imgSrc="icon/go.svg" @click="gotoTrial()">
@@ -69,7 +74,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import publicRouters from '@/data/publicRouters'
@@ -115,8 +119,8 @@ const removeCards = () => {
     duration: 0.8,
     ease: 'Power4.easeInOut',
     stagger: {
-      each : 0.1,
-      from :currentSport.value,
+      each: 0.1,
+      from: currentSport.value,
     },
     onComplete: () => {
       selectedTrial.value = true
@@ -204,14 +208,11 @@ const sliderAnimOut = () => {
     {
       y: '100%',
       // ease: 'Power4.easeInOut',
-      ease: CustomEase.create(
-        'custom',
-        'M0,0 C0.4,-0.354 0.798,1 1,1',
-      ),
+      ease: CustomEase.create('custom', 'M0,0 C0.4,-0.354 0.798,1 1,1'),
       duration: 0.4,
       opacity: 0,
       scale: 0,
-      filter:'blur(20px)',
+      filter: 'blur(20px)',
     },
     '-=0.2',
   )
@@ -260,7 +261,6 @@ const sliderAnimOut = () => {
 }
 
 const sliderAnimIn = () => {
-
   sliderAnim.to(
     '.dropshadow',
     {
@@ -272,14 +272,18 @@ const sliderAnimIn = () => {
     '-=0.2',
   )
 
-  sliderAnim.to('.c-sportslider-center img', {
-    y: '0%',
-    ease: CustomEase.create("custom", "M0,0,C0.2,0,0.604,1.392,1,1"),
-    duration: 0.4,
-    opacity: 1,
-    scale: 1,
-    filter:'blur(0px)',
-  },'-=0.2',)
+  sliderAnim.to(
+    '.c-sportslider-center img',
+    {
+      y: '0%',
+      ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
+      duration: 0.4,
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+    },
+    '-=0.2',
+  )
 
   sliderAnim.to(
     '.dropshadow',
@@ -332,5 +336,4 @@ const sliderAnimIn = () => {
     '-=0.1',
   )
 }
-
 </script>

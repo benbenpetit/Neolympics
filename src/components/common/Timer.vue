@@ -33,6 +33,7 @@
     </button>
     <button @click="stopTimer">Arrêter</button>
     <button @click="resetTimer">Réinitialiser</button>
+    <button @click="endSport">Terminer</button>
   </div>
 </template>
 
@@ -103,7 +104,7 @@ const resetTimer = () => {
 }
 
 const endSport = () => {
-  const score: IScore = { points: 90, sportId: 'skate' }
+  const score: IScore = { points: 87, sportId: 'skate' }
   setCurrentScore(score)
   setSportStep('skate', 1)
 }

@@ -37,6 +37,7 @@ watch(sportState.doneSports, async () => {
   const playedSports = Object.keys(scoreState.currentScores).filter(
     (sport) => scoreState.currentScores[sport],
   )
+
   const currentScores = [
     ...playedSports.map((playedSport) => ({
       [playedSport]: scoreState.currentScores[playedSport],

@@ -47,6 +47,7 @@
         <section v-if="quizCompleted">
           <h1>fin du quiz</h1>
           <p>score :{{ score }}/3</p>
+          <button @click="endQuiz">Leaderboard</button>
         </section>
         <div class="c-info" v-if="!showQuiz">
           <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue">
@@ -76,11 +77,14 @@ import { ref, computed, onMounted } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
 import { gsap } from 'gsap'
 import { useSportStore } from '@/core/store/sport'
+import { IScore } from '@/core/types/IScore'
+import { useScoreStore } from '@/core/store/score'
 
 onMounted(async () => {
   questions.value = QUESTIONS_DATA
 })
 
+const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 let score = 0
 let questionAnswered = 0
@@ -103,6 +107,12 @@ const getCurrentQuestion = computed(() => {
   question.index = currentQuestion.value
   return question
 })
+
+const endQuiz = () => {
+  const tempScore: IScore = { points: score, sportId: 'skateQuiz' }
+  setCurrentScore(tempScore)
+  setSportStep('skate', 2)
+}
 
 const handleQuizClick = (index: number) => {
   if (!getCurrentQuestion.value) return

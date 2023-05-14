@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="c-nav">
     <router-link to="/">Home</router-link>
     <router-link to="/game">Game</router-link>
     <router-link to="/register">Register</router-link>

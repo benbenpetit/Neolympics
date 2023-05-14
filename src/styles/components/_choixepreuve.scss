@@ -1,9 +1,9 @@
 .choix-epreuve-background {
   position: absolute;
-  top:0;
-  height: 100vh;
-  width: 100vw;
-  margin: auto;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
   background-image: linear-gradient(
       to bottom,
       rgba(255, 255, 255, 1) 0%,
@@ -16,14 +16,14 @@
 }
 
 .c-trialrow {
-  position:absolute;
-  bottom:0;
-  z-index:0;
+  position: absolute;
+  bottom: 0;
+  z-index: 0;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   column-gap: 30px;
-  width: 100vw;
+  width: 100%;
   height: 98vh;
   padding: 0px 50px;
 

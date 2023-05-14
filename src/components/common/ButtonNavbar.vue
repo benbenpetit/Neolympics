@@ -1,6 +1,6 @@
 <template>
   <button @click="$emit('handleClick')" class="c-button-navbar">
-    <img :src="imgSrc" alt="" />
+    <img :src="imgSrc" alt="" v-if="imgSrc" />
     <p><slot name="label">Nom du bouton</slot></p>
   </button>
 </template>
@@ -9,6 +9,6 @@
 const { imgSrc } = defineProps<Props>()
 
 interface Props {
-  imgSrc: string
+  imgSrc?: string
 }
 </script>

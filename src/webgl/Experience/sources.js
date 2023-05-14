@@ -5,14 +5,9 @@ export default [
     path: '/textures/concrete.jpg',
   },
   {
-    name: 'skaterModel',
+    name: 'skater',
     type: 'gltfModel',
-    path: '/models/SkateAnims.glb',
-  },
-  {
-    name: 'skaterLapinModel',
-    type: 'gltfModel',
-    path: '/models/Running.glb',
+    path: '/models/Skater.glb',
   },
   {
     name: 'skateparkModel',

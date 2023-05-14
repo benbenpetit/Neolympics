@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('handleClick')" class="c-buttonUI" :class="isActive && '--red'">
+  <button @click="emit('handleClick')" class="c-buttonUI" :class="isActive && '--red'">
     <div class="c-buttonUI-content">
       <p><slot name="label">Nom du bouton</slot></p>
       <slot name="icon" v-if="imgSrc"><img :src="imgSrc" alt="" /></slot>
@@ -12,6 +12,8 @@ const { imgSrc, isActive } = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   isActive: true,
 })
+
+const emit = defineEmits(['handleClick'])
 
 interface Props {
   imgSrc?: string

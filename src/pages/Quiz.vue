@@ -45,9 +45,23 @@
           </template>
         </Modal>
         <section v-if="quizCompleted">
-          <h1>fin du quiz</h1>
-          <p>score :{{ score }}/3</p>
-          <button @click="endQuiz">Leaderboard</button>
+          <div
+            :style="{
+              background: 'white',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              border: '2px solid #3656FF',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+            }"
+          >
+            <h1>Fin du Quiz</h1>
+            <p>Score : {{ score }}/3</p>
+            <ButtonUI @handleClick="endQuiz" imgSrc="/img/go.svg">
+              <template v-slot:label>Suivant</template>
+            </ButtonUI>
+          </div>
         </section>
         <div class="c-info" v-if="!showQuiz">
           <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue">

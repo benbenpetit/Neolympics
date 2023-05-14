@@ -21,7 +21,7 @@
         <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
       </div>
     </div>
-    <button
+    <!-- <button
       @click="
         () => {
           startTimer()
@@ -34,7 +34,7 @@
     <button @click="stopTimer">Arrêter</button>
     <button @click="resetTimer">Réinitialiser</button>
     <button @click="endSport">Terminer</button>
-  </div>
+  </div> -->
 </template>
 
 <script setup lang="ts">

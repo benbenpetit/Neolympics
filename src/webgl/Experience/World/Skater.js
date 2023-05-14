@@ -16,7 +16,7 @@ export default class Skater {
     }
 
     //Setup
-    this.resource = this.resources.items.skaterModel
+    this.resource = this.resources.items.skater
 
     this.setModel()
     this.setAnimation()

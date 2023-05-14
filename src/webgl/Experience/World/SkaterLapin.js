@@ -11,7 +11,7 @@ export default class SkaterLapin {
     this.debug = this.experience.debug
 
     //Setup
-    this.resource = this.resources.items.skaterLapinModel
+    this.resource = this.resources.items.skater
 
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder('SkaterLapin')
@@ -26,7 +26,7 @@ export default class SkaterLapin {
     this.group.add(this.model)
     this.group.add(this.experience.camera.instance)
     this.model.scale.set(50, 50, 50)
-    this.model.position.set(-520, 70, 188)
+    this.model.position.set(-220, 0, 400)
     this.experience.camera.instance.lookAt(this.model.position)
     this.scene.add(this.group)
 

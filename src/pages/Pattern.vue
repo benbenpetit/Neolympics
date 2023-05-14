@@ -65,8 +65,14 @@
 </template>
 
 <script setup lang="ts">
-import ButtonUI from '@/components/common/ButtonUI.vue'
+import mittInstance from '@/core/lib/MittInstance'
 import { onMounted, ref } from 'vue'
+
+const { patternToDo } = defineProps<Props>()
+
+interface Props {
+  patternToDo: Number[]
+}
 
 interface Point {
   id: number
@@ -94,12 +100,11 @@ interface Line {
 const numRows = ref(3) // Nombre de lignes dans la grille
 const numCols = ref(5) // Nombre de colonnes dans la grille
 const pointRefs: Element[] = [] // Ref des Point dans le DOM
-const lineRefs: Element[] = [] // Ref des Lignes dans le DOM
 const isDragging = ref(false)
 const isCorrectPattern = ref(false)
 const gridRef = ref<any>(null)
 const currentPattern = ref<Number[]>([])
-const patternToDo = ref<Number[]>([])
+// const patternToDo = ref<Number[]>([])
 const points = ref<Point[]>([])
 const lines = ref<Line[]>([])
 
@@ -142,6 +147,9 @@ const handleMouseDown = (point: any, event: MouseEvent) => {
 const handleMouseUp = () => {
   isDragging.value = false
   isCorrectPattern.value = checkIfWon()
+  console.log(isCorrectPattern.value)
+  mittInstance.emit('Pattern joué', { status: isCorrectPattern.value })
+
   setTimeout(() => {
     points.value = points.value.map((point) => ({ ...point, isActive: false }))
     clearPattern()
@@ -160,9 +168,9 @@ const clearLines = () => {
   }))
 }
 const checkIfWon = () => {
-  console.log(patternToDo.value, currentPattern.value)
+  console.log(patternToDo, currentPattern.value)
 
-  return patternToDo.value.every((val, index) => val === currentPattern.value[index])
+  return patternToDo.every((val, index) => val === currentPattern.value[index])
 }
 
 const handleMouseMove = (event: MouseEvent) => {
@@ -187,17 +195,6 @@ const handleMouseOver = (point: Point) => {
     currentLine.value.coords.start.y = point.coords.y
     currentLine.value.coords.end.x = point.coords.x
     currentLine.value.coords.end.y = point.coords.y
-  }
-}
-const generatePattern = () => {
-  patternToDo.value = []
-  while (
-    patternToDo.value.length <
-    Math.floor(Math.random() * (numRows.value * numCols.value - 5 + 1) + 5)
-  ) {
-    var candidateInt = Math.floor(Math.random() * (numRows.value * numCols.value)) + 1
-    if (patternToDo.value.indexOf(candidateInt) === -1)
-      patternToDo.value.push(candidateInt)
   }
 }
 

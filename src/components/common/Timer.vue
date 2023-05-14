@@ -2,7 +2,7 @@
   <div class="score-wrapper">
     <div class="skew-container">
       <div class="score-container">
-        <div class="score--value">49</div>
+        <div class="score--value">0</div>
         <div class="score--unit">pts</div>
       </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="skew-container">
       <div class="timer-container">
         <div class="step-container">
-          <div v-for="n in 5" class="icon-container">
+          <div v-for="n in 6" class="icon-container">
             <IconContainer />
           </div>
         </div>
@@ -55,11 +55,13 @@ const isRunning = ref(false)
 const elapsedTime = ref(0)
 const stoppedTime = ref(0)
 const timebarWidth = ref(0)
+const step = ref(0)
 let startTime: any = null
 let timerIntervalId: any = null
 let maxTime: number = 5
 
-mittInstance.on('Start Timer', () => {
+mittInstance.on('Start Timer', (e: any) => {
+  step.value = e.step
   startTimer()
 })
 
@@ -80,6 +82,20 @@ const startTimer = () => {
         clearInterval(timerIntervalId)
         timebarWidth.value = 100
         isRunning.value = false
+      } else if (elapsedTime.value >= 4 && step.value == 3) {
+        stopTimer()
+        mittInstance.emit('Skate Figure')
+      } else if (elapsedTime.value >= 3 && step.value == 2) {
+        stopTimer()
+        mittInstance.emit('Skate Figure')
+      } else if (elapsedTime.value >= 1.01 && step.value == 1) {
+        stopTimer()
+        clearInterval(timerIntervalId)
+        // mittInstance.emit('Skate Figure')
+        mittInstance.emit('Sport finished')
+      } else if (elapsedTime.value >= 1 && step.value == 0) {
+        stopTimer()
+        mittInstance.emit('Skate Figure')
       }
     }, 10)
   }

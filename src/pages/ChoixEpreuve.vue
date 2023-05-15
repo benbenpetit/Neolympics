@@ -82,6 +82,8 @@ import SportCard from '@/components/common/SportCard.vue'
 import SportSlider from '@/components/common/SportSlider.vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
+import { onMounted } from 'vue'
+import { Auth, getAuth, signOut } from 'firebase/auth'
 
 gsap.registerPlugin(CustomEase)
 
@@ -89,6 +91,15 @@ const router = useRouter()
 let selectedTrial = ref<boolean>(false)
 let currentSport = ref<number>(0)
 // let sliderDirection = ref<string | null>(null)
+
+let auth: Auth
+
+onMounted(async () => {
+  auth = getAuth()
+  signOut(auth).then(() => {
+    console.log('Sign Out')
+  })
+})
 
 const sliderAnim = gsap.timeline({})
 

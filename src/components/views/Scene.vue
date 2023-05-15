@@ -113,7 +113,7 @@ const startTimer = () => {
 }
 
 const endEpreuve = () => {
-  const score: IScore = { points: 87, sportId: 'skate' }
+  const score: IScore = { points: 83, sportId: 'skate' }
   setCurrentScore(score)
   setSportStep('skate', 1)
 }

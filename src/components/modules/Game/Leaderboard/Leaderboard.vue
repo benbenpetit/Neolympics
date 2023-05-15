@@ -35,8 +35,8 @@
       <ul class="c-leaderboard__low-scores__list">
         <li
           v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(
-            !isOpenScores ? currentUserIndex : 3,
-            !isOpenScores ? currentUserIndex + 2 : Infinity,
+            !isOpenScores ? currentUserIndex - 1 : 3,
+            !isOpenScores ? currentUserIndex + 1 : Infinity,
           )"
           :key="maxSession?.user?.id"
         >

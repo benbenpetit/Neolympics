@@ -7,7 +7,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
     answer: 1,
     options: ['OLLIE', 'KICKFLIP', 'SHOVE-IT', 'PIGEON FLIP'],
     selected: null,
-    img: '/img/quiz/skater.jpg',
+    img: '/img/quiz/quiz-1.png',
     info: `Le kickflip, ou simplement flip, est une figure de skateboard, inventée par Curt Lindren, en 1978, puis modifiée et popularisée par Rodney Mullen. Autrefois, on l'appelait encore magic flip, ollie flip ou ollie kickflip. Le but d'un kickflip est de sauter et de faire vriller la planche autour de son axe longitudinal, lui faisant effectuer une rotation de 360°.`,
   },
   {
@@ -20,7 +20,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
       'PARC DE LOISIR',
     ],
     selected: null,
-    img: '/img/quiz/quoi.jpeg',
+    img: '/img/quiz/quiz-2.png',
     info: `Un skatepark est un espace spécialement conçu pour la pratique du skateboard. Il peut se présenter sous différentes formes et tailles, mais il est généralement composé de rampes, de courbes, de rails et de murs, permettant aux skateurs de réaliser des figures et des tricks en toute sécurité. Les skateparks peuvent être en intérieur ou en extérieur et sont souvent construits en béton ou en bois. Ils sont populaires parmi les skateurs de tous niveaux, des débutants aux professionnels.`,
   },
   {
@@ -33,7 +33,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
       'LARRY STEVENSON',
     ],
     selected: null,
-    img: '/img/quiz/guez.jpeg',
+    img: '/img/quiz/quiz-3.png',
     info: `Larry Stevenson est souvent crédité pour avoir popularisé le skateboard en tant que loisir dans les années 1960 en créant la première marque de planches à roulettes, Makaha. Il a également contribué au développement des premiers trucks de skateboard, ce qui a permis une meilleure maniabilité des planches`,
   },
   {

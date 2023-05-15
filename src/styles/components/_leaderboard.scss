@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: center;
   // margin-top: 2rem;
-  padding-bottom: 6rem;
 
   &__header {
     width: 100%;
@@ -81,11 +80,14 @@
     right: 0;
     bottom: 0;
     padding: 0 1rem;
+    overflow-y: scroll;
+    padding-bottom: 5rem;
 
-    &.--sticky {
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
 
     &__list {

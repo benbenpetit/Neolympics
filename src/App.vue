@@ -32,8 +32,6 @@ onMounted(() => {
       isLoggedIn.value = false
     }
   })
-
-  router.push('/competition/preparation')
 })
 
 const handleSignOut = () => {

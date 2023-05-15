@@ -29,6 +29,15 @@
 import Modal from '@/components/common/Modal.vue'
 import Nametag from '@/components/common/Nametag.vue'
 import DisplayCharacter from '@/components/common/DisplayCharacter.vue'
+import { onMounted } from 'vue'
+import { Auth, getAuth, signOut } from 'firebase/auth'
+
+let auth: Auth
+
+onMounted(async () => {
+  auth = getAuth()
+  await signOut(auth)
+})
 
 const startTraining = () => {
   console.log('click entrainement')

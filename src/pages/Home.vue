@@ -5,5 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  router.push('/competition/preparation')
+})
 </script>

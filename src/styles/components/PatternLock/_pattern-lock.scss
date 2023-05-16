@@ -9,7 +9,7 @@
   height: 100%;
   z-index: 0;
   line {
-    stroke-width: 0.3125vw;
+    stroke-width: 0.5vw;
     stroke: $color-red;
   }
 }
@@ -35,8 +35,8 @@
     align-items: center;
     justify-items: center;
     .pattern-point__zone {
-      height: 2.6vw;
-      width: 2.6vw;
+      height: 2.8vw;
+      width: 2.8vw;
       background: rgba($color: #000000, $alpha: 0);
       border-radius: 50%;
       cursor: pointer;
@@ -50,10 +50,12 @@
         width: 1.3vw;
         border-radius: 50%;
         background: $color-blue;
+        transition: transform 0.2s cubic-bezier(0, 0, 0.75, 3);
       }
       &.active {
         .pattern-point {
           background: $color-red;
+          transform: scale(1.5);
         }
       }
     }

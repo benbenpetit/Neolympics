@@ -22,8 +22,8 @@
       </ButtonUI>
     </template>
   </Modal>
-  <SkateModal v-if="state == 'figure'" :patternToDo="patternToDo" />
-  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+  <SkateModal :patternToDo="patternToDo" />
+  <!-- <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
       <div>
@@ -33,7 +33,7 @@
         </ButtonUI>
       </div>
     </template>
-  </Modal>
+  </Modal> -->
   <div
     v-if="figureResult != ''"
     class="figure-result"
@@ -69,11 +69,11 @@ onMounted(() => {
   mittInstance.emit('Start skate intro')
 })
 
-const state = ref<String>('')
-const step = ref<any>(0)
-const patternToDo = ref<Number[]>([])
-const figureResult = ref<String>('')
-const result = ref<any>('')
+const state = ref('')
+const step = ref(0)
+const patternToDo = ref<number[]>([])
+const figureResult = ref('')
+const result = ref('')
 
 mittInstance.on('Skate intro finished', () => {})
 state.value = 'tutorial'

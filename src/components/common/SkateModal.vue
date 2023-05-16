@@ -5,8 +5,8 @@
       <div v-if="state == 'playing'" class="playing">A toi de jouer !</div>
       <div v-if="state == 'playing'" class="timebar"></div>
     </div>
-    <SkatePattern v-if="state == 'preparation'" />
-    <Pattern v-if="state == 'playing'" :patternToDo="[11, 2, 13, 9, 10]" />
+    <Pattern :patternToDo="[[10, 1, 12, 8, 9]]" />
+    <!-- <Pattern v-if="state == 'playing'" :patternToDo="[[11, 2, 13, 9, 10]]" /> -->
   </div>
 </template>
 
@@ -15,6 +15,7 @@ import Pattern from '@/pages/Pattern.vue'
 import SkatePattern from '@/components/common/SkatePattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import { ref } from 'vue'
+import PatternDraw from '@/pages/PatternDraw.vue'
 
 const state = ref<String>('')
 

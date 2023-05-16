@@ -7,14 +7,15 @@
       class="pattern-wrapper"
       draggable="false"
       ref="wrapperBox"
-      @mousemove="handleMouseMove($event)"
-      @mouseup="handleMouseUp"
+      @click="setupAnimLines"
     >
       <svg class="lines" draggable="false">
         <line
+          v-for="(line, index) in lines"
           stroke-linecap="round"
           draggable="false"
-          v-for="(line, index) in lines"
+          :style="{ opacity: line.isTracing ? 1 : 0 }"
+          :ref="(ref: any) => handleSetRefLines(index, ref)"
           :x1="`${line.coords.start.x}px`"
           :y1="`${line.coords.start.y}px`"
           :x2="`${line.coords.end.x}px`"
@@ -34,13 +35,8 @@
           draggable="false"
           :class="{ active: point.isActive }"
           :ref="(ref: any) => handleSetRefPoints(index, ref)"
-          @mouseover="handleMouseOver(point)"
         >
-          <div
-            class="pattern-point"
-            @mousedown="handleMouseDown(point, $event)"
-            draggable="false"
-          ></div>
+          <div class="pattern-point" draggable="false"></div>
         </div>
       </div>
       <!-- <div class="game-side">
@@ -66,12 +62,16 @@
 
 <script setup lang="ts">
 import mittInstance from '@/core/lib/MittInstance'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { gsap } from 'gsap'
+import { DrawSVGPlugin } from 'gsap/all'
+
+gsap.registerPlugin(DrawSVGPlugin)
 
 const { patternToDo } = defineProps<Props>()
 
 interface Props {
-  patternToDo: Number[]
+  patternToDo: number[][]
 }
 
 interface Point {
@@ -99,11 +99,13 @@ interface Line {
 
 const numRows = ref(3) // Nombre de lignes dans la grille
 const numCols = ref(5) // Nombre de colonnes dans la grille
+const lineRefs: SVGLineElement[] = [] // Ref des Point dans le DOM
 const pointRefs: Element[] = [] // Ref des Point dans le DOM
+const isAutoDraw = ref(false)
 const isDragging = ref(false)
 const isCorrectPattern = ref(false)
 const gridRef = ref<any>(null)
-const currentPattern = ref<Number[]>([])
+const currentPattern = ref<number[]>([])
 // const patternToDo = ref<Number[]>([])
 const points = ref<Point[]>([])
 const lines = ref<Line[]>([])
@@ -118,7 +120,7 @@ for (let i = 1; i <= numRows.value * numCols.value; i++) {
   points.value.push({ id: i, isActive: false, coords: { x: 0, y: 0 } })
 }
 
-for (let i = 1; i <= numRows.value * numCols.value - 1; i++) {
+for (let i = 1; i <= numRows.value * numCols.value; i++) {
   lines.value.push({
     id: i,
     isTracing: false,
@@ -126,7 +128,26 @@ for (let i = 1; i <= numRows.value * numCols.value - 1; i++) {
   })
 }
 
-const handleMouseDown = (point: any, event: MouseEvent) => {
+onMounted(() => {
+  setPointsCoords()
+})
+
+window.addEventListener('resize', () => {
+  setPointsCoords()
+})
+
+const clearPattern = () => {
+  currentPattern.value = []
+  lines.value = []
+}
+
+const checkIfWon = () => {
+  console.log(patternToDo, currentPattern.value)
+
+  return patternToDo.flat().every((point, index) => point === currentPattern.value[index])
+}
+
+const handleMouseDown = (point: Point, event: MouseEvent) => {
   const wrapperBoxLeft = wrapperBox.value?.getBoundingClientRect().left || 0
   const wrapperBoxTop = wrapperBox.value?.getBoundingClientRect().top || 0
   point.isActive = true
@@ -154,23 +175,6 @@ const handleMouseUp = () => {
     points.value = points.value.map((point) => ({ ...point, isActive: false }))
     clearPattern()
   }, 1000)
-}
-
-const clearPattern = () => {
-  currentPattern.value = []
-  clearLines()
-}
-
-const clearLines = () => {
-  lines.value = lines.value.map((line) => ({
-    ...line,
-    coords: { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } },
-  }))
-}
-const checkIfWon = () => {
-  console.log(patternToDo, currentPattern.value)
-
-  return patternToDo.every((val, index) => val === currentPattern.value[index])
 }
 
 const handleMouseMove = (event: MouseEvent) => {
@@ -202,23 +206,100 @@ const setPointsCoords = () => {
   points.value = points.value.map((point, index) => {
     const wrapperBoxLeft = wrapperBox.value?.getBoundingClientRect().left || 0
     const wrapperBoxTop = wrapperBox.value?.getBoundingClientRect().top || 0
-    const pointBounds = pointRefs[index].getBoundingClientRect()
-    const x = pointBounds.left + pointBounds.width / 2 - wrapperBoxLeft
-    const y = pointBounds.top + pointBounds.height / 2 - wrapperBoxTop
+    const pointBounds = pointRefs[index]?.getBoundingClientRect()
+    const x = pointBounds?.left + pointBounds?.width / 2 - wrapperBoxLeft
+    const y = pointBounds?.top + pointBounds?.height / 2 - wrapperBoxTop
 
     return { ...point, coords: { x, y } }
   })
 }
 
+const setLine = (lineIndex: number, pointA: any, pointB: any) => {
+  lines.value[lineIndex] = {
+    ...lines.value[lineIndex],
+    isTracing: false,
+    coords: {
+      start: { x: pointA.coords.x, y: pointA.coords.y },
+      end: { x: pointB.coords.x, y: pointB.coords.y },
+    },
+  }
+}
+
+const getNormalizedLineDuration = (length: number) => {
+  const minTime = 0.8
+  const maxTime = 2.5
+  const minLength = 2
+  const maxLength = 15
+
+  return (
+    (minTime + ((length - minLength) / (maxLength - minLength)) * (maxTime - minTime)) /
+    length
+  )
+}
+
+const setupAnimLines = () => {
+  isAutoDraw.value = true
+  animLines(0, patternToDo[0].length, 0, patternToDo.length)
+}
+
+const animLines = (
+  currentPatternIndex: number,
+  patternLength: number,
+  currentArrayIndex: number,
+  arrayLength: number,
+) => {
+  if (currentArrayIndex >= arrayLength) {
+    isAutoDraw.value = false
+    return
+  }
+
+  setLine(
+    patternToDo[currentArrayIndex][currentPatternIndex],
+    points.value[patternToDo[currentArrayIndex][currentPatternIndex]],
+    points.value[patternToDo[currentArrayIndex][currentPatternIndex + 1]],
+  )
+
+  gsap.fromTo(
+    lineRefs[patternToDo[currentArrayIndex][currentPatternIndex]],
+    {
+      drawSVG: '0%',
+    },
+    {
+      drawSVG: '100%',
+      duration: getNormalizedLineDuration(patternToDo[currentArrayIndex]?.length - 1),
+      ease: 'linear',
+      onStart: () => {
+        lines.value[patternToDo[currentArrayIndex][currentPatternIndex]].isTracing = true
+        points.value[patternToDo[currentArrayIndex][currentPatternIndex]].isActive = true
+      },
+      onComplete: () => {
+        points.value[patternToDo[currentArrayIndex][currentPatternIndex + 1]].isActive =
+          true
+        if (currentPatternIndex + 1 >= patternLength - 1) {
+          animLines(
+            0,
+            patternToDo[currentArrayIndex + 1]?.length,
+            currentArrayIndex + 1,
+            arrayLength,
+          )
+        } else {
+          animLines(
+            currentPatternIndex + 1,
+            patternLength,
+            currentArrayIndex,
+            arrayLength,
+          )
+        }
+      },
+    },
+  )
+}
+
+const handleSetRefLines = (index: number, ref: SVGLineElement) => {
+  lineRefs[index] = ref
+}
+
 const handleSetRefPoints = (index: number, ref: Element) => {
   pointRefs[index] = ref
 }
-
-window.addEventListener('resize', () => {
-  setPointsCoords()
-})
-
-onMounted(() => {
-  setPointsCoords()
-})
 </script>

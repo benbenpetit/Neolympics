@@ -158,7 +158,10 @@
     />
   </svg>
 </template>
-<script>
+
+<script setup lang="ts"></script>
+
+<!-- <script>
 export default {
   name: 'FerrisWheel',
   mounted() {
@@ -256,4 +259,4 @@ export default {
     player.ready((player) => player.play())
   },
 }
-</script>
+</script> -->

@@ -11,8 +11,9 @@
   "dependencies": {
     "@theatre/core": "^0.6.0",
     "@theatre/studio": "^0.6.0",
+    "@vueuse/core": "^10.1.2",
     "firebase": "^9.18.0",
-    "gsap": "^3.11.5",
+    "gsap": "./gsap-bonus.tgz",
     "lil-gui": "^0.18.1",
     "mitt": "^3.0.0",
     "normalize.css": "^8.0.1",

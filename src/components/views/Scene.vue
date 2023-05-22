@@ -1,6 +1,6 @@
 <template>
   <Timer />
-  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+  <!-- <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
@@ -21,9 +21,9 @@
         <template v-slot:label>J'ai compris !</template>
       </ButtonUI>
     </template>
-  </Modal>
-  <SkateModal v-if="state == 'figure'" :patternToDo="patternToDo" />
-  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+  </Modal> -->
+  <SkateModal :patterns="patterns" />
+  <!-- <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
       <div>
@@ -33,7 +33,7 @@
         </ButtonUI>
       </div>
     </template>
-  </Modal>
+  </Modal> -->
   <div
     v-if="figureResult != ''"
     class="figure-result"
@@ -60,20 +60,43 @@ import { IScore } from '@/core/types/IScore'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 
-const experience = ref<Experience | null>(null)
+const PATTERNS = [
+  [
+    [
+      [1, 2, 3],
+      [11, 12, 13],
+    ],
+    [
+      [0, 5, 10, 11],
+      [3, 4, 9, 14],
+    ],
+    [[0, 1, 2, 3, 4, 9, 14, 13, 12, 11, 10, 5]],
+  ],
+  [
+    [
+      [3, 4, 9, 14],
+      [0, 5, 10, 11],
+    ],
+    [
+      [11, 12, 13],
+      [1, 2, 3],
+    ],
+  ],
+]
+
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
+const state = ref('')
+const step = ref(0)
+const patterns = ref<number[][][][]>(PATTERNS)
+const figureResult = ref('')
+const result = ref('')
+const experience = ref<Experience | null>(null)
 
 onMounted(() => {
   // const experience = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')
 })
-
-const state = ref<String>('')
-const step = ref<any>(0)
-const patternToDo = ref<Number[]>([])
-const figureResult = ref<String>('')
-const result = ref<any>('')
 
 mittInstance.on('Skate intro finished', () => {})
 state.value = 'tutorial'

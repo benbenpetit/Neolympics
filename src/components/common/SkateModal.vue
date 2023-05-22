@@ -1,29 +1,104 @@
 <template>
-  <div class="w-modal">
+  <div class="w-modal" :class="isEnd && 'is-active'">
     <div class="pattern-title">
-      <div v-if="state == 'preparation'">Reproduis ce tracé</div>
-      <div v-if="state == 'playing'" class="playing">A toi de jouer !</div>
-      <div v-if="state == 'playing'" class="timebar"></div>
+      <div v-if="!isEnd">
+        {{ isAutoDrawing ? `Observe attentivement` : `Reproduis le tracé !` }}
+      </div>
+      <div v-else>Gagné ! !</div>
     </div>
-    <SkatePattern v-if="state == 'preparation'" />
-    <Pattern v-if="state == 'playing'" :patternToDo="[11, 2, 13, 9, 10]" />
+    <Pattern
+      :patternToDo="patternToDo"
+      :isAutoDrawing="isAutoDrawing"
+      :onDrawEnd="handleDrawEnd"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref, watch } from 'vue'
 import Pattern from '@/pages/Pattern.vue'
-import SkatePattern from '@/components/common/SkatePattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
-import { ref } from 'vue'
 
-const state = ref<String>('')
+const currentPatternIndex = ref(0)
+const patternToDo = ref<number[][]>([])
+const currentPatternToDoIndex = ref(0)
+const isAutoDrawing = ref(true)
+const isWin = ref(false)
+const isLose = ref(false)
+const isEnd = ref(false)
 
-state.value = 'preparation'
+interface Props {
+  patterns: number[][][][]
+}
 
-setTimeout(() => {
-  state.value = 'playing'
+const props = defineProps<Props>()
+
+onMounted(() => {
+  patternToDo.value = props.patterns[0][0]
+})
+
+const handleEndPattern = () => {
+  isWin.value = false
+  isLose.value = false
+  isAutoDrawing.value = true
+  currentPatternToDoIndex.value = 0
+  if (currentPatternIndex.value < props.patterns[currentPatternIndex.value].length - 1) {
+    patternToDo.value = props.patterns[++currentPatternIndex.value][0]
+  } else {
+    isEnd.value = true
+  }
+}
+
+const handleFlop = () => {
+  isLose.value = true
   setTimeout(() => {
-    mittInstance.emit('Pattern time finished')
-  }, 5000)
-}, 10000)
+    handleEndPattern()
+  }, 1000)
+}
+
+const handleWin = () => {
+  isWin.value = true
+  setTimeout(() => {
+    handleEndPattern()
+  }, 1000)
+}
+
+const handleDrawEnd = (isWrong?: boolean) => {
+  if (isWrong) {
+    handleFlop()
+    return
+  }
+
+  if (
+    currentPatternToDoIndex.value <
+    props.patterns[currentPatternIndex.value].length - 1
+  ) {
+    if (isAutoDrawing.value) {
+      patternToDo.value =
+        props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+    } else {
+      if (isWrong) {
+        handleFlop()
+      } else {
+        patternToDo.value =
+          props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+      }
+    }
+  } else {
+    if (isAutoDrawing.value) {
+      isAutoDrawing.value = false
+      currentPatternToDoIndex.value = 0
+      patternToDo.value = props.patterns[currentPatternIndex.value][0]
+    } else {
+      handleWin()
+    }
+  }
+}
+
+// setTimeout(() => {
+//   state.value = 'playing'
+//   setTimeout(() => {
+//     mittInstance.emit('Pattern time finished')
+//   }, 5000)
+// }, 10000)
 </script>

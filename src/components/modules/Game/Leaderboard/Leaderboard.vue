@@ -68,7 +68,7 @@ import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard
 import { IMaxSessionWUser } from '@/core/types/IScore'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 import { gsap } from 'gsap'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useCurrentUser } from 'vuefire'
 
 interface Props {
@@ -94,7 +94,7 @@ onMounted(() => {
 })
 
 const getLowScoresOffsetTop = () => {
-  return lowScoresRef.value?.getBoundingClientRect().top
+  return (lowScoresRef.value?.getBoundingClientRect().top ?? 0) + window.scrollY
 }
 
 const toggleLowScores = () => {

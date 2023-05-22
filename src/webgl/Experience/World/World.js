@@ -22,7 +22,7 @@ export default class World {
       // this.skater = new Skater()
       // this.catcher = new Catcher()
       this.skater = new SkaterLapin()
-      this.skatepark = new Skatepark()
+      // this.skatepark = new Skatepark()
       this.environment = new Environment()
       this.animations = new Animations()
     })

@@ -21,7 +21,7 @@
         <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
       </div>
     </div>
-    <!-- <button
+    <button
       @click="
         () => {
           startTimer()
@@ -33,7 +33,7 @@
     </button>
     <button @click="stopTimer">Arrêter</button>
     <button @click="resetTimer">Réinitialiser</button>
-    <button @click="endSport">Terminer</button> -->
+    <button @click="endSport">Terminer</button>
   </div>
 </template>
 
@@ -60,9 +60,14 @@ let startTime: any = null
 let timerIntervalId: any = null
 let maxTime: number = 5
 
+declare global {
+  interface Window {
+    experience: Experience
+  }
+}
+
 mittInstance.on('Start Timer', (e: any) => {
   step.value = e.step
-  startTimer()
 })
 
 const startTimer = () => {

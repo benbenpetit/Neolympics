@@ -46,6 +46,7 @@
     <img :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'" alt="" />
     <span class="result-text">{{ figureResult }}</span>
   </div>
+  -->
   <canvas class="webgl"></canvas>
 </template>
 
@@ -77,9 +78,9 @@ const result = ref('')
 const experience = ref<Experience | null>(null)
 
 onMounted(() => {
-  // const experience = new Experience(document.querySelector('canvas.webgl'))
-  mittInstance.emit('Start skate intro')
+  const experience = new Experience(document.querySelector('canvas.webgl'))
   state.value = 'figure'
+  // mittInstance.emit('Start skate intro')
 })
 
 mittInstance.on('Skate intro finished', () => {})

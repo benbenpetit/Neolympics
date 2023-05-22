@@ -20,15 +20,15 @@ export default class Camera {
       this.setDebug()
     }
     if (this.studio.active) {
+      this.setStudio()
     }
-    this.setStudio()
   }
 
   setDebug() {
     this.debugFolder = this.debug.ui.addFolder('Camera')
     this.debugFolder.add(this.instance.position, 'x', -10, 10, 0.1).name('Camera X')
-    this.debugFolder.add(this.instance.position, 'y', -10, 10, 0.1).name('Camera X')
-    this.debugFolder.add(this.instance.position, 'z', -10, 10, 0.1).name('Camera X')
+    this.debugFolder.add(this.instance.position, 'y', -10, 10, 0.1).name('Camera Y')
+    this.debugFolder.add(this.instance.position, 'z', -10, 10, 0.1).name('Camera Z')
   }
 
   setInstance() {
@@ -38,7 +38,8 @@ export default class Camera {
       0.1,
       10000,
     )
-    this.instance.position.set(600, 600, -600)
+    // this.instance.position.set(600, 600, -600)
+    this.instance.position.set(2.5, 2, -1.5)
     this.scene.add(this.instance)
   }
   setStudio() {

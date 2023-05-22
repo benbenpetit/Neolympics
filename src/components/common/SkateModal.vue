@@ -1,10 +1,7 @@
 <template>
   <div class="w-modal" :class="isEnd && 'is-active'">
-    <div class="pattern-title">
-      <div v-if="!isEnd">
-        {{ isAutoDrawing ? `Observe attentivement` : `Reproduis le tracé !` }}
-      </div>
-      <div v-else>Gagné ! !</div>
+    <div class="pattern-title" :class="!isAutoDrawing && 'is-valid'">
+      <div ref="titleRef">{{ title }}</div>
     </div>
     <Pattern
       :patternToDo="patternToDo"
@@ -15,9 +12,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Pattern from '@/pages/Pattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
+import { FIGURES } from '@/data/constants'
+import { getIsArraysEqual } from '@/core/utils/functions'
+import { gsap } from 'gsap'
 
 const currentPatternIndex = ref(0)
 const patternToDo = ref<number[][]>([])
@@ -26,6 +26,8 @@ const isAutoDrawing = ref(true)
 const isWin = ref(false)
 const isLose = ref(false)
 const isEnd = ref(false)
+const title = ref('')
+const titleRef = ref<HTMLDivElement | null>(null)
 
 interface Props {
   patterns: number[][][][]
@@ -35,6 +37,49 @@ const props = defineProps<Props>()
 
 onMounted(() => {
   patternToDo.value = props.patterns[0][0]
+})
+
+const getTitle = () => {
+  if (!patternToDo.value?.length) {
+    return 'Mémorise les tracés'
+  }
+
+  const figure = FIGURES.find((figure) => {
+    return getIsArraysEqual(
+      figure.pattern.flat(Infinity),
+      patternToDo.value.flat(Infinity),
+    )
+  })
+
+  return figure?.name ?? ''
+}
+
+watch(patternToDo, () => {
+  gsap.fromTo(
+    titleRef.value,
+    {
+      y: 0,
+    },
+    {
+      y: '-100%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+      onComplete: () => {
+        title.value = getTitle()
+        gsap.fromTo(
+          titleRef.value,
+          {
+            y: '100%',
+          },
+          {
+            y: 0,
+            duration: 0.4,
+            ease: 'Power4.easeInOut',
+          },
+        )
+      },
+    },
+  )
 })
 
 const handleEndPattern = () => {

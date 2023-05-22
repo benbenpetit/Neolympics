@@ -27,13 +27,19 @@
 
     &.is-active {
       .layout-cell {
-        height: 5vw;
+        height: 8vmin;
+      }
+    }
+
+    &.is-disabled {
+      .layout-cell {
+        border-color: #b0baec;
       }
     }
 
     .layout-cell {
       width: 100%;
-      height: 4vw;
+      height: 6vmin;
       background-color: $color-blue-grey;
       border: 0.078125vw solid $color-blue;
       pointer-events: none;

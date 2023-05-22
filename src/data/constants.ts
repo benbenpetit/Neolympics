@@ -55,3 +55,29 @@ export const QUESTIONS_DATA: IQuestion[] = [
 ]
 
 export const SPORTS: ISport[] = ['break', 'climbing', 'skate', 'surf']
+
+export const KICKFLIP = {
+  name: 'kickflip',
+  pattern: [[10, 6, 12, 13, 14]],
+}
+
+export const OLLIE = {
+  name: 'ollie',
+  pattern: [
+    [0, 5, 10],
+    [4, 9, 14],
+  ],
+}
+
+export const RAIL = {
+  name: 'rail',
+  pattern: [[5, 10, 11, 12, 13, 14, 9]],
+}
+
+export const PIGEON = [RAIL.pattern, OLLIE.pattern]
+
+export const BACKFLIP = [KICKFLIP.pattern, RAIL.pattern]
+
+export const FIGURES = [KICKFLIP, OLLIE, RAIL]
+
+export const COMBOS = [PIGEON, BACKFLIP]

@@ -57,32 +57,11 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import { IScore } from '@/core/types/IScore'
+import { PIGEON, BACKFLIP } from '@/data/constants'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 
-const PATTERNS = [
-  [
-    [
-      [1, 2, 3],
-      [11, 12, 13],
-    ],
-    [
-      [0, 5, 10, 11],
-      [3, 4, 9, 14],
-    ],
-    [[0, 1, 2, 3, 4, 9, 14, 13, 12, 11, 10, 5]],
-  ],
-  [
-    [
-      [3, 4, 9, 14],
-      [0, 5, 10, 11],
-    ],
-    [
-      [11, 12, 13],
-      [1, 2, 3],
-    ],
-  ],
-]
+const PATTERNS = [PIGEON, BACKFLIP]
 
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()

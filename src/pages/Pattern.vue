@@ -1,6 +1,9 @@
 <template>
   <div class="skate-container" :class="!isAutoDrawing && 'is-active'">
-    <div class="skate-layout" :class="!isAutoDrawing && 'is-active'">
+    <div
+      class="skate-layout"
+      :class="[!isAutoDrawing && 'is-active', isAutoDrawing && 'is-disabled']"
+    >
       <span v-for="n in 24" class="layout-cell" />
     </div>
     <div

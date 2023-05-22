@@ -8,7 +8,7 @@
 
   .c-sportslider-content {
     height: 100%;
-    z-index: 10;
+    z-index: 5;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -25,6 +25,7 @@
         column-gap: 10px;
         padding: 50px 20px;
         z-index: 20;
+        cursor: pointer;
 
         h3 {
           font-weight: 300;
@@ -49,6 +50,7 @@
       position: absolute;
       height: 100%;
       width: 100%;
+      padding-top: 30px;
 
       p {
         font-size: 1.2rem;
@@ -113,7 +115,7 @@
     }
   }
 
-  .footer-wrapper {
+  .sportslider-footer-wrapper {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -181,7 +183,7 @@
       }
     }
 
-    .footer-wrapper {
+    .sportslider-footer-wrapper {
       footer {
         background-color: $color-darkgrey;
         border-radius: 8px 8px 0px 0px;

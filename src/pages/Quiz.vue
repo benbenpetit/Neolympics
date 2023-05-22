@@ -3,12 +3,13 @@
   <QuizOverlay />
 
   <div class="c-quiz-wrapper" style="visibility: hidden">
+    <div class="character-quiz">
+      <video autoplay loop>
+        <source src="/video/yuto-VP9.webm" type="video/webm" />
+      </video>
+    </div>
+
     <div class="c-quiz">
-      <DisplayCharacter>
-        <template v-slot:display>
-          <img src="/img/lapin-perso.png" alt="character" style="height: 600px" />
-        </template>
-      </DisplayCharacter>
       <div class="c-quiz-modals">
         <Modal imgSrc="/icon/mic.svg" class="--blue" v-if="showQuiz && !quizCompleted">
           <template v-slot:upper-img>
@@ -58,7 +59,7 @@
           >
             <h1>Fin du Quiz</h1>
             <p>Score : {{ score }}/3</p>
-            <ButtonUI @handleClick="endQuiz" imgSrc="/img/go.svg">
+            <ButtonUI @click="endQuiz" imgSrc="/icon/go.svg">
               <template v-slot:label>Suivant</template>
             </ButtonUI>
           </div>
@@ -83,7 +84,6 @@
 
 <script setup lang="ts">
 import ButtonUI from '@/components/common/ButtonUI.vue'
-import DisplayCharacter from '@/components/common/DisplayCharacter.vue'
 import Modal from '@/components/common/Modal.vue'
 import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
 import { IQuestion } from '@/core/types/IQuiz'
@@ -93,20 +93,26 @@ import { gsap } from 'gsap'
 import { useSportStore } from '@/core/store/sport'
 import { IScore } from '@/core/types/IScore'
 import { useScoreStore } from '@/core/store/score'
+import arrayShuffle from 'array-shuffle'
+import { Howl, Howler } from 'howler'
 
 onMounted(async () => {
-  questions.value = QUESTIONS_DATA
+  questions.value = arrayShuffle(QUESTIONS_DATA)
 })
 
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
-let score = 0
-let questionAnswered = 0
 const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)
 const quizCompleted = ref(false)
-const currentQuestion = ref(0)
 const questions = ref<IQuestion[]>([])
+const currentQuestion = ref(0)
+
+let score = 0
+let questionAnswered = 0
+let quizOverlaySound = new Howl({
+  src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
+})
 
 const quizOverlayTimeline = gsap.timeline({
   onComplete: function () {
@@ -131,13 +137,10 @@ const endQuiz = () => {
 const handleQuizClick = (index: number) => {
   if (!getCurrentQuestion.value) return
   selectedAnswer.value = index
-  // console.log(selectedAnswer)
 
   if (selectedAnswer.value === getCurrentQuestion.value.answer) {
-    console.log('bonne reponse')
     score++
   } else {
-    console.log('mauvaise reponse')
   }
 
   setTimeout(displayInfo, 1000)
@@ -151,6 +154,7 @@ const getOptionClasses = (index: number) => {
   const isWrong =
     selectedAnswer.value === index &&
     selectedAnswer.value !== getCurrentQuestion.value.answer
+
   const classes: { [key: string]: boolean } = {
     '--correct': isCorrect,
     '--wrong': isWrong,
@@ -164,9 +168,7 @@ const getOptionClasses = (index: number) => {
 const setNextQuestion = () => {
   showQuiz.value = true
   selectedAnswer.value = null
-  // let randQuestId = Math.floor(Math.random() * questions.value.length)
   if (questionAnswered < 2) {
-    // currentQuestion.value = randQuestId
     currentQuestion.value++
     questionAnswered++
   } else {
@@ -175,6 +177,11 @@ const setNextQuestion = () => {
 }
 
 const quizOverlayAnimation = () => {
+  quizOverlayTimeline.add(function () {
+    quizOverlaySound.volume(0.5)
+    quizOverlaySound.play()
+  })
+
   quizOverlayTimeline.fromTo(
     '.intro-quiz-title img',
     {
@@ -263,7 +270,7 @@ const quizAnimation = () => {
     },
   )
 
-  quizTimeline.from('.c-display-character', {
+  quizTimeline.from('.character-quiz', {
     x: '-100%',
     duration: 0.4,
     ease: 'Power4.easeInOut',

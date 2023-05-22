@@ -8,10 +8,10 @@
         scores. Une fois l’épreuve commencée, il n’y aura pas de retour en arrière !
       </template>
       <template v-slot:buttons>
-        <ButtonUI @handleClick="retourArriere" imgSrc="null" class="--white">
+        <ButtonUI @click="retourArriere" imgSrc="null" class="--white">
           <template v-slot:label>RETOUR EN ARRIÊRE</template>
         </ButtonUI>
-        <ButtonUI @handleClick="continuer" imgSrc="null" class="--red">
+        <ButtonUI @click="continuer" imgSrc="null" class="--red">
           <template v-slot:label>CONTINUER !</template>
         </ButtonUI>
       </template>
@@ -20,10 +20,10 @@
 
   <Preparation>
     <template v-slot:footer>
-      <ButtonUI imgSrc="/icon/barbell.svg" class="--white" @handleClick="startTraining">
+      <ButtonUI imgSrc="/icon/barbell.svg" class="--white" @click="startTraining">
         <template v-slot:label>ENTRAINEMENT</template>
       </ButtonUI>
-      <ButtonUI imgSrc="/icon/play.svg" class="--red" @handleClick="startTrial">
+      <ButtonUI imgSrc="/icon/play.svg" class="--red" @click="startTrial">
         <template v-slot:label>EPREUVE OLYMPIQUE</template>
       </ButtonUI>
     </template>
@@ -34,7 +34,6 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
 import Preparation from '@/components/common/Preparation.vue'
-import HeaderGame from '@/components/common/HeaderGame.vue'
 import { ref } from 'vue'
 
 let isShowModal = ref(false)

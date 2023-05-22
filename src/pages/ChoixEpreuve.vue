@@ -1,4 +1,8 @@
 <template>
+  <Header imgSrc="null">
+    <template v-slot:title>CHOIX D'ÉPREUVE</template>
+  </Header>
+
   <div class="choix-epreuve-background"></div>
   <div class="c-trialrow" v-if="!selectedTrial">
     <SportCard @click="selectSkate">
@@ -43,7 +47,7 @@
   </div>
 
   <SportSlider
-    v-if="selectedTrial"
+    v-if="selectedTrial && !sportConfirmed"
     @previous="gotoPreviousSport"
     @next="gotoNextSport"
     :class="[!sportParams[currentSport].available ? '--disabled' : '']"
@@ -66,11 +70,19 @@
       <img src="/icon/lock.svg" alt="" />
     </template>
     <template v-slot:footerR v-if="sportParams[currentSport].available">
-      <ButtonUI imgSrc="/icon/go.svg" @click="gotoTrial()">
+      <ButtonUI imgSrc="/icon/go.svg" @click="gotoDifficultySelector()">
         <template v-slot:label>VALIDER MON CHOIX</template>
       </ButtonUI>
     </template>
   </SportSlider>
+
+  <DifficultySelector v-if="sportConfirmed">
+    <template v-slot:nametag-title>YUTO</template>
+    <template v-slot:nametag-desc>
+      <p>-</p>
+      <p>SKATER DE<br />RÉPUBLIQUE</p>
+    </template>
+  </DifficultySelector>
 </template>
 
 <script setup lang="ts">
@@ -80,25 +92,45 @@ import publicRouters from '@/data/publicRouters'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import SportCard from '@/components/common/SportCard.vue'
 import SportSlider from '@/components/common/SportSlider.vue'
+import DifficultySelector from '@/components/common/DifficultySelector.vue'
+import Header from '@/components/common/Header.vue'
+
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { onMounted } from 'vue'
 import { Auth, getAuth, signOut } from 'firebase/auth'
+import { NONAME } from 'dns'
+import { Howl, Howler } from 'howler'
 
 gsap.registerPlugin(CustomEase)
 
 const router = useRouter()
+//false pour commenncer du début
 let selectedTrial = ref<boolean>(false)
+let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
 // let sliderDirection = ref<string | null>(null)
 
 let auth: Auth
+
+let sweepCardSound = new Howl({
+  src: ['/sounds/ui-sounds/sweep-card.mp3'],
+})
+
+let gameSoundtrack = new Howl({
+  src: ['/sounds/soundtracks/game-intro.mp3'],
+  loop: true,
+})
 
 onMounted(async () => {
   auth = getAuth()
   signOut(auth).then(() => {
     console.log('Sign Out')
   })
+  Howler.stop()
+  gameSoundtrack.volume(0.8)
+  gameSoundtrack.play()
+  gameSoundtrack.fade(0, 0.8, 300)
 })
 
 const sliderAnim = gsap.timeline({})
@@ -124,8 +156,14 @@ const selectClimb = () => {
 }
 
 const removeCards = () => {
-  gsap.to('.c-sportcard-wrapper', {
-    y: '-110%',
+  sliderAnim.add(function () {
+    sweepCardSound.volume(0.15)
+    sweepCardSound.rate(0.8)
+    sweepCardSound.play()
+  })
+
+  sliderAnim.to('.c-sportcard-wrapper', {
+    y: '-120%',
     x: '+30%',
     duration: 0.8,
     ease: 'Power4.easeInOut',
@@ -150,6 +188,10 @@ const setNextSport = () => {
   currentSport.value = Math.abs(++currentSport.value % 4)
 }
 
+const setDifficultySelector = () => {
+  sportConfirmed.value = true
+}
+
 const gotoTrial = () => {
   router.push(
     `${publicRouters.COMPETITION}/${sportParams[currentSport.value].title.toLowerCase()}`,
@@ -168,6 +210,11 @@ const gotoPreviousSport = () => {
   sliderAnimOut()
   sliderAnim.add(setPreviousSport)
   sliderAnimIn()
+}
+
+const gotoDifficultySelector = () => {
+  sliderAnimOut()
+  sliderAnim.add(setDifficultySelector)
 }
 
 const sportParams = [
@@ -198,11 +245,31 @@ const sportParams = [
 ]
 
 const sliderAnimOut = () => {
-  sliderAnim.to('.c-sportslider-center h1', {
-    filter: 'blur(25px)',
-    duration: 0.3,
-    ease: 'Power2.easeInOut',
+  sliderAnim.to(
+    '.c-sportslider-button',
+    {
+      ease: 'Power2.easeInOut',
+      duration: 0.2,
+      opacity: 0,
+    },
+    // '-=0.1',
+  )
+
+  sliderAnim.to('.c-sportslider-button', {
+    visibility: 'hidden',
+    duration: 0,
   })
+
+  sliderAnim.to(
+    '.c-sportslider-center h1',
+    {
+      filter: 'blur(25px)',
+      duration: 0.3,
+      ease: 'Power2.easeInOut',
+      opacity: 0,
+    },
+    '-=0.1',
+  )
 
   sliderAnim.to(
     '.dropshadow',
@@ -240,7 +307,7 @@ const sliderAnimOut = () => {
   )
 
   sliderAnim.to(
-    '.footer-wrapper',
+    '.sportslider-footer-wrapper',
     {
       y: '100%',
       duration: 0.4,
@@ -254,20 +321,10 @@ const sliderAnimOut = () => {
     {
       ease: 'Power2.easeInOut',
       duration: 0.4,
-      y: '-100%',
+      y: '-200%',
       opacity: 0,
     },
     '-=0.4',
-  )
-
-  sliderAnim.to(
-    '.c-sportslider-button h3',
-    {
-      ease: 'Power2.easeInOut',
-      duration: 0.2,
-      opacity: 0,
-    },
-    '-=0.1',
   )
 }
 
@@ -312,12 +369,13 @@ const sliderAnimIn = () => {
       filter: 'blur(2px)',
       duration: 0.3,
       ease: 'Power2.easeInOut',
+      opacity: 1,
     },
     '-=0.2',
   )
 
   sliderAnim.to(
-    '.footer-wrapper',
+    '.sportslider-footer-wrapper',
     {
       y: '0%',
       duration: 0.3,
@@ -338,8 +396,9 @@ const sliderAnimIn = () => {
   )
 
   sliderAnim.to(
-    '.c-sportslider-button h3',
+    '.c-sportslider-button',
     {
+      visibility: 'visible',
       ease: 'Power2.easeInOut',
       duration: 0.2,
       opacity: 1,

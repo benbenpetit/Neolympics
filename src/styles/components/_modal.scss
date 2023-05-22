@@ -7,9 +7,15 @@
   align-items: center;
 
   &.--fullscreen {
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    background-color: rgba($color-blue, 0.3);
     z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 0px 30%;
+    backdrop-filter: blur(5px);
   }
 
   &.--blue {
@@ -93,9 +99,10 @@
 
     .c-buttonUI {
       flex: 1 1 0px;
-      // min-width: 200px;
+      min-width: 200px;
     }
   }
+
   &.skate-tutorial {
     width: 60vw;
     margin: 0 auto;

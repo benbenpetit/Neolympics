@@ -1,0 +1,176 @@
+@use '/src/styles/settings' as *;
+
+.c-difficulty-nametag {
+  position: absolute;
+  left: 5vw;
+  top: 50vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-50%);
+
+  .nametag-title {
+    font-size: 8rem;
+    color: $color-blue;
+    font-family: PermanentMarker;
+  }
+
+  .nametag-desc {
+    font-size: 2.5rem;
+    font-family: MonumentExtended;
+    font-weight: 600;
+    display: flex;
+    p {
+      margin: 5px;
+    }
+  }
+}
+
+.c-difficulty-modal {
+  position: absolute;
+  right: 5vw;
+  top: 50vh;
+  transform: translateY(-50%);
+  max-width: 30vw;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .c-modal {
+    .c-modal-content {
+      display: flex;
+      flex-direction: column;
+      padding: 20px 40px 20px 40px;
+      h3 {
+        font-family: Anybody;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+      p {
+        font-family: Anybody;
+        font-weight: 200;
+        font-size: 0.8rem;
+      }
+      img {
+        margin: 10px;
+        max-height: 3rem;
+      }
+    }
+  }
+
+  .c-difficulty-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    column-gap: 10px;
+    margin: 10px 0px 10px 0px;
+
+    button {
+      background-color: white;
+      border: solid 2px black;
+      padding: 10px 5px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      font-family: Anybody;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        transition: all 0.2s ease-in-out;
+
+        &.--nv1 {
+          color: white;
+          background-color: $color-blue;
+          border-color: $color-blue-stroke;
+        }
+        &.--nv2 {
+          color: white;
+          background-color: $color-green-quiz-primary;
+          border-color: $color-green-quiz-secondary;
+        }
+        &.--nv3 {
+          color: white;
+          background-color: $color-red-hover;
+          border-color: $color-red;
+        }
+      }
+
+      &.--selected {
+        transition: all 0.2s ease-in-out;
+
+        &.--nv1 {
+          color: white;
+          background-color: $color-blue;
+          border-color: $color-blue-stroke;
+          transition: all 0.2s ease-in-out;
+        }
+        &.--nv2 {
+          color: white;
+          background-color: $color-green-quiz-primary;
+          border-color: $color-green-quiz-secondary;
+          transition: all 0.2s ease-in-out;
+        }
+        &.--nv3 {
+          color: white;
+          background-color: $color-red-hover;
+          border-color: $color-red;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+  }
+}
+
+.character-middle {
+  z-index: -1;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+}
+
+.difficulty-footer-wrapper {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 100px;
+  // z-index: 100;
+  // height: 100px;
+
+  footer {
+    // position: absolute;
+    // bottom: 0px;
+    // width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    .footer-left {
+      position: absolute;
+      left: 20px;
+    }
+    .footer-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      column-gap: 20px;
+
+      .c-buttonUI {
+        width: 300px;
+      }
+    }
+    .footer-right {
+      position: absolute;
+      right: 20px;
+    }
+  }
+}

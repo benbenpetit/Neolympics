@@ -66,7 +66,7 @@
       <img src="/icon/lock.svg" alt="" />
     </template>
     <template v-slot:footerR v-if="sportParams[currentSport].available">
-      <ButtonUI imgSrc="icon/go.svg" @click="gotoTrial()">
+      <ButtonUI imgSrc="/icon/go.svg" @click="gotoTrial()">
         <template v-slot:label>VALIDER MON CHOIX</template>
       </ButtonUI>
     </template>

@@ -10,10 +10,18 @@
   background: $color-blue-grey;
   padding: 4.16vw 4.58vw 0 4.58vw;
   border-radius: 16px;
+
+  &.is-active {
+    background-color: $color-blue;
+
+    .pattern-title {
+      color: white;
+    }
+  }
+
   .pattern-title {
     font-family: MonumentExtended;
-    font-size: 4.2vw;
-    line-height: 5vw;
+    font-size: 2vw;
     color: $color-blue;
     text-align: center;
     margin-bottom: 3.5vw;

@@ -21,21 +21,21 @@
     <div class="c-difficulty-buttons">
       <button
         class="--nv1"
-        @click="chosenDifficulty = 1"
+        @click=";(chosenDifficulty = 1), clickSound.play()"
         :class="chosenDifficulty == 1 ? '--selected' : ''"
       >
         Niveau 1
       </button>
       <button
         class="--nv2"
-        @click="chosenDifficulty = 2"
+        @click=";(chosenDifficulty = 2), clickSound.play()"
         :class="chosenDifficulty == 2 ? '--selected' : ''"
       >
         Niveau 2
       </button>
       <button
         class="--nv3"
-        @click="chosenDifficulty = 3"
+        @click=";(chosenDifficulty = 3), clickSound.play()"
         :class="chosenDifficulty == 3 ? '--selected' : ''"
       >
         Niveau 3
@@ -90,10 +90,20 @@ import { onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { ref } from 'vue'
+import { Howl, Howler } from 'howler'
 
 gsap.registerPlugin(CustomEase)
 
 let chosenDifficulty = ref<number>(1)
+let sweepSound = new Howl({
+  src: ['/sounds/ui-sounds/appear-1.mp3'],
+  volume: 0.1,
+})
+let clickSound = new Howl({
+  src: ['/sounds/ui-sounds/beep1.mp3'],
+  volume: 0.05,
+  rate: 0.8,
+})
 
 const router = useRouter()
 const difficultyAnim = gsap.timeline({})
@@ -130,6 +140,11 @@ const gotoOlympics = () => {
 }
 
 onMounted(() => {
+  difficultyAnim.add(function () {
+    sweepSound.rate(1)
+    sweepSound.play()
+  })
+
   difficultyAnim.fromTo(
     '.character-middle',
     {
@@ -144,6 +159,11 @@ onMounted(() => {
     },
     // '-=0.1',
   )
+
+  difficultyAnim.add(function () {
+    sweepSound.rate(1)
+    sweepSound.play()
+  })
 
   difficultyAnim.fromTo(
     '.c-difficulty-nametag',
@@ -174,6 +194,11 @@ onMounted(() => {
     },
     '-=0.2',
   )
+
+  difficultyAnim.add(function () {
+    sweepSound.rate(1.2)
+    sweepSound.play()
+  })
 
   difficultyAnim.fromTo(
     '.difficulty-footer-wrapper',

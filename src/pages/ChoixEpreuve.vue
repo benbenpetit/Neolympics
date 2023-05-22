@@ -115,11 +115,30 @@ let auth: Auth
 
 let sweepCardSound = new Howl({
   src: ['/sounds/ui-sounds/sweep-card.mp3'],
+  volume: 0.1,
 })
 
 let gameSoundtrack = new Howl({
   src: ['/sounds/soundtracks/game-intro.mp3'],
   loop: true,
+  volume: 0.8,
+})
+
+let sliderAppearSound = new Howl({
+  src: ['/sounds/ui-sounds/appear-4.mp3'],
+  volume: 0.1,
+})
+
+let sliderDisappearSound = new Howl({
+  src: ['/sounds/ui-sounds/disappear.mp3'],
+  volume: 0.1,
+  rate: 0.9,
+})
+
+let sliderPopSound = new Howl({
+  src: ['/sounds/ui-sounds/appear-3.mp3'],
+  volume: 0.1,
+  rate: 1.1,
 })
 
 onMounted(async () => {
@@ -128,7 +147,6 @@ onMounted(async () => {
     console.log('Sign Out')
   })
   Howler.stop()
-  gameSoundtrack.volume(0.8)
   gameSoundtrack.play()
   gameSoundtrack.fade(0, 0.8, 300)
 })
@@ -157,7 +175,6 @@ const selectClimb = () => {
 
 const removeCards = () => {
   sliderAnim.add(function () {
-    sweepCardSound.volume(0.15)
     sweepCardSound.rate(0.8)
     sweepCardSound.play()
   })
@@ -281,6 +298,10 @@ const sliderAnimOut = () => {
     '-=0.2',
   )
 
+  sliderAnim.add(function () {
+    sliderDisappearSound.play()
+  })
+
   sliderAnim.to(
     '.c-sportslider-center img',
     {
@@ -340,6 +361,10 @@ const sliderAnimIn = () => {
     '-=0.2',
   )
 
+  sliderAnim.add(function () {
+    sliderAppearSound.play()
+  })
+
   sliderAnim.to(
     '.c-sportslider-center img',
     {
@@ -373,6 +398,10 @@ const sliderAnimIn = () => {
     },
     '-=0.2',
   )
+
+  sliderAnim.add(function () {
+    sliderPopSound.play()
+  })
 
   sliderAnim.to(
     '.sportslider-footer-wrapper',

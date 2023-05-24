@@ -117,12 +117,12 @@ const animText = (isWrong?: boolean) => {
     titleWin.value = true
     setTimeout(() => {
       titleWin.value = false
-    }, 1200)
+    }, 1000)
   } else {
     titleWrong.value = true
     setTimeout(() => {
       titleWrong.value = false
-    }, 1200)
+    }, 1000)
   }
 }
 
@@ -140,18 +140,22 @@ const handleEndPattern = () => {
 
 const handleFlop = () => {
   isLose.value = true
-  animText(true)
+  setTimeout(() => {
+    animText(true)
+  }, 300)
   setTimeout(() => {
     handleEndPattern()
-  }, 1000)
+  }, 1500)
 }
 
 const handleWin = () => {
   isWin.value = true
-  animText()
+  setTimeout(() => {
+    animText()
+  }, 300)
   setTimeout(() => {
     handleEndPattern()
-  }, 1000)
+  }, 1500)
 }
 
 const handleDrawEnd = (isWrong?: boolean) => {

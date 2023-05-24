@@ -14,7 +14,7 @@ export default class SkaterLapin {
     this.resource = this.resources.items.skater
 
     this.slowmotionFactor = 0.001
-    this.cameraOffset = new THREE.Vector3(-2, 0, -4)
+    this.cameraOffset = new THREE.Vector3(-2, 1, -4)
 
     this.setModel()
     if (this.debug.active) {
@@ -27,7 +27,7 @@ export default class SkaterLapin {
   setModel() {
     this.model = this.resource.scene
     this.model.position.set(0, 0, 0)
-    this.modelVelocity = new THREE.Vector3(0, 0, 0.1)
+    this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
     this.scene.add(this.model)
@@ -63,7 +63,7 @@ export default class SkaterLapin {
       }
     })
     this.animation.actions.current = this.animation.actions['P_Cruise']
-    this.animation.actions.current.play()
+    // this.animation.actions.current.play()
 
     console.log(this.animation.actions)
 
@@ -94,8 +94,12 @@ export default class SkaterLapin {
           this.animation.play('P_Olie')
         },
         playCruise: () => {
-          this.animation.play('Board_Pose')
-          this.animation.play('P_Cruise')
+          this.animation.actions['P_Cruise'].reset()
+          this.animation.actions['P_Cruise'].play()
+          this.animation.actions['P_Cruise'].crossFadeFrom(
+            this.animation.actions['P_Cruise'],
+            0.5,
+          )
         },
         playRail: () => {
           this.animation.play('Board_KickRail')

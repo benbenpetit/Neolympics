@@ -1,6 +1,6 @@
 <template>
   <Timer />
-  <!-- <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
@@ -21,7 +21,7 @@
         <template v-slot:label>J'ai compris !</template>
       </ButtonUI>
     </template>
-  </Modal> -->
+  </Modal>
   <SkateModal
     v-if="state === 'figure'"
     :pattern="pattern"

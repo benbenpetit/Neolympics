@@ -1,6 +1,9 @@
 <template>
-  <div class="skate-container" :class="!isAutoDrawing && 'is-active'">
-    <div class="skate-layout" :class="!isAutoDrawing && 'is-active'">
+  <div class="skate-container" ref="patternRef" :class="!isAutoDrawing && 'is-active'">
+    <div
+      class="skate-layout"
+      :class="[!isAutoDrawing && 'is-active', isAutoDrawing && 'is-disabled']"
+    >
       <span v-for="n in 24" class="layout-cell" />
     </div>
     <div
@@ -72,7 +75,10 @@ import { DrawSVGPlugin } from 'gsap/all'
 import { getIsArraysEqual } from '@/core/utils/functions'
 import { Line, Point } from '@/core/types/IPattern'
 import { useResizeObserver } from '@vueuse/core'
+import { CustomEase } from 'gsap/all'
 gsap.registerPlugin(DrawSVGPlugin)
+gsap.registerPlugin(CustomEase)
+CustomEase.create('shakeEasing', '.36,.07,.19,.97')
 
 interface Props {
   patternToDo: number[][]
@@ -95,6 +101,7 @@ const currentPattern = ref<number[][]>([])
 const donePatterns = ref<number[]>([])
 const points = ref<Point[]>([])
 const lines = ref<Line[]>([])
+const patternRef = ref<HTMLDivElement | null>(null)
 
 onMounted(() => {
   initPointsAndLines()
@@ -299,6 +306,21 @@ const handleMouseOver = (point: Point) => {
       isDisableClick.value = true
       isDragging.value = false
       props.onDrawEnd(true)
+      gsap.to(patternRef.value, {
+        keyframes: {
+          '10%': { x: -1 },
+          '20%': { x: 2 },
+          '30%': { x: -4 },
+          '40%': { x: 4 },
+          '50%': { x: -4 },
+          '60%': { x: 4 },
+          '70%': { x: -4 },
+          '80%': { x: 2 },
+          '90%': { x: -1 },
+        },
+        duration: 1,
+        ease: 'shakeEasing',
+      })
       return
     }
 
@@ -352,6 +374,7 @@ const animLines = (
 ) => {
   if (currentArrayIndex >= arrayLength) {
     setTimeout(() => {
+      clearPattern()
       props.onDrawEnd()
     }, 500)
     return

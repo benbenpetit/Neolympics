@@ -1,14 +1,18 @@
 @use '../settings' as *;
 .w-modal {
-  width: 68vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, calc(-50% - 20px));
+  width: 80vw;
+  max-width: 800px;
   margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
   background: $color-blue-grey;
-  padding: 4.16vw 4.58vw 0 4.58vw;
+  padding-top: 2vmin;
   border-radius: 16px;
 
   &.is-active {
@@ -21,13 +25,41 @@
 
   .pattern-title {
     font-family: MonumentExtended;
-    font-size: 2vw;
-    color: $color-blue;
+    font-size: clamp(20px, 4vw, 48px);
+    line-height: clamp(20px, 4vw, 48px);
+    min-height: clamp(calc(40px + 2vw), calc(8vw + 2vw), calc(96px + 2vw));
+    padding: 1vw 8vw;
+    margin-bottom: 2vmin;
     text-align: center;
-    margin-bottom: 3.5vw;
-    font-weight: 800;
+    font-weight: 300;
     text-transform: uppercase;
     width: 100%;
+    overflow: hidden;
+    color: $color-darkgrey;
+    transition: color 0.4s cubic-bezier(0.4, 0, 0, 1),
+      transform 0.2s cubic-bezier(0.4, 0, 0, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.is-drawing {
+      color: $color-red;
+      transform: scale(1.2);
+      transition-delay: 0.5s;
+
+      &.is-valid {
+        transition-delay: 0s;
+        color: $color-blue;
+        animation: valid 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+      }
+
+      &.is-wrong {
+        animation-delay: 0s;
+        transition-delay: 0s;
+        animation: shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+      }
+    }
+
     .playing {
       color: $color-red;
     }
@@ -84,5 +116,46 @@
   }
   100% {
     width: 50%;
+  }
+}
+
+@keyframes valid {
+  0% {
+    transform: translate3d(0, 0px, 0) scale(1.2);
+  }
+
+  50% {
+    transform: translate3d(0, 15px, 0) scale(1.2);
+  }
+
+  80% {
+    transform: translate3d(0, -5px, 0) scale(1.2);
+  }
+
+  100% {
+    transform: translate3d(0, 0px, 0) scale(1.2);
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0) scale(1.2);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0) scale(1.2);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0) scale(1.2);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0) scale(1.2);
   }
 }

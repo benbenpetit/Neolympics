@@ -1,10 +1,14 @@
 <template>
-  <div class="w-modal" :class="isEnd && 'is-active'">
-    <div class="pattern-title">
-      <div v-if="!isEnd">
-        {{ isAutoDrawing ? `Observe attentivement` : `Reproduis le tracé !` }}
-      </div>
-      <div v-else>Gagné ! !</div>
+  <div class="w-modal" :class="/*isEnd*/ false && 'is-active'">
+    <div
+      class="pattern-title"
+      :class="[
+        !isAutoDrawing && 'is-drawing',
+        titleWin && 'is-valid',
+        titleWrong && 'is-wrong',
+      ]"
+    >
+      <div ref="titleRef">{{ title }}</div>
     </div>
     <Pattern
       :patternToDo="patternToDo"
@@ -18,14 +22,25 @@
 import { onMounted, ref, watch } from 'vue'
 import Pattern from '@/pages/Pattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
+import { FIGURES } from '@/data/constants'
+import { getIsArraysEqual } from '@/core/utils/functions'
+import { gsap } from 'gsap'
+import { CustomEase } from 'gsap/all'
+gsap.registerPlugin(CustomEase)
+CustomEase.create('shakeEasing', '.36,.07,.19,.97')
 
 const currentPatternIndex = ref(0)
 const patternToDo = ref<number[][]>([])
 const currentPatternToDoIndex = ref(0)
 const isAutoDrawing = ref(true)
+const isPret = ref(false)
 const isWin = ref(false)
 const isLose = ref(false)
 const isEnd = ref(false)
+const title = ref('')
+const titleRef = ref<HTMLDivElement | null>(null)
+const titleWin = ref(false)
+const titleWrong = ref(false)
 
 interface Props {
   patterns: number[][][][]
@@ -34,8 +49,82 @@ interface Props {
 const props = defineProps<Props>()
 
 onMounted(() => {
-  patternToDo.value = props.patterns[0][0]
+  setTimeout(() => {
+    patternToDo.value = props.patterns[0][0]
+  }, 2000)
 })
+
+const getTitle = () => {
+  if (!patternToDo.value?.length) {
+    return 'Mémorise les tracés'
+  }
+
+  if (isPret.value) {
+    return 'Prêt ?'
+  }
+
+  const figure = FIGURES.find((figure) => {
+    return getIsArraysEqual(
+      figure.pattern.flat(Infinity),
+      patternToDo.value.flat(Infinity),
+    )
+  })
+
+  return figure?.name ?? ''
+}
+
+watch(
+  [patternToDo, isPret],
+  () => {
+    if (!isPret) {
+      return
+    }
+    gsap.fromTo(
+      titleRef.value,
+      {
+        y: 0,
+        opacity: 1,
+      },
+      {
+        y: '-100%',
+        opacity: 0,
+        duration: 0.35,
+        ease: 'Power4.easeInOut',
+        onComplete: () => {
+          title.value = getTitle()
+          gsap.fromTo(
+            titleRef.value,
+            {
+              y: '100%',
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.3,
+              ease: 'Power4.easeInOut',
+            },
+          )
+        },
+      },
+    )
+  },
+  { immediate: true },
+)
+
+const animText = (isWrong?: boolean) => {
+  if (!isWrong) {
+    titleWin.value = true
+    setTimeout(() => {
+      titleWin.value = false
+    }, 1200)
+  } else {
+    titleWrong.value = true
+    setTimeout(() => {
+      titleWrong.value = false
+    }, 1200)
+  }
+}
 
 const handleEndPattern = () => {
   isWin.value = false
@@ -51,6 +140,7 @@ const handleEndPattern = () => {
 
 const handleFlop = () => {
   isLose.value = true
+  animText(true)
   setTimeout(() => {
     handleEndPattern()
   }, 1000)
@@ -58,6 +148,7 @@ const handleFlop = () => {
 
 const handleWin = () => {
   isWin.value = true
+  animText()
   setTimeout(() => {
     handleEndPattern()
   }, 1000)
@@ -78,17 +169,28 @@ const handleDrawEnd = (isWrong?: boolean) => {
         props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
     } else {
       if (isWrong) {
-        handleFlop()
+        setTimeout(() => {
+          handleFlop()
+        }, 1000)
       } else {
-        patternToDo.value =
-          props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+        setTimeout(() => {
+          animText()
+        }, 300)
+        setTimeout(() => {
+          patternToDo.value =
+            props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+        }, 1000)
       }
     }
   } else {
     if (isAutoDrawing.value) {
-      isAutoDrawing.value = false
-      currentPatternToDoIndex.value = 0
-      patternToDo.value = props.patterns[currentPatternIndex.value][0]
+      isPret.value = true
+      setTimeout(() => {
+        isAutoDrawing.value = false
+        currentPatternToDoIndex.value = 0
+        patternToDo.value = props.patterns[currentPatternIndex.value][0]
+        isPret.value = false
+      }, 1500)
     } else {
       handleWin()
     }

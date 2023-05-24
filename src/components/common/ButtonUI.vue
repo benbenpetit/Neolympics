@@ -25,10 +25,10 @@ interface Props {
 
 let buttonUISound = new Howl({
   src: ['/sounds/ui-sounds/button-beep2.mp3'],
+  volume: 0.1,
 })
 
 const clickSound = () => {
-  buttonUISound.volume(0.15)
   buttonUISound.play()
 }
 </script>

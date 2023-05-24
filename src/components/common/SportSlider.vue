@@ -38,6 +38,17 @@
 import { onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
+import { Howl, Howler } from 'howler'
+
+let sliderSweepSound = new Howl({
+  src: ['/sounds/ui-sounds/appear-4.mp3'],
+  volume: 0.1,
+})
+
+let sliderPopSound = new Howl({
+  src: ['/sounds/ui-sounds/appear-3.mp3'],
+  volume: 0.1,
+})
 
 gsap.registerPlugin(CustomEase)
 
@@ -70,6 +81,11 @@ onMounted(() => {
     '-=0.2',
   )
 
+  sliderEntry.add(function () {
+    sliderSweepSound.rate(1.5)
+    sliderSweepSound.play()
+  })
+
   sliderEntry.fromTo(
     '.sportimg img',
     {
@@ -89,6 +105,11 @@ onMounted(() => {
     },
     '-=0.2',
   )
+
+  sliderEntry.add(function () {
+    sliderPopSound.rate(1.2)
+    sliderPopSound.play()
+  })
 
   sliderEntry.fromTo(
     '.c-sportslider-center p',

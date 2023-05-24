@@ -5,7 +5,7 @@
     </div>
     <div class="c-modal">
       <div class="c-modal-title">
-        <img :src="imgSrc" alt="" />
+        <img v-if="imgSrc" :src="imgSrc" alt="" />
         <h1>
           <slot name="title">nom</slot>
         </h1>
@@ -25,6 +25,6 @@
 const { imgSrc } = defineProps<Props>()
 
 interface Props {
-  imgSrc: string
+  imgSrc?: string
 }
 </script>

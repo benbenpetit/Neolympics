@@ -40,6 +40,7 @@
               class="--white"
               :class="getOptionClasses(index)"
               :disabled="selectedAnswer != null"
+              :sound="false"
             >
               <template v-slot:label>
                 {{ option }}
@@ -113,12 +114,25 @@ const currentQuestion = ref(0)
 
 let score = 0
 let questionAnswered = 0
+
 let quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
 })
+
 let quizSoundtrack = new Howl({
   src: ['/sounds/soundtracks/game-menu.mp3'],
   loop: true,
+})
+
+let quizCorrectSound = new Howl({
+  src: ['/sounds/ui-sounds/quiz-correct.mp3'],
+  volume: 0.4,
+  rate: 0.9,
+})
+
+let quizWrongSound = new Howl({
+  src: ['/sounds/ui-sounds/quiz-wrong.mp3'],
+  volume: 0.6,
 })
 
 const onModalOpen = () => {
@@ -164,10 +178,11 @@ const endQuiz = () => {
 const handleQuizClick = (index: number) => {
   if (!getCurrentQuestion.value) return
   selectedAnswer.value = index
-
   if (selectedAnswer.value === getCurrentQuestion.value.answer) {
     score++
+    quizCorrectSound.play()
   } else {
+    quizWrongSound.play()
   }
 
   setTimeout(displayInfo, 1000)

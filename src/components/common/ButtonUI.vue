@@ -1,6 +1,10 @@
 <template>
   <!-- <button @click="emit('handleClick')" class="c-buttonUI" :class="isActive && '--red'"> -->
-  <button @click="clickSound" class="c-buttonUI" :class="isActive && '--red'">
+  <button
+    @click="sound ? clickSound() : ''"
+    class="c-buttonUI"
+    :class="isActive && '--red'"
+  >
     <div class="c-buttonUI-content">
       <p><slot name="label"></slot></p>
       <slot name="icon" v-if="imgSrc"><img :src="imgSrc" alt="" /></slot>
@@ -14,13 +18,13 @@ import { Howl, Howler } from 'howler'
 const { imgSrc, isActive } = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   isActive: true,
+  sound: true,
 })
-
-const emit = defineEmits(['handleClick'])
 
 interface Props {
   imgSrc?: string
   isActive?: boolean
+  sound?: boolean
 }
 
 let buttonUISound = new Howl({

@@ -1,39 +1,41 @@
 <template>
-  <div class="score-wrapper">
-    <div class="skew-container">
-      <div class="score-container">
-        <div class="score--value">0</div>
-        <div class="score--unit">pts</div>
+  <div class="infos-container">
+    <div class="score-wrapper">
+      <div class="skew-container">
+        <div class="score-container">
+          <div class="score--value">0</div>
+          <div class="score--unit">pts</div>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="timer-wrapper">
-    <div class="skew-container">
-      <div class="timer-container">
-        <div class="step-container">
-          <div v-for="n in 6" class="icon-container">
-            <IconContainer />
+    <div class="timer-wrapper">
+      <div class="skew-container">
+        <div class="timer-container">
+          <div class="step-container">
+            <div v-for="n in 6" class="icon-container">
+              <IconContainer />
+            </div>
           </div>
+          <div class="timebar-wrapper">
+            <div class="timebar" :style="{ width: timebarWidth + '%' }"></div>
+          </div>
+          <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
         </div>
-        <div class="timebar-wrapper">
-          <div class="timebar" :style="{ width: timebarWidth + '%' }"></div>
-        </div>
-        <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
       </div>
+      <button
+        @click="
+          () => {
+            startTimer()
+            // mittInstance.emit('bntStart')
+          }
+        "
+      >
+        Démarrer
+      </button>
+      <button @click="stopTimer">Arrêter</button>
+      <button @click="resetTimer">Réinitialiser</button>
+      <button @click="endSport">Terminer</button>
     </div>
-    <button
-      @click="
-        () => {
-          startTimer()
-          // mittInstance.emit('bntStart')
-        }
-      "
-    >
-      Démarrer
-    </button>
-    <button @click="stopTimer">Arrêter</button>
-    <button @click="resetTimer">Réinitialiser</button>
-    <button @click="endSport">Terminer</button>
   </div>
 </template>
 
@@ -87,21 +89,22 @@ const startTimer = () => {
         clearInterval(timerIntervalId)
         timebarWidth.value = 100
         isRunning.value = false
-      } else if (elapsedTime.value >= 4 && step.value == 3) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
-      } else if (elapsedTime.value >= 3 && step.value == 2) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
-      } else if (elapsedTime.value >= 1.01 && step.value == 1) {
-        stopTimer()
-        clearInterval(timerIntervalId)
-        // mittInstance.emit('Skate Figure')
-        mittInstance.emit('Sport finished')
-      } else if (elapsedTime.value >= 1 && step.value == 0) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
       }
+      // } else if (elapsedTime.value >= 4 && step.value == 3) {
+      //   stopTimer()
+      //   mittInstance.emit('Skate Figure')
+      // } else if (elapsedTime.value >= 3 && step.value == 2) {
+      //   stopTimer()
+      //   mittInstance.emit('Skate Figure')
+      // } else if (elapsedTime.value >= 1.01 && step.value == 1) {
+      //   stopTimer()
+      //   clearInterval(timerIntervalId)
+      //   // mittInstance.emit('Skate Figure')
+      //   mittInstance.emit('Sport finished')
+      // } else if (elapsedTime.value >= 1 && step.value == 0) {
+      //   stopTimer()
+      //   mittInstance.emit('Skate Figure')
+      // }
     }, 10)
   }
 }

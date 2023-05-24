@@ -14,7 +14,7 @@ export default class World {
     this.experience = new Experience()
     this.scene = this.experience.scene
     this.resources = this.experience.resources
-
+    this.time = this.experience.time
     // Wait for ressources
     this.resources.on('ready', () => {
       this.floor = new Floor()
@@ -22,7 +22,7 @@ export default class World {
       // this.skater = new Skater()
       // this.catcher = new Catcher()
       this.skater = new SkaterLapin()
-      // this.skatepark = new Skatepark()
+      this.skatepark = new Skatepark()
       this.environment = new Environment()
       this.animations = new Animations()
     })
@@ -33,6 +33,9 @@ export default class World {
     }
     if (this.catcher) {
       this.catcher.update()
+    }
+    if (this.skatepark) {
+      this.skatepark.update()
     }
   }
 }

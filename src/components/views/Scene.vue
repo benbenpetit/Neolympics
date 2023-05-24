@@ -46,7 +46,6 @@
     <img :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'" alt="" />
     <span class="result-text">{{ figureResult }}</span>
   </div>
-  -->
   <canvas class="webgl"></canvas>
 </template>
 

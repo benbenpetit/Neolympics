@@ -12,6 +12,6 @@ export default [
   {
     name: 'skateparkModel',
     type: 'gltfModel',
-    path: '/models/Skatepark.glb',
+    path: '/models/ModuleRail.glb',
   },
 ]

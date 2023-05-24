@@ -1,102 +1,109 @@
 @use '../../settings' as *;
-.skew-container {
-  position: relative;
-  transform: skew(-30deg);
-  border-radius: 8px;
-  margin-left: -40px;
-}
+.infos-container {
+  position: absolute;
+  top: calc(5% + 10px);
+  left: 0;
 
-.score-wrapper {
   .skew-container {
-    background: $color-blue;
-    padding: 10px 15px 5px;
-    border: 1px solid $color-blue-hover;
-    min-height: 35px;
-    width: 200px;
-    margin-bottom: -10px;
-    .score-container {
-      font-size: 28px;
-      color: $color-white;
-      font-family: 'MonumentExtended';
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate3d(-50%, -50%, 0) skew(30deg);
-      text-shadow: 2px 2px 0 $color-blue, -2px 2px 0 $color-blue, 2px -2px 0 $color-blue,
-        -2px -2px 0 $color-blue;
-      .score--value {
-        font-weight: 800;
+    position: relative;
+    transform: skew(-30deg);
+    border-radius: 8px;
+    margin-left: -40px;
+  }
+
+  .score-wrapper {
+    .skew-container {
+      background: $color-blue;
+      padding: 10px 15px 5px;
+      border: 1px solid $color-blue-hover;
+      min-height: 35px;
+      width: 200px;
+      margin-bottom: -10px;
+      .score-container {
         font-size: 28px;
-        letter-spacing: 2px;
-      }
-      .score--unit {
-        font-weight: 400;
-        font-size: 18px;
-        letter-spacing: 1px;
+        color: $color-white;
+        font-family: 'MonumentExtended';
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0) skew(30deg);
+        text-shadow: 1px 1px 0 $color-blue, -1px 1px 0 $color-blue, 1px -1px 0 $color-blue,
+          -1px -1px 0 $color-blue, 1px -2px 0 $color-blue, 0px -2px 0 $color-blue,
+          -1px -2px 0 $color-blue;
+        .score--value {
+          font-weight: 800;
+          font-size: 28px;
+          letter-spacing: 2px;
+        }
+        .score--unit {
+          font-weight: 400;
+          font-size: 18px;
+          letter-spacing: 1px;
+        }
       }
     }
   }
-}
 
-.timer-wrapper {
-  .skew-container {
-    background: $color-white;
-    padding: 10px 15px 5px;
-    border: 2px solid $color-blue-hover;
-    width: 33vw;
-    min-width: 700px;
-    margin-left: -40px;
-    .timer-container {
-      transform: skew(30deg);
-      .step-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        .icon-container {
-          position: relative;
-          .icon__minimarker {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            height: 10px;
-            width: 0px;
-            border: 1px solid;
-            transform: translate3d(-50%, 100%, 0);
-            border-color: $color-blue-hover;
-            &.--valid {
-              border-color: $color-blue;
-            }
-            &.--error {
-              border-color: $color-red;
+  .timer-wrapper {
+    .skew-container {
+      background: $color-white;
+      padding: 10px 15px 5px;
+      border: 2px solid $color-blue-hover;
+      width: 33vw;
+      min-width: 700px;
+      margin-left: -40px;
+      .timer-container {
+        transform: skew(30deg);
+        .step-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 10px;
+          .icon-container {
+            position: relative;
+            .icon__minimarker {
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              height: 10px;
+              width: 0px;
+              border: 1px solid;
+              transform: translate3d(-50%, 100%, 0);
+              border-color: $color-blue-hover;
+              &.--valid {
+                border-color: $color-blue;
+              }
+              &.--error {
+                border-color: $color-red;
+              }
             }
           }
         }
-      }
-      .timebar-wrapper {
-        background-color: $color-blue-hover;
-        height: 8px;
-        width: 100%;
-        overflow: hidden;
-        transform: skew(-30deg);
-        border-radius: 4px;
-        .timebar {
-          height: 100%;
-          background-color: $color-blue;
+        .timebar-wrapper {
+          background-color: $color-blue-hover;
+          height: 8px;
+          width: 100%;
+          overflow: hidden;
+          transform: skew(-30deg);
+          border-radius: 4px;
+          .timebar {
+            height: 100%;
+            background-color: $color-blue;
+          }
         }
-      }
-      .timer-value {
-        position: absolute;
-        color: $color-darkgrey;
-        font-family: 'Anybody';
-        font-size: 20px;
-        font-weight: 400;
-        bottom: 0;
-        right: 0;
-        transform: translate3d(calc(100% + 20px), 0, 0);
+        .timer-value {
+          position: absolute;
+          color: $color-darkgrey;
+          font-family: 'Anybody';
+          font-size: 20px;
+          font-weight: 400;
+          bottom: 0;
+          right: 0;
+          transform: translate3d(calc(100% + 20px), 0, 0);
+        }
       }
     }
   }

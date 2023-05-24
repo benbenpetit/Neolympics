@@ -3,7 +3,7 @@
 .c-result-card {
   position: relative;
   border-radius: 16px;
-  box-shadow: 0px 4px 37px rgba(40, 48, 92, 0.06);
+  // box-shadow: 0px 4px 37px rgba(40, 48, 92, 0.06);
   border: 1px solid #b0baec;
   background-color: #ffffff;
   cursor: pointer;
@@ -21,9 +21,9 @@
     }
   }
 
-  &:hover {
-    box-shadow: 0px 4px 37px rgba(123, 123, 123, 0.3);
-  }
+  // &:hover {
+  //   box-shadow: 0px 4px 37px rgba(123, 123, 123, 0.3);
+  // }
 
   &.--horizontal {
     padding: 0;
@@ -109,6 +109,7 @@
 
     .c-result-card.--horizontal & {
       text-align: left;
+      max-width: 160px;
     }
 
     > span {

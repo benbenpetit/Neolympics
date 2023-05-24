@@ -24,31 +24,35 @@
     </div>
     <div
       class="c-leaderboard__low-scores"
-      :class="isOpenScores && '--sticky'"
+      :class="isOpenScores && '--open'"
       ref="lowScoresRef"
     >
-      <Divider class="u-mb-double u-mt-double" @onClick="toggleLowScores">
-        <template v-slot:main>
-          <span>{{ !isOpenScores ? 'Voir plus' : 'Voir moins' }}</span>
-        </template>
-      </Divider>
-      <ul class="c-leaderboard__low-scores__list">
-        <li
-          v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(
-            !isOpenScores ? currentUserIndex - 1 : 3,
-            !isOpenScores ? currentUserIndex + 1 : Infinity,
-          )"
-          :key="maxSession?.user?.id"
+      <div class="c-low-scores">
+        <Divider
+          class="c-low-scores__divider u-pb-double u-pt-double"
+          @onClick="toggleLowScores"
         >
-          <ResultCard
-            :user="maxSession?.user"
-            :maxSession="maxSession.maxSession"
-            :rank="maxSession?.maxSession?.rank"
-            isHorizontal
-            :isInProgress="isInProgress"
-          />
-        </li>
-      </ul>
+          <template v-slot:main>
+            <span>{{ !isOpenScores ? 'Voir plus' : 'Voir moins' }}</span>
+          </template>
+        </Divider>
+        <div class="c-low-scores__list" :class="isOpenScores && '--open'">
+          <ul class="c-low-scores__list__inside" ref="lowScores">
+            <li
+              v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(3)"
+              :key="maxSession?.user?.id"
+            >
+              <ResultCard
+                :user="maxSession?.user"
+                :maxSession="maxSession.maxSession"
+                :rank="maxSession?.maxSession?.rank"
+                isHorizontal
+                :isInProgress="isInProgress"
+              />
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
     <footer class="c-leaderboard__footer">
       <ButtonUI :isActive="false" class="--no-hover">
@@ -68,24 +72,25 @@ import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard
 import { IMaxSessionWUser } from '@/core/types/IScore'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 import { gsap } from 'gsap'
-import { computed, onMounted, ref } from 'vue'
+import { ScrollToPlugin } from 'gsap/all'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useCurrentUser } from 'vuefire'
+gsap.registerPlugin(ScrollToPlugin)
 
 interface Props {
   maxSessions: IMaxSessionWUser[]
   isInProgress?: boolean
 }
 
-const { maxSessions, isInProgress } = defineProps<Props>()
-const tl = gsap.timeline({ ease: 'Power2.easeInOut' })
+const props = defineProps<Props>()
+
 const isOpenScores = ref(false)
 const currentUser = useCurrentUser()
 const currentUserIndex = computed(() =>
-  maxSessions
+  props.maxSessions
     .map((maxSession) => maxSession.user?.id)
     .findIndex((maxSessionUserId) => maxSessionUserId == currentUser.value?.uid),
 )
-
 const lowScoresRef = ref<HTMLDivElement | null>(null)
 const baseLowScoresOffsetTop = ref(0)
 
@@ -97,50 +102,40 @@ const getLowScoresOffsetTop = () => {
   return (lowScoresRef.value?.getBoundingClientRect().top ?? 0) + window.scrollY
 }
 
-const toggleLowScores = () => {
-  const lowScoresOffsetTop = getLowScoresOffsetTop() ?? 0
+watch(
+  isOpenScores,
+  () => {
+    if (isOpenScores.value) {
+      document.querySelector('body')?.classList.add('unscroll')
+    } else {
+      document.querySelector('body')?.classList.remove('unscroll')
+    }
+  },
+  { immediate: true },
+)
 
+const toggleLowScores = () => {
   if (!isOpenScores.value) {
-    baseLowScoresOffsetTop.value = lowScoresOffsetTop
     isOpenScores.value = true
-    gsap.fromTo(
-      lowScoresRef.value,
-      {
-        position: 'fixed',
-        top: lowScoresOffsetTop + 'px',
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-      },
-      {
-        position: 'fixed',
-        top: 0,
-        backgroundColor: 'rgba(255, 255, 255, 1)',
-        duration: 0.8,
-        ease: 'Power3.easeInOut',
-      },
-    )
+    gsap.to(window, {
+      duration: 0.8,
+      scrollTo: '.c-leaderboard__low-scores',
+      ease: 'Power3.easeInOut',
+    })
   } else {
-    gsap.fromTo(
-      lowScoresRef.value,
-      {
-        position: 'fixed',
-        top: 0,
-        backgroundColor: 'rgba(255, 255, 255, 1)',
+    gsap.to(window, {
+      duration: 0.8,
+      scrollTo: 0,
+      ease: 'Power3.easeInOut',
+      onComplete: () => {
+        isOpenScores.value = false
       },
-      {
-        position: 'fixed',
-        top: baseLowScoresOffsetTop.value + 'px',
-        backgroundColor: 'rgba(255, 255, 255, 0)',
-        duration: 0.8,
-        ease: 'Power3.easeInOut',
-        onComplete: () => {
-          isOpenScores.value = false
-          gsap.set(lowScoresRef.value, {
-            position: 'initial',
-            top: 0,
-          })
-        },
-      },
-    )
+    })
+    gsap.to(lowScoresRef.value, {
+      duration: 0.8,
+      scrollTo: 0,
+      ease: 'Power3.easeInOut',
+    })
   }
 }
 </script>

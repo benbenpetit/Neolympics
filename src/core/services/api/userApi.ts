@@ -7,7 +7,7 @@ export const updateUserInDB = async (user: User) => {
   const dataUser: IUser = {
     id: user.uid,
     displayName: user.displayName ?? undefined,
-    photoURL: user.photoURL ?? undefined,
+    photoURL: user.photoURL?.replace('s96-c', 's192-c') ?? undefined,
   }
 
   const userDocRef = doc(db, 'users', user.uid)

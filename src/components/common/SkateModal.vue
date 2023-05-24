@@ -43,14 +43,15 @@ const titleWin = ref(false)
 const titleWrong = ref(false)
 
 interface Props {
-  patterns: number[][][][]
+  pattern: number[][][]
 }
 
 const props = defineProps<Props>()
+const emits = defineEmits(['onPatternEnd'])
 
 onMounted(() => {
   setTimeout(() => {
-    patternToDo.value = props.patterns[0][0]
+    patternToDo.value = props.pattern[0]
   }, 2000)
 })
 
@@ -117,41 +118,46 @@ const animText = (isWrong?: boolean) => {
     titleWin.value = true
     setTimeout(() => {
       titleWin.value = false
-    }, 1200)
+    }, 1000)
   } else {
     titleWrong.value = true
     setTimeout(() => {
       titleWrong.value = false
-    }, 1200)
+    }, 1000)
   }
 }
 
 const handleEndPattern = () => {
-  isWin.value = false
-  isLose.value = false
-  isAutoDrawing.value = true
-  currentPatternToDoIndex.value = 0
-  if (currentPatternIndex.value < props.patterns[currentPatternIndex.value].length - 1) {
-    patternToDo.value = props.patterns[++currentPatternIndex.value][0]
-  } else {
-    isEnd.value = true
-  }
+  emits('onPatternEnd', true)
+  // isWin.value = false
+  // isLose.value = false
+  // isAutoDrawing.value = true
+  // currentPatternToDoIndex.value = 0
+  // if (currentPatternIndex.value < props.pattern[currentPatternIndex.value].length - 1) {
+  //   patternToDo.value = props.pattern[++currentPatternIndex.value][0]
+  // } else {
+  //   isEnd.value = true
+  // }
 }
 
 const handleFlop = () => {
   isLose.value = true
-  animText(true)
+  setTimeout(() => {
+    animText(true)
+  }, 300)
   setTimeout(() => {
     handleEndPattern()
-  }, 1000)
+  }, 1500)
 }
 
 const handleWin = () => {
   isWin.value = true
-  animText()
+  setTimeout(() => {
+    animText()
+  }, 300)
   setTimeout(() => {
     handleEndPattern()
-  }, 1000)
+  }, 1500)
 }
 
 const handleDrawEnd = (isWrong?: boolean) => {
@@ -160,13 +166,9 @@ const handleDrawEnd = (isWrong?: boolean) => {
     return
   }
 
-  if (
-    currentPatternToDoIndex.value <
-    props.patterns[currentPatternIndex.value].length - 1
-  ) {
+  if (currentPatternToDoIndex.value < props.pattern.length - 1) {
     if (isAutoDrawing.value) {
-      patternToDo.value =
-        props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+      patternToDo.value = props.pattern[++currentPatternToDoIndex.value]
     } else {
       if (isWrong) {
         setTimeout(() => {
@@ -177,8 +179,7 @@ const handleDrawEnd = (isWrong?: boolean) => {
           animText()
         }, 300)
         setTimeout(() => {
-          patternToDo.value =
-            props.patterns[currentPatternIndex.value][++currentPatternToDoIndex.value]
+          patternToDo.value = props.pattern[++currentPatternToDoIndex.value]
         }, 1000)
       }
     }
@@ -188,7 +189,7 @@ const handleDrawEnd = (isWrong?: boolean) => {
       setTimeout(() => {
         isAutoDrawing.value = false
         currentPatternToDoIndex.value = 0
-        patternToDo.value = props.patterns[currentPatternIndex.value][0]
+        patternToDo.value = props.pattern[0]
         isPret.value = false
       }, 1500)
     } else {

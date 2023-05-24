@@ -317,6 +317,7 @@ const handleMouseOver = (point: Point) => {
           '70%': { x: -4 },
           '80%': { x: 2 },
           '90%': { x: -1 },
+          '100%': { x: 0 },
         },
         duration: 1,
         ease: 'shakeEasing',

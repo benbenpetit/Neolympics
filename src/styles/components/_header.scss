@@ -13,6 +13,10 @@
   top: 0;
   height: 15vh;
 
+  &.--no-bg {
+    background: none;
+  }
+
   .c-header-left {
     position: absolute;
   }

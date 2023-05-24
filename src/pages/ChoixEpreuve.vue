@@ -1,5 +1,5 @@
 <template>
-  <Header imgSrc="null">
+  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose">
     <template v-slot:title>CHOIX D'ÉPREUVE</template>
   </Header>
 
@@ -111,6 +111,24 @@ let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
 // let sliderDirection = ref<string | null>(null)
 
+const onModalOpen = () => {
+  // @ts-ignore
+  gameSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: 1500.0,
+    Q: 3.0,
+  })
+}
+
+const onModalClose = () => {
+  // @ts-ignore
+  gameSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
+}
+
 let auth: Auth
 
 let sweepCardSound = new Howl({
@@ -147,6 +165,7 @@ onMounted(async () => {
     console.log('Sign Out')
   })
   Howler.stop()
+
   gameSoundtrack.play()
   gameSoundtrack.fade(0, 0.8, 300)
 })

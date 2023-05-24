@@ -16,7 +16,7 @@
     "array-shuffle": "^3.0.0",
     "firebase": "^9.18.0",
     "gsap": "./gsap-bonus.tgz",
-    "howler": "^2.2.3",
+    "howler": "https://github.com/RenaudROHLINGER/howler.js",
     "lil-gui": "^0.18.1",
     "mitt": "^3.0.0",
     "normalize.css": "^8.0.1",

@@ -2,6 +2,9 @@
   <div class="quiz-background"></div>
   <QuizOverlay />
 
+  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
+  </Header>
+
   <div class="c-quiz-wrapper" style="visibility: hidden">
     <div class="character-quiz">
       <video autoplay loop>
@@ -31,7 +34,6 @@
           </template>
           <template v-slot:buttons>
             <ButtonUI
-              imgSrc="null"
               @click="handleQuizClick(index)"
               v-for="(option, index) in getCurrentQuestion?.options"
               :key="index"
@@ -85,6 +87,7 @@
 <script setup lang="ts">
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
+import Header from '@/components/common/Header.vue'
 import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
 import { IQuestion } from '@/core/types/IQuiz'
 import { ref, computed, onMounted } from 'vue'
@@ -113,10 +116,34 @@ let questionAnswered = 0
 let quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
 })
+let quizSoundtrack = new Howl({
+  src: ['/sounds/soundtracks/game-menu.mp3'],
+  loop: true,
+})
+
+const onModalOpen = () => {
+  // @ts-ignore
+  quizSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: 1500.0,
+    Q: 3.0,
+  })
+}
+
+const onModalClose = () => {
+  // @ts-ignore
+  quizSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
+}
 
 const quizOverlayTimeline = gsap.timeline({
   onComplete: function () {
     quizAnimation()
+    quizSoundtrack.fade(0, 0.8, 100)
+    quizSoundtrack.play()
   },
 })
 const quizTimeline = gsap.timeline({})
@@ -178,6 +205,7 @@ const setNextQuestion = () => {
 
 const quizOverlayAnimation = () => {
   quizOverlayTimeline.add(function () {
+    Howler.stop()
     quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })

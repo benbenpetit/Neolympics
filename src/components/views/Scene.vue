@@ -22,7 +22,11 @@
       </ButtonUI>
     </template>
   </Modal> -->
-  <SkateModal :patterns="patterns" />
+  <SkateModal
+    v-if="state === 'figure'"
+    :pattern="pattern"
+    @onPatternEnd="handlePatternEnd"
+  />
   <!-- <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
@@ -65,9 +69,9 @@ const PATTERNS = [PIGEON, BACKFLIP]
 
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
-const state = ref('')
+const state = ref<'tutorial' | 'figure' | 'result' | ''>('tutorial')
 const step = ref(0)
-const patterns = ref<number[][][][]>(PATTERNS)
+const pattern = ref<number[][][]>(PATTERNS[0])
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
@@ -75,6 +79,7 @@ const experience = ref<Experience | null>(null)
 onMounted(() => {
   // const experience = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')
+  state.value = 'figure'
 })
 
 mittInstance.on('Skate intro finished', () => {})
@@ -118,6 +123,10 @@ const endEpreuve = () => {
   const score: IScore = { points: 83, sportId: 'skate' }
   setCurrentScore(score)
   setSportStep('skate', 1)
+}
+
+const handlePatternEnd = (isValid?: boolean) => {
+  console.log(isValid)
 }
 </script>
 

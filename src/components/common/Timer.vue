@@ -60,7 +60,7 @@ const timebarWidth = ref(0)
 const step = ref(0)
 let startTime: any = null
 let timerIntervalId: any = null
-let maxTime: number = 5
+let maxTime: number = 45
 
 declare global {
   interface Window {
@@ -74,8 +74,9 @@ mittInstance.on('Start Timer', (e: any) => {
 })
 
 const startTimer = () => {
+  // console.log('Timer step value : ', step.value)
+
   if (!isRunning.value) {
-    // mittInstance.emit('Start skate intro')
     if (stoppedTime.value === 0) {
       startTime = new Date().getTime()
     } else {
@@ -90,21 +91,20 @@ const startTimer = () => {
         clearInterval(timerIntervalId)
         timebarWidth.value = 100
         isRunning.value = false
-      } else if (elapsedTime.value >= 4 && step.value == 3) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
-      } else if (elapsedTime.value >= 3 && step.value == 2) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
-      } else if (elapsedTime.value >= 1.01 && step.value == 1) {
-        stopTimer()
-        clearInterval(timerIntervalId)
-        // mittInstance.emit('Skate Figure')
-        mittInstance.emit('Sport finished')
-      } else if (elapsedTime.value >= 1 && step.value == 0) {
-        stopTimer()
-        mittInstance.emit('Skate Figure')
       }
+      // } else if (elapsedTime.value >= 36 && step.value == 3) {
+      //   stopTimer()
+      //   mittInstance.emit('Start Figure Game')
+      // } else if (elapsedTime.value >= 27 && step.value == 2) {
+      //   stopTimer()
+      //   mittInstance.emit('Start Figure Game')
+      // } else if (elapsedTime.value >= 18 && step.value == 1) {
+      //   stopTimer()
+      //   mittInstance.emit('Start Figure Game')
+      // } else if (elapsedTime.value >= 9 && step.value == 0) {
+      //   stopTimer()
+      //   mittInstance.emit('Start Figure Game')
+      // }
     }, 10)
   }
 }

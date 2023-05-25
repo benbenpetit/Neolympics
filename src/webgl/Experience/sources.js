@@ -10,8 +10,18 @@ export default [
     path: '/models/Skater.glb',
   },
   {
+    name: 'skaterJury',
+    type: 'gltfModel',
+    path: '/models/SkaterJury.glb',
+  },
+  {
     name: 'skateparkModel',
     type: 'gltfModel',
     path: '/models/ModuleRail.glb',
+  },
+  {
+    name: 'stadeModel',
+    type: 'gltfModel',
+    path: '/models/Stade.glb',
   },
 ]

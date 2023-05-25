@@ -1,13 +1,12 @@
 import Animations from '@/webgl/Experience/World/Animations'
-import Catcher from '@/webgl/Experience/World/Catcher'
-import Path from '@/webgl/Experience/World/Path'
 import * as THREE from 'three'
 import Experience from '../Experience'
 import Environment from './Environment'
 import Floor from './Floor'
-import Skater from './Skater'
 import Skatepark from './Skatepark'
 import SkaterLapin from './SkaterLapin'
+import mittInstance from '@/core/lib/MittInstance'
+import Stade from '@/webgl/Experience/World/Stade'
 
 export default class World {
   constructor() {
@@ -21,8 +20,9 @@ export default class World {
       // Setup
       // this.skater = new Skater()
       // this.catcher = new Catcher()
+      // this.skatepark = new Skatepark()
       this.skater = new SkaterLapin()
-      this.skatepark = new Skatepark()
+      // this.skatepark = new Stade()
       this.environment = new Environment()
       this.animations = new Animations()
     })
@@ -34,8 +34,8 @@ export default class World {
     if (this.catcher) {
       this.catcher.update()
     }
-    if (this.skatepark) {
-      this.skatepark.update()
-    }
+    // if (this.skatepark) {
+    //   this.skatepark.update()
+    // }
   }
 }

@@ -112,7 +112,7 @@
                 "__debugName": "Camera:[\"position\",\"z\"]",
                 "keyframes": [
                   {
-                    "id": "krDGc1OYiF",
+                    "id": "rpcaqUkxq9",
                     "position": 0,
                     "connectedRight": true,
                     "handles": [
@@ -122,7 +122,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": -300
+                    "value": -10
                   },
                   {
                     "id": "wiBPk6_3Le",
@@ -135,7 +135,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 120
+                    "value": -2
                   }
                 ]
               },
@@ -144,7 +144,7 @@
                 "__debugName": "Camera:[\"position\",\"y\"]",
                 "keyframes": [
                   {
-                    "id": "ClNaohU0DU",
+                    "id": "49HMyO5jC9",
                     "position": 0,
                     "connectedRight": true,
                     "handles": [
@@ -154,7 +154,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 100
+                    "value": 10
                   },
                   {
                     "id": "VQQ6Tdu4AR",
@@ -167,7 +167,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 70
+                    "value": 1
                   }
                 ]
               },
@@ -176,7 +176,7 @@
                 "__debugName": "Camera:[\"position\",\"x\"]",
                 "keyframes": [
                   {
-                    "id": "bMdUfMBH_p",
+                    "id": "n68DcGdSxw",
                     "position": 0,
                     "connectedRight": true,
                     "handles": [
@@ -186,7 +186,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": 300
+                    "value": 10
                   },
                   {
                     "id": "DIe8SzX0Bb",
@@ -199,7 +199,7 @@
                       0
                     ],
                     "type": "bezier",
-                    "value": -188
+                    "value": -1
                   }
                 ]
               }
@@ -219,6 +219,7 @@
   },
   "definitionVersion": "0.4.0",
   "revisionHistory": [
+    "kyvQhNuZlywBZ4zC",
     "sus6NmILWzONRnjJ",
     "AANUUDMaPO_LFPPM",
     "r1B3XwKPOMN7ofO_",

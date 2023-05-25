@@ -6,7 +6,7 @@ export default class Floor {
     this.experience = new Experience()
     this.scene = this.experience.scene
     this.resources = this.experience.resources
-    var gridHelper = new THREE.GridHelper(1000, 3000)
+    var gridHelper = new THREE.GridHelper(100, 3000)
     // this.scene.add(gridHelper)
 
     this.setGeometry()

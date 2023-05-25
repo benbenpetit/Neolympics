@@ -3,6 +3,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Experience from './Experience'
 import { getProject, types } from '@theatre/core'
 import studio from '@theatre/studio'
+import mittInstance from '@/core/lib/MittInstance'
+import { gsap } from 'gsap'
 
 export default class Camera {
   constructor() {
@@ -22,6 +24,10 @@ export default class Camera {
     if (this.studio.active) {
       this.setStudio()
     }
+
+    mittInstance.on('Start skate intro', () => {
+      this.skateIntro()
+    })
   }
 
   setDebug() {
@@ -38,8 +44,7 @@ export default class Camera {
       0.1,
       10000,
     )
-    // this.instance.position.set(600, 600, -600)
-    this.instance.position.set(2.5, 2, -1.5)
+    this.instance.position.set(10, 10, -10)
     this.scene.add(this.instance)
   }
   setStudio() {
@@ -60,6 +65,19 @@ export default class Camera {
   setOrbitControls() {
     this.controls = new OrbitControls(this.instance, this.canvas)
     this.controls.enableDamping = true
+  }
+
+  skateIntro() {
+    gsap.to(this.instance.position, {
+      x: -2,
+      y: 1.75,
+      z: -4,
+      duration: 5,
+      onComplete: () => {
+        this.experience.world.skater.started = true
+        mittInstance.emit('Start tutorial')
+      },
+    })
   }
 
   resize() {

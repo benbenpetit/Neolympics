@@ -24,7 +24,7 @@ export default class Skatepark {
 
   setModel() {
     this.model = this.resource.scene
-    this.model.position.set(0, 0.8, 20)
+    this.model.position.set(0, 0.8, 103)
     // this.model.scale.set(0.5, 0.5, 0.5)
     this.scene.add(this.model)
 
@@ -36,9 +36,15 @@ export default class Skatepark {
   }
 
   setDebug() {
-    this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
-    this.debugFolder.add(this.resource.scene.position, 'y', -10, 10, 0.1).name('Skater Y')
-    this.debugFolder.add(this.resource.scene.position, 'z', -10, 10, 0.1).name('Skater Z')
+    this.debugFolder
+      .add(this.resource.scene.position, 'x', -10, 10, 0.1)
+      .name('Skatepark X')
+    this.debugFolder
+      .add(this.resource.scene.position, 'y', -10, 10, 0.1)
+      .name('Skatepark Y')
+    this.debugFolder
+      .add(this.resource.scene.position, 'z', -10, 120, 0.1)
+      .name('Skatepark Z')
   }
 
   setAnimation() {

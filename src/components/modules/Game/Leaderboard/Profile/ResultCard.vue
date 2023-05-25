@@ -2,33 +2,36 @@
   <div
     class="c-result-card"
     :class="[
-      isHorizontal && '--horizontal',
+      props?.isHorizontal && '--horizontal',
       isActive && '--active',
-      podium === 1 && '--big',
+      props?.podium === 1 && '--big',
     ]"
   >
-    <div class="c-result-card__rank" v-if="isHorizontal && (rank || maxSession?.rank)">
-      <span>{{ rank ?? maxSession?.rank }}e</span>
+    <div
+      class="c-result-card__rank"
+      v-if="props?.isHorizontal && (props?.rank || props?.maxSession?.rank)"
+    >
+      <span>{{ props?.rank ?? props?.maxSession?.rank }}e</span>
     </div>
     <div class="c-result-card__content">
       <img
         class="c-result-card__pic"
-        :src="user?.photoURL ?? placeholderPic"
-        :alt="`${user?.displayName}'s profile picture`"
+        :src="props?.user?.photoURL ?? placeholderPic"
+        :alt="`${props?.user?.displayName}'s profile picture`"
         referrerpolicy="no-referrer"
       />
       <div class="c-result-card__pseudo">
-        <span>@{{ user?.displayName ?? 'Moi' }}</span>
+        <span>@{{ props?.user?.displayName ?? 'Moi' }}</span>
       </div>
       <SessionDetails
         class="c-result-card__stat"
-        :maxSession="maxSession"
-        :isHorizontal="isHorizontal"
-        :onlyTotalSession="onlyTotalSession"
-        :isInProgress="isInProgress"
+        :maxSession="props?.maxSession"
+        :isHorizontal="props?.isHorizontal"
+        :onlyTotalSession="props?.onlyTotalSession"
+        :isInProgress="props?.isInProgress"
       />
-      <div class="c-result-card__sticker" v-if="podium">
-        <img :src="rankBrush[podium - 1]" />
+      <div class="c-result-card__sticker" v-if="props?.podium">
+        <img :src="rankBrush[props?.podium - 1]" />
       </div>
     </div>
   </div>
@@ -52,9 +55,8 @@ interface Props {
   isInProgress?: boolean
 }
 
-const { user, maxSession, rank, isHorizontal, onlyTotalSession, podium, isInProgress } =
-  defineProps<Props>()
-const isActive = computed(() => maxSession?.userId === currentUser?.value?.uid)
+const props = defineProps<Props>()
+const isActive = computed(() => props?.user?.id === currentUser?.value?.uid)
 const currentUser = useCurrentUser()
 
 const rankBrush: string[] = [

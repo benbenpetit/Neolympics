@@ -160,10 +160,10 @@ let sliderPopSound = new Howl({
 })
 
 onMounted(async () => {
-  auth = getAuth()
-  signOut(auth).then(() => {
-    console.log('Sign Out')
-  })
+  // auth = getAuth()
+  // signOut(auth).then(() => {
+  //   console.log('Sign Out')
+  // })
   Howler.stop()
 
   gameSoundtrack.play()

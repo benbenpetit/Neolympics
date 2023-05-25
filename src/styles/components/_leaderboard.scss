@@ -7,6 +7,9 @@
   // margin-top: 2rem;
 
   &__header {
+    position: sticky;
+    top: 0;
+    z-index: 9;
     width: 100%;
     display: flex;
     align-items: center;
@@ -80,24 +83,59 @@
     right: 0;
     bottom: 0;
     padding: 0 1rem;
-    overflow-y: scroll;
-    padding-bottom: 5rem;
 
     -ms-overflow-style: none;
     scrollbar-width: none;
-
     &::-webkit-scrollbar {
       display: none;
     }
 
-    &__list {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+    &.--open {
+      overflow-y: scroll;
+      height: calc(100vh - 164px + 10px);
 
-      > * {
-        flex: 1;
-        width: 100%;
+      .c-low-scores__divider {
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    .c-low-scores {
+      width: 100%;
+      max-width: 1360px;
+      margin-left: auto;
+      margin-right: auto;
+
+      &__divider {
+        // border-bottom-left-radius: 10px;
+        // border-bottom-right-radius: 10px;
+        background-color: #ffffff;
+        z-index: 2;
+        // box-shadow: 0 4px 3px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      &__list {
+        padding-bottom: 5rem;
+        overflow-y: hidden;
+
+        &.--open {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+
+        &__inside {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+
+          > * {
+            flex: 1;
+            width: 100%;
+          }
+        }
       }
     }
   }
@@ -112,5 +150,93 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: -60px;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        0deg,
+        #484d66 0%,
+        rgba(72, 77, 102, 0.96449) 13.33%,
+        rgba(72, 77, 102, 0.91834) 20%,
+        rgba(72, 77, 102, 0.768225) 33.33%,
+        rgba(72, 77, 102, 0.557309) 46.67%,
+        rgba(72, 77, 102, 0.331884) 60%,
+        rgba(72, 77, 102, 0.147411) 73.33%,
+        rgba(72, 77, 102, 0.03551) 86.67%,
+        rgba(72, 77, 102, 0) 100%
+      );
+    }
+
+    * {
+      pointer-events: all;
+    }
+  }
+}
+
+.c-signin {
+  position: relative;
+
+  > .c-buttonUI {
+    z-index: 1;
+  }
+
+  &__inside {
+    position: absolute;
+    z-index: 0;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 8px;
+
+    .c-signin.--open & {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      visibility: visible;
+    }
+
+    button {
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      border: 2px solid $color-black;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background-color: #ffffff;
+      transition: all 0.2s ease-in-out;
+      font-size: 12px;
+      font-family: 'Anybody';
+      font-weight: 900;
+      cursor: pointer;
+      text-transform: uppercase;
+      outline: none;
+
+      &:hover {
+        background-color: darken(#ffffff, 3%);
+      }
+
+      > img {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      > span {
+        white-space: nowrap;
+      }
+    }
   }
 }

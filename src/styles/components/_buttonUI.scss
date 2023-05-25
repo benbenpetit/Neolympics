@@ -14,6 +14,7 @@
   cursor: pointer;
   border: solid 2px #111111;
   background-color: #ffffff;
+  outline: none;
 
   &:hover {
     background-color: darken(#ffffff, 5%);

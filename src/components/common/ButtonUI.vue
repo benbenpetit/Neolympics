@@ -1,7 +1,11 @@
 <template>
-  <!-- <button @click="emit('handleClick')" class="c-buttonUI" :class="isActive && '--red'"> -->
   <button
-    @click="sound ? clickSound() : ''"
+    @click="
+      () => {
+        clickSound()
+        emit('onClick')
+      }
+    "
     class="c-buttonUI"
     :class="isActive && '--red'"
   >
@@ -15,7 +19,9 @@
 <script setup lang="ts">
 import { Howl, Howler } from 'howler'
 
-const { imgSrc, isActive } = withDefaults(defineProps<Props>(), {
+const emit = defineEmits(['onClick'])
+
+const { imgSrc, isActive, sound } = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   isActive: true,
   sound: true,
@@ -33,6 +39,8 @@ let buttonUISound = new Howl({
 })
 
 const clickSound = () => {
-  buttonUISound.play()
+  if (sound) {
+    buttonUISound.play()
+  }
 }
 </script>

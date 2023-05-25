@@ -62,9 +62,8 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-  justify-content: center;
+  justify-content: space-evenly;
   text-transform: uppercase;
-  column-gap: 10px;
 
   p {
     font-size: 1em;

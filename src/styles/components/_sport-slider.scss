@@ -1,117 +1,111 @@
 @use '/src/styles/settings' as *;
 
 .c-sportslider-wrapper {
+  position: relative;
   height: 85vh;
   width: 100%;
   margin: auto;
   z-index: 0;
 
-  .c-sportslider-content {
+  .c-sportslider-buttons {
     height: 100%;
+    width: 100%;
     z-index: 5;
-    position: relative;
+    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 4vw;
 
-    .c-sportslider-button {
-      button {
-        display: flex;
-        flex-direction: row;
-        background: none;
-        border: none;
-        align-items: center;
-        column-gap: 10px;
-        padding: 50px 20px;
+    button {
+      display: flex;
+      flex-direction: row;
+      background: none;
+      border: none;
+      align-items: center;
+      justify-content: space-evenly;
+      z-index: 20;
+      cursor: pointer;
+      height: 100%;
+      min-width: 10vw;
+
+      h3 {
+        font-weight: 400;
+        font-size: 1.2rem;
+        color: $color-darkgrey;
+        transform: translateY(2px);
+        margin: 0px 10px;
         z-index: 20;
-        cursor: pointer;
-
-        h3 {
-          font-weight: 300;
-          font-size: 2em;
-          color: $color-darkgrey;
-          transform: translateY(2px);
-          margin: 0px 10px;
-          z-index: 20;
-        }
-        img {
-          height: 2em;
-          z-index: 20;
-        }
+      }
+      img {
+        height: 2em;
+        z-index: 20;
       }
     }
+  }
 
-    .c-sportslider-center {
+  .c-sportslider-center {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 30px;
+
+    p {
+      font-size: 1.2rem;
+      font-weight: 300;
+      text-align: justify;
+      padding: 4vh 25vw;
+      z-index: 10;
+      line-height: 1.5;
+    }
+
+    .sportimg-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
       position: absolute;
-      height: 100%;
+      bottom: 10%;
       width: 100%;
-      padding-top: 30px;
 
-      p {
-        font-size: 1.2rem;
-        font-weight: 300;
-        text-align: justify;
-        padding: 2rem 2rem;
-        z-index: 10;
-        max-width: 800px;
-      }
+      .sportimg {
+        overflow: hidden;
+        padding: 50px;
 
-      .sportimg-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        bottom: 15%;
-        // height: 100%;
-        width: 100%;
-        // justify-content: flex-end;
-        // position: absolute;
-        // top: 50%;
-        // left: 50%;
-        // transform-origin: translateX(-50%) translateY(50%);
-        // position: absolute;
-        // bottom: 0;
-
-        .sportimg {
-          overflow: hidden;
-          padding: 50px;
-
-          img {
-            max-width: 600px;
-            max-height: 500px;
-            z-index: 10;
-          }
-        }
-
-        .dropshadow {
-          position: relative;
-          bottom: 0;
-          z-index: -1;
-          height: 80px;
-          width: 40%;
-          background: radial-gradient($color-blue 0%, rgba(255, 255, 255, 0) 50%);
-          transform: translateY(-45%);
+        img {
+          max-width: 600px;
+          max-height: 500px;
+          z-index: 10;
         }
       }
 
-      h1 {
-        font-size: 10rem;
-        font-family: MonumentExtended;
-        color: white;
-        -webkit-text-stroke-width: 3px;
-        -webkit-text-stroke-color: $color-blue;
-        filter: blur(2px);
-        position: absolute;
-        top: 50%;
-        left: 50%;
+      .dropshadow {
+        position: relative;
+        bottom: 0;
         z-index: -1;
-        transform: translate(-50%, -50%);
+        height: 80px;
+        width: 40%;
+        background: radial-gradient($color-blue 0%, rgba(255, 255, 255, 0) 50%);
+        transform: translateY(-45%);
       }
+    }
+
+    h1 {
+      font-size: 10rem;
+      font-family: MonumentExtended;
+      color: white;
+      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-color: $color-blue;
+      filter: blur(2px);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      transform: translate(-50%, -50%);
     }
   }
 
@@ -119,27 +113,23 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 8vh;
     z-index: 100;
 
     footer {
-      height: 100%;
-      position: relative;
       display: flex;
       flex-direction: row;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+      padding: 4vh 4vw;
 
       .footer-left {
-        position: absolute;
-        left: 20px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 15px;
       }
       .footer-center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -154,32 +144,30 @@
         }
       }
       .footer-right {
-        position: absolute;
-        right: 20px;
+        // position: absolute;
+        // right: 20px;
       }
     }
   }
 
   &.--disabled {
-    .c-sportslider-content {
-      .c-sportslider-center {
-        .sportimg-wrapper {
-          .sportimg {
-            img {
-            }
-          }
-
-          .dropshadow {
-            background: radial-gradient($color-darkgrey 0%, rgba(255, 255, 255, 0) 50%);
-            opacity: 0.6;
+    .c-sportslider-center {
+      .sportimg-wrapper {
+        .sportimg {
+          img {
           }
         }
 
-        h1 {
-          color: white;
-          -webkit-text-stroke-color: $color-darkgrey;
-          filter: blur(2px);
+        .dropshadow {
+          background: radial-gradient($color-darkgrey 0%, rgba(255, 255, 255, 0) 50%);
+          opacity: 0.6;
         }
+      }
+
+      h1 {
+        color: white;
+        -webkit-text-stroke-color: $color-darkgrey;
+        filter: blur(2px);
       }
     }
 
@@ -187,6 +175,9 @@
       footer {
         background-color: $color-darkgrey;
         border-radius: 8px 8px 0px 0px;
+        max-height: 8vh;
+        align-items: center;
+
         .footer-left {
         }
         .footer-center {

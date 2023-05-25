@@ -1,13 +1,13 @@
 <template>
   <header>
     <div class="c-header-wrapper" :class="!background ? '--no-bg' : ''">
-      <div class="c-header-left"></div>
-      <div class="c-header-center">
-        <p><slot name="title"></slot></p>
-        <slot name="icon" v-if="imgSrc">
-          <img :src="imgSrc" alt="" />
+      <div class="c-header-left">
+        <slot name="icon" v-if="props.imgSrc">
+          <img :src="props.imgSrc" alt="" />
         </slot>
+        <p><slot name="title"></slot></p>
       </div>
+      <div class="c-header-center"></div>
       <div class="c-header-right">
         <ButtonUI @click="soundClick()" class="--white" style="border: none">
           <template v-slot:label>
@@ -50,10 +50,16 @@ const router = useRouter()
 const soundOnSrc = '/icon/sound-on.svg'
 const soundOffSrc = '/icon/sound-off.svg'
 
-const { imgSrc } = withDefaults(defineProps<Props>(), {
+// const { imgSrc, background } = withDefaults(defineProps<Props>(), {
+//   imgSrc: undefined,
+//   background: true,
+// })
+
+const props = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   background: true,
 })
+
 const emit = defineEmits(['onModalOpen', 'onModalClose'])
 
 let soundEnabled = ref<boolean>(true)

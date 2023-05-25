@@ -19,19 +19,13 @@
 
   .c-header-left {
     position: absolute;
-  }
-
-  .c-header-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
+    transform: translateX(100px);
 
     p {
       color: white;
-      font-size: 3rem;
+      font-size: 5rem;
       font-family: MonumentExtended;
       font-weight: 600;
       text-align: center;
@@ -40,9 +34,13 @@
     }
 
     img {
-      height: 50px;
+      height: 4rem;
       width: auto;
     }
+  }
+
+  .c-header-center {
+    position: absolute;
   }
 
   .c-header-right {

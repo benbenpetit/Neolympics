@@ -6,6 +6,10 @@
   </Header>
 
   <div class="c-quiz-wrapper" style="visibility: hidden">
+    <div class="quiz-brush">
+      <img src="/img/brush-header.png" alt="" />
+    </div>
+
     <div class="character-quiz">
       <video autoplay loop>
         <source src="/video/yuto-VP9.webm" type="video/webm" />
@@ -126,13 +130,13 @@ let quizSoundtrack = new Howl({
 
 let quizCorrectSound = new Howl({
   src: ['/sounds/ui-sounds/quiz-correct.mp3'],
-  volume: 0.4,
+  volume: 0.2,
   rate: 0.9,
 })
 
 let quizWrongSound = new Howl({
   src: ['/sounds/ui-sounds/quiz-wrong.mp3'],
-  volume: 0.6,
+  volume: 0.3,
 })
 
 const onModalOpen = () => {
@@ -265,11 +269,15 @@ const quizOverlayAnimation = () => {
     '-=0.2',
   )
 
-  quizOverlayTimeline.to('.intro-quiz-title img', {
-    x: '-100%',
-    duration: 0.4,
-    ease: 'Power2.easeInOut',
-  })
+  quizOverlayTimeline.to(
+    '.intro-quiz-title img',
+    {
+      x: '-100%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '+=0.5',
+  )
 
   quizOverlayTimeline.to(
     '.intro-quiz-title .text p',
@@ -313,11 +321,26 @@ const quizAnimation = () => {
     },
   )
 
-  quizTimeline.from('.character-quiz', {
-    x: '-100%',
-    duration: 0.4,
-    ease: 'Power4.easeInOut',
-  })
+  quizTimeline.from(
+    '.quiz-brush',
+    {
+      x: '-100%',
+      y: '100%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  quizTimeline.from(
+    '.character-quiz',
+    {
+      x: '-100%',
+      duration: 0.4,
+      ease: 'Power4.easeInOut',
+    },
+    '-=0.2',
+  )
 
   quizTimeline.from(
     '.c-modal-wrapper',

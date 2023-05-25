@@ -1,6 +1,8 @@
 <template>
-  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose">
-    <template v-slot:title>CHOIX D'ÉPREUVE</template>
+  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :imgSrc="headerIcon">
+    <template v-slot:title>
+      {{ sportConfirmed ? sportParams[currentSport].title : `CHOIX D'ÉPREUVE` }}</template
+    >
   </Header>
 
   <div class="choix-epreuve-background"></div>
@@ -57,20 +59,28 @@
       <img :src="sportParams[currentSport].img" alt="" />
     </template>
     <template v-slot:sporttitle>{{ sportParams[currentSport].title }}</template>
-    <template v-slot:buttonLtext>{{
-      sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title
-    }}</template>
+    <template v-slot:buttonLtext
+      >{{ sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title }}
+    </template>
     <template v-slot:buttonRtext>{{
       sportParams[Math.abs((currentSport + 1) % 4)].title
     }}</template>
-    <template v-slot:footerL v-if="sportParams[currentSport].available"></template>
+    <template v-slot:footerL v-if="sportParams[currentSport].available">
+      <CardLeaderboard />
+      <CardLeaderboard />
+      <CardLeaderboard />
+    </template>
     <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
     <template v-slot:footerC v-if="!sportParams[currentSport].available">
       <p>À VENIR</p>
       <img src="/icon/lock.svg" alt="" />
     </template>
     <template v-slot:footerR v-if="sportParams[currentSport].available">
-      <ButtonUI imgSrc="/icon/go.svg" @click="gotoDifficultySelector()">
+      <ButtonUI
+        imgSrc="/icon/go.svg"
+        @click="gotoDifficultySelector()"
+        style="width: 300px"
+      >
         <template v-slot:label>VALIDER MON CHOIX</template>
       </ButtonUI>
     </template>
@@ -86,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import publicRouters from '@/data/publicRouters'
 import ButtonUI from '@/components/common/ButtonUI.vue'
@@ -94,6 +104,7 @@ import SportCard from '@/components/common/SportCard.vue'
 import SportSlider from '@/components/common/SportSlider.vue'
 import DifficultySelector from '@/components/common/DifficultySelector.vue'
 import Header from '@/components/common/Header.vue'
+import CardLeaderboard from '@/components/common/CardLeaderboard.vue'
 
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
@@ -109,7 +120,9 @@ const router = useRouter()
 let selectedTrial = ref<boolean>(false)
 let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
-// let sliderDirection = ref<string | null>(null)
+let headerIcon = computed<string>(() =>
+  !sportConfirmed.value ? '/icon/whistle-icon.svg' : '/icon/skateboarding.svg',
+)
 
 const onModalOpen = () => {
   // @ts-ignore
@@ -259,6 +272,7 @@ const sportParams = [
     info: `L'épreuve de Street se déroule dans un décor reproduisant les éléments d'une rue, comme les escaliers, les rails, les bancs... Les athlètes doivent enchaîner 5 figures dans un run de 45 secondes, et sont jugés sur leur capacité à maîtriser leur planche.`,
     img: '/img/planche-skate-slider.png',
     available: true,
+    icon: '/icon/skateboarding.svg',
   },
   {
     title: 'SURF',
@@ -282,7 +296,7 @@ const sportParams = [
 
 const sliderAnimOut = () => {
   sliderAnim.to(
-    '.c-sportslider-button',
+    '.c-sportslider-buttons button',
     {
       ease: 'Power2.easeInOut',
       duration: 0.2,
@@ -291,7 +305,7 @@ const sliderAnimOut = () => {
     // '-=0.1',
   )
 
-  sliderAnim.to('.c-sportslider-button', {
+  sliderAnim.to('.c-sportslider-buttons button', {
     visibility: 'hidden',
     duration: 0,
   })
@@ -444,7 +458,7 @@ const sliderAnimIn = () => {
   )
 
   sliderAnim.to(
-    '.c-sportslider-button',
+    '.c-sportslider-buttons button',
     {
       visibility: 'visible',
       ease: 'Power2.easeInOut',

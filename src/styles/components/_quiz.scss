@@ -1,5 +1,11 @@
 @use '/src/styles/settings' as *;
 
+.quiz-brush {
+  position: absolute;
+  top: 0;
+  transform: translate(-2000px, 150px) rotate(-10deg);
+}
+
 .intro-quiz-wrapper {
   position: fixed;
   height: 100vh;
@@ -10,24 +16,27 @@
   .intro-quiz-title {
     position: relative;
     display: flex;
-    transform: rotate(-7deg) translate(-50px, 100px);
+    transform: translate(100px, -150px);
     width: 98vw;
 
     img {
       max-width: 100%;
       max-height: 100%;
+      // position: absolute;
+      // top: 50%;
+      // left: 50%;
     }
 
     .text {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: rotate(-10deg) translate(-85%, -60%);
 
       p {
         width: 100%;
         color: white;
-        font-size: 5rem;
+        font-size: 7rem;
         font-family: MonumentExtended;
         text-shadow: -5px 5px 10px black;
         z-index: 50;
@@ -68,10 +77,10 @@
 .character-quiz {
   position: absolute;
   left: 0;
-  top: 0;
+  top: -100px;
 
   video {
-    width: 700px;
+    width: 800px;
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
   }
@@ -89,8 +98,8 @@
     transform: translateY(40%);
 
     .c-modal-wrapper {
-      max-width: 800px;
-      min-width: 500px;
+      max-width: 1000px;
+      min-width: 600px;
 
       .c-modal {
         width: 100%;

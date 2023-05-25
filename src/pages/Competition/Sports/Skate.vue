@@ -29,7 +29,7 @@ const skateStep = computed(
 )
 
 onMounted(() => {
-  setSportStep('skate', 2)
+  setSportStep('skate', 0)
   const score: IScore = { points: 73, sportId: 'skate' }
   setCurrentScore(score)
 })

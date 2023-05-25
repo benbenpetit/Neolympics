@@ -4,7 +4,12 @@
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
-        <SkatePattern />
+        <Pattern
+          class="tutoriel-content__pattern"
+          :patternToDo="patternToDoTutorial"
+          isAutoDrawing
+          :onDrawEnd="handleTutoEnd"
+        />
         <p>
           Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
           <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
@@ -55,15 +60,15 @@ import Experience from '@/webgl/Experience/Experience'
 import Timer from '@/components/common/Timer.vue'
 import SkateModal from '@/components/common/SkateModal.vue'
 import Modal from '@/components/common/Modal.vue'
-import SkatePattern from '@/components/common/SkatePattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import { IScore } from '@/core/types/IScore'
-import { PIGEON, BACKFLIP } from '@/data/constants'
+import { PIGEON, BACKFLIP, KICKFLIP } from '@/data/constants'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
+import Pattern from '@/pages/Pattern.vue'
 
 const PATTERNS = [BACKFLIP, PIGEON]
 
@@ -75,6 +80,7 @@ const pattern = ref<number[][][]>(PATTERNS[0])
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
+const patternToDoTutorial = ref<number[][]>([])
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -83,6 +89,7 @@ onMounted(() => {
 
 mittInstance.on('Start tutorial', () => {
   state.value = 'tutorial'
+  patternToDoTutorial.value = KICKFLIP.pattern
 })
 
 mittInstance.on('Start Figure Game', () => {
@@ -144,6 +151,13 @@ const endEpreuve = () => {
 const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
   startTimer()
+}
+
+const handleTutoEnd = () => {
+  patternToDoTutorial.value = []
+  setTimeout(() => {
+    patternToDoTutorial.value = KICKFLIP.pattern
+  })
 }
 </script>
 

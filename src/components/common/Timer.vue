@@ -49,6 +49,13 @@ import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import { IScore } from '@/core/types/IScore'
 import publicRouters from '@/data/publicRouters'
+import { IFigure } from '@/core/types/IFigure'
+
+interface Props {
+  currentFigures: IFigure[]
+}
+
+const props = defineProps<Props>()
 
 const router = useRouter()
 const { setCurrentScore } = useScoreStore()
@@ -93,16 +100,16 @@ const startTimer = () => {
         isRunning.value = false
       } else if (elapsedTime.value >= 36 && step.value == 3) {
         stopTimer()
-        mittInstance.emit('Start Figure Game')
+        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
       } else if (elapsedTime.value >= 27 && step.value == 2) {
         stopTimer()
-        mittInstance.emit('Start Figure Game')
+        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
       } else if (elapsedTime.value >= 18 && step.value == 1) {
         stopTimer()
-        mittInstance.emit('Start Figure Game')
+        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
       } else if (elapsedTime.value >= 9 && step.value == 0) {
         stopTimer()
-        mittInstance.emit('Start Figure Game')
+        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })
       }
     }, 10)
   }

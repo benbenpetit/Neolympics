@@ -62,11 +62,11 @@ let startTime: any = null
 let timerIntervalId: any = null
 let maxTime: number = 45
 
-declare global {
-  interface Window {
-    experience: Experience
-  }
-}
+// declare global {
+//   interface Window {
+//     experience: Experience
+//   }
+// }
 
 mittInstance.on('Start Timer', (e: any) => {
   step.value = e.step

@@ -18,7 +18,9 @@ import router from '@/core/router'
 import { Auth, getAuth, onAuthStateChanged, signOut } from '@firebase/auth'
 import { onMounted, ref } from 'vue'
 import { updateUserInDB } from '@/core/services/api/userApi'
+import { useUserStore } from '@/core/store/user'
 
+const { userState, setUser } = useUserStore()
 const isLoggedIn = ref(false)
 let auth: Auth
 
@@ -29,6 +31,8 @@ onMounted(() => {
       isLoggedIn.value = true
       updateUserInDB(user)
     } else {
+      console.log(userState)
+      setUser({})
       isLoggedIn.value = false
     }
   })

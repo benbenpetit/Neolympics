@@ -1,7 +1,10 @@
 import router from '@/core/router'
+import { useUserStore } from '@/core/store/user'
+import { IUser } from '@/core/types/IUser'
 import {
   GoogleAuthProvider,
   TwitterAuthProvider,
+  User,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
@@ -49,9 +52,9 @@ export const register = (email: string, password: string) => {
     })
 }
 
-export const signInWithGoogle = (route: string = '/') => {
+export const signInWithGoogle = async (route = '/') => {
   const provider = new GoogleAuthProvider()
-  signInWithPopup(getAuth(), provider)
+  await signInWithPopup(getAuth(), provider)
     .then(() => {
       console.log('Successfully registered!')
       router.push(route)
@@ -63,12 +66,12 @@ export const signInWithGoogle = (route: string = '/') => {
     })
 }
 
-export const signInWithTwitter = (route: string = '/') => {
+export const signInWithTwitter = async (route = '/') => {
   const provider = new TwitterAuthProvider()
-  signInWithPopup(getAuth(), provider)
+  await signInWithPopup(getAuth(), provider)
     .then(() => {
       console.log('Successfully registered!')
-      router.push('/')
+      router.push(route)
     })
     .catch((error) => {
       const message = getErrorMessage(error.code)

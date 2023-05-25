@@ -56,9 +56,21 @@
       </div>
     </div>
     <footer class="c-leaderboard__footer">
-      <ButtonUI :isActive="false" class="--no-hover">
-        <template v-slot:label>ENREGISTER MON SCORE</template>
-      </ButtonUI>
+      <div class="c-signin" :class="isOpenSignIn && '--open'" v-if="!currentUser">
+        <ButtonUI @onClick="toggleOpenSignIn" :isActive="false" class="--no-hover">
+          <template v-slot:label>ENREGISTER MON SCORE</template>
+        </ButtonUI>
+        <div class="c-signin__inside">
+          <button @click="handleGoogleSignIn">
+            <img src="/icon/google.svg" alt="" />
+            <span>Se connecter avec Google</span>
+          </button>
+          <button @click="handleTwitterSignIn">
+            <img src="/icon/twitter.svg" alt="" />
+            <span>Se connecter avec Twitter</span>
+          </button>
+        </div>
+      </div>
       <ButtonUI imgSrc="/icon/go.svg" class="--no-hover">
         <template v-slot:label>SUIVANT</template>
       </ButtonUI>
@@ -70,8 +82,10 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
+import router from '@/core/router'
 import { addMaxSession } from '@/core/services/api/leaderboardApi'
 import { IMaxSessionWUser } from '@/core/types/IScore'
+import { signInWithGoogle, signInWithTwitter } from '@/core/utils/auth'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/all'
@@ -95,6 +109,7 @@ const currentUserIndex = computed(() =>
 )
 const lowScoresRef = ref<HTMLDivElement | null>(null)
 const lowScoresListRef = ref<HTMLUListElement | null>(null)
+const isOpenSignIn = ref(false)
 
 onMounted(() => {
   isOpenScores.value = false
@@ -191,5 +206,19 @@ const toggleLowScores = () => {
       ease: 'Power3.easeInOut',
     })
   }
+}
+
+const toggleOpenSignIn = () => {
+  isOpenSignIn.value = !isOpenSignIn.value
+}
+
+const handleGoogleSignIn = async () => {
+  await signInWithGoogle(window.location.pathname)
+  router.go(0)
+}
+
+const handleTwitterSignIn = async () => {
+  await signInWithTwitter(window.location.pathname)
+  router.go(0)
 }
 </script>

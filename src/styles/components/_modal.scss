@@ -107,18 +107,25 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, calc(-50% - 20px));
+    transform: translate(-50%, calc(-50% + 60px));
     width: 80vw;
     max-width: 1000px;
     .c-modal-content {
-      padding: 3.65vw 0px 5.47vw 0px;
+      padding: 3.65vw 3vw 5.47vw 3vw;
       .tutoriel-content {
         display: flex;
         flex-direction: column;
+
+        &__pattern {
+          margin: 0 auto;
+        }
+
         .skate-pattern {
           margin-bottom: 50px;
         }
+
         p {
+          margin-top: 2rem;
           text-align: center;
         }
       }

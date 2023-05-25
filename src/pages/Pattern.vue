@@ -46,23 +46,6 @@
           <span class="pattern-point" draggable="false" />
         </div>
       </div>
-      <!-- <div class="game-side">
-        <div class="pattern-to-do">
-          <h2>Pattern à faire</h2>
-          <span>{{ patternToDo }}</span>
-        </div>
-        <div class="current-pattern">
-          <h2>Pattern en cours</h2>
-          <span>{{ currentPattern }}</span>
-        </div>
-        <div class="current-pattern">
-          <h2>Résultat</h2>
-          <span>{{ isCorrectPattern ? 'Gagné' : 'Perdu' }}</span>
-        </div>
-        <ButtonUI @click="generatePattern" imgSrc="null" class="pattern-generator">
-          <template v-slot:label>Générer un pattern à faire</template>
-        </ButtonUI>
-      </div> -->
     </div>
   </div>
 </template>
@@ -107,6 +90,25 @@ onMounted(() => {
   initPointsAndLines()
 })
 
+const resetPointsAndLines = () => {
+  lines.value = lines.value.map((line) => ({
+    ...line,
+    isTracing: false,
+    // coords: { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } },
+  }))
+
+  points.value = points.value.map((point, index) => {
+    const { x, y } = getPointCoords(index)
+    return { ...point, isActive: false, coords: { x, y } }
+  })
+}
+
+const clearPattern = () => {
+  currentPattern.value = []
+  donePatterns.value = []
+  resetPointsAndLines()
+}
+
 watch(
   () => props.patternToDo,
   () => {
@@ -120,7 +122,7 @@ watch(
       donePatterns.value = []
     }
   },
-  { deep: true },
+  { immediate: true, deep: true },
 )
 
 watch(
@@ -200,25 +202,6 @@ const setLine = (lineIndex: number, pointA: any, pointB: any) => {
       end: { x: pointB.coords.x, y: pointB.coords.y },
     },
   }
-}
-
-const resetPointsAndLines = () => {
-  lines.value = lines.value.map((line) => ({
-    ...line,
-    isTracing: false,
-    // coords: { start: { x: 0, y: 0 }, end: { x: 0, y: 0 } },
-  }))
-
-  points.value = points.value.map((point, index) => {
-    const { x, y } = getPointCoords(index)
-    return { ...point, isActive: false, coords: { x, y } }
-  })
-}
-
-const clearPattern = () => {
-  currentPattern.value = []
-  donePatterns.value = []
-  resetPointsAndLines()
 }
 
 const checkIfPatternWrong = () => {

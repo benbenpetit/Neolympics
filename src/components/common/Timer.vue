@@ -22,7 +22,7 @@
           <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
         </div>
       </div>
-      <button
+      <!-- <button
         @click="
           () => {
             startTimer()
@@ -34,7 +34,7 @@
       </button>
       <button @click="stopTimer">Arrêter</button>
       <button @click="resetTimer">Réinitialiser</button>
-      <button @click="endSport">Terminer</button>
+      <button @click="endSport">Terminer</button> -->
     </div>
   </div>
 </template>
@@ -91,20 +91,19 @@ const startTimer = () => {
         clearInterval(timerIntervalId)
         timebarWidth.value = 100
         isRunning.value = false
+      } else if (elapsedTime.value >= 36 && step.value == 3) {
+        stopTimer()
+        mittInstance.emit('Start Figure Game')
+      } else if (elapsedTime.value >= 27 && step.value == 2) {
+        stopTimer()
+        mittInstance.emit('Start Figure Game')
+      } else if (elapsedTime.value >= 18 && step.value == 1) {
+        stopTimer()
+        mittInstance.emit('Start Figure Game')
+      } else if (elapsedTime.value >= 9 && step.value == 0) {
+        stopTimer()
+        mittInstance.emit('Start Figure Game')
       }
-      // } else if (elapsedTime.value >= 36 && step.value == 3) {
-      //   stopTimer()
-      //   mittInstance.emit('Start Figure Game')
-      // } else if (elapsedTime.value >= 27 && step.value == 2) {
-      //   stopTimer()
-      //   mittInstance.emit('Start Figure Game')
-      // } else if (elapsedTime.value >= 18 && step.value == 1) {
-      //   stopTimer()
-      //   mittInstance.emit('Start Figure Game')
-      // } else if (elapsedTime.value >= 9 && step.value == 0) {
-      //   stopTimer()
-      //   mittInstance.emit('Start Figure Game')
-      // }
     }, 10)
   }
 }

@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Experience from '../Experience'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
+import { FIGURES } from '@/data/figures'
 
 export default class SkaterLapin {
   constructor() {
@@ -96,15 +97,15 @@ export default class SkaterLapin {
       const debugObject = {
         playOllie: () => {
           this.animation.play('Board_Ollie')
-          this.animation.play('P_Olie')
+          this.animation.play('P_Ollie')
         },
         playHardflip: () => {
           this.animation.play('Board_Hardflip')
           this.animation.play('P_Hardflip')
         },
         playKickflip: () => {
-          this.animation.play('Board_Hardflip')
-          this.animation.play('P_Hardflip')
+          this.animation.play('Board_Kickflip')
+          this.animation.play('KickFlip')
         },
         playCruise: () => {
           this.animation.actions['P_Cruise'].reset()
@@ -141,10 +142,11 @@ export default class SkaterLapin {
       })
     })
 
-    mittInstance.on('Start Figure Game', () => {
+    mittInstance.on('Start Figure Game', (e) => {
       console.log('Start Figure Game')
-      this.animation.play('Board_Ollie')
-      this.animation.play('P_Olie')
+      const figure = FIGURES.find((figure) => figure.name === e.figure).anims
+      this.animation.play(figure.board)
+      this.animation.play(figure.perso)
       gsap.to(this.modelVelocity, {
         z: 0,
         duration: 1,

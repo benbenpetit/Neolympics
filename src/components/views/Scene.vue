@@ -1,5 +1,5 @@
 <template>
-  <Timer />
+  <Timer :currentFigures="CURRENT_FIGURES" />
   <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
@@ -32,7 +32,7 @@
     :pattern="pattern"
     @onPatternEnd="handlePatternEnd"
   />
-  <!-- <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
       <div>
@@ -42,7 +42,7 @@
         </ButtonUI>
       </div>
     </template>
-  </Modal> -->
+  </Modal>
   <div
     v-if="figureResult != ''"
     class="figure-result"
@@ -65,18 +65,19 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import { IScore } from '@/core/types/IScore'
-import { PIGEON, BACKFLIP, KICKFLIP } from '@/data/constants'
+import { HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 
-const PATTERNS = [BACKFLIP, PIGEON]
+const CURRENT_FIGURES = [OLLIE, KICKFLIP, HARDFLIP, KICKFLIP, OLLIE]
 
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const state = ref<'tutorial' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
-const pattern = ref<number[][][]>(PATTERNS[0])
+const currentFigureIndex = ref(0)
+const pattern = ref<number[][][]>([CURRENT_FIGURES[currentFigureIndex.value].pattern])
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
@@ -143,7 +144,7 @@ const startTimer = () => {
 }
 
 const endEpreuve = () => {
-  const score: IScore = { points: 83, sportId: 'skate' }
+  const score: IScore = { points: 75, sportId: 'skate' }
   setCurrentScore(score)
   setSportStep('skate', 1)
 }
@@ -151,6 +152,7 @@ const endEpreuve = () => {
 const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
   startTimer()
+  pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
 }
 
 const handleTutoEnd = () => {

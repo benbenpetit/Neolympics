@@ -22,7 +22,7 @@
 import { onMounted, ref, watch } from 'vue'
 import Pattern from '@/pages/Pattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
-import { FIGURES } from '@/data/constants'
+import { FIGURES } from '@/data/figures'
 import { getIsArraysEqual } from '@/core/utils/functions'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/all'

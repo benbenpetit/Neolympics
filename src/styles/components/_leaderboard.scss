@@ -92,7 +92,7 @@
 
     &.--open {
       overflow-y: scroll;
-      max-height: calc(100vh - 164px + 10px);
+      height: calc(100vh - 164px + 10px);
 
       .c-low-scores__divider {
         position: sticky;
@@ -116,6 +116,7 @@
 
       &__list {
         padding-bottom: 5rem;
+        overflow-y: hidden;
 
         &.--open {
           -ms-overflow-style: none;
@@ -149,6 +150,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    pointer-events: none;
 
     &::before {
       content: '';
@@ -170,6 +172,10 @@
         rgba(72, 77, 102, 0.03551) 86.67%,
         rgba(72, 77, 102, 0) 100%
       );
+    }
+
+    .c-buttonUI {
+      pointer-events: all;
     }
   }
 }

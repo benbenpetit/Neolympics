@@ -27,8 +27,9 @@
       :class="isOpenScores && '--open'"
       ref="lowScoresRef"
     >
-      <div class="c-low-scores">
+      <div class="c-low-scores" :class="currentUserIndex < 4 && 'u-mt-double'">
         <Divider
+          v-if="currentUserIndex >= 4"
           class="c-low-scores__divider u-pb-double u-pt-double"
           @onClick="toggleLowScores"
         >
@@ -37,7 +38,7 @@
           </template>
         </Divider>
         <div class="c-low-scores__list" :class="isOpenScores && '--open'">
-          <ul class="c-low-scores__list__inside" ref="lowScores">
+          <ul class="c-low-scores__list__inside" ref="lowScoresListRef">
             <li
               v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(3)"
               :key="maxSession?.user?.id"
@@ -69,6 +70,7 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
+import { addMaxSession } from '@/core/services/api/leaderboardApi'
 import { IMaxSessionWUser } from '@/core/types/IScore'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 import { gsap } from 'gsap'
@@ -92,15 +94,25 @@ const currentUserIndex = computed(() =>
     .findIndex((maxSessionUserId) => maxSessionUserId == currentUser.value?.uid),
 )
 const lowScoresRef = ref<HTMLDivElement | null>(null)
-const baseLowScoresOffsetTop = ref(0)
+const lowScoresListRef = ref<HTMLUListElement | null>(null)
 
 onMounted(() => {
   isOpenScores.value = false
+  // addMaxSession(
+  //   {
+  //     createdAt: new Date(),
+  //     break: 90,
+  //     breakQuiz: 2,
+  //     climbing: 60,
+  //     climbingQuiz: 1,
+  //     skate: 75,
+  //     skateQuiz: 3,
+  //     surf: 50,
+  //     surfQuiz: 0,
+  //   },
+  //   '3qzA8K6JyhPfwH6nlU8uuDBrOcJ3',
+  // )
 })
-
-const getLowScoresOffsetTop = () => {
-  return (lowScoresRef.value?.getBoundingClientRect().top ?? 0) + window.scrollY
-}
 
 watch(
   isOpenScores,
@@ -114,12 +126,49 @@ watch(
   { immediate: true },
 )
 
+const getLowScoresListOffset = (offset = 0) =>
+  lowScoresListRef.value?.children?.length
+    ? (lowScoresListRef.value.offsetHeight * (currentUserIndex.value - 3 - offset)) /
+      (lowScoresListRef.value?.children?.length ?? 0)
+    : 0
+
+watch(
+  () => props.maxSessions,
+  () => {
+    if (currentUserIndex.value >= 4) {
+      gsap.to(lowScoresListRef.value, {
+        duration: 0,
+        marginTop: -getLowScoresListOffset(),
+        ease: 'Power3.easeInOut',
+      })
+    }
+  },
+  { immediate: true, deep: true },
+)
+
 const toggleLowScores = () => {
+  const lowScoresListOffset = getLowScoresListOffset()
+  const lowScoresListOffsetMax = getLowScoresListOffset(
+    currentUserIndex.value < 5 ? 2 : 1,
+  )
   if (!isOpenScores.value) {
     isOpenScores.value = true
     gsap.to(window, {
       duration: 0.8,
       scrollTo: '.c-leaderboard__low-scores',
+      ease: 'Power3.easeInOut',
+    })
+    gsap.to(lowScoresListRef.value, {
+      duration: 0.8,
+      marginTop: 0,
+      ease: 'Power3.easeInOut',
+    })
+    gsap.to(lowScoresRef.value, {
+      duration: 0.8,
+      scrollTo:
+        lowScoresListOffsetMax < 0
+          ? lowScoresListOffset - 50
+          : lowScoresListOffsetMax - 50,
       ease: 'Power3.easeInOut',
     })
   } else {
@@ -134,6 +183,11 @@ const toggleLowScores = () => {
     gsap.to(lowScoresRef.value, {
       duration: 0.8,
       scrollTo: 0,
+      ease: 'Power3.easeInOut',
+    })
+    gsap.to(lowScoresListRef.value, {
+      duration: 0.8,
+      marginTop: -getLowScoresListOffset(),
       ease: 'Power3.easeInOut',
     })
   }

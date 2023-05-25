@@ -18,13 +18,14 @@ export default class Theatre {
     this.setAnimations()
   }
   setAnimations() {
-    mittInstance.on('Start skate intro', () => {
-      this.project.ready.then(() => {
-        this.introSkate.sequence.play({ iterationCount: 1 })
-        setTimeout(() => {
-          mittInstance.emit('Skate intro finished')
-        }, 5000)
-      })
-    })
+    // mittInstance.on('Start skate intro', () => {
+    //   this.project.ready.then(() => {
+    //     // console.log(this.introSkate)
+    //     this.introSkate.sequence.play({ iterationCount: 1 })
+    //     setTimeout(() => {
+    //       mittInstance.emit('Start tutorial')
+    //     }, 5000)
+    //   })
+    // })
   }
 }

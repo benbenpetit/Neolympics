@@ -76,7 +76,7 @@ export const RAIL = {
 
 export const PIGEON = [RAIL.pattern, OLLIE.pattern]
 
-export const BACKFLIP = [KICKFLIP.pattern, RAIL.pattern]
+export const BACKFLIP = [KICKFLIP.pattern]
 
 export const FIGURES = [KICKFLIP, OLLIE, RAIL]
 

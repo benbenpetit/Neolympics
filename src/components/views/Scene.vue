@@ -1,6 +1,6 @@
 <template>
   <Timer />
-  <!-- <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
@@ -21,9 +21,9 @@
         <template v-slot:label>J'ai compris !</template>
       </ButtonUI>
     </template>
-  </Modal> -->
+  </Modal>
   <SkateModal
-    v-if="state === 'figure'"
+    v-if="state === 'figureGame'"
     :pattern="pattern"
     @onPatternEnd="handlePatternEnd"
   />
@@ -65,11 +65,11 @@ import { PIGEON, BACKFLIP } from '@/data/constants'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 
-const PATTERNS = [PIGEON, BACKFLIP]
+const PATTERNS = [BACKFLIP, PIGEON]
 
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
-const state = ref<'tutorial' | 'figure' | 'result' | ''>('tutorial')
+const state = ref<'tutorial' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
 const pattern = ref<number[][][]>(PATTERNS[0])
 const figureResult = ref('')
@@ -77,17 +77,29 @@ const result = ref('')
 const experience = ref<Experience | null>(null)
 
 onMounted(() => {
-  // const experience = new Experience(document.querySelector('canvas.webgl'))
+  experience.value = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')
-  state.value = 'figure'
 })
 
-mittInstance.on('Skate intro finished', () => {})
-state.value = 'tutorial'
-
-mittInstance.on('Skate Figure', () => {
-  state.value = 'figure'
+mittInstance.on('Start tutorial', () => {
+  state.value = 'tutorial'
 })
+
+mittInstance.on('Start Figure Game', () => {
+  setTimeout(() => {
+    state.value = 'figureGame'
+  }, 1500)
+})
+
+mittInstance.on('Start Figure Anim 3D', () => {
+  state.value = 'figureAnim'
+})
+
+mittInstance.on('Start Figure Anim 3D End', () => {
+  console.log('Reprendre le Timer')
+})
+
+// mittInstance.emit('Start Anim 3D', { step: step.value })
 
 mittInstance.on('Pattern joué', (e: any) => {
   figureResult.value = e.status ? 'Parfait !' : 'Incorrect'
@@ -98,6 +110,7 @@ mittInstance.on('Pattern joué', (e: any) => {
     startTimer()
   }, 3000)
 })
+
 mittInstance.on('Pattern time finished', () => {
   if (figureResult.value == '') {
     figureResult.value = 'Trop lent'
@@ -116,6 +129,9 @@ mittInstance.on('Sport finished', () => {
 const startTimer = () => {
   mittInstance.emit('Start Timer', { step: step.value })
   state.value = ''
+  if (step.value == 0) {
+    mittInstance.emit('Start Skate Animation')
+  }
   step.value = step.value + 1
 }
 
@@ -126,7 +142,8 @@ const endEpreuve = () => {
 }
 
 const handlePatternEnd = (isValid?: boolean) => {
-  console.log(isValid)
+  mittInstance.emit('Skate Figure Anim 3D')
+  startTimer()
 }
 </script>
 

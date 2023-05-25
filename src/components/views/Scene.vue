@@ -32,7 +32,7 @@
     :pattern="pattern"
     @onPatternEnd="handlePatternEnd"
   />
-  <!-- <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Fin de l'épreuve</template>
     <template v-slot:content>
       <div>
@@ -42,7 +42,7 @@
         </ButtonUI>
       </div>
     </template>
-  </Modal> -->
+  </Modal>
   <div
     v-if="figureResult != ''"
     class="figure-result"
@@ -144,7 +144,7 @@ const startTimer = () => {
 }
 
 const endEpreuve = () => {
-  const score: IScore = { points: 83, sportId: 'skate' }
+  const score: IScore = { points: 75, sportId: 'skate' }
   setCurrentScore(score)
   setSportStep('skate', 1)
 }

@@ -98,6 +98,7 @@ const startTimer = () => {
         clearInterval(timerIntervalId)
         timebarWidth.value = 100
         isRunning.value = false
+        mittInstance.emit('Sport finished')
       } else if (elapsedTime.value >= 36 && step.value == 3) {
         stopTimer()
         mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })

@@ -1,5 +1,5 @@
 <template>
-  <Timer :currentFigures="CURRENT_FIGURES" />
+  <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
   <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
@@ -82,6 +82,7 @@ const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
+const score = ref<number>(0)
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -131,7 +132,9 @@ mittInstance.on('Pattern time finished', () => {
 })
 
 mittInstance.on('Sport finished', () => {
-  state.value = 'result'
+  setTimeout(() => {
+    state.value = 'result'
+  }, 1500)
 })
 
 const startTimer = () => {
@@ -153,6 +156,7 @@ const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
   startTimer()
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
+  score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
 }
 
 const handleTutoEnd = () => {

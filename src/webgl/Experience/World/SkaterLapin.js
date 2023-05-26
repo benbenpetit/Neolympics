@@ -87,9 +87,9 @@ export default class SkaterLapin {
     }
 
     this.animation.mixer.addEventListener('finished', (e) => {
-      console.log('Action terminée : ', e.action.getClip().name)
-      this.animation.actions.current.reset()
-      this.animation.actions.current.play()
+      // console.log('Action terminée : ', e.action.getClip().name)
+      // this.animation.actions.current.reset()
+      // this.animation.actions.current.play()
     })
 
     // Debug Part
@@ -140,6 +140,14 @@ export default class SkaterLapin {
         z: 0.2,
         duration: 3,
       })
+      setTimeout(() => {
+        this.animation.actions.current.reset()
+        this.animation.actions.current.play()
+        this.animation.actions.current.crossFadeFrom(
+          this.animation.actions['P_PushDouble'],
+          0.2,
+        )
+      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000) - 200)
     })
 
     mittInstance.on('Start Figure Game', (e) => {
@@ -166,6 +174,17 @@ export default class SkaterLapin {
       })
       gsap.to(this.slowmotionFactor, {
         value: 0.001,
+        duration: 1.5,
+      })
+    })
+    mittInstance.on('Sport finished', () => {
+      console.log('Sport finished')
+      gsap.to(this.modelVelocity, {
+        z: 0.0,
+        duration: 1,
+      })
+      gsap.to(this.slowmotionFactor, {
+        value: 0,
         duration: 1.5,
       })
     })

@@ -39,18 +39,39 @@
       <img src="/img/home-character.svg" alt="" />
     </div>
   </div>
-
+  <Cursor
+    class="c-homepage-cursor"
+    :style="{
+      transform: `translate3d(calc(-50% + ${cursorPos.x}px), calc(-50% + ${cursorPos.y}px), 0)`,
+    }"
+    ref="cursorRef"
+    @primaryAction="handleCursorClick"
+  />
   <!-- <ButtonHome></ButtonHome> -->
 </template>
 
 <script setup lang="ts">
+import Cursor from '@/components/modules/Home/Cursor.vue'
 import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
-import { onMounted } from 'vue'
+import { gsap } from 'gsap/all'
+import { onMounted, ref } from 'vue'
 
-import ButtonHome from '@/components/common/ButtonHome.vue'
+const cursorRef = ref<any>(null)
+const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+let mouse = { x: 0, y: 0 }
 
-onMounted(() => {
-  // router.push('/competition/preparation')
+window.addEventListener('mousemove', (e: MouseEvent) => {
+  mouse = { x: e.pageX, y: e.pageY }
 })
+
+gsap.ticker.add(() => {
+  const dt = 1.0 - Math.pow(1.0 - 0.1, gsap.ticker.deltaRatio())
+  cursorPos.value.x += (mouse.x - cursorPos.value.x) * dt
+  cursorPos.value.y += (mouse.y - cursorPos.value.y) * dt
+})
+
+const handleCursorClick = () => {
+  console.log(cursorRef.value.cursorRef)
+}
 </script>

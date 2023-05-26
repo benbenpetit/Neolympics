@@ -75,7 +75,7 @@
     <template v-slot:buttons>
       <ButtonUI @click="modalOlympicsVisible = false" class="--white">
         <template v-slot:label>RETOUR</template> </ButtonUI
-      ><router-link to="/three">
+      ><router-link to="/competition/skate">
         <ButtonUI @click="gotoOlympics" class="--red">
           <template v-slot:label>COMMENCER !</template>
         </ButtonUI></router-link

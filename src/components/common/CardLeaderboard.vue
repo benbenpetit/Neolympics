@@ -7,7 +7,11 @@
         </span>
       </div>
       <div class="c-card-leaderboard-content">
-        <img :src="props.user?.photoURL ?? '/icon/user-icon.png'" alt="" />
+        <img
+          :src="props.user?.photoURL ?? '/icon/user-icon.png'"
+          alt=""
+          referrerpolicy="no-referrer"
+        />
         <span class="card-score"
           >{{ props.points }}pts + {{ props.quiz }} <img src="/icon/microphone.svg"
         /></span>

@@ -74,7 +74,7 @@ import { Howl, Howler } from 'howler'
 const CURRENT_FIGURES = [OLLIE, KICKFLIP, HARDFLIP, KICKFLIP, OLLIE]
 
 const { setCurrentScore } = useScoreStore()
-const { setSportStep } = useSportStore()
+const { sportState, setSportStep } = useSportStore()
 const state = ref<'tutorial' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
 const currentFigureIndex = ref(0)
@@ -88,6 +88,7 @@ const score = ref<number>(0)
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
   volume: 0.8,
+  loop: true,
 })
 
 let validPatternSound = new Howl({
@@ -173,14 +174,16 @@ mittInstance.on('Sport finished', () => {
 })
 
 const startTimer = () => {
-  mittInstance.emit('Start Timer', { step: step.value })
-  state.value = ''
-  if (step.value == 0) {
-    mittInstance.emit('Start Skate Animation')
-    skateTheme.play()
-    skateTheme.fade(0, 0.8, 100)
-  }
-  step.value = step.value + 1
+  console.log(sportState)
+  setSportStep('skate', 1)
+  // mittInstance.emit('Start Timer', { step: step.value })
+  // state.value = ''
+  // if (step.value == 0) {
+  //   mittInstance.emit('Start Skate Animation')
+  //   skateTheme.play()
+  //   skateTheme.fade(0, 0.8, 100)
+  // }
+  // step.value = step.value + 1
 }
 
 const endEpreuve = () => {

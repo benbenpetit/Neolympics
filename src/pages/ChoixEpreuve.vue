@@ -64,9 +64,12 @@
       sportParams[Math.abs((currentSport + 1) % 4)].title
     }}</template>
     <template v-slot:footerL v-if="sportParams[currentSport].available">
-      <CardLeaderboard />
-      <CardLeaderboard />
-      <CardLeaderboard />
+      <p>battez le score des champions !</p>
+      <div class="footer-left-leaderboard">
+        <CardLeaderboard />
+        <CardLeaderboard />
+        <CardLeaderboard />
+      </div>
     </template>
     <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
     <template v-slot:footerC v-if="!sportParams[currentSport].available">

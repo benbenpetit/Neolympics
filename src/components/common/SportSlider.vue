@@ -24,7 +24,9 @@
 
     <div class="sportslider-footer-wrapper">
       <footer class="c-sportslider-footer">
-        <div class="footer-left"><slot name="footerL"></slot></div>
+        <div class="footer-left">
+          <slot name="footerL"></slot>
+        </div>
         <div class="footer-center"><slot name="footerC"></slot></div>
         <div class="footer-right"><slot name="footerR"></slot></div>
       </footer>

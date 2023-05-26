@@ -67,13 +67,16 @@
       v-slot:footerL
       v-if="sportParams[currentSport].available && topThreePlayers.length"
     >
-      <CardLeaderboard
-        v-for="(topPlayer, index) in topThreePlayers"
-        :rank="index + 1"
-        :user="topPlayer.user"
-        :points="topPlayer.score.points"
-        :quiz="topPlayer.score.points"
-      />
+      <p>battez le score des champions !</p>
+      <div class="footer-left-leaderboard">
+        <CardLeaderboard
+          v-for="(topPlayer, index) in topThreePlayers"
+          :rank="index + 1"
+          :user="topPlayer.user"
+          :points="topPlayer.score.points"
+          :quiz="topPlayer.score.points"
+        />
+      </div>
     </template>
     <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
     <template v-slot:footerC v-if="!sportParams[currentSport].available">

@@ -69,6 +69,7 @@ import { HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
+import { Howl, Howler } from 'howler'
 
 const CURRENT_FIGURES = [OLLIE, KICKFLIP, HARDFLIP, KICKFLIP, OLLIE]
 
@@ -83,9 +84,25 @@ const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 
+let skateTheme = new Howl({
+  src: ['/sounds/soundtracks/skate-theme-long.mp3'],
+  volume: 0.8,
+})
+
+let validPatternSound = new Howl({
+  src: ['/sounds/soundtracks/crowd-cheer.mp3'],
+  volume: 0.5,
+})
+
+let wrongPatternSound = new Howl({
+  src: ['/sounds/soundtracks/crowd-bouh.mp3'],
+  volume: 0.5,
+})
+
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')
+  Howler.stop()
 })
 
 mittInstance.on('Start tutorial', () => {
@@ -95,16 +112,34 @@ mittInstance.on('Start tutorial', () => {
 
 mittInstance.on('Start Figure Game', () => {
   setTimeout(() => {
-    state.value = 'figureGame'
+    ;(state.value = 'figureGame'),
+      // @ts-ignore
+      skateTheme.addFilter({
+        filterType: 'lowpass',
+        frequency: 1500.0,
+        Q: 3.0,
+      })
   }, 1500)
 })
 
-mittInstance.on('Start Figure Anim 3D', () => {
+mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
 })
 
 mittInstance.on('Start Figure Anim 3D End', () => {
   console.log('Reprendre le Timer')
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
 })
 
 // mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -139,6 +174,8 @@ const startTimer = () => {
   state.value = ''
   if (step.value == 0) {
     mittInstance.emit('Start Skate Animation')
+    skateTheme.play()
+    skateTheme.fade(0, 0.8, 100)
   }
   step.value = step.value + 1
 }
@@ -153,6 +190,13 @@ const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
   startTimer()
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
+
+  if (isValid == true) {
+    validPatternSound.play()
+  } else {
+    console.log('wrong pattern')
+    wrongPatternSound.play()
+  }
 }
 
 const handleTutoEnd = () => {

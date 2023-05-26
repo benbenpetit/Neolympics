@@ -74,11 +74,12 @@
     </template>
     <template v-slot:buttons>
       <ButtonUI @click="modalOlympicsVisible = false" class="--white">
-        <template v-slot:label>RETOUR</template>
-      </ButtonUI>
-      <ButtonUI @click="gotoOlympics" class="--red">
-        <template v-slot:label>COMMENCER !</template>
-      </ButtonUI>
+        <template v-slot:label>RETOUR</template> </ButtonUI
+      ><router-link to="/three">
+        <ButtonUI @click="gotoOlympics" class="--red">
+          <template v-slot:label>COMMENCER !</template>
+        </ButtonUI></router-link
+      >
     </template>
   </Modal>
 </template>

@@ -11,6 +11,7 @@
   grid-template-rows: repeat(10, 1fr);
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  user-select: none;
 
   .c-homepage-banner {
     grid-area: 1 / 1 / 11 / 3;
@@ -38,8 +39,7 @@
   $margin: 26px;
   $radius: 16px;
 
-  .c-homepage-illu {
-    z-index: 1;
+  .c-homepage-bg {
     grid-area: 1 / 3 / 9 / 9;
     margin: $margin;
     border-radius: $radius;
@@ -52,13 +52,53 @@
       height: 100%;
       overflow: hidden;
       // clip-path: url('#home-bg-mask');
-      clip-path: path(
-        'M0 30C0 13.4315 13.4315 0 30 0H1308.46C1325.03 0 1338.46 13.4315 1338.46 30V199V440C1338.46 456.569 1325.03 470 1308.46 470H884C867.431 470 854 483.431 854 500V657.5V766C854 782.569 840.569 796 824 796H669.23H29.9999C13.4314 796 0 782.569 0 766V30Z'
-      );
+      // clip-path: path(
+      //   'M0 30C0 13.4315 13.4315 0 30 0H1308.46C1325.03 0 1338.46 13.4315 1338.46 30V199V440C1338.46 456.569 1325.03 470 1308.46 470H884C867.431 470 854 483.431 854 500V657.5V766C854 782.569 840.569 796 824 796H669.23H29.9999C13.4314 796 0 782.569 0 766V30Z'
+      // );
+    }
+    .c-homepage-illu {
+      z-index: 20;
+      position: absolute;
+      top: -10px;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .c-homepage-text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      p {
+        z-index: 15;
+        position: absolute;
+        color: $color-red;
+        font-size: 16rem;
+        font-weight: 1000;
+        font-family: MonumentExtended;
+        transform: translate(0px, 200px) matrix(0.96, 0.27, 0.31, 0.95, 0, 0);
+
+        &.--shadow {
+          z-index: 10;
+          color: #3d3aa9;
+          padding-left: 15px;
+          padding-top: 15px;
+        }
+      }
+      img {
+      }
     }
   }
 
   .c-homepage-flag {
+    user-select: none;
     z-index: 5;
     grid-area: 1 / 7 / 5 / 9;
     display: flex;
@@ -74,6 +114,7 @@
   }
 
   .c-homepage-brush {
+    user-select: none;
     position: relative;
     grid-area: 9 / 3 / 11 / 7;
     margin: 0px 0px $margin $margin;
@@ -103,8 +144,9 @@
       z-index: 10;
     }
   }
+
   .c-homepage-character {
-    z-index: 5;
+    z-index: 50;
     grid-area: 5 / 7 / 11 / 9;
     margin: $margin;
     border-radius: $radius;
@@ -112,6 +154,7 @@
     align-items: flex-end;
     align-content: center;
     justify-content: center;
+    user-select: none;
 
     background-image: repeating-linear-gradient(
         45deg,
@@ -133,10 +176,11 @@
     background-size: 60px 60px;
 
     img {
-      max-width: 115%;
+      max-width: 110%;
       max-height: 100%;
       object-fit: contain;
       transform: translateY(1px);
+      user-select: none;
     }
   }
 }

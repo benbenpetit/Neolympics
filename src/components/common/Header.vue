@@ -29,11 +29,12 @@
     </template>
     <template v-slot:buttons>
       <ButtonUI @click="retourArriere" class="--white">
-        <template v-slot:label>ANNULER</template>
-      </ButtonUI>
-      <ButtonUI @click="goHome" class="--red">
-        <template v-slot:label>CONTINUER</template>
-      </ButtonUI>
+        <template v-slot:label>ANNULER</template> </ButtonUI
+      ><router-link to="/">
+        <ButtonUI @click="goHome" class="--red">
+          <template v-slot:label>CONTINUER</template>
+        </ButtonUI></router-link
+      >
     </template>
   </Modal>
 </template>
@@ -42,6 +43,7 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+
 import publicRouters from '@/data/publicRouters'
 import Modal from '@/components/common/Modal.vue'
 import { Howl, Howler } from 'howler'

@@ -11,7 +11,7 @@
         <h1>LYMPICS</h1>
       </div> -->
     </div>
-    <div class="c-homepage-illu">
+    <div class="c-homepage-bg">
       <!-- <img src="/img/home-illu1.png" alt="" /> -->
       <img src="/img/home-bg-full.svg" alt="" />
       <!-- <svg width="0" height="0">
@@ -23,6 +23,13 @@
           </clipPath>
         </defs>
       </svg> -->
+      <div class="c-homepage-illu">
+        <img src="/img/home-illu-skater.svg" alt="" />
+      </div>
+      <div class="c-homepage-text">
+        <p>AAAAHHH</p>
+        <p class="--shadow">AAAAHHH</p>
+      </div>
     </div>
     <div class="c-homepage-flag">
       <img src="/img/paris2024.svg" alt="" />
@@ -47,10 +54,10 @@
 import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
 import { onMounted } from 'vue'
-
-import ButtonHome from '@/components/common/ButtonHome.vue'
+import { Howl, Howler } from 'howler'
 
 onMounted(() => {
   // router.push('/competition/preparation')
+  Howler.stop()
 })
 </script>

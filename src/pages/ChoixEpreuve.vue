@@ -20,9 +20,7 @@
 
     <SportCard class="--disabled" @click="selectSurf">
       <template v-slot:sportname>SURF</template>
-      <template v-slot:sportimg>
-        <img src="/img/planche-skate-verticale.png" alt="" />
-      </template>
+      <template v-slot:sportimg></template>
       <template v-slot:footer>
         <p>À VENIR</p>
         <img src="/icon/lock.svg" alt="" />
@@ -31,7 +29,7 @@
 
     <SportCard class="--disabled" @click="selectBreak">
       <template v-slot:sportname>BREAKING</template>
-      <template v-slot:sportimg> <img src="/img/basket-breaking.png" alt="" /> </template>
+      <template v-slot:sportimg></template>
       <template v-slot:footer>
         <p>À VENIR</p>
         <img src="/icon/lock.svg" alt="" />
@@ -40,7 +38,7 @@
 
     <SportCard class="--disabled" @click="selectClimb">
       <template v-slot:sportname>ESCALADE</template>
-      <template v-slot:sportimg> <img src="/img/hand.png" alt="" /> </template>
+      <template v-slot:sportimg></template>
       <template v-slot:footer>
         <p>À VENIR</p>
         <img src="/icon/lock.svg" alt="" />

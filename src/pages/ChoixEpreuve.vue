@@ -63,10 +63,17 @@
     <template v-slot:buttonRtext>{{
       sportParams[Math.abs((currentSport + 1) % 4)].title
     }}</template>
-    <template v-slot:footerL v-if="sportParams[currentSport].available">
-      <CardLeaderboard />
-      <CardLeaderboard />
-      <CardLeaderboard />
+    <template
+      v-slot:footerL
+      v-if="sportParams[currentSport].available && topThreePlayers.length"
+    >
+      <CardLeaderboard
+        v-for="(topPlayer, index) in topThreePlayers"
+        :rank="index + 1"
+        :user="topPlayer.user"
+        :points="topPlayer.score.points"
+        :quiz="topPlayer.score.points"
+      />
     </template>
     <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
     <template v-slot:footerC v-if="!sportParams[currentSport].available">
@@ -110,6 +117,8 @@ import { onMounted } from 'vue'
 import { Auth, getAuth, signOut } from 'firebase/auth'
 import { NONAME } from 'dns'
 import { Howl, Howler } from 'howler'
+import { getTopScoresBySport } from '@/core/services/api/leaderboardApi'
+import { IScoreWUser } from '@/core/types/IScore'
 
 gsap.registerPlugin(CustomEase)
 
@@ -121,6 +130,7 @@ let currentSport = ref<number>(0)
 let headerIcon = computed<string>(() =>
   !sportConfirmed.value ? '/icon/whistle-icon.svg' : '/icon/skateboarding.svg',
 )
+const topThreePlayers = ref<IScoreWUser[]>([])
 
 const onModalOpen = () => {
   // @ts-ignore
@@ -171,11 +181,10 @@ let sliderPopSound = new Howl({
 })
 
 onMounted(async () => {
-  // auth = getAuth()
-  // signOut(auth).then(() => {
-  //   console.log('Sign Out')
-  // })
   Howler.stop()
+
+  const topScoresBySport = await getTopScoresBySport('skate', 3)
+  topThreePlayers.value = topScoresBySport.reverse()
 
   gameSoundtrack.play()
   gameSoundtrack.fade(0, 0.8, 300)

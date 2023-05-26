@@ -2,8 +2,8 @@
   <div class="infos-container">
     <div class="score-wrapper">
       <div class="skew-container">
-        <div class="score-container">
-          <div class="score--value">0</div>
+        <div class="score-container" ref="scoreContainerRef">
+          <div class="score--value">{{ score }}</div>
           <div class="score--unit">pts</div>
         </div>
       </div>
@@ -43,16 +43,18 @@
 import IconContainer from '@/components/common/IconContainer.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import Experience from '@/webgl/Experience/Experience'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import { IScore } from '@/core/types/IScore'
 import publicRouters from '@/data/publicRouters'
 import { IFigure } from '@/core/types/IFigure'
+import { gsap } from 'gsap'
 
 interface Props {
   currentFigures: IFigure[]
+  score: number
 }
 
 const props = defineProps<Props>()
@@ -64,16 +66,28 @@ const isRunning = ref(false)
 const elapsedTime = ref(0)
 const stoppedTime = ref(0)
 const timebarWidth = ref(0)
+const scoreContainerRef = ref<HTMLDivElement | null>(null)
 const step = ref(0)
 let startTime: any = null
 let timerIntervalId: any = null
-let maxTime: number = 45
+let maxTime: number = 30
 
 // declare global {
 //   interface Window {
 //     experience: Experience
 //   }
 // }
+
+watch(
+  () => props.score,
+  () => {
+    console.log('Value changed')
+    gsap
+      .timeline()
+      .to(scoreContainerRef.value, { scale: 2, duration: 0.2 })
+      .to(scoreContainerRef.value, { scale: 1, duration: 0.2 })
+  },
+)
 
 mittInstance.on('Start Timer', (e: any) => {
   step.value = e.step
@@ -99,16 +113,16 @@ const startTimer = () => {
         timebarWidth.value = 100
         isRunning.value = false
         mittInstance.emit('Sport finished')
-      } else if (elapsedTime.value >= 36 && step.value == 3) {
+      } else if (elapsedTime.value >= 24 && step.value == 3) {
         stopTimer()
         mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
-      } else if (elapsedTime.value >= 27 && step.value == 2) {
+      } else if (elapsedTime.value >= 18 && step.value == 2) {
         stopTimer()
         mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
-      } else if (elapsedTime.value >= 18 && step.value == 1) {
+      } else if (elapsedTime.value >= 12 && step.value == 1) {
         stopTimer()
         mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
-      } else if (elapsedTime.value >= 9 && step.value == 0) {
+      } else if (elapsedTime.value >= 6 && step.value == 0) {
         stopTimer()
         mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })
       }

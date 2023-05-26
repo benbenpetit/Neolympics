@@ -74,12 +74,11 @@
     </template>
     <template v-slot:buttons>
       <ButtonUI @click="modalOlympicsVisible = false" class="--white">
-        <template v-slot:label>RETOUR</template> </ButtonUI
-      ><router-link to="/competition/skate">
-        <ButtonUI @click="gotoOlympics" class="--red">
-          <template v-slot:label>COMMENCER !</template>
-        </ButtonUI></router-link
-      >
+        <template v-slot:label>RETOUR</template>
+      </ButtonUI>
+      <ButtonUI @click="gotoOlympics" class="--red">
+        <template v-slot:label>COMMENCER !</template>
+      </ButtonUI>
     </template>
   </Modal>
 </template>
@@ -94,6 +93,7 @@ import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { ref } from 'vue'
 import { Howl, Howler } from 'howler'
+import { useSportStore } from '@/core/store/sport'
 
 gsap.registerPlugin(CustomEase)
 
@@ -112,6 +112,7 @@ const router = useRouter()
 const difficultyAnim = gsap.timeline({})
 
 const modalOlympicsVisible = ref<boolean>(false)
+const { setSportStep } = useSportStore()
 
 const difficultyInfo = [
   {
@@ -139,6 +140,8 @@ const showModalOlympics = () => {
 
 const gotoOlympics = () => {
   modalOlympicsVisible.value = false
+  setSportStep('skate', 0)
+  router.push('/competition/skate')
   console.log('olympics')
 }
 

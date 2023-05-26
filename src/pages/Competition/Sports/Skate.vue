@@ -27,10 +27,6 @@ const skateStep = computed(
   () => sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.step ?? 0,
 )
 
-onMounted(() => {
-  setSportStep('skate', 0)
-})
-
 watch(
   sportState.doneSports,
   async () => {

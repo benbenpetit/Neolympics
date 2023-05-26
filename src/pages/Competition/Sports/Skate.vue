@@ -10,7 +10,7 @@
 import Leaderboard from '@/components/modules/Game/Leaderboard/Leaderboard.vue'
 import Scene from '@/components/views/Scene.vue'
 import { IMaxSessionWUser } from '@/core/types/IScore'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import { getAllMaxSessions } from '@/core/services/api/leaderboardApi'
@@ -19,13 +19,17 @@ import { useCurrentUser } from 'vuefire'
 import { IUser } from '@/core/types/IUser'
 import { getSortedInProgressMaxSessions } from '@/core/utils/scores'
 
-const { sportState } = useSportStore()
+const { sportState, setSportStep } = useSportStore()
 const { scoreState } = useScoreStore()
 const currentUser = useCurrentUser()
 const maxSessions = ref<IMaxSessionWUser[]>([])
 const skateStep = computed(
   () => sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.step ?? 0,
 )
+
+onMounted(() => {
+  setSportStep('skate', 0)
+})
 
 watch(
   sportState.doneSports,

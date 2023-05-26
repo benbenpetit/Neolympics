@@ -3,6 +3,7 @@ import { IUser } from '@/core/types/IUser'
 export interface IScore {
   id?: string
   points: number
+  quiz?: number
   createdAt?: Date
   userId?: string
   sportId?: string

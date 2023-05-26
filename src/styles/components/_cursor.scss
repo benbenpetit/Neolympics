@@ -1,8 +1,8 @@
 @use '/src/styles/settings' as *;
 
 .c-cursor {
-  width: 287px;
-  height: 287px;
+  width: 35vmin;
+  height: 35vmin;
   border-radius: 9999px;
   cursor: grab;
   display: flex;
@@ -61,6 +61,8 @@
     position: absolute;
     left: 50%;
     top: 50%;
+    width: 38%;
+    height: 38%;
     transform: translate(-50%, -50%);
     z-index: 2;
   }

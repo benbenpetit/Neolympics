@@ -127,8 +127,8 @@ const animText = (isWrong?: boolean) => {
   }
 }
 
-const handleEndPattern = () => {
-  emits('onPatternEnd', true)
+const handleEndPattern = (isValid?: boolean) => {
+  emits('onPatternEnd', isValid)
   // isWin.value = false
   // isLose.value = false
   // isAutoDrawing.value = true
@@ -156,7 +156,7 @@ const handleWin = () => {
     animText()
   }, 300)
   setTimeout(() => {
-    handleEndPattern()
+    handleEndPattern(true)
   }, 1500)
 }
 

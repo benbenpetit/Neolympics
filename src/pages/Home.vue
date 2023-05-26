@@ -52,9 +52,8 @@
       transform: `translate3d(calc(-50% + ${cursorPos.x}px), calc(-50% + ${cursorPos.y}px), 0)`,
     }"
     ref="cursorRef"
-    @primaryAction="handleCursorClick"
+    @primaryAction="handleEnterGame"
   />
-  <!-- <ButtonHome></ButtonHome> -->
 </template>
 
 <script setup lang="ts">
@@ -65,26 +64,26 @@ import { onMounted, ref } from 'vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap/all'
 
+const cursorRef = ref<any>(null)
+const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+let mouse = { x: 0, y: 0 }
+
 onMounted(() => {
   // router.push('/competition/preparation')
   Howler.stop()
 })
-
-const cursorRef = ref<any>(null)
-const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
-let mouse = { x: 0, y: 0 }
 
 window.addEventListener('mousemove', (e: MouseEvent) => {
   mouse = { x: e.pageX, y: e.pageY }
 })
 
 gsap.ticker.add(() => {
-  const dt = 1.0 - Math.pow(1.0 - 0.1, gsap.ticker.deltaRatio())
+  const dt = 1.0 - Math.pow(1.0 - 0.07, gsap.ticker.deltaRatio())
   cursorPos.value.x += (mouse.x - cursorPos.value.x) * dt
   cursorPos.value.y += (mouse.y - cursorPos.value.y) * dt
 })
 
-const handleCursorClick = () => {
-  console.log(cursorRef.value.cursorRef)
+const handleEnterGame = () => {
+  router.push('/competition/preparation')
 }
 </script>

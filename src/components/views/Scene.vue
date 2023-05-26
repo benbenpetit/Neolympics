@@ -174,16 +174,14 @@ mittInstance.on('Sport finished', () => {
 })
 
 const startTimer = () => {
-  console.log(sportState)
-  setSportStep('skate', 1)
-  // mittInstance.emit('Start Timer', { step: step.value })
-  // state.value = ''
-  // if (step.value == 0) {
-  //   mittInstance.emit('Start Skate Animation')
-  //   skateTheme.play()
-  //   skateTheme.fade(0, 0.8, 100)
-  // }
-  // step.value = step.value + 1
+  mittInstance.emit('Start Timer', { step: step.value })
+  state.value = ''
+  if (step.value == 0) {
+    mittInstance.emit('Start Skate Animation')
+    skateTheme.play()
+    skateTheme.fade(0, 0.8, 100)
+  }
+  step.value = step.value + 1
 }
 
 const endEpreuve = () => {

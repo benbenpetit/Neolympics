@@ -68,7 +68,7 @@ import { gsap } from 'gsap/all'
 onMounted(() => {
   // router.push('/competition/preparation')
   Howler.stop()
-}
+})
 
 const cursorRef = ref<any>(null)
 const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })

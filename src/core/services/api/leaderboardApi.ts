@@ -11,7 +11,7 @@ import {
   doc,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
-import { IMaxSession, IMaxSessionWUser, IScore } from '@/core/types/IScore'
+import { IMaxSession, IMaxSessionWUser, IScore, IScoreWUser } from '@/core/types/IScore'
 
 export const addScoreSkate = async (sport: IScore) => {
   sport = {
@@ -65,19 +65,25 @@ export const getAllScoresByUserId = async (userId: string) => {
 }
 
 export const getTopScoresBySport = async (sportId: string, limit = 10) => {
-  let scores: IScore[] = []
+  let scores: IScoreWUser[] = []
 
   const scoresQuerySnapshot = await getDocs(
     query(
       collection(db, 'scores') as CollectionReference<IScore>,
       where('sportId', '==', sportId),
-      orderBy('points', 'desc'),
+      orderBy('points', 'asc'),
       limitToLast(limit),
     ),
   )
 
   for (const scoreDoc of scoresQuerySnapshot.docs) {
-    scores.push(scoreDoc.data())
+    const userId = scoreDoc.get('userId')
+    const userDoc = await getDoc(doc(db, 'users', userId))
+
+    scores.push({
+      score: scoreDoc.data(),
+      user: userDoc.data(),
+    })
   }
 
   return scores

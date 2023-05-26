@@ -8,8 +8,8 @@
 
 .intro-quiz-wrapper {
   position: fixed;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   align-items: center;
   z-index: 100;
 
@@ -59,25 +59,28 @@
 
 .quiz-background {
   position: absolute;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-image: url('/img/bg-quiz.jpg');
   background-size: cover;
   z-index: -1;
+  overflow: hidden;
 }
 
 .c-quiz-wrapper {
   position: relative;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
+  // overflow: hidden;
 }
 
 .character-quiz {
   position: absolute;
   left: 0;
   top: -100px;
+  overflow: hidden;
 
   video {
     width: 800px;
@@ -129,6 +132,7 @@
           flex: 1 1 35%;
           flex-wrap: wrap;
           max-width: 350px;
+          text-transform: uppercase;
 
           &.--correct {
             background-color: $color-green-quiz-primary;

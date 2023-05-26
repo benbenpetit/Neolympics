@@ -11,7 +11,7 @@
         <h1>LYMPICS</h1>
       </div> -->
     </div>
-    <div class="c-homepage-illu">
+    <div class="c-homepage-bg">
       <!-- <img src="/img/home-illu1.png" alt="" /> -->
       <img src="/img/home-bg-full.svg" alt="" />
       <!-- <svg width="0" height="0">
@@ -23,6 +23,13 @@
           </clipPath>
         </defs>
       </svg> -->
+      <div class="c-homepage-illu">
+        <img src="/img/home-illu-skater.svg" alt="" />
+      </div>
+      <div class="c-homepage-text">
+        <p>AAAAHHH</p>
+        <p class="--shadow">AAAAHHH</p>
+      </div>
     </div>
     <div class="c-homepage-flag">
       <img src="/img/paris2024.svg" alt="" />
@@ -54,8 +61,14 @@
 import Cursor from '@/components/modules/Home/Cursor.vue'
 import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
-import { gsap } from 'gsap/all'
 import { onMounted, ref } from 'vue'
+import { Howl, Howler } from 'howler'
+import { gsap } from 'gsap/all'
+
+onMounted(() => {
+  // router.push('/competition/preparation')
+  Howler.stop()
+})
 
 const cursorRef = ref<any>(null)
 const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })

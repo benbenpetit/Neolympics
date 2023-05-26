@@ -1,0 +1,73 @@
+@use '/src/styles/settings' as *;
+
+.c-cursor {
+  width: 287px;
+  height: 287px;
+  border-radius: 9999px;
+  cursor: grab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  border: none;
+  outline: none;
+  padding: 0;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &__outer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $color-red;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    animation: rotate 20s linear infinite;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    width: 71%;
+    height: 71%;
+    background-color: #ffffff;
+    border-radius: 9999px;
+
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(-360deg);
+  }
+}

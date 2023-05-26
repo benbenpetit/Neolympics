@@ -88,8 +88,8 @@ export default class SkaterLapin {
 
     this.animation.mixer.addEventListener('finished', (e) => {
       // console.log('Action terminée : ', e.action.getClip().name)
-      // this.animation.actions.current.reset()
-      // this.animation.actions.current.play()
+      this.animation.actions.current.reset()
+      this.animation.actions.current.play()
     })
 
     // Debug Part

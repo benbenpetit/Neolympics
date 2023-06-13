@@ -91,6 +91,7 @@ import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/all'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useCurrentUser } from 'vuefire'
+import { Howl, Howler } from 'howler'
 gsap.registerPlugin(ScrollToPlugin)
 
 interface Props {
@@ -111,8 +112,16 @@ const lowScoresRef = ref<HTMLDivElement | null>(null)
 const lowScoresListRef = ref<HTMLUListElement | null>(null)
 const isOpenSignIn = ref(false)
 
+let leaderboardTheme = new Howl({
+  src: ['/sounds/soundtracks/leaderboard.mp3'],
+  volume: 0.8,
+  loop: true,
+})
+
 onMounted(() => {
   isOpenScores.value = false
+  Howler.stop()
+  leaderboardTheme.play()
   // addMaxSession(
   //   {
   //     createdAt: new Date(),

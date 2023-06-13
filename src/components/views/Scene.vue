@@ -101,10 +101,16 @@ let wrongPatternSound = new Howl({
   volume: 0.5,
 })
 
+let startingSkateTheme = new Howl({
+  src: ['/sounds/soundtracks/before-trial.mp3'],
+  volume: 0.7,
+})
+
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
   mittInstance.emit('Start skate intro')
   Howler.stop()
+  startingSkateTheme.play()
 })
 
 mittInstance.on('Start tutorial', () => {
@@ -180,6 +186,9 @@ const startTimer = () => {
     mittInstance.emit('Start Skate Animation')
     skateTheme.play()
     skateTheme.fade(0, 0.8, 100)
+    if (startingSkateTheme.playing()) {
+      startingSkateTheme.fade(0.8, 0, 600)
+    }
   }
   step.value = step.value + 1
 }

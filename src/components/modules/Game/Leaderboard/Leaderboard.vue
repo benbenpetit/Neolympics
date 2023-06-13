@@ -1,9 +1,8 @@
 <template>
   <div class="c-leaderboard">
-    <header class="c-leaderboard__header">
-      <h1>Leaderboard</h1>
-      <img src="/img/leaderboard-world.png" />
-    </header>
+    <Header imgSrc="/img/leaderboard-world.png">
+      <template v-slot:title>LEADERBOARD</template>
+    </Header>
     <div class="c-leaderboard__top-scores">
       <ul class="c-leaderboard__top-scores__list">
         <li
@@ -80,6 +79,7 @@
 
 <script setup lang="ts">
 import ButtonUI from '@/components/common/ButtonUI.vue'
+import Header from '@/components/common/Header.vue'
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
 import router from '@/core/router'

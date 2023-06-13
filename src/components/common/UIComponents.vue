@@ -1,7 +1,11 @@
 <template>
   <HeaderGame />
   <template v-if="isShowModal">
-    <Modal imgSrc="null" class="--blue --fullscreen">
+    <Modal
+      imgSrc="null"
+      @onBackdropClick="() => (isShowModal = false)"
+      class="--blue --fullscreen"
+    >
       <template v-slot:title>Commencer l'épreuve maintenant ?</template>
       <template v-slot:content>
         Tu es sur le point de commencer une épreuve qui comptera dans ton tableau des

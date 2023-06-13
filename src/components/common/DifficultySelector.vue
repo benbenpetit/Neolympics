@@ -66,7 +66,11 @@
     </div>
   </div>
 
-  <Modal v-if="modalOlympicsVisible" class="--blue --fullscreen">
+  <Modal
+    v-if="modalOlympicsVisible"
+    @onBackdropClick="() => (modalOlympicsVisible = false)"
+    class="--blue --fullscreen"
+  >
     <template v-slot:title>Commencer l'épreuve ?</template>
     <template v-slot:content>
       Tu es sur le point de commencer une épreuve qui comptera dans ton tableau des
@@ -87,11 +91,11 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 import publicRouters from '@/data/publicRouters'
 import { onMounted } from 'vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
-import { ref } from 'vue'
 import { Howl, Howler } from 'howler'
 import { useSportStore } from '@/core/store/sport'
 

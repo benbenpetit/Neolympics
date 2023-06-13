@@ -1,13 +1,17 @@
 @use '/src/styles/settings' as *;
 
 .c-sportcard-wrapper {
-  background: repeating-linear-gradient(
-    -55deg,
-    #ffffff,
-    #ffffff 35px,
-    #f8f8f8 35px,
-    #f8f8f8 100px
-  );
+  // background: repeating-linear-gradient(
+  //   -55deg,
+  //   #ffffff,
+  //   #ffffff 35px,
+  //   #f8f8f8 35px,
+  //   #f8f8f8 100px
+  // );
+  background-color: #ffffff;
+  background-image: url('/img/sportcard-mask.svg');
+  background-size: cover;
+  background-position: center;
   border-left: solid 1px #b0baec;
   border-right: solid 1px #b0baec;
   transform: skew(-7deg);
@@ -27,7 +31,7 @@
 
     .c-sportcard-sportname {
       font-family: MonumentExtended;
-      font-size: 5rem;
+      font-size: clamp(3rem, 9vmin, 5rem);
       text-align: center;
       color: $color-blue;
       writing-mode: vertical-lr;
@@ -36,7 +40,7 @@
       position: absolute;
       left: 0;
       user-select: none;
-      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-width: 2px;
       -webkit-text-stroke-color: $color-blue;
     }
 
@@ -89,7 +93,6 @@
       .c-sportcard-sportname {
         left: auto;
         color: rgba(0, 0, 0, 0);
-        -webkit-text-stroke-width: 3px;
         -webkit-text-stroke-color: $color-darkgrey;
       }
       .c-sportcard-content {

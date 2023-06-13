@@ -1,6 +1,7 @@
 <template>
-  <header>
+  <header class="c-header">
     <div class="c-header-wrapper" :class="!background ? '--no-bg' : ''">
+      <img src="/img/brush-header.png" class="c-header-wrapper__brush" />
       <div class="c-header-left">
         <slot name="icon" v-if="props.imgSrc">
           <img :src="props.imgSrc" alt="" />
@@ -21,7 +22,11 @@
     </div>
   </header>
 
-  <Modal v-if="modalHomeVisible" class="--blue --fullscreen">
+  <Modal
+    v-if="modalHomeVisible"
+    @onBackdropClick="() => (modalHomeVisible = false)"
+    class="--blue --fullscreen"
+  >
     <template v-slot:title>Retourner à l'accueil ?</template>
     <template v-slot:content>
       Tu es sur le point de quitter la compétition et retourner au choix du sport. Veux-tu
@@ -51,11 +56,6 @@ import { Howl, Howler } from 'howler'
 const router = useRouter()
 const soundOnSrc = '/icon/sound-on.svg'
 const soundOffSrc = '/icon/sound-off.svg'
-
-// const { imgSrc, background } = withDefaults(defineProps<Props>(), {
-//   imgSrc: undefined,
-//   background: true,
-// })
 
 const props = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
@@ -98,4 +98,10 @@ const retourArriere = () => {
 const goHome = () => {
   closeModalHome()
 }
+
+window.addEventListener('keydown', (e) => {
+  if (e.keyCode === 27) {
+    retourArriere()
+  }
+})
 </script>

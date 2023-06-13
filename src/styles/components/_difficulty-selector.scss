@@ -1,8 +1,9 @@
 @use '/src/styles/settings' as *;
 
 .c-difficulty-wrapper {
-  height: 85vh;
+  height: 100vh;
   width: 100%;
+  position: relative;
 }
 
 .c-difficulty-nametag {
@@ -135,6 +136,14 @@
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  video {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .difficulty-footer-wrapper {

@@ -1,5 +1,6 @@
 <template>
   <div class="c-modal-wrapper">
+    <span class="c-modal-wrapper__backdrop" @click="emits('onBackdropClick')" />
     <div class="c-modal-upper-img">
       <slot name="upper-img"></slot>
     </div>
@@ -27,4 +28,6 @@ const { imgSrc } = defineProps<Props>()
 interface Props {
   imgSrc?: string
 }
+
+const emits = defineEmits(['onBackdropClick'])
 </script>

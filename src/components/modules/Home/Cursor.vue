@@ -28,6 +28,7 @@ const cursorRef = ref<HTMLButtonElement | null>(null)
 const outerRef = ref<HTMLDivElement | null>(null)
 const innerRef = ref<HTMLDivElement | null>(null)
 const isMouseDown = ref(false)
+const isFinished = ref(false)
 let rotating: GSAPTimeline
 let speed = 1
 
@@ -40,11 +41,22 @@ onMounted(() => {
     .to(innerRef.value, { rotate: 360, ease: 'linear', duration: 5 })
 })
 
+const hideCursor = () => {
+  isFinished.value = true
+  gsap.to(cursorRef.value, {
+    width: 0,
+    height: 0,
+    duration: 0.8,
+    ease: 'Power4.easeInOut',
+  })
+}
+
 const rotateLoop = () => {
   if (isMouseDown.value) {
     speed *= 1.05
     if (speed > 20) {
       emit('primaryAction')
+      hideCursor()
       return
     }
     rotating.timeScale(1 + Math.log(speed) * 3)
@@ -57,7 +69,7 @@ const handleMouseDown = () => {
   gsap.to(cursorRef.value, {
     width: '40vmin',
     height: '40vmin',
-    duration: 2,
+    duration: 1.6,
     ease: 'Power4.easeOut',
   })
   rotateLoop()
@@ -79,13 +91,15 @@ const decreaseSpeed = () => {
 }
 
 const handleMouseUp = () => {
-  isMouseDown.value = false
-  gsap.to(cursorRef.value, {
-    width: '35vmin',
-    height: '35vmin',
-    duration: 2,
-    ease: 'Power4.easeOut',
-  })
-  decreaseSpeed()
+  if (!isFinished.value) {
+    isMouseDown.value = false
+    gsap.to(cursorRef.value, {
+      width: '35vmin',
+      height: '35vmin',
+      duration: 2,
+      ease: 'Power4.easeOut',
+    })
+    decreaseSpeed()
+  }
 }
 </script>

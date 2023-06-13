@@ -1,5 +1,5 @@
 <template>
-  <header class="c-header">
+  <header class="c-header" ref="headerRef">
     <div class="c-header-wrapper" :class="!background ? '--no-bg' : ''">
       <img src="/img/brush-header.png" class="c-header-wrapper__brush" />
       <div class="c-header-left">
@@ -54,6 +54,7 @@ import Modal from '@/components/common/Modal.vue'
 import { Howl, Howler } from 'howler'
 
 const router = useRouter()
+const headerRef = ref<HTMLHeadElement | null>(null)
 const soundOnSrc = '/icon/sound-on.svg'
 const soundOffSrc = '/icon/sound-off.svg'
 
@@ -61,6 +62,8 @@ const props = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   background: true,
 })
+
+defineExpose({ headerRef })
 
 const emit = defineEmits(['onModalOpen', 'onModalClose'])
 

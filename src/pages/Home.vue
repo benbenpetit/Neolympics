@@ -1,9 +1,6 @@
 <template>
-  <div>Home</div>
-  <router-link to="/competition">Compétition</router-link>
-  <router-link :to="publicRouters.TRAINING">Entraînement</router-link>
   <div class="c-homepage-wrapper">
-    <div class="c-homepage-banner">
+    <div class="c-homepage-banner" ref="homeBannerRef">
       <img src="/img/home-banner-bg.svg" alt="" />
       <img src="/img/home-banner-title.svg" alt="" class="--title" />
       <!-- <div class="title">
@@ -11,7 +8,7 @@
         <h1>LYMPICS</h1>
       </div> -->
     </div>
-    <div class="c-homepage-bg">
+    <div class="c-homepage-bg" ref="homeBgRef">
       <!-- <img src="/img/home-illu1.png" alt="" /> -->
       <img src="/img/home-bg-full.svg" alt="" />
       <!-- <svg width="0" height="0">
@@ -31,10 +28,10 @@
         <p class="--shadow">AAAAHHH</p>
       </div>
     </div>
-    <div class="c-homepage-flag">
+    <div class="c-homepage-flag" ref="homeFlagRef">
       <img src="/img/paris2024.svg" alt="" />
     </div>
-    <div class="c-homepage-brush">
+    <div class="c-homepage-brush" ref="homeBrushRef">
       <img src="/img/brush-home.png" alt="" />
       <p>
         Découvrez les <strong>sports<br />additionnels</strong> des JEUX OLYMPIQUES<br />2024
@@ -42,7 +39,7 @@
         <strong>surpassez le monde entier</strong>
       </p>
     </div>
-    <div class="c-homepage-character">
+    <div class="c-homepage-character" ref="homeCharacterRef">
       <img src="/img/home-character.svg" alt="" />
     </div>
   </div>
@@ -66,10 +63,16 @@ import { gsap } from 'gsap/all'
 
 const cursorRef = ref<any>(null)
 const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
+const homeBannerRef = ref<any | null>(null)
+const homeBgRef = ref<any | null>(null)
+const homeFlagRef = ref<any | null>(null)
+const homeBrushRef = ref<any | null>(null)
+const homeCharacterRef = ref<any | null>(null)
 let mouse = { x: 0, y: 0 }
 
 onMounted(() => {
-  // router.push('/competition/preparation')
+  console.log('anim')
+  animIn()
   Howler.stop()
 })
 
@@ -83,7 +86,72 @@ gsap.ticker.add(() => {
   cursorPos.value.y += (mouse.y - cursorPos.value.y) * dt
 })
 
+const animIn = () => {
+  gsap.from(homeBrushRef.value, {
+    y: '150%',
+    duration: 0.8,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.from(homeBgRef.value, {
+    y: '-120%',
+    duration: 1,
+    delay: 0,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.from(homeFlagRef.value, {
+    x: 400,
+    duration: 1,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.from(homeCharacterRef.value, {
+    x: '120%',
+    duration: 1,
+    delay: 0,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.from(homeBannerRef.value, {
+    x: '-100%',
+    duration: 0.8,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+  })
+}
+
 const handleEnterGame = () => {
-  router.push('/competition/preparation')
+  gsap.to('.c-homepage-brush', {
+    y: '150%',
+    duration: 0.8,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.to('.c-homepage-bg', {
+    y: '-120%',
+    duration: 1,
+    delay: 0,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.to('.c-homepage-flag', {
+    x: 400,
+    duration: 1,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.to('.c-homepage-character', {
+    x: '120%',
+    duration: 1,
+    delay: 0,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.to('.c-homepage-banner', {
+    x: '-100%',
+    duration: 0.8,
+    delay: 0.2,
+    ease: 'Power4.easeInOut',
+    onComplete: () => {
+      router.push('/competition/preparation')
+    },
+  })
 }
 </script>

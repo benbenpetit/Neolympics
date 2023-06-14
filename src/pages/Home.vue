@@ -9,19 +9,21 @@
       </div> -->
     </div>
     <div class="c-homepage-bg" ref="homeBgRef">
-      <!-- <img src="/img/home-illu1.png" alt="" /> -->
       <img src="/img/home-bg-full.svg" alt="" />
-      <!-- <svg width="0" height="0">
-        <defs>
-          <clipPath id="home-bg-mask">
-            <path
-              d="M0 30C0 13.4315 13.4315 0 30 0H1308.46C1325.03 0 1338.46 13.4315 1338.46 30V199V440C1338.46 456.569 1325.03 470 1308.46 470H884C867.431 470 854 483.431 854 500V657.5V766C854 782.569 840.569 796 824 796H669.23H29.9999C13.4314 796 0 782.569 0 766V30Z"
-            />
-          </clipPath>
-        </defs>
-      </svg> -->
-      <div class="c-homepage-illu">
-        <img src="/img/home-illu-skater.svg" alt="" />
+      <div class="c-homepage-figures">
+        <Swiper
+          :spaceBetween="300"
+          :speed="500"
+          loop
+          :allowTouchMove="false"
+          :autoplay="{ delay: 2000 }"
+          :modules="[Navigation, Autoplay]"
+          @slideChange="onFigureSlideChange"
+        >
+          <SwiperSlide class="c-homepage-figure" v-for="sport in SPORTS_IMAGES">
+            <img :src="sport.figure" :alt="sport.name" loading="lazy" />
+          </SwiperSlide>
+        </Swiper>
       </div>
       <div class="c-homepage-text">
         <p>AAAAHHH</p>
@@ -39,18 +41,30 @@
         <strong>surpassez le monde entier</strong>
       </p>
     </div>
-    <div class="c-homepage-character" ref="homeCharacterRef">
-      <img src="/img/home-character.svg" alt="" />
+    <div class="c-homepage-athletes" ref="homeAthleteRef">
+      <Swiper
+        :spaceBetween="300"
+        :speed="500"
+        loop
+        :allowTouchMove="false"
+        :autoplay="{ delay: 2000 }"
+        :modules="[Navigation, Autoplay]"
+        @slideChange="onAthleteSlideChange"
+      >
+        <SwiperSlide class="c-homepage-athlete" v-for="sport in SPORTS_IMAGES">
+          <img :src="sport.athlete" :alt="sport.name" loading="lazy" />
+        </SwiperSlide>
+      </Swiper>
     </div>
   </div>
-  <Cursor
+  <!-- <Cursor
     class="c-homepage-cursor"
     :style="{
       transform: `translate3d(calc(-50% + ${cursorPos.x}px), calc(-50% + ${cursorPos.y}px), 0)`,
     }"
     ref="cursorRef"
     @primaryAction="handleEnterGame"
-  />
+  /> -->
 </template>
 
 <script setup lang="ts">
@@ -60,6 +74,9 @@ import publicRouters from '@/data/publicRouters'
 import { onMounted, ref } from 'vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap/all'
+import { SPORTS } from '@/data/constants'
+import { Navigation, Autoplay } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 
 const cursorRef = ref<any>(null)
 const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
@@ -67,13 +84,20 @@ const homeBannerRef = ref<any | null>(null)
 const homeBgRef = ref<any | null>(null)
 const homeFlagRef = ref<any | null>(null)
 const homeBrushRef = ref<any | null>(null)
-const homeCharacterRef = ref<any | null>(null)
+const homeAthleteRef = ref<any | null>(null)
 let mouse = { x: 0, y: 0 }
 
+const SPORTS_IMAGES = SPORTS.map((sport) => ({
+  name: sport,
+  figure: `/img/home/figure/${sport}.svg`,
+  athlete: `/img/home/athlete/${sport}.svg`,
+}))
+
 onMounted(() => {
-  console.log('anim')
   animIn()
   Howler.stop()
+  onFigureSlideChange()
+  onAthleteSlideChange()
 })
 
 window.addEventListener('mousemove', (e: MouseEvent) => {
@@ -85,6 +109,50 @@ gsap.ticker.add(() => {
   cursorPos.value.x += (mouse.x - cursorPos.value.x) * dt
   cursorPos.value.y += (mouse.y - cursorPos.value.y) * dt
 })
+
+const onFigureSlideChange = () => {
+  setTimeout(() => {
+    const currentSlide = document.querySelector('.swiper-slide-active.c-homepage-figure')
+    gsap.fromTo(
+      currentSlide,
+      {
+        x: 0,
+      },
+      {
+        x: -70,
+        duration: 3.5,
+        ease: 'linear',
+        onComplete: () => {
+          gsap.set(currentSlide, {
+            x: 0,
+          })
+        },
+      },
+    )
+  }, 100)
+}
+
+const onAthleteSlideChange = () => {
+  setTimeout(() => {
+    const currentSlide = document.querySelector('.swiper-slide-active.c-homepage-athlete')
+    gsap.fromTo(
+      currentSlide,
+      {
+        x: 0,
+      },
+      {
+        x: -70,
+        duration: 3.5,
+        ease: 'linear',
+        onComplete: () => {
+          gsap.set(currentSlide, {
+            x: 0,
+          })
+        },
+      },
+    )
+  }, 100)
+}
 
 const animIn = () => {
   gsap.from(homeBrushRef.value, {
@@ -105,7 +173,7 @@ const animIn = () => {
     delay: 0.2,
     ease: 'Power4.easeInOut',
   })
-  gsap.from(homeCharacterRef.value, {
+  gsap.from(homeAthleteRef.value, {
     x: '120%',
     duration: 1,
     delay: 0,

@@ -1,6 +1,9 @@
 <template>
-  <IconFire :isValid="isValid" :isError="isError" />
-  <span class="icon__minimarker" :class="[isValid && '--valid', isError && '--error']" />
+  <IconFire :isValid="props.isValid" :isError="props.isError" />
+  <span
+    class="icon__minimarker"
+    :class="[props.isValid && '--valid', props.isError && '--error']"
+  />
 </template>
 
 <script setup lang="ts">
@@ -9,5 +12,5 @@ interface Props {
   isValid?: boolean
   isError?: boolean
 }
-const { isValid, isError } = defineProps<Props>()
+const props = defineProps<Props>()
 </script>

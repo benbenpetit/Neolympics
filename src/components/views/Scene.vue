@@ -120,34 +120,34 @@ mittInstance.on('Start tutorial', () => {
 
 mittInstance.on('Start Figure Game', () => {
   setTimeout(() => {
-    ;(state.value = 'figureGame'),
-      // @ts-ignore
-      skateTheme.addFilter({
-        filterType: 'lowpass',
-        frequency: 1500.0,
-        Q: 3.0,
-      })
+    state.value = 'figureGame'
+    // @ts-ignore
+    // skateTheme.addFilter({
+    //   filterType: 'lowpass',
+    //   frequency: 1500.0,
+    //   Q: 3.0,
+    // })
   }, 1500)
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
   // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  // skateTheme.addFilter({
+  //   filterType: 'lowpass',
+  //   frequency: 20000.0,
+  //   Q: 3.0,
+  // })
 })
 
 mittInstance.on('Start Figure Anim 3D End', () => {
   console.log('Reprendre le Timer')
   // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  // skateTheme.addFilter({
+  //   filterType: 'lowpass',
+  //   frequency: 20000.0,
+  //   Q: 3.0,
+  // })
 })
 
 // mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -179,8 +179,8 @@ mittInstance.on('Sport finished', () => {
   }, 1500)
 })
 
-const startTimer = () => {
-  mittInstance.emit('Start Timer', { step: step.value })
+const startTimer = (isValid?: boolean) => {
+  mittInstance.emit('Start Timer', { step: step.value, isValid: isValid })
   state.value = ''
   if (step.value == 0) {
     mittInstance.emit('Start Skate Animation')
@@ -189,6 +189,10 @@ const startTimer = () => {
     if (startingSkateTheme.playing()) {
       startingSkateTheme.fade(0.8, 0, 600)
     }
+  } else {
+    // setTimeout(() => {
+    //   experience.value?.world?.skater.animation?.play('P_Push')
+    // }, 2000)
   }
   step.value = step.value + 1
 }
@@ -201,7 +205,7 @@ const endEpreuve = () => {
 
 const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
-  startTimer()
+  startTimer(isValid)
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
   score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
 

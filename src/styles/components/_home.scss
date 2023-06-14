@@ -46,7 +46,7 @@
     overflow: hidden;
     position: relative;
 
-    img {
+    > img {
       object-fit: cover;
       width: 100%;
       height: 100%;
@@ -56,6 +56,7 @@
       //   'M0 30C0 13.4315 13.4315 0 30 0H1308.46C1325.03 0 1338.46 13.4315 1338.46 30V199V440C1338.46 456.569 1325.03 470 1308.46 470H884C867.431 470 854 483.431 854 500V657.5V766C854 782.569 840.569 796 824 796H669.23H29.9999C13.4314 796 0 782.569 0 766V30Z'
       // );
     }
+
     .c-homepage-figures {
       z-index: 20;
       position: absolute;
@@ -70,6 +71,7 @@
       justify-content: center;
 
       .swiper {
+        height: 100%;
         margin-left: auto;
         margin-right: auto;
         position: relative;
@@ -88,24 +90,43 @@
       }
     }
 
-    .c-homepage-text {
+    .c-homepage-marquee {
       position: absolute;
-      top: 0;
       left: 0;
-      p {
-        z-index: 15;
-        position: absolute;
-        color: $color-red;
-        font-size: 16rem;
-        font-weight: 1000;
-        font-family: MonumentExtended;
-        transform: translate(0px, 200px) matrix(0.96, 0.27, 0.31, 0.95, 0, 0);
+      top: 5%;
+      right: 0;
+      display: flex;
+      align-items: center;
+      column-gap: 8vw;
+      transform-origin: left center;
+      transform: rotate(12deg) skewX(30deg);
 
-        &.--shadow {
-          z-index: 10;
-          color: #3d3aa9;
-          padding-left: 15px;
-          padding-top: 15px;
+      .c-marquee {
+        display: flex;
+        column-gap: 8vw;
+
+        p {
+          position: relative;
+          font-size: 15vw;
+          font-weight: 900;
+          font-family: MonumentExtended;
+
+          > span {
+            &:first-child {
+              position: relative;
+              z-index: 2;
+              color: $color-red;
+            }
+
+            &:last-child {
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateX(0.5vw) translateY(calc(-50% + 0.5vw));
+              z-index: 1;
+              color: #3d3aa9;
+            }
+          }
         }
       }
     }

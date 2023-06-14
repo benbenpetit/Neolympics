@@ -25,9 +25,21 @@
           </SwiperSlide>
         </Swiper>
       </div>
-      <div class="c-homepage-text">
-        <p>AAAAHHH</p>
-        <p class="--shadow">AAAAHHH</p>
+      <div class="c-homepage-marquee" ref="homeMarqueeRef">
+        <div class="c-marquee">
+          <p>
+            <span>BEN</span>
+            <span>BEN</span>
+          </p>
+          <p>
+            <span>ARTH</span>
+            <span>ARTH</span>
+          </p>
+          <p>
+            <span>EMI</span>
+            <span>EMI</span>
+          </p>
+        </div>
       </div>
     </div>
     <div class="c-homepage-flag" ref="homeFlagRef">
@@ -57,14 +69,14 @@
       </Swiper>
     </div>
   </div>
-  <!-- <Cursor
+  <Cursor
     class="c-homepage-cursor"
     :style="{
       transform: `translate3d(calc(-50% + ${cursorPos.x}px), calc(-50% + ${cursorPos.y}px), 0)`,
     }"
     ref="cursorRef"
     @primaryAction="handleEnterGame"
-  /> -->
+  />
 </template>
 
 <script setup lang="ts">
@@ -85,12 +97,13 @@ const homeBgRef = ref<any | null>(null)
 const homeFlagRef = ref<any | null>(null)
 const homeBrushRef = ref<any | null>(null)
 const homeAthleteRef = ref<any | null>(null)
+const homeMarqueeRef = ref<HTMLDivElement | null>(null)
 let mouse = { x: 0, y: 0 }
 
 const SPORTS_IMAGES = SPORTS.map((sport) => ({
   name: sport,
-  figure: `/img/home/figure/${sport}.svg`,
-  athlete: `/img/home/athlete/${sport}.svg`,
+  figure: `/img/home/figure/${sport}.webp`,
+  athlete: `/img/home/athlete/${sport}.webp`,
 }))
 
 onMounted(() => {
@@ -98,6 +111,7 @@ onMounted(() => {
   Howler.stop()
   onFigureSlideChange()
   onAthleteSlideChange()
+  marqueeAAA()
 })
 
 window.addEventListener('mousemove', (e: MouseEvent) => {
@@ -110,6 +124,43 @@ gsap.ticker.add(() => {
   cursorPos.value.y += (mouse.y - cursorPos.value.y) * dt
 })
 
+const marqueeAAA = () => {
+  const marqueeContent = homeMarqueeRef.value?.firstChild
+  if (!marqueeContent) return
+  const marqueeContentClone = marqueeContent?.cloneNode(true)
+  homeMarqueeRef.value?.append(marqueeContentClone)
+
+  setTimeout(() => {
+    const width = parseInt(
+      getComputedStyle(marqueeContent as Element).getPropertyValue('width'),
+      10,
+    )
+    const gap = parseInt(
+      getComputedStyle(marqueeContent as Element).getPropertyValue('column-gap'),
+      10,
+    )
+
+    const distanceToTranslate = -1 * (gap + width)
+
+    gsap.fromTo(
+      homeMarqueeRef.value,
+      {
+        x: 0,
+        y: 0,
+      },
+      {
+        x: Math.cos((12 * Math.PI) / 180) * distanceToTranslate,
+        y:
+          Math.tan((12 * Math.PI) / 180) *
+          (Math.cos((12 * Math.PI) / 180) * distanceToTranslate),
+        duration: 6,
+        ease: 'none',
+        repeat: -1,
+      },
+    )
+  }, 1000)
+}
+
 const onFigureSlideChange = () => {
   setTimeout(() => {
     const currentSlide = document.querySelector('.swiper-slide-active.c-homepage-figure')
@@ -119,7 +170,7 @@ const onFigureSlideChange = () => {
         x: 0,
       },
       {
-        x: -70,
+        x: -120,
         duration: 3.5,
         ease: 'linear',
         onComplete: () => {

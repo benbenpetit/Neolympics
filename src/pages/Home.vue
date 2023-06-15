@@ -252,7 +252,7 @@ const handleEnterGame = () => {
     delay: 0.2,
     ease: 'Power4.easeInOut',
   })
-  gsap.to('.c-homepage-character', {
+  gsap.to('.c-homepage-athletes', {
     x: '120%',
     duration: 1,
     delay: 0,

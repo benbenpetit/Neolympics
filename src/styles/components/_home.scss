@@ -169,25 +169,31 @@
     align-items: center;
     align-content: center;
     z-index: 60;
+    padding-left: 4rem;
+    padding-right: 2rem;
 
     img {
       position: absolute;
       object-fit: fill;
-      left: -10px;
       width: 110%;
       height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(calc(-50% + 24px), -50%);
     }
 
     p {
-      // position: absolute;
-      // top: 50%;
-      // left: 50%;
-      // transform: translate(-50%, -50%);
       color: white;
+      font-style: italic;
       text-transform: uppercase;
-      font-size: 2vw;
-      // width: 100%;
+      font-size: 1.8vw;
+      line-height: 1.25;
       z-index: 10;
+
+      strong {
+        font-style: normal;
+        font-weight: bold;
+      }
     }
   }
 

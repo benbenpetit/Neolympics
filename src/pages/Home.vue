@@ -12,12 +12,15 @@
           :speed="500"
           loop
           :allowTouchMove="false"
-          :autoplay="{ delay: 2000 }"
+          :autoplay="{
+            delay: 2000,
+          }"
           :modules="[Navigation, Autoplay]"
+          @swiper="(swiper: SwiperType) => figuresSwiperRef = swiper"
           @slideChange="onFigureSlideChange"
         >
           <SwiperSlide class="c-homepage-figure" v-for="sport in SPORTS_IMAGES">
-            <img :src="sport.figure" :alt="sport.name" loading="lazy" />
+            <img :src="sport.figure" :alt="sport.name" />
           </SwiperSlide>
         </Swiper>
       </div>
@@ -31,6 +34,10 @@
             <span>ARTH</span>
             <span>ARTH</span>
           </p>
+          <p>
+            <span>EMI</span>
+            <span>EMI</span>
+          </p>
         </div>
       </div>
     </div>
@@ -40,9 +47,8 @@
     <div class="c-homepage-brush" ref="homeBrushRef">
       <img src="/img/brush-home.png" alt="" />
       <p>
-        Découvrez les <strong>sports<br />additionnels</strong> des JEUX OLYMPIQUES<br />2024
-        et
-        <strong>surpassez le monde entier</strong>
+        Découvrez les <strong>sports additionnels</strong> des JEUX OLYMPIQUES 2024 et
+        <strong>décrochez la première place du classement en ligne</strong>
       </p>
     </div>
     <div class="c-homepage-athletes" ref="homeAthleteRef">
@@ -51,12 +57,15 @@
         :speed="500"
         loop
         :allowTouchMove="false"
-        :autoplay="{ delay: 2000 }"
+        :autoplay="{
+          delay: 2000,
+        }"
+        @swiper="(swiper: SwiperType) => athletesSwiperRef = swiper"
         :modules="[Navigation, Autoplay]"
         @slideChange="onAthleteSlideChange"
       >
         <SwiperSlide class="c-homepage-athlete" v-for="sport in SPORTS_IMAGES">
-          <img :src="sport.athlete" :alt="sport.name" loading="lazy" />
+          <img :src="sport.athlete" :alt="sport.name" />
         </SwiperSlide>
       </Swiper>
     </div>
@@ -75,11 +84,11 @@
 import Cursor from '@/components/modules/Home/Cursor.vue'
 import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap/all'
 import { SPORTS } from '@/data/constants'
-import { Navigation, Autoplay } from 'swiper'
+import SwiperType, { Navigation, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
 const cursorRef = ref<any>(null)
@@ -90,6 +99,8 @@ const homeFlagRef = ref<any | null>(null)
 const homeBrushRef = ref<any | null>(null)
 const homeAthleteRef = ref<any | null>(null)
 const homeMarqueeRef = ref<HTMLDivElement | null>(null)
+const figuresSwiperRef = ref<SwiperType | null>(null)
+const athletesSwiperRef = ref<SwiperType | null>(null)
 let mouse = { x: 0, y: 0 }
 
 const SPORTS_IMAGES = SPORTS.map((sport) => ({
@@ -104,6 +115,15 @@ onMounted(() => {
   onFigureSlideChange()
   onAthleteSlideChange()
   marqueeAAA()
+})
+
+watch([figuresSwiperRef, athletesSwiperRef], () => {
+  if (figuresSwiperRef.value && athletesSwiperRef.value) {
+    setTimeout(() => {
+      figuresSwiperRef.value?.autoplay.start()
+      athletesSwiperRef.value?.autoplay.start()
+    }, 1000)
+  }
 })
 
 window.addEventListener('mousemove', (e: MouseEvent) => {

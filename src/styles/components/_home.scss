@@ -41,21 +41,21 @@
     border-radius: $radius;
     overflow: hidden;
     position: relative;
-    background-color: $color-yellow;
-    background-image: url(/img/home-bg-pattern.webp);
-    background-repeat: repeat;
-    background-position: 0 0;
-    background-size: auto 24px;
-    animation: animatedBackground 500s linear infinite;
+    // background-color: $color-yellow;
+    // background-image: url(/img/background-pattern-dark.webp);
+    // background-repeat: repeat;
+    // background-position: 0 0;
+    // background-size: auto 24px;
+    // animation: animatedBackground 500s linear infinite;
 
-    @keyframes animatedBackground {
-      from {
-        background-position: 0 0;
-      }
-      to {
-        background-position: 10000px -20000px;
-      }
-    }
+    // @keyframes animatedBackground {
+    //   from {
+    //     background-position: 0 0;
+    //   }
+    //   to {
+    //     background-position: 10000px -20000px;
+    //   }
+    // }
 
     > img {
       object-fit: cover;

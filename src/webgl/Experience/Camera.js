@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Experience from './Experience'
 import { getProject, types } from '@theatre/core'
-import studio from '@theatre/studio'
+// import studio from '@theatre/studio'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
 
@@ -13,7 +13,7 @@ export default class Camera {
     this.scene = this.experience.scene
     this.canvas = this.experience.canvas
     this.debug = this.experience.debug
-    this.studio = this.experience.studio
+    // this.studio = this.experience.studio
 
     this.setInstance()
     this.setOrbitControls()
@@ -21,9 +21,9 @@ export default class Camera {
     if (this.debug.active) {
       this.setDebug()
     }
-    if (this.studio.active) {
-      this.setStudio()
-    }
+    // if (this.studio.active) {
+    //   this.setStudio()
+    // }
 
     mittInstance.on('Start skate intro', () => {
       this.skateIntro()

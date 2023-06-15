@@ -1,5 +1,8 @@
 <template>
-  <div class="w-modal" :class="/*isEnd*/ false && 'is-active'">
+  <div
+    class="w-modal"
+    :class="/*isEnd*/ [!isAutoDrawing && 'is-drawing', false && 'is-active']"
+  >
     <div
       class="pattern-title"
       :class="[

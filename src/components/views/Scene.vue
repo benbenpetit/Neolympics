@@ -4,12 +4,12 @@
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
-        <Pattern
+        <!-- <Pattern
           class="tutoriel-content__pattern"
           :patternToDo="patternToDoTutorial"
           isAutoDrawing
           :onDrawEnd="handleTutoEnd"
-        />
+        /> -->
         <p>
           Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
           <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
@@ -85,6 +85,8 @@ const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
 
+state.value = 'figureGame'
+
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
   volume: 0.8,
@@ -114,8 +116,8 @@ onMounted(() => {
 })
 
 mittInstance.on('Start tutorial', () => {
-  state.value = 'tutorial'
-  patternToDoTutorial.value = KICKFLIP.pattern
+  // state.value = 'tutorial'
+  // patternToDoTutorial.value = KICKFLIP.pattern
 })
 
 mittInstance.on('Start Figure Game', () => {
@@ -150,7 +152,7 @@ mittInstance.on('Start Figure Anim 3D End', () => {
   // })
 })
 
-// mittInstance.emit('Start Anim 3D', { step: step.value })
+mittInstance.emit('Start Anim 3D', { step: step.value })
 
 mittInstance.on('Pattern joué', (e: any) => {
   figureResult.value = e.status ? 'Parfait !' : 'Incorrect'
@@ -189,11 +191,12 @@ const startTimer = (isValid?: boolean) => {
     if (startingSkateTheme.playing()) {
       startingSkateTheme.fade(0.8, 0, 600)
     }
-  } else {
-    // setTimeout(() => {
-    //   experience.value?.world?.skater.animation?.play('P_Push')
-    // }, 2000)
   }
+  // } else {
+  //   setTimeout(() => {
+  //     experience.value?.world?.skater.animation?.play('P_Push')
+  //   }, 2000)
+  // }
   step.value = step.value + 1
 }
 
@@ -208,7 +211,6 @@ const handlePatternEnd = (isValid?: boolean) => {
   startTimer(isValid)
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
   score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
-
   if (isValid == true) {
     validPatternSound.play()
   } else {

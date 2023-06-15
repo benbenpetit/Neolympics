@@ -1,57 +1,62 @@
 <template>
-  <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
-  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
-    <template v-slot:title>Tutoriel</template>
-    <template v-slot:content>
-      <div class="tutoriel-content">
-        <!-- <Pattern
-          class="tutoriel-content__pattern"
-          :patternToDo="patternToDoTutorial"
-          isAutoDrawing
-          :onDrawEnd="handleTutoEnd"
-        /> -->
-        <p>
-          Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
-          <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
-          Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
-        </p>
-      </div>
-    </template>
-    <template v-slot:buttons>
-      <div class="trial-details">
-        <div class="detail-container"><IconTImer /> 45 secondes</div>
-        <div class="detail-container"><IconSkate /> 5 figures</div>
-      </div>
-      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startTimer">
-        <template v-slot:label>J'ai compris !</template>
-      </ButtonUI>
-    </template>
-  </Modal>
-  <SkateModal
-    v-if="state === 'figureGame'"
-    :pattern="pattern"
-    @onPatternEnd="handlePatternEnd"
-  />
-  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
-    <template v-slot:title>Fin de l'épreuve</template>
-    <template v-slot:content>
-      <div>
-        <p>Bravo tu as fini l'épreuve !</p>
-        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
-          <template v-slot:label>Continuer</template>
+  <div class="scene-container">
+    <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
+    <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+      <template v-slot:title>Tutoriel</template>
+      <template v-slot:content>
+        <div class="tutoriel-content">
+          <!-- <Pattern
+            class="tutoriel-content__pattern"
+            :patternToDo="patternToDoTutorial"
+            isAutoDrawing
+            :onDrawEnd="handleTutoEnd"
+          /> -->
+          <p>
+            Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
+            <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
+            Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
+          </p>
+        </div>
+      </template>
+      <template v-slot:buttons>
+        <div class="trial-details">
+          <div class="detail-container"><IconTImer /> 45 secondes</div>
+          <div class="detail-container"><IconSkate /> 5 figures</div>
+        </div>
+        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startTimer">
+          <template v-slot:label>J'ai compris !</template>
         </ButtonUI>
-      </div>
-    </template>
-  </Modal>
-  <div
-    v-if="figureResult != ''"
-    class="figure-result"
-    :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
-  >
-    <img :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'" alt="" />
-    <span class="result-text">{{ figureResult }}</span>
+      </template>
+    </Modal>
+    <SkateModal
+      v-if="state === 'figureGame'"
+      :pattern="pattern"
+      @onPatternEnd="handlePatternEnd"
+    />
+    <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+      <template v-slot:title>Fin de l'épreuve</template>
+      <template v-slot:content>
+        <div>
+          <p>Bravo tu as fini l'épreuve !</p>
+          <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
+            <template v-slot:label>Continuer</template>
+          </ButtonUI>
+        </div>
+      </template>
+    </Modal>
+    <div
+      v-if="figureResult != ''"
+      class="figure-result"
+      :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
+    >
+      <img
+        :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'"
+        alt=""
+      />
+      <span class="result-text">{{ figureResult }}</span>
+    </div>
+    <canvas class="webgl"></canvas>
   </div>
-  <canvas class="webgl"></canvas>
 </template>
 
 <script setup lang="ts">
@@ -85,8 +90,6 @@ const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
 
-state.value = 'figureGame'
-
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
   volume: 0.8,
@@ -116,8 +119,10 @@ onMounted(() => {
 })
 
 mittInstance.on('Start tutorial', () => {
-  // state.value = 'tutorial'
-  // patternToDoTutorial.value = KICKFLIP.pattern
+  console.log('Tutorial')
+
+  state.value = 'tutorial'
+  patternToDoTutorial.value = KICKFLIP.pattern
 })
 
 mittInstance.on('Start Figure Game', () => {

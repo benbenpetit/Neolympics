@@ -32,10 +32,6 @@
 
   $dot-size: 4px;
   $dot-space: 36px;
-
-  $bg-color: #fff965;
-  $dot-color: #ff8a71;
-
   $margin: 26px;
   $radius: 16px;
 
@@ -45,8 +41,23 @@
     border-radius: $radius;
     overflow: hidden;
     position: relative;
+    background-color: $color-yellow;
+    background-image: url(/img/home-bg-pattern.webp);
+    background-repeat: repeat;
+    background-position: 0 0;
+    background-size: auto 24px;
+    animation: animatedBackground 500s linear infinite;
 
-    img {
+    @keyframes animatedBackground {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 10000px -20000px;
+      }
+    }
+
+    > img {
       object-fit: cover;
       width: 100%;
       height: 100%;
@@ -56,43 +67,78 @@
       //   'M0 30C0 13.4315 13.4315 0 30 0H1308.46C1325.03 0 1338.46 13.4315 1338.46 30V199V440C1338.46 456.569 1325.03 470 1308.46 470H884C867.431 470 854 483.431 854 500V657.5V766C854 782.569 840.569 796 824 796H669.23H29.9999C13.4314 796 0 782.569 0 766V30Z'
       // );
     }
-    .c-homepage-illu {
+
+    .c-homepage-figures {
       z-index: 20;
       position: absolute;
-      top: -10px;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
       height: 100%;
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      img {
+      .swiper {
         height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+        display: block;
+      }
+
+      .swiper-wrapper {
+        position: relative;
         width: 100%;
+        height: 100%;
+        display: flex;
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0, 1);
+        box-sizing: content-box;
       }
     }
 
-    .c-homepage-text {
+    .c-homepage-marquee {
       position: absolute;
-      top: 0;
       left: 0;
-      p {
-        z-index: 15;
-        position: absolute;
-        color: $color-red;
-        font-size: 16rem;
-        font-weight: 1000;
-        font-family: MonumentExtended;
-        transform: translate(0px, 200px) matrix(0.96, 0.27, 0.31, 0.95, 0, 0);
+      top: 5%;
+      right: 0;
+      display: flex;
+      align-items: center;
+      column-gap: 88px;
+      transform-origin: left center;
+      transform: rotate(12deg) skewX(30deg);
 
-        &.--shadow {
-          z-index: 10;
-          color: #3d3aa9;
-          padding-left: 15px;
-          padding-top: 15px;
+      .c-marquee {
+        display: flex;
+        column-gap: 88px;
+
+        p {
+          position: relative;
+          font-size: 15vw;
+          font-weight: 900;
+          font-family: MonumentExtended;
+
+          > span {
+            &:first-child {
+              position: relative;
+              z-index: 2;
+              color: $color-red;
+            }
+
+            &:last-child {
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateX(0.5vw) translateY(calc(-50% + 0.5vw));
+              z-index: 1;
+              color: #3d3aa9;
+            }
+          }
         }
-      }
-      img {
       }
     }
   }
@@ -139,22 +185,21 @@
       // transform: translate(-50%, -50%);
       color: white;
       text-transform: uppercase;
-      font-size: 1.8rem;
+      font-size: 2vw;
       // width: 100%;
       z-index: 10;
     }
   }
 
-  .c-homepage-character {
+  .c-homepage-athletes {
     z-index: 50;
     grid-area: 5 / 7 / 11 / 9;
     margin: $margin;
     border-radius: $radius;
     display: flex;
-    align-items: flex-end;
-    align-content: center;
-    justify-content: center;
+    align-items: stretch;
     user-select: none;
+    overflow: hidden;
 
     background-image: repeating-linear-gradient(
         45deg,
@@ -175,13 +220,56 @@
     background-position: 0 0, 30px 30px;
     background-size: 60px 60px;
 
-    img {
-      max-width: 110%;
-      max-height: 100%;
-      object-fit: contain;
-      transform: translateY(1px);
-      user-select: none;
+    .swiper {
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      overflow: hidden;
+      display: block;
     }
+
+    .swiper-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0, 1);
+      box-sizing: content-box;
+    }
+  }
+}
+
+.c-homepage-figure {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: transform;
+
+  > img {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.c-homepage-athlete {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: transform;
+  padding-left: 8px;
+
+  > img {
+    height: 100%;
+    width: auto;
   }
 }
 

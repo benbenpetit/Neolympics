@@ -1,12 +1,17 @@
 <template>
-  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :imgSrc="headerIcon">
+  <Header
+    ref="headerRef"
+    @onModalOpen="onModalOpen"
+    @onModalClose="onModalClose"
+    :imgSrc="headerIcon"
+  >
     <template v-slot:title>
       {{ sportConfirmed ? sportParams[currentSport].title : `CHOIX D'ÉPREUVE` }}</template
     >
   </Header>
 
-  <div class="choix-epreuve-background"></div>
-  <div class="c-trialrow" v-if="!selectedTrial">
+  <div class="choix-epreuve-background" ref="starBackgroundRef" />
+  <div class="c-trialrow" v-if="!selectedTrial" ref="sportCardsWrapperRef">
     <SportCard @click="selectSkate">
       <template v-slot:sportname>SKATE</template>
       <template v-slot:sportimg>
@@ -126,6 +131,9 @@ import { IScoreWUser } from '@/core/types/IScore'
 gsap.registerPlugin(CustomEase)
 
 const router = useRouter()
+const headerRef = ref<any | null>(null)
+const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
+const starBackgroundRef = ref<HTMLDivElement | null>(null)
 //false pour commenncer du début
 let selectedTrial = ref<boolean>(false)
 let sportConfirmed = ref<boolean>(false)
@@ -133,6 +141,7 @@ let currentSport = ref<number>(0)
 let headerIcon = computed<string>(() =>
   !sportConfirmed.value ? '/icon/whistle-icon.svg' : '/icon/skateboarding.svg',
 )
+let showCardIndex = 0
 const topThreePlayers = ref<IScoreWUser[]>([])
 
 const onModalOpen = () => {
@@ -193,6 +202,20 @@ onMounted(async () => {
   gameSoundtrack.fade(0, 0.8, 300)
 })
 
+onMounted(() => {
+  showCards()
+  gsap.from(headerRef.value?.headerRef, {
+    y: '-120%',
+    duration: 0.6,
+    ease: 'Power4.easeInOut',
+  })
+  gsap.from(starBackgroundRef.value, {
+    opacity: 0,
+    duration: 1,
+    ease: 'Power2.easeInOut',
+  })
+})
+
 const sliderAnim = gsap.timeline({})
 
 const selectSkate = () => {
@@ -213,6 +236,26 @@ const selectBreak = () => {
 const selectClimb = () => {
   currentSport.value = 3
   removeCards()
+}
+
+const showCards = () => {
+  showCardIndex = 0
+  for (const sportCard of sportCardsWrapperRef.value?.children ?? []) {
+    gsap.fromTo(
+      sportCard,
+      {
+        y: '120%',
+        x: '-30%',
+      },
+      {
+        y: 0,
+        x: 0,
+        duration: 0.8,
+        delay: 0.15 * showCardIndex++,
+        ease: 'Power4.easeInOut',
+      },
+    )
+  }
 }
 
 const removeCards = () => {

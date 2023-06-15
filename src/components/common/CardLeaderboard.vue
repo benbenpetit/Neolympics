@@ -8,7 +8,7 @@
       </div>
       <div class="c-card-leaderboard-content">
         <img
-          :src="props.user?.photoURL ?? '/icon/user-icon.png'"
+          :src="props.user?.photoURL ?? placeholderPic"
           alt=""
           referrerpolicy="no-referrer"
         />
@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { IUser } from '@/core/types/IUser'
+import placeholderPic from '@/assets/temp/profile-pic.webp'
 
 interface Props {
   rank: number

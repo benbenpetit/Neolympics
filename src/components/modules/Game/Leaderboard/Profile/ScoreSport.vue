@@ -9,7 +9,7 @@
         >pt{{ points && 's' }}&nbsp;&nbsp;-&nbsp;&nbsp;<span
           class="c-score-sport__content__big"
           >{{ stars ?? 0 }}</span
-        >✨
+        ><img src="/icon/microphone.svg" />
       </span>
       <span v-else class="c-score-sport__italic">À VENIR</span>
     </div>

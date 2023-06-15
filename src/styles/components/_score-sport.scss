@@ -40,9 +40,17 @@
     padding: 0 0.75rem;
     display: flex;
     justify-content: center;
+    align-items: center;
 
     &__big {
       font-size: 1.5rem;
+    }
+
+    img {
+      margin-bottom: -2px;
+      margin-left: 4px;
+      width: auto;
+      height: 17px;
     }
   }
 

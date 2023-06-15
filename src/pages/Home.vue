@@ -3,10 +3,6 @@
     <div class="c-homepage-banner" ref="homeBannerRef">
       <img src="/img/home-banner-bg.svg" alt="" />
       <img src="/img/home-banner-title.svg" alt="" class="--title" />
-      <!-- <div class="title">
-        <h1>NEO</h1>
-        <h1>LYMPICS</h1>
-      </div> -->
     </div>
     <div class="c-homepage-bg" ref="homeBgRef">
       <img src="/img/home-bg-full.svg" alt="" />
@@ -34,10 +30,6 @@
           <p>
             <span>ARTH</span>
             <span>ARTH</span>
-          </p>
-          <p>
-            <span>EMI</span>
-            <span>EMI</span>
           </p>
         </div>
       </div>
@@ -130,17 +122,16 @@ const marqueeAAA = () => {
   const marqueeContentClone = marqueeContent?.cloneNode(true)
   homeMarqueeRef.value?.append(marqueeContentClone)
 
-  setTimeout(() => {
-    const width = parseInt(
-      getComputedStyle(marqueeContent as Element).getPropertyValue('width'),
-      10,
-    )
-    const gap = parseInt(
-      getComputedStyle(marqueeContent as Element).getPropertyValue('column-gap'),
-      10,
-    )
+  const playMarquee = () => {
+    // @ts-ignore
+    const width = marqueeContent.offsetWidth
+    const gap = 88
 
     const distanceToTranslate = -1 * (gap + width)
+    const x = Math.cos((12 * Math.PI) / 180) * distanceToTranslate
+    const y =
+      Math.tan((12 * Math.PI) / 180) *
+      (Math.cos((12 * Math.PI) / 180) * distanceToTranslate)
 
     gsap.fromTo(
       homeMarqueeRef.value,
@@ -149,16 +140,20 @@ const marqueeAAA = () => {
         y: 0,
       },
       {
-        x: Math.cos((12 * Math.PI) / 180) * distanceToTranslate,
-        y:
-          Math.tan((12 * Math.PI) / 180) *
-          (Math.cos((12 * Math.PI) / 180) * distanceToTranslate),
-        duration: 6,
+        x: x,
+        y: y,
+        duration: 5,
         ease: 'none',
         repeat: -1,
       },
     )
-  }, 1000)
+  }
+
+  setTimeout(() => {
+    playMarquee()
+  }, 500)
+
+  window.addEventListener('resize', playMarquee)
 }
 
 const onFigureSlideChange = () => {

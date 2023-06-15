@@ -41,7 +41,7 @@
 import { IMaxSession } from '@/core/types/IScore'
 import { IUser } from '@/core/types/IUser'
 import { computed } from 'vue'
-import placeholderPic from '@/assets/temp/profile-pic.png'
+import placeholderPic from '@/assets/temp/profile-pic.webp'
 import SessionDetails from '@/components/modules/Game/Leaderboard/Profile/SessionDetails.vue'
 import { useCurrentUser } from 'vuefire'
 

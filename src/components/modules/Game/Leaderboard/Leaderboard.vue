@@ -1,7 +1,7 @@
 <template>
   <div class="c-leaderboard">
     <Header imgSrc="/img/leaderboard-world.png">
-      <template v-slot:title>LEADERBOARD</template>
+      <template v-slot:title>CLASSEMENT</template>
     </Header>
     <div class="c-leaderboard__top-scores">
       <ul class="c-leaderboard__top-scores__list">

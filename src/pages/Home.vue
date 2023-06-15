@@ -5,7 +5,7 @@
       <img src="/img/home-banner-title.svg" alt="" class="--title" />
     </div>
     <div class="c-homepage-bg" ref="homeBgRef">
-      <img src="/img/home-bg-full.svg" alt="" />
+      <!-- <img src="/img/home-bg-full.svg" alt="" /> -->
       <div class="c-homepage-figures">
         <Swiper
           :spaceBetween="300"

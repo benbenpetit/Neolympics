@@ -67,8 +67,8 @@ const rotateLoop = () => {
 const handleMouseDown = () => {
   isMouseDown.value = true
   gsap.to(cursorRef.value, {
-    width: '40vmin',
-    height: '40vmin',
+    width: '35vmin',
+    height: '35vmin',
     duration: 1.6,
     ease: 'Power4.easeOut',
   })
@@ -94,8 +94,8 @@ const handleMouseUp = () => {
   if (!isFinished.value) {
     isMouseDown.value = false
     gsap.to(cursorRef.value, {
-      width: '35vmin',
-      height: '35vmin',
+      width: '30vmin',
+      height: '30vmin',
       duration: 2,
       ease: 'Power4.easeOut',
     })

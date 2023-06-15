@@ -1,12 +1,13 @@
 @use '../../settings' as *;
 .skate-container {
-  width: 80%;
+  width: 25vh;
+  height: 70vh;
   position: relative;
   border: 3px solid $color-blue;
   border-radius: 300px;
   overflow: hidden;
-  margin-bottom: -6.5vmin;
-  transition: width 0.35s cubic-bezier(0, 0, 0.45, 1.9);
+  // margin-bottom: -6.5vmin;
+  transition: all 0.35s cubic-bezier(0, 0, 0.45, 1.9);
   backface-visibility: hidden;
   perspective: 1000px;
 
@@ -16,20 +17,28 @@
   -ms-user-select: none;
   user-select: none;
 
+  position: absolute;
+  bottom: 0;
+  right: 12.5vh;
+  transform-origin: center center;
+
   &.is-active {
-    width: 110%;
+    height: 90vh;
+    width: 30vh;
+    right: 15vh;
   }
 
   .skate-layout {
     display: grid;
     background-color: $color-blue;
     width: 100%;
-    grid-template-columns: repeat(6, 1fr);
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr);
     margin: 0 auto;
 
     &.is-active {
       .layout-cell {
-        height: 7.5vmin;
+        // height: 15vmin;
       }
     }
 
@@ -41,25 +50,25 @@
 
     .layout-cell {
       width: 100%;
-      height: 6.5vmin;
+      // height: 13vmin;
       background-color: $color-blue-grey;
       border: 1px solid $color-blue;
       pointer-events: none;
       transition: height 0.35s cubic-bezier(0, 0, 0.45, 1.9);
 
-      &:nth-child(-n + 6) {
+      &:nth-child(-n + 4) {
         border-top: none;
       }
 
-      &:nth-last-child(-n + 6) {
+      &:nth-last-child(-n + 4) {
         border-bottom: none;
       }
 
-      &:nth-child(6n) {
+      &:nth-child(4n) {
         border-right: none;
       }
 
-      &:nth-child(6n + 1) {
+      &:nth-child(4n + 1) {
         border-left: none;
       }
     }

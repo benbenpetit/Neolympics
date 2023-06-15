@@ -17,6 +17,7 @@ export default class SkaterLapin {
 
     this.slowmotionFactor = { value: 0.001 }
     this.cameraOffset = new THREE.Vector3(-2, 1, -4)
+    this.lookAtOffset = { value: 5 }
     this.started = false
 
     this.setModel()
@@ -51,6 +52,37 @@ export default class SkaterLapin {
     this.debugFolder.add(this.cameraOffset, 'x', -10, 10, 0.1).name('Camera Offset X')
     this.debugFolder.add(this.cameraOffset, 'y', -10, 10, 0.1).name('Camera Offset Y')
     this.debugFolder.add(this.cameraOffset, 'z', -10, 10, 0.1).name('Camera Offset Z')
+
+    const debugObject = {
+      changeCamera: () => {
+        gsap.to(this.cameraOffset, {
+          x: -2,
+          y: 0,
+          z: -1,
+          duration: 1,
+        })
+        gsap.to(this.lookAtOffset, {
+          value: 0,
+          duration: 1,
+        })
+      },
+    }
+    this.debugFolder.add(debugObject, 'changeCamera')
+  }
+
+  changeCamera() {
+    gsap.to(this.cameraOffset, {
+      x: -2,
+      y: 0,
+      z: -1,
+      duration: 2.5,
+      ease: 'Power3.easeOut',
+    })
+    gsap.to(this.lookAtOffset, {
+      value: 0,
+      duration: 2.5,
+      ease: 'Power3.easeOut',
+    })
   }
 
   setAnimation() {
@@ -157,24 +189,37 @@ export default class SkaterLapin {
       this.animation.play(figure.perso)
       gsap.to(this.modelVelocity, {
         z: 0,
-        duration: 1,
-        ease: 'Power1.easeOut',
+        duration: 2,
+        ease: 'Power3.easeOut',
       })
       gsap.to(this.slowmotionFactor, {
         value: 0,
-        duration: 1.5,
-        ease: 'Power1.easeOut',
+        duration: 2.5,
+        ease: 'Power3.easeOut',
       })
+      this.changeCamera()
     })
     mittInstance.on('Skate Figure Anim 3D', () => {
       console.log('Skate Figure Anim 3D')
       gsap.to(this.modelVelocity, {
         z: 0.2,
-        duration: 1,
+        duration: 2,
       })
       gsap.to(this.slowmotionFactor, {
         value: 0.001,
-        duration: 1.5,
+        duration: 2.5,
+      })
+      gsap.to(this.cameraOffset, {
+        x: -2,
+        z: -4,
+        y: 1,
+        duration: 2,
+        ease: 'Power3.easeIn',
+      })
+      gsap.to(this.lookAtOffset, {
+        value: 5,
+        duration: 3,
+        ease: 'Power3.easeIn',
       })
     })
     mittInstance.on('Sport finished', () => {
@@ -224,7 +269,7 @@ export default class SkaterLapin {
     this.animation.mixer.update(this.time.delta * this.slowmotionFactor.value)
     const cameraTarget = new THREE.Vector3()
     cameraTarget.copy(modelPosition)
-    cameraTarget.z += 5
+    cameraTarget.z += this.lookAtOffset.value
     this.experience.camera.instance.lookAt(cameraTarget)
   }
 }

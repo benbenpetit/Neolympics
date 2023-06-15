@@ -12,8 +12,8 @@
       <div class="skew-container">
         <div class="timer-container">
           <div class="step-container">
-            <div v-for="n in 6" class="icon-container">
-              <IconContainer />
+            <div v-for="step in steps" class="icon-container">
+              <IconContainer :is-valid="step.isValid" :is-error="step.isError" />
             </div>
           </div>
           <div class="timebar-wrapper">
@@ -68,6 +68,7 @@ const stoppedTime = ref(0)
 const timebarWidth = ref(0)
 const scoreContainerRef = ref<HTMLDivElement | null>(null)
 const step = ref(0)
+const steps = ref([...Array(6)].map((_) => ({ isError: false, isValid: false })))
 let startTime: any = null
 let timerIntervalId: any = null
 let maxTime: number = 30
@@ -91,6 +92,13 @@ watch(
 
 mittInstance.on('Start Timer', (e: any) => {
   step.value = e.step
+  if (e.isValid) {
+    console.log('Valid', steps.value[step.value])
+    steps.value[step.value].isValid = true
+  } else {
+    console.log('Not Valid', steps.value[step.value])
+    steps.value[step.value].isError = true
+  }
   startTimer()
 })
 

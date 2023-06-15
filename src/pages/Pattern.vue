@@ -71,8 +71,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const numRows = ref(3) // Nombre de lignes dans la grille
-const numCols = ref(5) // Nombre de colonnes dans la grille
+const numRows = ref(5) // Nombre de lignes dans la grille
+const numCols = ref(3) // Nombre de colonnes dans la grille
 const currentLine = ref<any>()
 const wrapperBox = ref<HTMLDivElement | null>(null)
 const lineRefs: SVGLineElement[] = [] // Ref des Point dans le DOM

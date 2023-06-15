@@ -6,7 +6,7 @@ export const HARDFLIP: IFigure = {
     board: 'Board_Hardflip',
     perso: 'P_Hardflip',
   },
-  pattern: [[1, 6, 11, 12, 13, 8, 3]],
+  pattern: [[5, 4, 3, 6, 9, 10, 11]],
 }
 
 export const KICKFLIP: IFigure = {
@@ -15,7 +15,7 @@ export const KICKFLIP: IFigure = {
     board: 'Board_Kickflip',
     perso: 'KickFlip',
   },
-  pattern: [[10, 6, 12, 13, 14]],
+  pattern: [[0, 4, 6, 9, 12]],
 }
 
 export const OLLIE: IFigure = {
@@ -25,8 +25,8 @@ export const OLLIE: IFigure = {
     perso: 'P_Ollie',
   },
   pattern: [
-    [0, 5, 10],
-    [4, 9, 14],
+    [0, 1, 2],
+    [12, 13, 14],
   ],
 }
 

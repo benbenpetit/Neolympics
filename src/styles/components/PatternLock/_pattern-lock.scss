@@ -36,8 +36,8 @@
 
   .pattern-container {
     position: relative;
-    width: calc(100% / 6 * 5);
-    height: calc(100% / 4 * 3);
+    width: calc(100% / 4 * 3);
+    height: calc(100% / 6 * 5);
     margin: auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -112,5 +112,12 @@
         margin-right: 20px;
       }
     }
+  }
+}
+
+.tutoriel-content {
+  .pattern-container {
+    width: calc(100% / 6 * 5);
+    height: calc(100% / 4 * 3);
   }
 }

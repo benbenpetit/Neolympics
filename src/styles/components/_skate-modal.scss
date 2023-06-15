@@ -1,25 +1,29 @@
 @use '../settings' as *;
 .w-modal {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, calc(-50% - 20px));
-  width: 80vw;
-  max-width: 800px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: $color-blue-grey;
-  padding-top: 2vmin;
-  border-radius: 16px;
+  left: -5%;
+  right: 5%;
+  bottom: 0;
+
+  &::before {
+    content: '';
+    height: clamp(calc(40px + 2vw), calc(8vw + 2vw), calc(96px + 2vw));
+    background: red;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(90deg, $color-white 36.04%, $color-white 95.17%);
+    border: 4px solid $color-blue-stroke;
+    border-radius: 25px;
+    transform: skewX(-30deg);
+    width: 100%;
+    transition: border-color 0.4s ease-out;
+  }
 
   &.is-active {
     background-color: $color-blue;
 
     .pattern-title {
-      color: white;
+      color: $color-white;
     }
   }
 
@@ -28,8 +32,6 @@
     font-size: clamp(20px, 4vw, 48px);
     line-height: clamp(20px, 4vw, 48px);
     min-height: clamp(calc(40px + 2vw), calc(8vw + 2vw), calc(96px + 2vw));
-    padding: 1vw 8vw;
-    margin-bottom: 2vmin;
     text-align: center;
     font-weight: 300;
     text-transform: uppercase;

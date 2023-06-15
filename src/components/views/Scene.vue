@@ -4,12 +4,12 @@
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
-        <Pattern
+        <!-- <Pattern
           class="tutoriel-content__pattern"
           :patternToDo="patternToDoTutorial"
           isAutoDrawing
           :onDrawEnd="handleTutoEnd"
-        />
+        /> -->
         <p>
           Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
           <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
@@ -85,6 +85,8 @@ const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
 
+state.value = 'figureGame'
+
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
   volume: 0.8,
@@ -114,43 +116,43 @@ onMounted(() => {
 })
 
 mittInstance.on('Start tutorial', () => {
-  state.value = 'tutorial'
-  patternToDoTutorial.value = KICKFLIP.pattern
+  // state.value = 'tutorial'
+  // patternToDoTutorial.value = KICKFLIP.pattern
 })
 
 mittInstance.on('Start Figure Game', () => {
   setTimeout(() => {
-    ;(state.value = 'figureGame'),
-      // @ts-ignore
-      skateTheme.addFilter({
-        filterType: 'lowpass',
-        frequency: 1500.0,
-        Q: 3.0,
-      })
+    state.value = 'figureGame'
+    // @ts-ignore
+    // skateTheme.addFilter({
+    //   filterType: 'lowpass',
+    //   frequency: 1500.0,
+    //   Q: 3.0,
+    // })
   }, 1500)
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
   // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  // skateTheme.addFilter({
+  //   filterType: 'lowpass',
+  //   frequency: 20000.0,
+  //   Q: 3.0,
+  // })
 })
 
 mittInstance.on('Start Figure Anim 3D End', () => {
   console.log('Reprendre le Timer')
   // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  // skateTheme.addFilter({
+  //   filterType: 'lowpass',
+  //   frequency: 20000.0,
+  //   Q: 3.0,
+  // })
 })
 
-// mittInstance.emit('Start Anim 3D', { step: step.value })
+mittInstance.emit('Start Anim 3D', { step: step.value })
 
 mittInstance.on('Pattern joué', (e: any) => {
   figureResult.value = e.status ? 'Parfait !' : 'Incorrect'
@@ -179,8 +181,8 @@ mittInstance.on('Sport finished', () => {
   }, 1500)
 })
 
-const startTimer = () => {
-  mittInstance.emit('Start Timer', { step: step.value })
+const startTimer = (isValid?: boolean) => {
+  mittInstance.emit('Start Timer', { step: step.value, isValid: isValid })
   state.value = ''
   if (step.value == 0) {
     mittInstance.emit('Start Skate Animation')
@@ -190,6 +192,11 @@ const startTimer = () => {
       startingSkateTheme.fade(0.8, 0, 600)
     }
   }
+  // } else {
+  //   setTimeout(() => {
+  //     experience.value?.world?.skater.animation?.play('P_Push')
+  //   }, 2000)
+  // }
   step.value = step.value + 1
 }
 
@@ -201,10 +208,9 @@ const endEpreuve = () => {
 
 const handlePatternEnd = (isValid?: boolean) => {
   mittInstance.emit('Skate Figure Anim 3D')
-  startTimer()
+  startTimer(isValid)
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
   score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
-
   if (isValid == true) {
     validPatternSound.play()
   } else {

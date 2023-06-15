@@ -70,9 +70,10 @@
               left: 50%;
               height: 10px;
               width: 0px;
-              border: 1px solid;
+              border: 1.5px solid;
               transform: translate3d(-50%, 100%, 0);
               border-color: $color-blue-hover;
+              transition: border-color 0.75s ease-out;
               &.--valid {
                 border-color: $color-blue;
               }

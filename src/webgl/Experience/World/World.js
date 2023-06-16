@@ -16,12 +16,12 @@ export default class World {
     this.time = this.experience.time
     // Wait for ressources
     this.resources.on('ready', () => {
-      this.floor = new Floor()
       // Setup
       // this.skater = new Skater()
       // this.catcher = new Catcher()
       // this.skatepark = new Skatepark()
       this.skater = new SkaterLapin()
+      this.floor = new Floor()
       // this.skatepark = new Stade()
       this.environment = new Environment()
       this.animations = new Animations()
@@ -30,6 +30,9 @@ export default class World {
   update() {
     if (this.skater) {
       this.skater.update()
+    }
+    if (this.floor) {
+      this.floor.update()
     }
     if (this.catcher) {
       this.catcher.update()

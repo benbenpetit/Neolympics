@@ -6,6 +6,12 @@
   align-items: center;
   // margin-top: 2rem;
   padding-top: 140px;
+  background-color: $color-yellow;
+  background-image: url(/img/home-bg-pattern.webp);
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: auto 24px;
+  animation: animatedBackground 500s linear infinite;
 
   &__header {
     position: sticky;
@@ -163,15 +169,9 @@
       pointer-events: none;
       background: linear-gradient(
         0deg,
-        #484d66 0%,
-        rgba(72, 77, 102, 0.96449) 13.33%,
-        rgba(72, 77, 102, 0.91834) 20%,
-        rgba(72, 77, 102, 0.768225) 33.33%,
-        rgba(72, 77, 102, 0.557309) 46.67%,
-        rgba(72, 77, 102, 0.331884) 60%,
-        rgba(72, 77, 102, 0.147411) 73.33%,
-        rgba(72, 77, 102, 0.03551) 86.67%,
-        rgba(72, 77, 102, 0) 100%
+        #45231f 0%,
+        rgba(131, 111, 109, 0) 100%,
+        rgba(69, 35, 31, 0) 100%
       );
     }
 

@@ -1,8 +1,6 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Experience from './Experience'
-import { getProject, types } from '@theatre/core'
-// import studio from '@theatre/studio'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
 
@@ -13,7 +11,6 @@ export default class Camera {
     this.scene = this.experience.scene
     this.canvas = this.experience.canvas
     this.debug = this.experience.debug
-    // this.studio = this.experience.studio
 
     this.setInstance()
     this.setOrbitControls()
@@ -21,9 +18,6 @@ export default class Camera {
     if (this.debug.active) {
       this.setDebug()
     }
-    // if (this.studio.active) {
-    //   this.setStudio()
-    // }
 
     mittInstance.on('Start skate intro', () => {
       this.skateIntro()
@@ -47,21 +41,7 @@ export default class Camera {
     this.instance.position.set(10, 10, -10)
     this.scene.add(this.instance)
   }
-  setStudio() {
-    // Add to Theatre sheets
-    const camera = this.experience.studio.introSkate.object('Camera', {
-      position: types.compound({
-        x: types.number(this.instance.position.x),
-        y: types.number(this.instance.position.y),
-        z: types.number(this.instance.position.z),
-      }),
-    })
-    camera.onValuesChange((values) => {
-      const { x, y, z } = values.position
 
-      this.instance.position.set(x * Math.PI, y * Math.PI, z * Math.PI)
-    })
-  }
   setOrbitControls() {
     this.controls = new OrbitControls(this.instance, this.canvas)
     this.controls.enableDamping = true
@@ -69,9 +49,9 @@ export default class Camera {
 
   skateIntro() {
     gsap.to(this.instance.position, {
-      x: -2,
-      y: 1.75,
-      z: -4,
+      x: -2.0000695940107107,
+      y: 1.861894166469574,
+      z: -3.993039016611874,
       duration: 5,
       onComplete: () => {
         this.experience.world.skater.started = true

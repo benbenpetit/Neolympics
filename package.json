@@ -9,8 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@theatre/core": "^0.6.0",
-    "@theatre/studio": "^0.6.0",
     "@types/greensock": "^1.15.32",
     "@types/howler": "^2.2.7",
     "@vueuse/core": "^10.1.2",

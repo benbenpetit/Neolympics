@@ -42,6 +42,12 @@ export default class SkaterLapin {
         child.castShadow = true
       }
     })
+    // console.log(
+    //   new THREE.Vector3()
+    //     .copy(this.model.position)
+    //     .add(this.cameraOffset)
+    //     .add(this.model.getObjectByName('Ctrl_Hips').position),
+    // )
   }
 
   setDebug() {
@@ -168,10 +174,10 @@ export default class SkaterLapin {
     mittInstance.on('Start Skate Animation', () => {
       console.log('Start Skate Animation')
       this.animation.play('P_PushDouble')
-      gsap.to(this.modelVelocity, {
-        z: 0.2,
-        duration: 3,
-      })
+      // gsap.to(this.modelVelocity, {
+      //   z: 0.2,
+      //   duration: 3,
+      // })
       setTimeout(() => {
         this.animation.actions.current.reset()
         this.animation.actions.current.play()
@@ -187,11 +193,11 @@ export default class SkaterLapin {
       const figure = FIGURES.find((figure) => figure.name === e.figure).anims
       this.animation.play(figure.board)
       this.animation.play(figure.perso)
-      gsap.to(this.modelVelocity, {
-        z: 0,
-        duration: 2,
-        ease: 'Power3.easeOut',
-      })
+      // gsap.to(this.modelVelocity, {
+      //   z: 0,
+      //   duration: 2,
+      //   ease: 'Power3.easeOut',
+      // })
       gsap.to(this.slowmotionFactor, {
         value: 0,
         duration: 2.5,
@@ -201,10 +207,10 @@ export default class SkaterLapin {
     })
     mittInstance.on('Skate Figure Anim 3D', () => {
       console.log('Skate Figure Anim 3D')
-      gsap.to(this.modelVelocity, {
-        z: 0.2,
-        duration: 2,
-      })
+      // gsap.to(this.modelVelocity, {
+      //   z: 0.2,
+      //   duration: 2,
+      // })
       gsap.to(this.slowmotionFactor, {
         value: 0.001,
         duration: 2.5,

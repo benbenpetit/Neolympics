@@ -28,12 +28,16 @@
           </template>
           <template v-slot:title>Journaliste</template>
           <template v-slot:content>
-            <img src="/icon/quote-open.svg" alt="" style="height: 20px" />
+            <img
+              src="/icon/quote-open.svg"
+              alt=""
+              style="height: 20px; transform: translateY(-15px)"
+            />
             <p>{{ getCurrentQuestion?.question }}</p>
             <img
               src="/icon/quote-close.svg"
               alt=""
-              style="height: 20px; align-self: flex-end"
+              style="height: 20px; align-self: flex-end; transform: translateY(10px)"
             />
           </template>
           <template v-slot:buttons>
@@ -52,25 +56,6 @@
             </ButtonUI>
           </template>
         </Modal>
-        <section v-if="quizCompleted">
-          <div
-            :style="{
-              background: 'white',
-              padding: '1.5rem',
-              borderRadius: '8px',
-              border: '2px solid #3656FF',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
-            }"
-          >
-            <h1>Fin du Quiz</h1>
-            <p>Score : {{ score }}/3</p>
-            <ButtonUI @click="endQuiz" imgSrc="/icon/go.svg">
-              <template v-slot:label>Suivant</template>
-            </ButtonUI>
-          </div>
-        </section>
         <div class="c-info" v-if="!showQuiz">
           <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue">
             <template v-slot:title>Informations</template>
@@ -87,6 +72,83 @@
       </div>
     </div>
   </div>
+
+  <section v-show="quizCompleted">
+    <div class="quiz-end-brush-wrapper">
+      <div class="quiz-end-brush">
+        <img :src="score >= 2 ? bluebrush : redbrush" alt="" />
+        <p>{{ score >= 2 ? 'Bravo !' : 'Oulah...' }}</p>
+      </div>
+    </div>
+    <div class="quiz-end-animals">
+      <img :src="score >= 2 ? renardHappy : renardAngry" alt="" />
+      <img :src="score >= 2 ? gazelleHappy : gazelleAngry" alt="" />
+      <img :src="score >= 2 ? shibaHappy : shibaAngry" alt="" />
+    </div>
+  </section>
+
+  <section v-show="showRecap">
+    <Modal imgSrc="/icon/mic.svg" class="--blue --modal-recap-quiz">
+      <template v-slot:title>Journaliste</template>
+      <template v-slot:content>
+        <div class="text-wrapper">
+          <img
+            src="/icon/quote-open.svg"
+            alt=""
+            style="height: 20px; transform: translateY(-15px)"
+          />
+          <p>
+            {{
+              score >= 2
+                ? `Quelle culture ! Vous avez correctement répondu à la majorité de mes questions ! Voilà un résumé de ce que vous avez appris :`
+                : `Ce n'est pas encore ça... Vous avez mal répondu à la plupart de mes questions ! Voilà un résumé de ce que vous avez appris :`
+            }}
+          </p>
+          <img
+            src="/icon/quote-close.svg"
+            alt=""
+            style="height: 20px; align-self: flex-end; transform: translateY(10px)"
+          />
+        </div>
+
+        <div class="recap-table-title">
+          <p class="--question">Questions</p>
+          <p class="--answer">Réponses correctes</p>
+        </div>
+        <div class="recap-table">
+          <!-- <div class="--title">
+            <p>Questions</p>
+          </div> -->
+          <div
+            class="--table"
+            v-for="({ question, answer, isValid }, index) in recapTable"
+          >
+            <div class="--entry">
+              <div class="--question">
+                <img
+                  :src="
+                    isValid ? '/icon/quiz-coche-valid.svg' : '/icon/quiz-cross-wrong.svg'
+                  "
+                  alt=""
+                  class="--icon"
+                />
+                <p class="--index">{{ index + 1 }}</p>
+                <p class="--text">
+                  {{ question }}
+                </p>
+              </div>
+              <p class="--answer">{{ answer }}</p>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template v-slot:buttons>
+        <ButtonUI @click="endQuiz" imgSrc="/icon/go.svg">
+          <template v-slot:label>SUIVANT</template>
+        </ButtonUI>
+      </template>
+    </Modal>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -112,19 +174,37 @@ const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)
-const quizCompleted = ref(false)
 const questions = ref<IQuestion[]>([])
 const currentQuestion = ref(0)
 
+interface QAType {
+  question: string
+  answer: string
+  isValid: boolean
+}
+
+const recapTable = ref<QAType[]>([])
+
+const bluebrush = '/img/brush-blue-bravo.png'
+const redbrush = '/img/brush-red-oulah.png'
+const renardHappy = '/img/renard-happy.svg'
+const renardAngry = '/img/renard-angry.svg'
+const gazelleHappy = '/img/gazelle-happy.svg'
+const gazelleAngry = '/img/gazelle-angry.svg'
+const shibaHappy = '/img/shiba-happy.svg'
+const shibaAngry = '/img/shiba-angry.svg'
+
 let score = 0
 let questionAnswered = 0
+let quizCompleted = ref(false)
+let showRecap = ref(false)
 
 let quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
 })
 
 let quizSoundtrack = new Howl({
-  src: ['/sounds/soundtracks/game-menu.mp3'],
+  src: ['/sounds/soundtracks/game-intro.mp3'],
   loop: true,
 })
 
@@ -165,6 +245,8 @@ const quizOverlayTimeline = gsap.timeline({
   },
 })
 const quizTimeline = gsap.timeline({})
+const quizEndTimeline = gsap.timeline({})
+const quizRecapTimeline = gsap.timeline({})
 
 const getCurrentQuestion = computed(() => {
   const question: IQuestion = questions.value[currentQuestion.value]
@@ -185,12 +267,22 @@ const handleQuizClick = (index: number) => {
   if (selectedAnswer.value === getCurrentQuestion.value.answer) {
     score++
     quizCorrectSound.play()
+    recapTable.value.push({
+      question: getCurrentQuestion.value.question,
+      answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
+      isValid: true,
+    })
   } else {
     quizWrongSound.play()
+    recapTable.value.push({
+      question: getCurrentQuestion.value.question,
+      answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
+      isValid: false,
+    })
   }
 
   setTimeout(displayInfo, 1000)
-  getOptionClasses(index)
+  console.log(recapTable)
 }
 
 const getOptionClasses = (index: number) => {
@@ -219,6 +311,7 @@ const setNextQuestion = () => {
     questionAnswered++
   } else {
     quizCompleted.value = true
+    gotoEndQuiz()
   }
 }
 
@@ -388,6 +481,86 @@ const nextQuestion = () => {
     ease: 'Power4.easeInOut',
   })
 }
+
+const gotoEndQuiz = () => {
+  quizEndTimeline.fromTo(
+    '.quiz-end-brush',
+    {
+      x: '100%',
+    },
+    {
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+  )
+
+  quizEndTimeline.fromTo(
+    '.quiz-end-animals img',
+    {
+      x: '300%',
+      y: '150px',
+      scaleX: -1,
+      rotate: '0deg',
+    },
+    {
+      x: '0%',
+      y: '150px',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+      stagger: 0.2,
+      scaleX: -1,
+      rotate: '-10deg',
+    },
+    '-=0.2',
+  )
+
+  quizEndTimeline.to(
+    '.quiz-end-animals img',
+    {
+      x: '300%',
+      y: '150px',
+      scaleX: -1,
+      stagger: -0.2,
+      rotate: '0deg',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '+=1.5',
+  )
+
+  quizEndTimeline.to(
+    '.quiz-end-brush',
+    {
+      x: '100%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  quizEndTimeline.to('.quiz-end-animals', {
+    visibility: 'hidden',
+    duration: 0,
+  })
+
+  quizEndTimeline.add(function () {
+    showRecap.value = true
+    gotoRecapQuiz()
+  })
+}
+
+const gotoRecapQuiz = () => {
+  quizRecapTimeline.fromTo(
+    '.--modal-recap-quiz',
+    {
+      x: '100%',
+    },
+    { x: '0%', duration: 0.5, ease: 'Power4.easeInOut' },
+  )
+}
+
+console.log(score)
 
 onMounted(() => {
   quizOverlayAnimation()

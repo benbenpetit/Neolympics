@@ -16,9 +16,9 @@
   background-color: #ffffff;
   outline: none;
 
-  &:hover {
-    background-color: darken(#ffffff, 5%);
-  }
+  // &:hover {
+  //   background-color: darken(#ffffff, 5%);
+  // }
 
   .c-buttonUI-content {
     p {
@@ -49,6 +49,7 @@
         transition: all 0.2s ease-in-out;
       }
     }
+
     &:hover {
       background-color: $color-blue-secondary;
     }

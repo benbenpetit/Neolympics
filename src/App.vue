@@ -1,5 +1,5 @@
 <template>
-  <!-- <nav class="c-nav">
+  <nav class="c-nav">
     <router-link to="/">Home</router-link>
     <router-link to="/game">Game</router-link>
     <router-link to="/register">Register</router-link>
@@ -9,7 +9,7 @@
     <router-link to="/three">Three</router-link>
     <router-link to="/pattern">Pattern</router-link>
     <button @click="handleSignOut" v-if="isLoggedIn">Sign out</button>
-  </nav> -->
+  </nav>
   <router-view />
 </template>
 

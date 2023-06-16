@@ -1,62 +1,60 @@
 <template>
-  <div class="scene-container">
-    <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
-    <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
-      <template v-slot:title>Tutoriel</template>
-      <template v-slot:content>
-        <div class="tutoriel-content">
-          <!-- <Pattern
-            class="tutoriel-content__pattern"
-            :patternToDo="patternToDoTutorial"
-            isAutoDrawing
-            :onDrawEnd="handleTutoEnd"
-          /> -->
-          <p>
-            Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
-            <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
-            Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
-          </p>
-        </div>
-      </template>
-      <template v-slot:buttons>
-        <div class="trial-details">
-          <div class="detail-container"><IconTImer /> 45 secondes</div>
-          <div class="detail-container"><IconSkate /> 5 figures</div>
-        </div>
-        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startTimer">
-          <template v-slot:label>J'ai compris !</template>
+  <OverlayIlluSkate />
+  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
+  </Header>
+  <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
+  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+    <template v-slot:title>Tutoriel</template>
+    <template v-slot:content>
+      <div class="tutoriel-content">
+        <Pattern
+          class="tutoriel-content__pattern"
+          :patternToDo="patternToDoTutorial"
+          isAutoDrawing
+          :onDrawEnd="handleTutoEnd"
+        />
+        <p>
+          Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
+          <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
+          Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
+        </p>
+      </div>
+    </template>
+    <template v-slot:buttons>
+      <div class="trial-details">
+        <div class="detail-container"><IconTImer /> 45 secondes</div>
+        <div class="detail-container"><IconSkate /> 5 figures</div>
+      </div>
+      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startTimer">
+        <template v-slot:label>J'ai compris !</template>
+      </ButtonUI>
+    </template>
+  </Modal>
+  <SkateModal
+    v-if="state === 'figureGame'"
+    :pattern="pattern"
+    @onPatternEnd="handlePatternEnd"
+  />
+  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+    <template v-slot:title>Fin de l'épreuve</template>
+    <template v-slot:content>
+      <div>
+        <p>Bravo tu as fini l'épreuve !</p>
+        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
+          <template v-slot:label>Continuer</template>
         </ButtonUI>
-      </template>
-    </Modal>
-    <SkateModal
-      v-if="state === 'figureGame'"
-      :pattern="pattern"
-      @onPatternEnd="handlePatternEnd"
-    />
-    <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
-      <template v-slot:title>Fin de l'épreuve</template>
-      <template v-slot:content>
-        <div>
-          <p>Bravo tu as fini l'épreuve !</p>
-          <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
-            <template v-slot:label>Continuer</template>
-          </ButtonUI>
-        </div>
-      </template>
-    </Modal>
-    <div
-      v-if="figureResult != ''"
-      class="figure-result"
-      :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
-    >
-      <img
-        :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'"
-        alt=""
-      />
-      <span class="result-text">{{ figureResult }}</span>
-    </div>
-    <canvas class="webgl"></canvas>
+      </div>
+    </template>
+  </Modal>
+  <div
+    v-if="figureResult != ''"
+    class="figure-result"
+    :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
+  >
+    <img :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'" alt="" />
+    <span class="result-text">{{ figureResult }}</span>
   </div>
+  <canvas class="webgl"></canvas>
 </template>
 
 <script setup lang="ts">
@@ -65,10 +63,12 @@ import Experience from '@/webgl/Experience/Experience'
 import Timer from '@/components/common/Timer.vue'
 import SkateModal from '@/components/common/SkateModal.vue'
 import Modal from '@/components/common/Modal.vue'
+import Header from '@/components/common/Header.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
+import OverlayIlluSkate from '@/components/common/OverlayIlluSkate.vue'
 import { IScore } from '@/core/types/IScore'
 import { HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
@@ -108,7 +108,7 @@ let wrongPatternSound = new Howl({
 
 let startingSkateTheme = new Howl({
   src: ['/sounds/soundtracks/before-trial.mp3'],
-  volume: 0.7,
+  volume: 0.5,
 })
 
 onMounted(() => {
@@ -194,7 +194,7 @@ const startTimer = (isValid?: boolean) => {
     skateTheme.play()
     skateTheme.fade(0, 0.8, 100)
     if (startingSkateTheme.playing()) {
-      startingSkateTheme.fade(0.8, 0, 600)
+      startingSkateTheme.fade(0.5, 0, 600)
     }
   }
   // } else {
@@ -228,6 +228,24 @@ const handleTutoEnd = () => {
   patternToDoTutorial.value = []
   setTimeout(() => {
     patternToDoTutorial.value = KICKFLIP.pattern
+  })
+}
+
+const onModalOpen = () => {
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 1500.0,
+    Q: 3.0,
+  })
+}
+
+const onModalClose = () => {
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
   })
 }
 </script>

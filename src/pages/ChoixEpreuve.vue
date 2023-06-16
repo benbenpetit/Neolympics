@@ -260,7 +260,7 @@ const removeCards = () => {
   })
 
   sliderAnim.to('.c-sportcard-wrapper', {
-    y: '-120%',
+    y: '-125%',
     x: '+30%',
     duration: 0.8,
     ease: 'Power4.easeInOut',

@@ -4,7 +4,7 @@
       <img src="/img/home-banner-bg.svg" alt="" />
       <img src="/img/home-banner-title.svg" alt="" class="--title" />
     </div>
-    <div class="c-homepage-bg" ref="homeBgRef">
+    <div class="c-homepage-bg o-background-points" ref="homeBgRef">
       <!-- <img src="/img/home-bg-full.svg" alt="" /> -->
       <div class="c-homepage-figures">
         <Swiper

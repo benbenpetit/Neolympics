@@ -1,111 +1,112 @@
 <template>
-  <Header
-    ref="headerRef"
-    @onModalOpen="onModalOpen"
-    @onModalClose="onModalClose"
-    :imgSrc="headerIcon"
-  >
-    <template v-slot:title>
-      {{ sportConfirmed ? sportParams[currentSport].title : `CHOIX D'ÉPREUVE` }}</template
+  <div class="o-background-points">
+    <Header
+      ref="headerRef"
+      @onModalOpen="onModalOpen"
+      @onModalClose="onModalClose"
+      :imgSrc="headerIcon"
     >
-  </Header>
-
-  <div class="choix-epreuve-background" ref="starBackgroundRef" />
-  <div class="c-trialrow" v-if="!selectedTrial" ref="sportCardsWrapperRef">
-    <SportCard @click="selectSkate">
-      <template v-slot:sportname>SKATE</template>
-      <template v-slot:sportimg>
-        <img src="/img/planche-skate-verticale.png" alt="" />
-      </template>
-      <template v-slot:footer>
-        <p>DISPONIBLE</p>
-        <img src="/icon/go.svg" alt="" />
-      </template>
-    </SportCard>
-
-    <SportCard class="--disabled" @click="selectSurf">
-      <template v-slot:sportname>SURF</template>
-      <template v-slot:sportimg></template>
-      <template v-slot:footer>
-        <p>À VENIR</p>
-        <img src="/icon/lock.svg" alt="" />
-      </template>
-    </SportCard>
-
-    <SportCard class="--disabled" @click="selectBreak">
-      <template v-slot:sportname>BREAKING</template>
-      <template v-slot:sportimg></template>
-      <template v-slot:footer>
-        <p>À VENIR</p>
-        <img src="/icon/lock.svg" alt="" />
-      </template>
-    </SportCard>
-
-    <SportCard class="--disabled" @click="selectClimb">
-      <template v-slot:sportname>ESCALADE</template>
-      <template v-slot:sportimg></template>
-      <template v-slot:footer>
-        <p>À VENIR</p>
-        <img src="/icon/lock.svg" alt="" />
-      </template>
-    </SportCard>
-  </div>
-
-  <SportSlider
-    v-if="selectedTrial && !sportConfirmed"
-    @previous="gotoPreviousSport"
-    @next="gotoNextSport"
-    :class="[!sportParams[currentSport].available ? '--disabled' : '']"
-  >
-    <template v-slot:sportinfo>{{ sportParams[currentSport].info }}</template>
-    <template v-slot:sportimg>
-      <img :src="sportParams[currentSport].img" alt="" />
-    </template>
-    <template v-slot:sporttitle>{{ sportParams[currentSport].title }}</template>
-    <template v-slot:buttonLtext
-      >{{ sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title }}
-    </template>
-    <template v-slot:buttonRtext>{{
-      sportParams[Math.abs((currentSport + 1) % 4)].title
-    }}</template>
-    <template
-      v-slot:footerL
-      v-if="sportParams[currentSport].available && topThreePlayers.length"
-    >
-      <p>battez le score des champions !</p>
-      <div class="footer-left-leaderboard">
-        <CardLeaderboard
-          v-for="(topPlayer, index) in topThreePlayers"
-          :rank="index + 1"
-          :user="topPlayer.user"
-          :points="topPlayer.score.points"
-          :quiz="topPlayer.score.points"
-        />
-      </div>
-    </template>
-    <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
-    <template v-slot:footerC v-if="!sportParams[currentSport].available">
-      <p>À VENIR</p>
-      <img src="/icon/lock.svg" alt="" />
-    </template>
-    <template v-slot:footerR v-if="sportParams[currentSport].available">
-      <ButtonUI
-        imgSrc="/icon/go.svg"
-        @click="gotoDifficultySelector()"
-        style="width: 300px"
+      <template v-slot:title>
+        {{
+          sportConfirmed ? sportParams[currentSport].title : `CHOIX D'ÉPREUVE`
+        }}</template
       >
-        <template v-slot:label>VALIDER MON CHOIX</template>
-      </ButtonUI>
-    </template>
-  </SportSlider>
+    </Header>
+    <div class="c-trialrow" v-if="!selectedTrial" ref="sportCardsWrapperRef">
+      <SportCard @click="selectSkate">
+        <template v-slot:sportname>SKATE</template>
+        <template v-slot:sportimg>
+          <img src="/img/planche-skate-verticale.webp" alt="" />
+        </template>
+        <template v-slot:footer>
+          <p>DISPONIBLE</p>
+          <img src="/icon/go.svg" alt="" />
+        </template>
+      </SportCard>
 
-  <DifficultySelector v-if="sportConfirmed">
-    <template v-slot:nametag-title>YUTO</template>
-    <template v-slot:nametag-desc>
-      <p>-</p>
-      <p>SKATER DE<br />RÉPUBLIQUE</p>
-    </template>
-  </DifficultySelector>
+      <SportCard class="--disabled" @click="selectSurf">
+        <template v-slot:sportname>SURF</template>
+        <template v-slot:sportimg></template>
+        <template v-slot:footer>
+          <p>À VENIR</p>
+          <img src="/icon/lock.svg" alt="" />
+        </template>
+      </SportCard>
+
+      <SportCard class="--disabled" @click="selectBreak">
+        <template v-slot:sportname>BREAKING</template>
+        <template v-slot:sportimg></template>
+        <template v-slot:footer>
+          <p>À VENIR</p>
+          <img src="/icon/lock.svg" alt="" />
+        </template>
+      </SportCard>
+
+      <SportCard class="--disabled" @click="selectClimb">
+        <template v-slot:sportname>ESCALADE</template>
+        <template v-slot:sportimg></template>
+        <template v-slot:footer>
+          <p>À VENIR</p>
+          <img src="/icon/lock.svg" alt="" />
+        </template>
+      </SportCard>
+    </div>
+    <SportSlider
+      v-if="selectedTrial && !sportConfirmed"
+      @previous="gotoPreviousSport"
+      @next="gotoNextSport"
+      :class="[!sportParams[currentSport].available ? '--disabled' : '']"
+    >
+      <template v-slot:sportinfo>{{ sportParams[currentSport].info }}</template>
+      <template v-slot:sportimg>
+        <img :src="sportParams[currentSport].img" alt="" />
+      </template>
+      <template v-slot:sporttitle>{{ sportParams[currentSport].title }}</template>
+      <template v-slot:buttonLtext
+        >{{ sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title }}
+      </template>
+      <template v-slot:buttonRtext>{{
+        sportParams[Math.abs((currentSport + 1) % 4)].title
+      }}</template>
+      <template
+        v-slot:footerL
+        v-if="sportParams[currentSport].available && topThreePlayers.length"
+      >
+        <p>battez le score des champions !</p>
+        <div class="footer-left-leaderboard">
+          <CardLeaderboard
+            v-for="(topPlayer, index) in topThreePlayers"
+            :rank="index + 1"
+            :user="topPlayer.user"
+            :points="topPlayer.score.points"
+            :quiz="topPlayer.score.points"
+          />
+        </div>
+      </template>
+      <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
+      <template v-slot:footerC v-if="!sportParams[currentSport].available">
+        <p>À VENIR</p>
+        <img src="/icon/lock.svg" alt="" />
+      </template>
+      <template v-slot:footerR v-if="sportParams[currentSport].available">
+        <ButtonUI
+          imgSrc="/icon/go.svg"
+          @click="gotoDifficultySelector()"
+          style="width: 300px"
+        >
+          <template v-slot:label>VALIDER MON CHOIX</template>
+        </ButtonUI>
+      </template>
+    </SportSlider>
+
+    <DifficultySelector v-if="sportConfirmed">
+      <template v-slot:nametag-title>YUTO</template>
+      <template v-slot:nametag-desc>
+        <p>-</p>
+        <p>SKATER DE<br />RÉPUBLIQUE</p>
+      </template>
+    </DifficultySelector>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -133,7 +134,6 @@ gsap.registerPlugin(CustomEase)
 const router = useRouter()
 const headerRef = ref<any | null>(null)
 const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
-const starBackgroundRef = ref<HTMLDivElement | null>(null)
 //false pour commenncer du début
 let selectedTrial = ref<boolean>(false)
 let sportConfirmed = ref<boolean>(false)
@@ -209,11 +209,6 @@ onMounted(() => {
     duration: 0.6,
     ease: 'Power4.easeInOut',
   })
-  gsap.from(starBackgroundRef.value, {
-    opacity: 0,
-    duration: 1,
-    ease: 'Power2.easeInOut',
-  })
 })
 
 const sliderAnim = gsap.timeline({})
@@ -265,7 +260,7 @@ const removeCards = () => {
   })
 
   sliderAnim.to('.c-sportcard-wrapper', {
-    y: '-120%',
+    y: '-125%',
     x: '+30%',
     duration: 0.8,
     ease: 'Power4.easeInOut',

@@ -1,0 +1,55 @@
+@use '/src/styles/settings' as *;
+
+.o-background-points {
+  position: relative;
+  background-color: $color-yellow;
+  background-image: url(/img/background-pattern-light.webp);
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: auto 24px;
+  animation: animatedBackground 500s linear infinite;
+
+  &::before {
+    content: '';
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, #1f28ff 100%);
+    mix-blend-mode: color-burn;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    pointer-events: none;
+    animation: animIn 0.8s ease-in-out forwards;
+  }
+
+  @keyframes animatedBackground {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 10000px -20000px;
+    }
+  }
+
+  @keyframes animIn {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}

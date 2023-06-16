@@ -59,6 +59,7 @@ import { getIsArraysEqual } from '@/core/utils/functions'
 import { Line, Point } from '@/core/types/IPattern'
 import { useResizeObserver } from '@vueuse/core'
 import { CustomEase } from 'gsap/all'
+import { Howl, Howler } from 'howler'
 gsap.registerPlugin(DrawSVGPlugin)
 gsap.registerPlugin(CustomEase)
 CustomEase.create('shakeEasing', '.36,.07,.19,.97')
@@ -89,6 +90,26 @@ const patternRef = ref<HTMLDivElement | null>(null)
 onMounted(() => {
   initPointsAndLines()
 })
+
+const dotSound = new Howl({
+  src: ['/sounds/ui-sounds/dot-sound.mp3'],
+  volume: 0.7,
+})
+
+const validPatternSound = new Howl({
+  src: ['/sounds/ui-sounds/pattern-correct.mp3'],
+  volume: 0.5,
+})
+
+const wrongPatternSound = new Howl({
+  src: ['/sounds/ui-sounds/pattern-wrong.mp3'],
+  volume: 0.5,
+})
+
+const pitchedDotSound = () => {
+  dotSound.rate(currentPattern.value.flat(Infinity).length / 2)
+  dotSound.play()
+}
 
 const resetPointsAndLines = () => {
   lines.value = lines.value.map((line) => ({
@@ -239,6 +260,7 @@ const handleMouseDown = (point: Point, event: MouseEvent) => {
   // Ajouter le point a la liste des points
   if (!currentPattern.value[donePatterns.value.length]) currentPattern.value.push([])
   currentPattern.value[donePatterns.value.length]?.push(point.id)
+  pitchedDotSound()
 
   // Update le SVG de ligne
   currentLine.value =
@@ -283,9 +305,13 @@ const handleMouseOver = (point: Point) => {
     currentPattern.value[donePatterns.value.length].push(point.id)
     currentLine.value.coords.end.x = point.coords.x
     currentLine.value.coords.end.y = point.coords.y
+    pitchedDotSound()
 
     const isPatternWrong = checkIfPatternWrong()
     if (isPatternWrong) {
+      setTimeout(() => {
+        wrongPatternSound.play()
+      }, 400)
       isDisableClick.value = true
       isDragging.value = false
       props.onDrawEnd(true)
@@ -315,6 +341,9 @@ const handleMouseOver = (point: Point) => {
       if (checkIfFullPatternValid()) {
         isDisableClick.value = true
         props.onDrawEnd()
+        setTimeout(() => {
+          validPatternSound.play()
+        }, 300)
       }
       return
     }

@@ -170,7 +170,7 @@ let sweepCardSound = new Howl({
 })
 
 let gameSoundtrack = new Howl({
-  src: ['/sounds/soundtracks/game-intro.mp3'],
+  src: ['/sounds/soundtracks/main-theme.mp3'],
   loop: true,
   volume: 0.8,
 })

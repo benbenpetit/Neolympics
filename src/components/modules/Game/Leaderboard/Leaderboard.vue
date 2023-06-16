@@ -112,8 +112,8 @@ const lowScoresRef = ref<HTMLDivElement | null>(null)
 const lowScoresListRef = ref<HTMLUListElement | null>(null)
 const isOpenSignIn = ref(false)
 
-let leaderboardTheme = new Howl({
-  src: ['/sounds/soundtracks/leaderboard.mp3'],
+const leaderboardTheme = new Howl({
+  src: ['/sounds/soundtracks/main-theme.mp3'],
   volume: 0.8,
   loop: true,
 })

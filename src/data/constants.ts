@@ -52,7 +52,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
   {
     question: `Combien de trucks y a-t-il sur un skateboard ?`,
     answer: 1,
-    options: ['un', 'deux', 'trois', 'quatre'],
+    options: ['Un', 'Deux', 'Trois', 'Quatre'],
     selected: null,
     img: '/img/quiz/quiz-trucks.png',
     info: `Le truck d'un skate est la pièce métallique qui relie les roues au deck. Il est composé de plusieurs parties, dont le 

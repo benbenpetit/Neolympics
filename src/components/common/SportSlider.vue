@@ -1,44 +1,99 @@
 <template>
   <div class="c-sportslider-wrapper">
     <div class="c-sportslider-buttons">
-      <button @click="$emit('previous')">
+      <button @click="emit('previous')">
         <img src="/icon/arrow-slider.svg" alt="" />
-        <h3><slot name="buttonLtext"></slot></h3>
+        <h3>{{ props.prevLabel }}</h3>
       </button>
-      <button @click="$emit('next')">
-        <h3><slot name="buttonRtext"></slot></h3>
+      <button @click="emit('next')">
+        <h3>{{ props.nextLabel }}</h3>
         <img src="/icon/arrow-slider.svg" alt="" style="transform: rotate(180deg)" />
       </button>
     </div>
 
     <div class="c-sportslider-center">
-      <p><slot name="sportinfo"></slot></p>
+      <div class="c-sportslider-center__info">
+        <p>{{ props.sport.info }}</p>
+      </div>
       <div class="sportimg-wrapper">
         <div class="sportimg">
-          <slot name="sportimg"></slot>
+          <img :src="props.sport.img" alt="" />
         </div>
-        <div class="dropshadow"></div>
       </div>
-      <h1><slot name="sporttitle"></slot></h1>
+    </div>
+
+    <div class="c-sport-slider__floor c-floor" ref="floorRef">
+      <span class="c-floor__circle" />
+      <div class="c-floor__title">
+        <span
+          class="c-floor__title__inside"
+          :style="{ fontSize: getNormalizedFontSize(props.sport.title) + 'vw' }"
+          >{{ props.sport.title }}</span
+        >
+      </div>
     </div>
 
     <div class="sportslider-footer-wrapper">
       <footer class="c-sportslider-footer">
-        <div class="footer-left">
-          <slot name="footerL"></slot>
+        <div
+          class="footer-left"
+          v-if="!!topThreePlayers?.length && props.sport.available"
+        >
+          <p>Battez le score des champions !</p>
+          <div class="footer-left-leaderboard">
+            <CardLeaderboard
+              v-for="(topPlayer, index) in topThreePlayers"
+              :rank="index + 1"
+              :user="topPlayer.user"
+              :points="topPlayer.score.points"
+              :quiz="topPlayer.score.quiz"
+            />
+          </div>
         </div>
-        <div class="footer-center"><slot name="footerC"></slot></div>
-        <div class="footer-right"><slot name="footerR"></slot></div>
+        <div class="footer-center" v-if="!props.sport.available">
+          <p>À VENIR</p>
+          <img src="/icon/lock.svg" alt="" />
+        </div>
+        <div class="footer-right" v-if="props.sport.available">
+          <ButtonUI
+            imgSrc="/icon/go.svg"
+            @click="emit('onValidate')"
+            style="width: 300px"
+          >
+            <template v-slot:label>VALIDER MON CHOIX</template>
+          </ButtonUI>
+        </div>
       </footer>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { Howl, Howler } from 'howler'
+import { IScoreWUser } from '@/core/types/IScore'
+import CardLeaderboard from '@/components/common/CardLeaderboard.vue'
+import ButtonUI from '@/components/common/ButtonUI.vue'
+
+interface Props {
+  topThreePlayers?: IScoreWUser[]
+  sport: {
+    title: string
+    info: string
+    img: string
+    available: boolean
+    icon?: string
+  }
+  prevLabel: string
+  nextLabel: string
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits(['previous', 'next', 'onValidate'])
+
+const floorRef = ref<HTMLDivElement | null>(null)
 
 let sliderSweepSound = new Howl({
   src: ['/sounds/ui-sounds/appear-4.mp3'],
@@ -54,7 +109,34 @@ gsap.registerPlugin(CustomEase)
 
 const sliderEntry = gsap.timeline({})
 
+const getNormalizedFontSize = (word = '') => {
+  const minFontSize = 14
+  const maxFontSize = 8
+  const minLength = 4
+  const maxLength = 10
+  const currentLength = word.split('').length
+
+  return (
+    minFontSize +
+    ((currentLength - minLength) / (maxLength - minLength)) * (maxFontSize - minFontSize)
+  )
+}
+
 onMounted(() => {
+  gsap.fromTo(
+    floorRef.value,
+    {
+      y: '70vh',
+      opacity: 0,
+    },
+    {
+      y: '30vh',
+      opacity: 1,
+      duration: 1,
+      ease: 'Power3.easeInOut',
+    },
+  )
+
   sliderEntry.fromTo(
     '.c-sportslider-center h1',
     {
@@ -62,23 +144,10 @@ onMounted(() => {
     },
     {
       duration: 0.5,
+      delay: 0.4,
       ease: 'Power2.easeInOut',
       opacity: 1,
     },
-  )
-
-  sliderEntry.fromTo(
-    '.dropshadow',
-    {
-      scale: 0,
-    },
-    {
-      scale: 1,
-      duration: 0.4,
-      opacity: 1,
-      ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
-    },
-    '-=0.2',
   )
 
   sliderEntry.add(function () {
@@ -112,13 +181,13 @@ onMounted(() => {
   })
 
   sliderEntry.fromTo(
-    '.c-sportslider-center p',
+    '.c-sportslider-center__info',
     {
-      y: '-200%',
+      y: '-30vh',
     },
     {
-      y: '0%',
-      duration: 0.4,
+      y: '0',
+      duration: 0.6,
       ease: 'Power2.easeInOut',
     },
     '-=0.1',

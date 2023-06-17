@@ -12,6 +12,7 @@
         }}</template
       >
     </Header>
+
     <div class="c-trialrow" v-if="!selectedTrial" ref="sportCardsWrapperRef">
       <SportCard @click="selectSkate">
         <template v-slot:sportname>SKATE</template>
@@ -51,53 +52,18 @@
         </template>
       </SportCard>
     </div>
+
     <SportSlider
       v-if="selectedTrial && !sportConfirmed"
+      :class="[!sportParams[currentSport].available ? '--disabled' : '']"
       @previous="gotoPreviousSport"
       @next="gotoNextSport"
-      :class="[!sportParams[currentSport].available ? '--disabled' : '']"
-    >
-      <template v-slot:sportinfo>{{ sportParams[currentSport].info }}</template>
-      <template v-slot:sportimg>
-        <img :src="sportParams[currentSport].img" alt="" />
-      </template>
-      <template v-slot:sporttitle>{{ sportParams[currentSport].title }}</template>
-      <template v-slot:buttonLtext
-        >{{ sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title }}
-      </template>
-      <template v-slot:buttonRtext>{{
-        sportParams[Math.abs((currentSport + 1) % 4)].title
-      }}</template>
-      <template
-        v-slot:footerL
-        v-if="sportParams[currentSport].available && topThreePlayers.length"
-      >
-        <p>battez le score des champions !</p>
-        <div class="footer-left-leaderboard">
-          <CardLeaderboard
-            v-for="(topPlayer, index) in topThreePlayers"
-            :rank="index + 1"
-            :user="topPlayer.user"
-            :points="topPlayer.score.points"
-            :quiz="topPlayer.score.points"
-          />
-        </div>
-      </template>
-      <template v-slot:footerC v-if="sportParams[currentSport].available"></template>
-      <template v-slot:footerC v-if="!sportParams[currentSport].available">
-        <p>À VENIR</p>
-        <img src="/icon/lock.svg" alt="" />
-      </template>
-      <template v-slot:footerR v-if="sportParams[currentSport].available">
-        <ButtonUI
-          imgSrc="/icon/go.svg"
-          @click="gotoDifficultySelector()"
-          style="width: 300px"
-        >
-          <template v-slot:label>VALIDER MON CHOIX</template>
-        </ButtonUI>
-      </template>
-    </SportSlider>
+      @onValidate="goToDifficultySelector"
+      :topThreePlayers="topThreePlayers"
+      :sport="sportParams[currentSport]"
+      :prevLabel="sportParams[currentSport - 1 == -1 ? 3 : (currentSport - 1) % 4].title"
+      :nextLabel="sportParams[Math.abs((currentSport + 1) % 4)].title"
+    />
 
     <DifficultySelector v-if="sportConfirmed">
       <template v-slot:nametag-title>YUTO</template>
@@ -309,9 +275,20 @@ const gotoPreviousSport = () => {
   sliderAnimIn()
 }
 
-const gotoDifficultySelector = () => {
+const goToDifficultySelector = () => {
   sliderAnimOut()
-  sliderAnim.add(setDifficultySelector)
+  gsap.to('.c-floor', {
+    y: '70vh',
+    opacity: 0.4,
+    duration: 0.8,
+    delay: 0.6,
+    ease: 'Power3.easeInOut',
+  })
+  sliderAnim.add(() => {
+    setTimeout(() => {
+      setDifficultySelector()
+    }, 400)
+  })
 }
 
 const sportParams = [
@@ -369,16 +346,6 @@ const sliderAnimOut = () => {
     '-=0.1',
   )
 
-  sliderAnim.to(
-    '.dropshadow',
-    {
-      scale: 1.3,
-      duration: 0.3,
-      ease: 'Power2.easeInOut',
-    },
-    '-=0.2',
-  )
-
   sliderAnim.add(function () {
     sliderDisappearSound.play()
   })
@@ -393,6 +360,12 @@ const sliderAnimOut = () => {
       opacity: 0,
       scale: 0,
       filter: 'blur(20px)',
+      onStart: () => {
+        gsap.to('.c-floor__title__inside', {
+          opacity: 0,
+          duration: 0.3,
+        })
+      },
     },
     '-=0.2',
   )
@@ -455,6 +428,14 @@ const sliderAnimIn = () => {
       opacity: 1,
       scale: 1,
       filter: 'blur(0px)',
+      onStart: () => {
+        console.log('aaa')
+        gsap.to('.c-floor__title__inside', {
+          opacity: 1,
+          duration: 0.3,
+          delay: 0.1,
+        })
+      },
     },
     '-=0.2',
   )

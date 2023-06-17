@@ -28,7 +28,7 @@ interface Props {
   rank: number
   user?: IUser
   points: number
-  quiz: number
+  quiz?: number
 }
 
 const props = defineProps<Props>()

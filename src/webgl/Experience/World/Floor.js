@@ -66,6 +66,7 @@ export default class Floor {
         this.skateModules.push(this.experience.resources.items[item])
       }
     })
+    console.log(this.skateModules)
   }
 
   setMesh() {
@@ -74,22 +75,21 @@ export default class Floor {
     var module_index = 0
     for (let i = 0; i < 30; i++) {
       if (i % 4 == 0 && i != 0 && module_index <= 1) {
-        // console.log('Mod 2 : ', module_index % 2)
-        // var module = this.skateModules[module_index % 2].scene
-        // module.position.z = i * 10 + 5
-        // this.floor.add(module)
-        // module_index += 1
+        var module = this.skateModules[module_index % 2].scene
+        module.position.z = i * 10 + 5
+        this.floor.add(module)
+        module_index += 1
       } else {
-        this.mesh = new THREE.Mesh(
-          this.geometry,
-          new THREE.MeshStandardMaterial({
-            color: colors[i % 3],
-          }),
-        )
-        this.mesh.rotation.x = -Math.PI * 0.5
-        this.mesh.receiveShadow = true
-        this.mesh.position.z = i * 10 + 5
-        this.floor.add(this.mesh)
+        // this.mesh = new THREE.Mesh(
+        //   this.geometry,
+        //   new THREE.MeshStandardMaterial({
+        //     color: colors[i % 3],
+        //   }),
+        // )
+        // this.mesh.rotation.x = -Math.PI * 0.5
+        // this.mesh.receiveShadow = true
+        // this.mesh.position.z = i * 10 + 5
+        // this.floor.add(this.mesh)
       }
     }
     this.scene.add(this.floor)

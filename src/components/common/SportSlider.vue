@@ -1,5 +1,11 @@
 <template>
   <div class="c-sportslider-wrapper">
+    <img
+      class="c-sportslider-wrapper__forme"
+      src="/img/forme-choix-epreuve.svg"
+      alt=""
+      ref="formeRef"
+    />
     <div class="c-sportslider-buttons">
       <button @click="emit('previous')">
         <img src="/icon/arrow-slider.svg" alt="" />
@@ -94,6 +100,7 @@ const props = defineProps<Props>()
 const emit = defineEmits(['previous', 'next', 'onValidate'])
 
 const floorRef = ref<HTMLDivElement | null>(null)
+const formeRef = ref<HTMLDivElement | null>(null)
 
 let sliderSweepSound = new Howl({
   src: ['/sounds/ui-sounds/appear-4.mp3'],
@@ -156,6 +163,25 @@ onMounted(() => {
   })
 
   sliderEntry.fromTo(
+    formeRef.value,
+    {
+      top: '200vh',
+      // width: '0vw',
+      // height: '0vh',
+      // opacity: 0,
+    },
+    {
+      top: '0%',
+      // width: '100vw',
+      // height: '100vh',
+      // opacity: 1,
+      duration: 1,
+      ease: 'Power3.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  sliderEntry.fromTo(
     '.sportimg img',
     {
       scale: 0,
@@ -172,7 +198,7 @@ onMounted(() => {
       opacity: 1,
       filter: 'blur(0px)',
     },
-    '-=0.2',
+    '-=0.5',
   )
 
   sliderEntry.add(function () {

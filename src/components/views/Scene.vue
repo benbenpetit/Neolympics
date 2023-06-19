@@ -7,12 +7,12 @@
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
-        <Pattern
+        <!-- <Pattern
           class="tutoriel-content__pattern"
           :patternToDo="patternToDoTutorial"
           isAutoDrawing
           :onDrawEnd="handleTutoEnd"
-        />
+        /> -->
         <p>
           Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
           <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />

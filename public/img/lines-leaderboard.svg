@@ -1,6 +1,6 @@
 <svg width="1000" height="685" viewBox="0 0 2245 685" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <linearGradient id="logo-gradient">
+      <linearGradient id="logo-gradient" x1="0" y1="0.46" x2="1" y2="0.54">
             <stop offset="-1" stop-color="#60DDFD">
             <animate attributeName="offset" dur="5s" values="-1;0;"
                 repeatCount="indefinite" />
@@ -21,24 +21,11 @@
             <animate attributeName="offset" dur="5s" values="1;2"
                 repeatCount="indefinite" />
             </stop>
-            <!-- <stop offset="0%">
-                <animate attributeName="stop-color" values="#3656ff; #60DDFD; #3656ff" dur="5s" repeatCount="indefinite"></animate>
-            </stop>
-            <stop offset="20%">
-                <animate attributeName="stop-color" values="#60DDFD; #3656ff; #60DDFD" dur="5s" repeatCount="indefinite"></animate>
-            </stop>
-            <stop offset="50%">
-                <animate attributeName="stop-color" values="#3656ff; #60DDFD; #3656ff" dur="5s" repeatCount="indefinite"></animate>
-            </stop>
-            <stop offset="66%">
-                <animate attributeName="stop-color" values="#60DDFD; #3656ff; #60DDFD" dur="5s" repeatCount="indefinite"></animate>
-            </stop>
-            <stop offset="100%">
-                <animate attributeName="stop-color" values="#3656ff; #60DDFD; #3656ff" dur="5s" repeatCount="indefinite"></animate>
-            </stop> -->
       </linearGradient>
     </defs>
-<path d="M10 504C298.513 404.603 805.737 196.993 1092.2 233.17C1308.87 260.533 2084.5 115.904 2228.57 26" stroke="url('#logo-gradient')" stroke-width="60"/>
-<path d="M10 580C298.513 480.603 805.738 272.993 1092.2 309.17C1308.87 336.533 2084.5 191.904 2228.57 102" stroke="url('#logo-gradient')" stroke-width="60"/>
-<path d="M10 656.001C298.513 556.604 805.737 348.994 1092.2 385.171C1308.87 412.534 2084.5 267.905 2228.57 178.001" stroke="url('#logo-gradient')" stroke-width="60"/>
+    <g stroke="url('#logo-gradient')">
+        <path d="M10 504C298.513 404.603 805.737 196.993 1092.2 233.17C1308.87 260.533 2084.5 115.904 2228.57 26"  stroke-width="60"/>
+        <path d="M10 580C298.513 480.603 805.738 272.993 1092.2 309.17C1308.87 336.533 2084.5 191.904 2228.57 102"  stroke-width="60"/>
+        <path d="M10 656.001C298.513 556.604 805.737 348.994 1092.2 385.171C1308.87 412.534 2084.5 267.905 2228.57 178.001"  stroke-width="60"/>
+    </g>
 </svg>

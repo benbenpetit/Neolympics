@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import Leaderboard from '@/components/modules/Game/Leaderboard/Leaderboard.vue'
 import Scene from '@/components/views/Scene.vue'
-import { IMaxSessionWUser } from '@/core/types/IScore'
+import { IGlobalScores, IMaxSessionWUser } from '@/core/types/IScore'
 import { ref, watch, computed, onMounted } from 'vue'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
@@ -33,12 +33,12 @@ watch(
     const firebaseMaxSessions = await getAllMaxSessions()
 
     const playedSports = Object.keys(scoreState.currentScores).filter(
-      (sport) => scoreState.currentScores[sport],
+      (sport) => scoreState.currentScores[sport as keyof {}],
     )
 
     const currentScores = [
       ...playedSports.map((playedSport) => ({
-        [playedSport]: scoreState.currentScores[playedSport],
+        [playedSport]: scoreState.currentScores[playedSport as keyof {}],
       })),
     ]
     const currentMaxSession = {

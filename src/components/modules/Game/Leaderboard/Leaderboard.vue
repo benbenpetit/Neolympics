@@ -60,11 +60,32 @@
       </div>
     </div>
     <footer class="c-leaderboard__footer">
-      <div class="c-signin" :class="isOpenSignIn && '--open'" v-if="!currentUser">
-        <ButtonUI @onClick="toggleOpenSignIn" :isActive="false" class="--no-hover">
-          <template v-slot:label>ENREGISTER MON SCORE</template>
+      <div class="c-btn-wrapper" v-if="!currentUser">
+        <ButtonUI imgSrc="/icon/share.svg" :isActive="false" class="--white" />
+        <div class="c-btn-wrapper__inside">
+          <button @click="handleShareCopy">
+            <img src="/icon/link.svg" alt="" />
+            <span>Copier le lien</span>
+          </button>
+          <button @click="handleShareWhatsapp">
+            <img src="/icon/whatsapp.svg" alt="" />
+            <span>Partager sur WhatsApp</span>
+          </button>
+          <button @click="handleShareFacebook">
+            <img src="/icon/facebook.svg" alt="" />
+            <span>Partager sur Facebook</span>
+          </button>
+          <button @click="handleShareTwitter">
+            <img src="/icon/twitter.svg" alt="" />
+            <span>Partager sur Twitter</span>
+          </button>
+        </div>
+      </div>
+      <div class="c-btn-wrapper" v-if="!currentUser">
+        <ButtonUI :isActive="false" class="--white">
+          <template v-slot:label>ENREGISTRER MON SCORE</template>
         </ButtonUI>
-        <div class="c-signin__inside">
+        <div class="c-btn-wrapper__inside">
           <button @click="handleGoogleSignIn">
             <img src="/icon/google.svg" alt="" />
             <span>Se connecter avec Google</span>
@@ -115,7 +136,6 @@ const currentUserIndex = computed(() =>
 )
 const lowScoresRef = ref<HTMLDivElement | null>(null)
 const lowScoresListRef = ref<HTMLUListElement | null>(null)
-const isOpenSignIn = ref(false)
 
 const leaderboardTheme = new Howl({
   src: ['/sounds/soundtracks/main-theme.mp3'],
@@ -222,8 +242,35 @@ const toggleLowScores = () => {
   }
 }
 
-const toggleOpenSignIn = () => {
-  isOpenSignIn.value = !isOpenSignIn.value
+const TEXT = `Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
+
+const handleShareWhatsapp = () => {
+  window.open(`https://web.whatsapp.com/send/?text=${TEXT} ${window.location.host}`)
+}
+
+const handleShareFacebook = () => {
+  window.open(`https://www.facebook.com/sharer/sharer.php/?u=${window.location.host}`)
+}
+
+const handleShareTwitter = () => {
+  window.open(
+    `https://twitter.com/share?text=${`Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔`}&url=${
+      window.location.host
+    }&hashtags=neolympics,Paris2024`,
+  )
+}
+
+const handleShareCopy = () => {
+  const text = `Je viens de réaliser un super score de 307pts sur Neolympics ! ${window.location.host}`
+
+  navigator.clipboard.writeText(text).then(
+    () => {
+      console.log('Async: Copying to clipboard was successful!')
+    },
+    (err) => {
+      console.error('Async: Could not copy text: ', err)
+    },
+  )
 }
 
 const handleGoogleSignIn = async () => {

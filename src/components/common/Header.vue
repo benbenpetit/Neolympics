@@ -10,12 +10,22 @@
       </div>
       <div class="c-header-center"></div>
       <div class="c-header-right">
-        <ButtonUI @click="soundClick()" class="--white" style="border: none">
+        <ButtonUI
+          @click="soundClick()"
+          :isActive="false"
+          class="--white"
+          style="border: none"
+        >
           <template v-slot:label>
             <img :src="soundEnabled ? soundOnSrc : soundOffSrc" alt="" />
           </template>
         </ButtonUI>
-        <ButtonUI @click="showModalHome" class="--white" style="border: none">
+        <ButtonUI
+          @click="showModalHome"
+          :isActive="false"
+          class="--white"
+          style="border: none"
+        >
           <template v-slot:label>ACCUEIL</template>
         </ButtonUI>
       </div>

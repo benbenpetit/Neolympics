@@ -158,9 +158,14 @@
     bottom: 0;
     padding: 1rem 2rem;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-end;
     pointer-events: none;
+    column-gap: 0.5rem;
+
+    .c-buttonUI {
+      margin: 0;
+    }
 
     &::before {
       content: '';
@@ -184,11 +189,12 @@
   }
 }
 
-.c-signin {
+.c-btn-wrapper {
   position: relative;
 
   > .c-buttonUI {
     z-index: 1;
+    height: 100%;
   }
 
   &__inside {
@@ -206,7 +212,7 @@
     justify-content: center;
     gap: 8px;
 
-    .c-signin.--open & {
+    .c-btn-wrapper:hover & {
       opacity: 1;
       transform: translate(-50%, 0);
       visibility: visible;

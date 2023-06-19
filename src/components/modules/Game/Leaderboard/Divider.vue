@@ -1,8 +1,8 @@
 <template>
   <div class="c-divider" @click="emit('onClick')">
-    <div class="c-divider__inside" v-if="hasSlot('main')">
+    <button class="c-divider__inside" v-if="hasSlot('main')">
       <slot name="main" />
-    </div>
+    </button>
   </div>
 </template>
 

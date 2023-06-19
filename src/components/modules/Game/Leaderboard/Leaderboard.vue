@@ -5,7 +5,7 @@
     </Header>
     <div class="c-leaderboard__top-scores">
       <img
-        class="c-leaderboard__top-scores-lines"
+        class="c-leaderboard__top-scores__lines"
         src="/img/lines-leaderboard.svg"
         alt=""
       />
@@ -35,10 +35,11 @@
         <Divider
           v-if="currentUserIndex >= 4"
           class="c-low-scores__divider u-pb-double u-pt-double"
+          :class="isOpenScores && '--hide-lines'"
           @onClick="toggleLowScores"
         >
           <template v-slot:main>
-            <span>{{ !isOpenScores ? 'Voir plus' : 'Voir moins' }}</span>
+            <span>{{ !isOpenScores ? 'Voir tout le classement' : 'Voir moins' }}</span>
           </template>
         </Divider>
         <div class="c-low-scores__list" :class="isOpenScores && '--open'">

@@ -7,12 +7,12 @@
     <template v-slot:title>Tutoriel</template>
     <template v-slot:content>
       <div class="tutoriel-content">
-        <Pattern
+        <!-- <Pattern
           class="tutoriel-content__pattern"
           :patternToDo="patternToDoTutorial"
           isAutoDrawing
           :onDrawEnd="handleTutoEnd"
-        />
+        /> -->
         <p>
           Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
           <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
@@ -70,13 +70,13 @@ import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import OverlayIlluSkate from '@/components/common/OverlayIlluSkate.vue'
 import { IScore } from '@/core/types/IScore'
-import { HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
+import { GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 
-const CURRENT_FIGURES = [OLLIE, KICKFLIP, HARDFLIP, KICKFLIP, OLLIE]
+const CURRENT_FIGURES = [KICKFLIP, GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
@@ -129,32 +129,32 @@ mittInstance.on('Start Figure Game', () => {
   setTimeout(() => {
     state.value = 'figureGame'
     // @ts-ignore
-    // skateTheme.addFilter({
-    //   filterType: 'lowpass',
-    //   frequency: 1500.0,
-    //   Q: 3.0,
-    // })
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 1500.0,
+      Q: 3.0,
+    })
   }, 1500)
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
   // @ts-ignore
-  // skateTheme.addFilter({
-  //   filterType: 'lowpass',
-  //   frequency: 20000.0,
-  //   Q: 3.0,
-  // })
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
 })
 
 mittInstance.on('Start Figure Anim 3D End', () => {
   console.log('Reprendre le Timer')
   // @ts-ignore
-  // skateTheme.addFilter({
-  //   filterType: 'lowpass',
-  //   frequency: 20000.0,
-  //   Q: 3.0,
-  // })
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })

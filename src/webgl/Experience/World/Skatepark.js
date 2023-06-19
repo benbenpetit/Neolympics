@@ -58,7 +58,7 @@ export default class Skatepark {
       )
       this.animation.actions[animation.name].setLoop(THREE.LoopOnce)
     })
-    console.log(this.animation.actions)
+    // console.log(this.animation.actions)
 
     this.animation.play = () => {
       const newAction = this.animation.actions['Plane.056Action.001']
@@ -68,7 +68,7 @@ export default class Skatepark {
     }
 
     this.animation.mixer.addEventListener('finished', (e) => {
-      console.log('Finished')
+      // console.log('Finished')
     })
   }
   update() {

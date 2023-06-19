@@ -6,7 +6,7 @@
   align-items: center;
   // margin-top: 2rem;
   padding-top: 140px;
-
+  min-height: 100vh;
   &__header {
     position: sticky;
     top: 0;
@@ -40,6 +40,15 @@
   &__top-scores {
     margin-top: 2rem;
     width: 100%;
+    position: relative;
+
+    &-lines {
+      position: absolute;
+      top: 50%;
+      left: -5vw;
+      transform: translate3d(0, -50%, 0);
+      width: 110vw;
+    }
 
     &__list {
       display: flex;
@@ -163,15 +172,9 @@
       pointer-events: none;
       background: linear-gradient(
         0deg,
-        #484d66 0%,
-        rgba(72, 77, 102, 0.96449) 13.33%,
-        rgba(72, 77, 102, 0.91834) 20%,
-        rgba(72, 77, 102, 0.768225) 33.33%,
-        rgba(72, 77, 102, 0.557309) 46.67%,
-        rgba(72, 77, 102, 0.331884) 60%,
-        rgba(72, 77, 102, 0.147411) 73.33%,
-        rgba(72, 77, 102, 0.03551) 86.67%,
-        rgba(72, 77, 102, 0) 100%
+        #45231f 0%,
+        rgba(131, 111, 109, 0) 100%,
+        rgba(69, 35, 31, 0) 100%
       );
     }
 

@@ -8,7 +8,6 @@ import Ressources from './Utils/Ressources'
 import sources from './sources'
 import Debug from './Utils/Debug'
 import mittInstance from '@/core/lib/MittInstance'
-// import Theatre from '@/webgl/Experience/Utils/Theatre'
 
 let instance = null
 
@@ -26,14 +25,13 @@ export default class Experience {
 
     // Setup
     this.debug = new Debug()
-    // this.studio = new Theatre()
     this.sizes = new Sizes(this.canvas)
     this.time = new Time()
     this.scene = new THREE.Scene()
     this.resources = new Ressources(sources)
+    this.world = new World()
     this.camera = new Camera()
     this.renderer = new Renderer()
-    this.world = new World()
 
     //Sizes resize event
     this.sizes.on('resize', () => {
@@ -47,9 +45,6 @@ export default class Experience {
 
     mittInstance.on('tickFromEmit', () => {
       this.update()
-    })
-    mittInstance.on('bntStart', () => {
-      console.log('Bouton Démarrer cliqué')
     })
   }
 

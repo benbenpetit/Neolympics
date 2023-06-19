@@ -16,6 +16,24 @@
   align-items: center;
   height: 100%;
 
+  &:not(.--no-bg) {
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   left: 0;
+    //   top: -10px;
+    //   right: 0;
+    //   height: 100px;
+    //   background: rgb(255, 255, 255);
+    //   background: linear-gradient(
+    //     180deg,
+    //     rgba(255, 255, 255, 1) 0%,
+    //     rgba(255, 255, 255, 1) 40%,
+    //     rgba(255, 255, 255, 0) 100%
+    //   );
+    // }
+  }
+
   &__brush {
     position: absolute;
     left: 0;

@@ -11,9 +11,10 @@
     </div>
 
     <div class="character-quiz">
-      <video autoplay loop>
+      <!-- <video autoplay loop>
         <source src="/video/yuto-VP9.webm" type="video/webm" />
-      </video>
+      </video> -->
+      <!-- <model-obj src="/models/Idle_Menu.glb"></model-obj> -->
     </div>
 
     <div class="c-quiz">
@@ -165,6 +166,7 @@ import { IScore } from '@/core/types/IScore'
 import { useScoreStore } from '@/core/store/score'
 import arrayShuffle from 'array-shuffle'
 import { Howl, Howler } from 'howler'
+// import { ModelCollada } from 'vue-3d-model'
 
 onMounted(async () => {
   questions.value = arrayShuffle(QUESTIONS_DATA)

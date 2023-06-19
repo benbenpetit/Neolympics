@@ -1285,6 +1285,11 @@ swiper@^9.4.1:
   dependencies:
     ssr-window "^4.0.2"
 
+three@^0.135.0:
+  version "0.135.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.135.0.tgz#cff4ec8edd3c51ce9bc7e88d13e8eafed4d0ddfc"
+  integrity sha512-kuEpuuxRzLv0MDsXai9huCxOSQPZ4vje6y0gn80SRmQvgz6/+rI0NAvCRAw56zYaWKMGMfqKWsxF9Qa2Z9xymQ==
+
 three@^0.150.1:
   version "0.150.1"
   resolved "https://registry.npmjs.org/three/-/three-0.150.1.tgz"
@@ -1336,6 +1341,13 @@ vite@^4.2.0:
     rollup "^3.18.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vue-3d-model@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/vue-3d-model/-/vue-3d-model-1.4.1.tgz#3d3e415e42ce32520dcc42f5d9e1ddb5e022f3eb"
+  integrity sha512-IQjpqEjK1OLF/0XgF6O++IvOPLinLQ2aWZQFHxPFoTfPlB4vQW2sgv8EJSqpsIYC/wSCdGlP3CEnv9L3aZHlow==
+  dependencies:
+    three "^0.135.0"
 
 vue-demi@*, vue-demi@latest:
   version "0.13.11"

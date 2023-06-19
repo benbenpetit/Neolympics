@@ -1,9 +1,14 @@
 <template>
-  <div class="c-leaderboard">
+  <div class="c-leaderboard o-background-points">
     <Header imgSrc="/img/leaderboard-world.png">
       <template v-slot:title>CLASSEMENT</template>
     </Header>
     <div class="c-leaderboard__top-scores">
+      <img
+        class="c-leaderboard__top-scores-lines"
+        src="/img/lines-leaderboard.svg"
+        alt=""
+      />
       <ul class="c-leaderboard__top-scores__list">
         <li
           v-for="(maxSession, index) in getSortedMaxSessionsWUser(maxSessions).slice(

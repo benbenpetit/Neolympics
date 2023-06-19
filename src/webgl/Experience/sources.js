@@ -15,13 +15,18 @@ export default [
     path: '/models/SkaterJury.glb',
   },
   {
-    name: 'skateparkModel',
+    name: 'skaterFinal',
     type: 'gltfModel',
-    path: '/models/ModuleRail.glb',
+    path: '/models/SkaterFinal.glb',
   },
   {
-    name: 'stadeModel',
+    name: 'skateModule1',
     type: 'gltfModel',
-    path: '/models/Stade.glb',
+    path: '/models/Module_Kickflip.glb',
+  },
+  {
+    name: 'skateModule2',
+    type: 'gltfModel',
+    path: '/models/Module_Grind_Flip.glb',
   },
 ]

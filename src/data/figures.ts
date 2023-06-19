@@ -12,8 +12,8 @@ export const HARDFLIP: IFigure = {
 export const KICKFLIP: IFigure = {
   name: 'kickflip',
   anims: {
-    board: 'Board_Kickflip',
-    perso: 'KickFlip',
+    board: 'Move_Board_Kickflip',
+    perso: 'Move_P_Kickflip',
   },
   pattern: [[0, 4, 6, 9, 12]],
 }
@@ -30,6 +30,18 @@ export const OLLIE: IFigure = {
   ],
 }
 
-export const FIGURES = [HARDFLIP, KICKFLIP, OLLIE]
+export const GRINDFLIP: IFigure = {
+  name: 'grindflip',
+  anims: {
+    board: 'Move_Board_Grind_Flip',
+    perso: 'Move_P_Grind_Flip',
+  },
+  pattern: [
+    [0, 1, 2],
+    [12, 13, 14],
+  ],
+}
+
+export const FIGURES = [HARDFLIP, KICKFLIP, OLLIE, GRINDFLIP]
 
 export const COMBOS = []

@@ -15,11 +15,12 @@ export default class Floor {
     this.setGeometry()
     this.setTextures()
     this.setMaterial()
+    this.setModules()
     this.setMesh()
     this.setMittActions()
   }
   setGeometry() {
-    this.geometry = new THREE.PlaneGeometry(3, 10)
+    this.geometry = new THREE.PlaneGeometry(1, 10)
   }
   setTextures() {
     this.textures = {}
@@ -57,23 +58,41 @@ export default class Floor {
       })
     })
   }
+
+  setModules() {
+    this.skateModules = []
+    Object.keys(this.experience.resources.items).forEach((item) => {
+      if (item.includes('skateModule')) {
+        this.skateModules.push(this.experience.resources.items[item])
+      }
+    })
+  }
+
   setMesh() {
     var colors = [0xea4050, 0x3656ff, 0xfff965]
     this.floor = new THREE.Group()
-    for (let i = 0; i < 45; i++) {
-      this.mesh = new THREE.Mesh(
-        this.geometry,
-        new THREE.MeshStandardMaterial({
-          color: colors[i % 3],
-        }),
-      )
-      this.mesh.rotation.x = -Math.PI * 0.5
-      this.mesh.receiveShadow = true
-      this.mesh.position.z = i * 10 + 5
-      this.floor.add(this.mesh)
+    var module_index = 0
+    for (let i = 0; i < 30; i++) {
+      if (i % 4 == 0 && i != 0 && module_index <= 1) {
+        // console.log('Mod 2 : ', module_index % 2)
+        // var module = this.skateModules[module_index % 2].scene
+        // module.position.z = i * 10 + 5
+        // this.floor.add(module)
+        // module_index += 1
+      } else {
+        this.mesh = new THREE.Mesh(
+          this.geometry,
+          new THREE.MeshStandardMaterial({
+            color: colors[i % 3],
+          }),
+        )
+        this.mesh.rotation.x = -Math.PI * 0.5
+        this.mesh.receiveShadow = true
+        this.mesh.position.z = i * 10 + 5
+        this.floor.add(this.mesh)
+      }
     }
     this.scene.add(this.floor)
-    console.log(this.floor.position)
   }
   update() {
     this.floor.position.add(this.modelVelocity)

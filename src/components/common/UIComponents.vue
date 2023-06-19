@@ -24,7 +24,12 @@
 
   <Preparation>
     <template v-slot:footer>
-      <ButtonUI imgSrc="/icon/barbell.svg" class="--white" @click="startTraining">
+      <ButtonUI
+        imgSrc="/icon/barbell.svg"
+        :isActive="false"
+        class="--white"
+        @click="startTraining"
+      >
         <template v-slot:label>ENTRAINEMENT</template>
       </ButtonUI>
       <ButtonUI imgSrc="/icon/play.svg" class="--red" @click="startTrial">

@@ -54,7 +54,7 @@
       <footer class="c-difficulty-footer">
         <div class="footer-left"></div>
         <div class="footer-center">
-          <ButtonUI class="--white" @click="gotoTraining()">
+          <ButtonUI class="--white" :isActive="false" @click="gotoTraining()">
             <template v-slot:label>ENTRAINEMENT</template>
           </ButtonUI>
           <ButtonUI class="--red" @click="showModalOlympics()" imgSrc="/icon/go.svg">

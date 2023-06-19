@@ -209,7 +209,7 @@ onMounted(() => {
   sliderEntry.fromTo(
     '.c-sportslider-center__info',
     {
-      y: '-30vh',
+      y: '-50vh',
     },
     {
       y: '0',

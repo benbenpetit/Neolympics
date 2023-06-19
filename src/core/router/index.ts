@@ -1,6 +1,5 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
-import GameVue from '@/pages/Game.vue'
 import HomeVue from '@/pages/Home.vue'
 import QuizVue from '@/pages/Quiz.vue'
 import ChoixEpreuveVue from '@/pages/ChoixEpreuve.vue'
@@ -21,8 +20,6 @@ const routes = [
   { path: '/sign-in', component: SignInVue },
   { path: '/quiz', component: QuizVue },
   { path: '/choix-epreuve', component: ChoixEpreuveVue },
-  { path: '/game/', component: GameVue, meta: { requiresAuth: true } },
-  { path: '/game/:id', component: GameVue, meta: { requiresAuth: true } },
   { path: '/three', component: SceneVue },
   { path: '/pattern', component: PatternVue },
 

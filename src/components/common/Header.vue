@@ -43,7 +43,7 @@
       continuer ?
     </template>
     <template v-slot:buttons>
-      <ButtonUI @click="retourArriere" class="--white">
+      <ButtonUI @click="retourArriere" :isActive="false" class="--white">
         <template v-slot:label>ANNULER</template> </ButtonUI
       ><router-link to="/">
         <ButtonUI @click="goHome" class="--red">

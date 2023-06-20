@@ -33,18 +33,31 @@ export const addScore = async (sport: IScore) => {
   })
 }
 
+export const getTotalScore = (maxSession: IMaxSession) =>
+  (maxSession?.break ?? 0) +
+  (maxSession?.skate ?? 0) +
+  (maxSession?.surf ?? 0) +
+  (maxSession?.climbing ?? 0)
+
 export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
-  const totalScore =
-    (maxSession?.break ?? 0) +
-    (maxSession?.skate ?? 0) +
-    (maxSession?.surf ?? 0) +
-    (maxSession?.climbing ?? 0)
+  const totalScore = getTotalScore(maxSession)
 
   await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
     ...maxSession,
     userId,
     totalScore,
   })
+}
+
+export const getMaxSessionHigherThanStored = async (
+  maxSession: IMaxSession,
+  userId?: string,
+) => {
+  const storedMaxSession = await getUserMaxSession(userId ?? '')
+  const totalScoreStoredMaxSession = getTotalScore(storedMaxSession ?? {})
+  const totalScoreMaxSession = getTotalScore(maxSession)
+
+  return totalScoreMaxSession > totalScoreStoredMaxSession
 }
 
 export const getAllScoresByUserId = async (userId: string) => {
@@ -113,14 +126,22 @@ export const getUser = async (userId: string) => {
   return userQuerySnapshot.data()
 }
 
+export const getUserMaxSession = async (userId: string) => {
+  const maxSessionsQuerySnapshot = await getDocs(
+    query(collection(db, 'maxSessions') as CollectionReference<IMaxSession>),
+  )
+
+  return maxSessionsQuerySnapshot.docs.find((doc) => doc.data().userId === userId)?.data()
+}
+
 export const getAllMaxSessions = async () => {
   let maxSessions: IMaxSessionWUser[] = []
 
-  const maxScoresQuerySnapshot = await getDocs(
-    query(collection(db, 'maxSessions') as CollectionReference<IScore>),
+  const maxSessionsQuerySnapshot = await getDocs(
+    query(collection(db, 'maxSessions') as CollectionReference<IMaxSession>),
   )
 
-  for (const maxSessionDoc of maxScoresQuerySnapshot.docs) {
+  for (const maxSessionDoc of maxSessionsQuerySnapshot.docs) {
     const userId = maxSessionDoc.get('userId')
     const userDoc = await getDoc(doc(db, 'users', userId))
 

@@ -21,7 +21,10 @@
         referrerpolicy="no-referrer"
       />
       <div class="c-result-card__pseudo">
-        <span>@{{ props?.user?.displayName ?? 'Moi' }}</span>
+        <span>{{
+          props?.user?.displayName ? `@${props?.user?.displayName}` : 'Toi'
+        }}</span>
+        <span v-if="!props?.user?.displayName">Pas encore enregistré</span>
       </div>
       <SessionDetails
         class="c-result-card__stat"

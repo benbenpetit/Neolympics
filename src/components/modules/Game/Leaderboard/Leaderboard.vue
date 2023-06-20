@@ -61,7 +61,7 @@
       </div>
     </div>
     <footer class="c-leaderboard__footer">
-      <div class="c-btn-wrapper" v-if="!currentUser">
+      <div class="c-btn-wrapper">
         <ButtonUI imgSrc="/icon/share.svg" :isActive="false" class="--white" />
         <div class="c-btn-wrapper__inside">
           <button @click="handleShareCopy">
@@ -101,6 +101,11 @@
         <template v-slot:label>SUIVANT</template>
       </ButtonUI>
     </footer>
+    <div class="c-leaderboard c-popup-signed-up" ref="signedUpPopupRef">
+      <div class="c-popup-signed-up__wrapper">
+        <span>Score enregistré !</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -110,7 +115,10 @@ import Header from '@/components/common/Header.vue'
 import Divider from '@/components/modules/Game/Leaderboard/Divider.vue'
 import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard.vue'
 import router from '@/core/router'
-import { addMaxSession } from '@/core/services/api/leaderboardApi'
+import {
+  addMaxSession,
+  getMaxSessionHigherThanStored,
+} from '@/core/services/api/leaderboardApi'
 import { IMaxSessionWUser } from '@/core/types/IScore'
 import { signInWithGoogle, signInWithTwitter } from '@/core/utils/auth'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
@@ -119,14 +127,17 @@ import { ScrollToPlugin } from 'gsap/all'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useCurrentUser } from 'vuefire'
 import { Howl, Howler } from 'howler'
+import { useScoreStore } from '@/core/store/score'
 gsap.registerPlugin(ScrollToPlugin)
 
 interface Props {
   maxSessions: IMaxSessionWUser[]
+  localMaxSession: IMaxSessionWUser
   isInProgress?: boolean
 }
 
 const props = defineProps<Props>()
+const { setIsRegistered } = useScoreStore()
 
 const isOpenScores = ref(false)
 const currentUser = useCurrentUser()
@@ -137,6 +148,7 @@ const currentUserIndex = computed(() =>
 )
 const lowScoresRef = ref<HTMLDivElement | null>(null)
 const lowScoresListRef = ref<HTMLUListElement | null>(null)
+const signedUpPopupRef = ref<HTMLDivElement | null>(null)
 
 const leaderboardTheme = new Howl({
   src: ['/sounds/soundtracks/main-theme.mp3'],
@@ -176,6 +188,51 @@ watch(
   { immediate: true },
 )
 
+const openLowScores = () => {
+  const lowScoresListOffset = getLowScoresListOffset()
+  const lowScoresListOffsetMax = getLowScoresListOffset(
+    currentUserIndex.value < 5 ? 2 : 1,
+  )
+  isOpenScores.value = true
+  gsap.to(window, {
+    duration: 0.8,
+    scrollTo: '.c-leaderboard__low-scores',
+    ease: 'Power3.easeInOut',
+  })
+  gsap.to(lowScoresListRef.value, {
+    duration: 0.8,
+    marginTop: 0,
+    ease: 'Power3.easeInOut',
+  })
+  gsap.to(lowScoresRef.value, {
+    duration: 0.8,
+    scrollTo:
+      lowScoresListOffsetMax < 0 ? lowScoresListOffset - 50 : lowScoresListOffsetMax - 50,
+    ease: 'Power3.easeInOut',
+  })
+}
+
+const closeLowScores = () => {
+  gsap.to(window, {
+    duration: 0.8,
+    scrollTo: 0,
+    ease: 'Power3.easeInOut',
+    onComplete: () => {
+      isOpenScores.value = false
+    },
+  })
+  gsap.to(lowScoresRef.value, {
+    duration: 0.8,
+    scrollTo: 0,
+    ease: 'Power3.easeInOut',
+  })
+  gsap.to(lowScoresListRef.value, {
+    duration: 0.8,
+    marginTop: -getLowScoresListOffset(),
+    ease: 'Power3.easeInOut',
+  })
+}
+
 const getLowScoresListOffset = (offset = 0) =>
   lowScoresListRef.value?.children?.length
     ? (lowScoresListRef.value.offsetHeight * (currentUserIndex.value - 3 - offset)) /
@@ -183,12 +240,14 @@ const getLowScoresListOffset = (offset = 0) =>
     : 0
 
 watch(
-  () => props.maxSessions,
+  () => [props.maxSessions, currentUser],
   () => {
-    if (currentUserIndex.value >= 4) {
+    if (isOpenScores.value) {
+      closeLowScores()
+    } else {
       gsap.to(lowScoresListRef.value, {
         duration: 0,
-        marginTop: -getLowScoresListOffset(),
+        marginTop: currentUserIndex.value >= 4 ? -getLowScoresListOffset() : 0,
         ease: 'Power3.easeInOut',
       })
     }
@@ -196,51 +255,21 @@ watch(
   { immediate: true, deep: true },
 )
 
-const toggleLowScores = () => {
-  const lowScoresListOffset = getLowScoresListOffset()
-  const lowScoresListOffsetMax = getLowScoresListOffset(
-    currentUserIndex.value < 5 ? 2 : 1,
+const addUserSession = async () => {
+  const isMaxSessionHigherThanStored = await getMaxSessionHigherThanStored(
+    props.localMaxSession.maxSession,
+    currentUser.value?.uid,
   )
-  if (!isOpenScores.value) {
-    isOpenScores.value = true
-    gsap.to(window, {
-      duration: 0.8,
-      scrollTo: '.c-leaderboard__low-scores',
-      ease: 'Power3.easeInOut',
-    })
-    gsap.to(lowScoresListRef.value, {
-      duration: 0.8,
-      marginTop: 0,
-      ease: 'Power3.easeInOut',
-    })
-    gsap.to(lowScoresRef.value, {
-      duration: 0.8,
-      scrollTo:
-        lowScoresListOffsetMax < 0
-          ? lowScoresListOffset - 50
-          : lowScoresListOffsetMax - 50,
-      ease: 'Power3.easeInOut',
-    })
-  } else {
-    gsap.to(window, {
-      duration: 0.8,
-      scrollTo: 0,
-      ease: 'Power3.easeInOut',
-      onComplete: () => {
-        isOpenScores.value = false
-      },
-    })
-    gsap.to(lowScoresRef.value, {
-      duration: 0.8,
-      scrollTo: 0,
-      ease: 'Power3.easeInOut',
-    })
-    gsap.to(lowScoresListRef.value, {
-      duration: 0.8,
-      marginTop: -getLowScoresListOffset(),
-      ease: 'Power3.easeInOut',
-    })
+
+  if (isMaxSessionHigherThanStored) {
+    await addMaxSession(props.localMaxSession.maxSession, currentUser.value?.uid)
+    setIsRegistered(true)
+    animInPopup()
   }
+}
+
+const toggleLowScores = () => {
+  !isOpenScores.value ? openLowScores() : closeLowScores()
 }
 
 const TEXT = `Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
@@ -255,9 +284,7 @@ const handleShareFacebook = () => {
 
 const handleShareTwitter = () => {
   window.open(
-    `https://twitter.com/share?text=${`Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔`}&url=${
-      window.location.host
-    }&hashtags=neolympics,Paris2024`,
+    `https://twitter.com/share?text=${TEXT}&url=${window.location.host}&hashtags=neolympics,Paris2024`,
   )
 }
 
@@ -274,13 +301,42 @@ const handleShareCopy = () => {
   )
 }
 
+const animInPopup = () => {
+  gsap.fromTo(
+    signedUpPopupRef.value,
+    {
+      visibility: 'visible',
+      y: '100%',
+    },
+    {
+      y: 0,
+      duration: 1,
+      ease: 'Power2.easeInOut',
+      onComplete: () => {
+        gsap.to(signedUpPopupRef.value, {
+          y: '100%',
+          duration: 1,
+          ease: 'Power4.easeInOut',
+          delay: 2,
+          onComplete: () => {
+            gsap.set(signedUpPopupRef.value, {
+              visibility: 'hidden',
+            })
+          },
+        })
+      },
+    },
+  )
+}
+
 const handleGoogleSignIn = async () => {
-  await signInWithGoogle(window.location.pathname)
-  router.go(0)
+  const result = await signInWithGoogle(window.location.pathname)
+  if (result === true) {
+    addUserSession()
+  }
 }
 
 const handleTwitterSignIn = async () => {
   await signInWithTwitter(window.location.pathname)
-  router.go(0)
 }
 </script>

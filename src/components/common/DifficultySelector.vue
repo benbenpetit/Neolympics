@@ -77,7 +77,7 @@
       scores. Une fois l’épreuve commencée, il n’y aura pas de retour posssible !
     </template>
     <template v-slot:buttons>
-      <ButtonUI @click="modalOlympicsVisible = false" class="--white">
+      <ButtonUI :isActive="false" @click="modalOlympicsVisible = false" class="--white">
         <template v-slot:label>RETOUR</template>
       </ButtonUI>
       <ButtonUI @click="gotoOlympics" class="--red">

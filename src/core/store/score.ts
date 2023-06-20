@@ -10,6 +10,7 @@ export const useScoreStore = defineStore(
       currentScores: {},
       maxScores: {},
       maxSession: {},
+      isRegistered: false,
     })
 
     const setScoreState = (state: IGlobalScores) => {
@@ -63,6 +64,10 @@ export const useScoreStore = defineStore(
       scoreState.value.maxSession = {}
     }
 
+    const setIsRegistered = (bool: boolean) => {
+      scoreState.value.isRegistered = bool
+    }
+
     return {
       scoreState,
       setScoreState,
@@ -74,6 +79,7 @@ export const useScoreStore = defineStore(
       removeMaxScores,
       setMaxSession,
       removeMaxSession,
+      setIsRegistered,
     }
   },
   {

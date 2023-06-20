@@ -2,7 +2,12 @@
   <div>
     <Scene v-if="skateStep === 0" />
     <Quiz v-if="skateStep === 1" />
-    <Leaderboard v-if="skateStep === 2" :maxSessions="maxSessions" isInProgress />
+    <Leaderboard
+      v-if="skateStep === 2"
+      :maxSessions="maxSessions"
+      :localMaxSession="localMaxSession"
+      isInProgress
+    />
   </div>
 </template>
 
@@ -23,6 +28,7 @@ const { sportState, setSportStep } = useSportStore()
 const { scoreState } = useScoreStore()
 const currentUser = useCurrentUser()
 const maxSessions = ref<IMaxSessionWUser[]>([])
+const localMaxSession = ref<IMaxSessionWUser>({ maxSession: {} })
 const skateStep = computed(
   () => sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.step ?? 0,
 )
@@ -32,7 +38,7 @@ onMounted(() => {
 })
 
 watch(
-  sportState.doneSports,
+  [sportState.doneSports, currentUser, scoreState],
   async () => {
     const firebaseMaxSessions = await getAllMaxSessions()
 
@@ -56,8 +62,14 @@ watch(
         : undefined,
     }
 
+    localMaxSession.value = currentMaxSession
+
+    const concatenatedMaxSessions = currentUser.value
+      ? firebaseMaxSessions
+      : firebaseMaxSessions.concat(currentMaxSession)
+
     maxSessions.value = getSortedInProgressMaxSessions(
-      firebaseMaxSessions.concat(currentMaxSession),
+      concatenatedMaxSessions,
       sportState.doneSports.map(({ sport }) => sport),
     )
   },

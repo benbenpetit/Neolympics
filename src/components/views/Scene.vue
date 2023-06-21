@@ -203,12 +203,12 @@ const endEpreuve = () => {
   setSportStep('skate', 1)
 }
 
-const handlePatternEnd = (isValid?: boolean) => {
+const handlePatternEnd = (isValid: boolean = false) => {
+  updateIcon(isValid)
   mittInstance.emit('Skate Figure Anim 3D', {
     animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
     isValid: isValid,
   })
-  updateIcon(isValid)
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
   score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
   if (isValid == true) {

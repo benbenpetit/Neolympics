@@ -68,5 +68,4 @@ export interface IGlobalScores {
     totalScore?: number
     rank?: number
   }
-  isRegistered: boolean
 }

@@ -9,6 +9,8 @@ import {
   limitToLast,
   getDoc,
   doc,
+  updateDoc,
+  DocumentReference,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { IMaxSession, IMaxSessionWUser, IScore, IScoreWUser } from '@/core/types/IScore'
@@ -41,19 +43,32 @@ export const getTotalScore = (maxSession: IMaxSession) =>
 
 export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
   const totalScore = getTotalScore(maxSession)
+  const { userMaxSessionId: existingMaxSessionId } = await getUserMaxSession(userId ?? '')
 
-  await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
-    ...maxSession,
-    userId,
-    totalScore,
-  })
+  if (existingMaxSessionId) {
+    await updateDoc(
+      doc(db, 'maxSessions', existingMaxSessionId) as DocumentReference<IMaxSession>,
+      {
+        ...maxSession,
+        totalScore,
+        createdAt: new Date(),
+      },
+    )
+  } else {
+    await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
+      ...maxSession,
+      userId,
+      totalScore,
+      createdAt: new Date(),
+    })
+  }
 }
 
 export const getMaxSessionHigherThanStored = async (
   maxSession: IMaxSession,
   userId?: string,
 ) => {
-  const storedMaxSession = await getUserMaxSession(userId ?? '')
+  const { userMaxSession: storedMaxSession } = await getUserMaxSession(userId ?? '')
   const totalScoreStoredMaxSession = getTotalScore(storedMaxSession ?? {})
   const totalScoreMaxSession = getTotalScore(maxSession)
 
@@ -131,7 +146,11 @@ export const getUserMaxSession = async (userId: string) => {
     query(collection(db, 'maxSessions') as CollectionReference<IMaxSession>),
   )
 
-  return maxSessionsQuerySnapshot.docs.find((doc) => doc.data().userId === userId)?.data()
+  const userMaxSession = maxSessionsQuerySnapshot.docs.find(
+    (doc) => doc.data().userId === userId,
+  )
+
+  return { userMaxSessionId: userMaxSession?.id, userMaxSession: userMaxSession?.data() }
 }
 
 export const getAllMaxSessions = async () => {

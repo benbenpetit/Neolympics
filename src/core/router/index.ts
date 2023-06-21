@@ -23,7 +23,7 @@ const routes = [
   { path: '/three', component: SceneVue },
   { path: '/pattern', component: PatternVue },
 
-  { path: `${publicRouters.COMPETITION}`, component: CompetitionVue },
+  // { path: `${publicRouters.COMPETITION}`, component: CompetitionVue },
   { path: `${publicRouters.COMPETITION_PREPARATION}`, component: ChoixEpreuveVue },
   { path: `${publicRouters.COMPETITION}/:sportSlug`, component: CompetitionSportVue },
   {

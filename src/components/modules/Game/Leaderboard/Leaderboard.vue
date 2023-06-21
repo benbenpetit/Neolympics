@@ -15,6 +15,7 @@
             0,
             3,
           )"
+          :key="maxSession?.user?.id"
         >
           <ResultCard
             :user="maxSession?.user"
@@ -45,7 +46,9 @@
         <div class="c-low-scores__list" :class="isOpenScores && '--open'">
           <ul class="c-low-scores__list__inside" ref="lowScoresListRef">
             <li
-              v-for="maxSession in getSortedMaxSessionsWUser(maxSessions).slice(3)"
+              v-for="(maxSession, index) in getSortedMaxSessionsWUser(maxSessions).slice(
+                3,
+              )"
               :key="maxSession?.user?.id"
             >
               <ResultCard
@@ -103,7 +106,7 @@
     </footer>
     <div class="c-leaderboard c-popup-signed-up" ref="signedUpPopupRef">
       <div class="c-popup-signed-up__wrapper">
-        <span>Score enregistré !</span>
+        <span>{{ popupText }}</span>
       </div>
     </div>
   </div>
@@ -127,18 +130,17 @@ import { ScrollToPlugin } from 'gsap/all'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useCurrentUser } from 'vuefire'
 import { Howl, Howler } from 'howler'
-import { useScoreStore } from '@/core/store/score'
 gsap.registerPlugin(ScrollToPlugin)
 
 interface Props {
   maxSessions: IMaxSessionWUser[]
-  localMaxSession: IMaxSessionWUser
+  localMaxSession?: IMaxSessionWUser
   isInProgress?: boolean
 }
 
 const props = defineProps<Props>()
-const { setIsRegistered } = useScoreStore()
 
+const popupText = ref('Score enregistré !')
 const isOpenScores = ref(false)
 const currentUser = useCurrentUser()
 const currentUserIndex = computed(() =>
@@ -228,7 +230,7 @@ const closeLowScores = () => {
   })
   gsap.to(lowScoresListRef.value, {
     duration: 0.8,
-    marginTop: -getLowScoresListOffset(),
+    marginTop: currentUserIndex.value >= 4 ? -getLowScoresListOffset() : 0,
     ease: 'Power3.easeInOut',
   })
 }
@@ -256,6 +258,8 @@ watch(
 )
 
 const addUserSession = async () => {
+  if (!props?.localMaxSession) return
+
   const isMaxSessionHigherThanStored = await getMaxSessionHigherThanStored(
     props.localMaxSession.maxSession,
     currentUser.value?.uid,
@@ -263,7 +267,10 @@ const addUserSession = async () => {
 
   if (isMaxSessionHigherThanStored) {
     await addMaxSession(props.localMaxSession.maxSession, currentUser.value?.uid)
-    setIsRegistered(true)
+    popupText.value = 'Score enregistré !'
+    animInPopup()
+  } else {
+    popupText.value = 'Déjà inscrit !'
     animInPopup()
   }
 }

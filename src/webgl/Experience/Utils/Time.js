@@ -12,6 +12,8 @@ export default class Time extends EventEmitter {
     this.elapsed = 0
     this.delta = 16
     this.experience = new Experience()
+    this.frameRate = (1 / 60) * 1000
+    this.timeScale = 0
 
     window.requestAnimationFrame(() => {
       this.tick()
@@ -21,11 +23,13 @@ export default class Time extends EventEmitter {
   tick() {
     const currentTime = Date.now()
     this.delta = currentTime - this.current
+    this.delta += this.frameRate - this.delta
+    this.delta *= this.timeScale
     this.current = currentTime
     this.elapsed = this.current - this.start
 
     this.trigger('tick')
-    mittInstance.emit('tickFromEmit')
+    mittInstance.emit('Time tick', { deltaTime: this.delta })
 
     window.requestAnimationFrame(() => {
       this.tick()

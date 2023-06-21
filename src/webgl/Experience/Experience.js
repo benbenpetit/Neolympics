@@ -8,6 +8,7 @@ import Ressources from './Utils/Ressources'
 import sources from './sources'
 import Debug from './Utils/Debug'
 import mittInstance from '@/core/lib/MittInstance'
+import Stats from 'three/examples/jsm/libs/stats.module'
 
 let instance = null
 
@@ -32,6 +33,9 @@ export default class Experience {
     this.world = new World()
     this.camera = new Camera()
     this.renderer = new Renderer()
+    this.stats = new Stats()
+    this.stats.dom.classList.add('stats-container')
+    document.body.appendChild(this.stats.dom)
 
     //Sizes resize event
     this.sizes.on('resize', () => {
@@ -39,11 +43,7 @@ export default class Experience {
     })
 
     // Time tick event
-    this.time.on('tick', () => {
-      // this.update()
-    })
-
-    mittInstance.on('tickFromEmit', () => {
+    mittInstance.on('Time tick', () => {
       this.update()
     })
   }
@@ -54,6 +54,7 @@ export default class Experience {
   }
 
   update() {
+    this.stats.update()
     this.camera.update()
     this.world.update()
     this.renderer.update()

@@ -148,13 +148,12 @@
     }
     .c-modal-buttons {
       width: 100%;
-      justify-content: space-between;
-      padding: 0 7.3vw;
       transform: translate3d(0, -50%, 0);
       .trial-details {
         display: flex;
         align-items: center;
         column-gap: 1.3vw;
+        margin-right: 100px;
         .detail-container {
           display: flex;
           align-items: center;

@@ -25,7 +25,7 @@
         <div class="detail-container"><IconTImer /> 45 secondes</div>
         <div class="detail-container"><IconSkate /> 5 figures</div>
       </div>
-      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startTimer">
+      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startGame">
         <template v-slot:label>J'ai compris !</template>
       </ButtonUI>
     </template>
@@ -76,7 +76,7 @@ import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 
-const CURRENT_FIGURES = [KICKFLIP, GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE]
+const CURRENT_FIGURES = [KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
@@ -119,7 +119,7 @@ onMounted(() => {
 })
 
 mittInstance.on('Start tutorial', () => {
-  console.log('Tutorial')
+  // console.log('Tutorial')
 
   state.value = 'tutorial'
   patternToDoTutorial.value = KICKFLIP.pattern
@@ -147,38 +147,32 @@ mittInstance.on('Skate Figure Anim 3D', () => {
   })
 })
 
-mittInstance.on('Start Figure Anim 3D End', () => {
-  console.log('Reprendre le Timer')
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+mittInstance.on('Skate Figure Anim 3D End', () => {
+  mittInstance.emit('Start Timer', { step: step.value })
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })
 
-mittInstance.on('Pattern joué', (e: any) => {
-  figureResult.value = e.status ? 'Parfait !' : 'Incorrect'
-  result.value = e.status ? 'gagné' : 'perdu'
-  setTimeout(() => {
-    state.value = ''
-    figureResult.value = ''
-    startTimer()
-  }, 3000)
-})
+// mittInstance.on('Pattern joué', (e: any) => {
+//   figureResult.value = e.status ? 'Parfait !' : 'Incorrect'
+//   result.value = e.status ? 'gagné' : 'perdu'
+//   setTimeout(() => {
+//     state.value = ''
+//     figureResult.value = ''
+//     startTimer()
+//   }, 3000)
+// })
 
-mittInstance.on('Pattern time finished', () => {
-  if (figureResult.value == '') {
-    figureResult.value = 'Trop lent'
-    setTimeout(() => {
-      state.value = ''
-      figureResult.value = ''
-      startTimer()
-    }, 3000)
-  }
-})
+// mittInstance.on('Pattern time finished', () => {
+//   if (figureResult.value == '') {
+//     figureResult.value = 'Trop lent'
+//     setTimeout(() => {
+//       state.value = ''
+//       figureResult.value = ''
+//       startTimer()
+//     }, 3000)
+//   }
+// })
 
 mittInstance.on('Sport finished', () => {
   setTimeout(() => {
@@ -186,23 +180,21 @@ mittInstance.on('Sport finished', () => {
   }, 1500)
 })
 
-const startTimer = (isValid?: boolean) => {
-  mittInstance.emit('Start Timer', { step: step.value, isValid: isValid })
+const startGame = () => {
+  mittInstance.emit('Start Timer', { step: step.value })
+  mittInstance.emit('Start Skate Animation')
   state.value = ''
-  if (step.value == 0) {
-    mittInstance.emit('Start Skate Animation')
-    skateTheme.play()
-    skateTheme.fade(0, 0.8, 100)
-    if (startingSkateTheme.playing()) {
-      startingSkateTheme.fade(0.5, 0, 600)
-    }
+  skateTheme.play()
+  skateTheme.fade(0, 0.8, 100)
+  if (startingSkateTheme.playing()) {
+    startingSkateTheme.fade(0.5, 0, 600)
   }
-  // } else {
-  //   setTimeout(() => {
-  //     experience.value?.world?.skater.animation?.play('P_Push')
-  //   }, 2000)
-  // }
+}
+
+const updateIcon = (isValid?: boolean) => {
   step.value = step.value + 1
+  mittInstance.emit('Update Icon', { step: step.value, isValid: isValid })
+  state.value = ''
 }
 
 const endEpreuve = () => {
@@ -212,8 +204,11 @@ const endEpreuve = () => {
 }
 
 const handlePatternEnd = (isValid?: boolean) => {
-  mittInstance.emit('Skate Figure Anim 3D')
-  startTimer(isValid)
+  mittInstance.emit('Skate Figure Anim 3D', {
+    animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
+    isValid: isValid,
+  })
+  updateIcon(isValid)
   pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
   score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
   if (isValid == true) {

@@ -54,28 +54,34 @@ export const register = (email: string, password: string) => {
 
 export const signInWithGoogle = async (route = '/') => {
   const provider = new GoogleAuthProvider()
-  await signInWithPopup(getAuth(), provider)
-    .then(() => {
-      console.log('Successfully registered!')
-      router.push(route)
-    })
-    .catch((error) => {
-      const message = getErrorMessage(error.code)
-      console.warn(message)
-      return message
-    })
+  return new Promise((resolve) => {
+    signInWithPopup(getAuth(), provider)
+      .then(() => {
+        console.log('Successfully registered!')
+        resolve(true)
+        router.push(route)
+      })
+      .catch((error) => {
+        const message = getErrorMessage(error.code)
+        console.warn(message)
+        resolve(false)
+      })
+  })
 }
 
 export const signInWithTwitter = async (route = '/') => {
   const provider = new TwitterAuthProvider()
-  await signInWithPopup(getAuth(), provider)
-    .then(() => {
-      console.log('Successfully registered!')
-      router.push(route)
-    })
-    .catch((error) => {
-      const message = getErrorMessage(error.code)
-      console.warn(message)
-      return message
-    })
+  return new Promise((resolve) => {
+    signInWithPopup(getAuth(), provider)
+      .then(() => {
+        console.log('Successfully registered!')
+        resolve(true)
+        router.push(route)
+      })
+      .catch((error) => {
+        const message = getErrorMessage(error.code)
+        console.warn(message)
+        resolve(false)
+      })
+  })
 }

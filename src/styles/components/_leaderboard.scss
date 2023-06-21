@@ -7,6 +7,8 @@
   // margin-top: 2rem;
   padding-top: 140px;
   min-height: 100vh;
+  overflow: hidden;
+
   &__header {
     position: sticky;
     top: 0;
@@ -38,11 +40,12 @@
   }
 
   &__top-scores {
-    margin-top: 2rem;
+    margin-top: 4rem;
     width: 100%;
     position: relative;
+    min-height: 400px;
 
-    &-lines {
+    &__lines {
       position: absolute;
       top: 50%;
       left: -5vw;
@@ -92,7 +95,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 0 1rem;
+    margin: 0 1rem;
+    border-radius: 16px;
 
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -112,16 +116,13 @@
 
     .c-low-scores {
       width: 100%;
-      max-width: 1360px;
+      max-width: 1440px;
       margin-left: auto;
       margin-right: auto;
 
       &__divider {
-        // border-bottom-left-radius: 10px;
-        // border-bottom-right-radius: 10px;
-        background-color: #ffffff;
+        // background-color: #ffffff;
         z-index: 2;
-        // box-shadow: 0 4px 3px -3px rgba(0, 0, 0, 0.1);
       }
 
       &__list {
@@ -158,9 +159,14 @@
     bottom: 0;
     padding: 1rem 2rem;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-end;
     pointer-events: none;
+    column-gap: 0.5rem;
+
+    .c-buttonUI {
+      margin: 0;
+    }
 
     &::before {
       content: '';
@@ -182,13 +188,24 @@
       pointer-events: all;
     }
   }
+
+  .c-popup-signed-up {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    visibility: hidden;
+  }
 }
 
-.c-signin {
+.c-btn-wrapper {
   position: relative;
 
   > .c-buttonUI {
     z-index: 1;
+    height: 100%;
   }
 
   &__inside {
@@ -206,7 +223,7 @@
     justify-content: center;
     gap: 8px;
 
-    .c-signin.--open & {
+    .c-btn-wrapper:hover & {
       opacity: 1;
       transform: translate(-50%, 0);
       visibility: visible;
@@ -241,6 +258,31 @@
       > span {
         white-space: nowrap;
       }
+    }
+  }
+}
+
+.c-popup-signed-up {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 800px;
+    text-align: center;
+    border: 8px solid $color-blue;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 2rem 4rem;
+
+    span {
+      text-transform: uppercase;
+      color: $color-blue;
+      font-family: 'MonumentExtended';
+      font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.5rem);
     }
   }
 }

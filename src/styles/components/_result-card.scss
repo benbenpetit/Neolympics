@@ -7,12 +7,12 @@
   border: 1px solid #b0baec;
   background-color: #ffffff;
   transition: 0.2s box-shadow ease-in-out;
-  animation: 1.2s cubic-bezier(0.4, 0, 0, 1) opacityIn forwards;
+  animation: 1s cubic-bezier(0.4, 0, 0, 1) opacityIn forwards;
 
   @keyframes opacityIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
@@ -104,10 +104,11 @@
     min-width: 0;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 
     .c-result-card.--horizontal & {
       text-align: left;
-      max-width: 160px;
+      max-width: 200px;
     }
 
     > span {
@@ -115,6 +116,11 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+
+      &:nth-child(2) {
+        font-weight: 400;
+        font-size: 1rem;
+      }
     }
   }
 

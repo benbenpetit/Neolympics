@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import publicRouters from '@/data/publicRouters'
 import Skate from '@/pages/Competition/Sports/Skate.vue'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -24,7 +25,7 @@ const dynamicSportComponent = computed(() => {
       return Skate
     default:
       return () => {
-        router.replace('/competition')
+        router.replace(publicRouters.COMPETITION_PREPARATION)
       }
   }
 })

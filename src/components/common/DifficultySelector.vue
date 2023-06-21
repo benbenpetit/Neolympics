@@ -54,7 +54,7 @@
       <footer class="c-difficulty-footer">
         <div class="footer-left"></div>
         <div class="footer-center">
-          <ButtonUI class="--white" @click="gotoTraining()">
+          <ButtonUI class="--white" :isActive="false" @click="gotoTraining()">
             <template v-slot:label>ENTRAINEMENT</template>
           </ButtonUI>
           <ButtonUI class="--red" @click="showModalOlympics()" imgSrc="/icon/go.svg">
@@ -77,7 +77,7 @@
       scores. Une fois l’épreuve commencée, il n’y aura pas de retour posssible !
     </template>
     <template v-slot:buttons>
-      <ButtonUI @click="modalOlympicsVisible = false" class="--white">
+      <ButtonUI :isActive="false" @click="modalOlympicsVisible = false" class="--white">
         <template v-slot:label>RETOUR</template>
       </ButtonUI>
       <ButtonUI @click="gotoOlympics" class="--red">

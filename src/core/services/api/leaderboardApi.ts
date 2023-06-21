@@ -9,6 +9,8 @@ import {
   limitToLast,
   getDoc,
   doc,
+  updateDoc,
+  DocumentReference,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { IMaxSession, IMaxSessionWUser, IScore, IScoreWUser } from '@/core/types/IScore'
@@ -33,18 +35,44 @@ export const addScore = async (sport: IScore) => {
   })
 }
 
-export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
-  const totalScore =
-    (maxSession?.break ?? 0) +
-    (maxSession?.skate ?? 0) +
-    (maxSession?.surf ?? 0) +
-    (maxSession?.climbing ?? 0)
+export const getTotalScore = (maxSession: IMaxSession) =>
+  (maxSession?.break ?? 0) +
+  (maxSession?.skate ?? 0) +
+  (maxSession?.surf ?? 0) +
+  (maxSession?.climbing ?? 0)
 
-  await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
-    ...maxSession,
-    userId,
-    totalScore,
-  })
+export const addMaxSession = async (maxSession: IMaxSession, userId?: string) => {
+  const totalScore = getTotalScore(maxSession)
+  const { userMaxSessionId: existingMaxSessionId } = await getUserMaxSession(userId ?? '')
+
+  if (existingMaxSessionId) {
+    await updateDoc(
+      doc(db, 'maxSessions', existingMaxSessionId) as DocumentReference<IMaxSession>,
+      {
+        ...maxSession,
+        totalScore,
+        createdAt: new Date(),
+      },
+    )
+  } else {
+    await addDoc(collection(db, 'maxSessions') as CollectionReference<IMaxSession>, {
+      ...maxSession,
+      userId,
+      totalScore,
+      createdAt: new Date(),
+    })
+  }
+}
+
+export const getMaxSessionHigherThanStored = async (
+  maxSession: IMaxSession,
+  userId?: string,
+) => {
+  const { userMaxSession: storedMaxSession } = await getUserMaxSession(userId ?? '')
+  const totalScoreStoredMaxSession = getTotalScore(storedMaxSession ?? {})
+  const totalScoreMaxSession = getTotalScore(maxSession)
+
+  return totalScoreMaxSession > totalScoreStoredMaxSession
 }
 
 export const getAllScoresByUserId = async (userId: string) => {
@@ -113,14 +141,26 @@ export const getUser = async (userId: string) => {
   return userQuerySnapshot.data()
 }
 
+export const getUserMaxSession = async (userId: string) => {
+  const maxSessionsQuerySnapshot = await getDocs(
+    query(collection(db, 'maxSessions') as CollectionReference<IMaxSession>),
+  )
+
+  const userMaxSession = maxSessionsQuerySnapshot.docs.find(
+    (doc) => doc.data().userId === userId,
+  )
+
+  return { userMaxSessionId: userMaxSession?.id, userMaxSession: userMaxSession?.data() }
+}
+
 export const getAllMaxSessions = async () => {
   let maxSessions: IMaxSessionWUser[] = []
 
-  const maxScoresQuerySnapshot = await getDocs(
-    query(collection(db, 'maxSessions') as CollectionReference<IScore>),
+  const maxSessionsQuerySnapshot = await getDocs(
+    query(collection(db, 'maxSessions') as CollectionReference<IMaxSession>),
   )
 
-  for (const maxSessionDoc of maxScoresQuerySnapshot.docs) {
+  for (const maxSessionDoc of maxSessionsQuerySnapshot.docs) {
     const userId = maxSessionDoc.get('userId')
     const userDoc = await getDoc(doc(db, 'users', userId))
 

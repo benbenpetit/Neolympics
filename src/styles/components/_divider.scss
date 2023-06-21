@@ -14,10 +14,37 @@
   &__inside {
     flex-shrink: 0;
     margin: 0 1.5rem;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+    border: none;
+    background: none;
+    outline: none;
+    padding: none;
+    cursor: pointer;
+    font-family: 'Anybody';
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1rem;
+    border: 1px solid #0f0f0f;
+    background-color: #ffffff;
+    padding: 0 1.25rem;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 2.5rem;
+    overflow: hidden;
 
-    .c-divider:hover & {
-      transform: skewX(-10deg);
+    > * {
+      flex-shrink: 0;
+      line-height: 2.5rem;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+    }
+
+    &:hover {
+      > * {
+        transform: skewX(-10deg);
+      }
     }
   }
 
@@ -28,5 +55,24 @@
     height: 2px;
     width: 100%;
     background-color: #000000;
+    opacity: 1;
+    transform: scaleX(1);
+    transition: 0.6s all cubic-bezier(0.4, 0, 0, 1);
+  }
+
+  &::before {
+    transform-origin: right center;
+  }
+
+  &::after {
+    transform-origin: left center;
+  }
+
+  &.--hide-lines {
+    &::before,
+    &::after {
+      opacity: 0;
+      transform: scaleX(0);
+    }
   }
 }

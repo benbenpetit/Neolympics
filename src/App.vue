@@ -31,7 +31,6 @@ onMounted(() => {
       isLoggedIn.value = true
       updateUserInDB(user)
     } else {
-      console.log(userState)
       setUser({})
       isLoggedIn.value = false
     }

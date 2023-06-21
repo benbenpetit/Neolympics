@@ -3,10 +3,8 @@ import * as THREE from 'three'
 import Experience from '../Experience'
 import Environment from './Environment'
 import Floor from './Floor'
-import Skatepark from './Skatepark'
 import SkaterLapin from './SkaterLapin'
 import mittInstance from '@/core/lib/MittInstance'
-import Stade from '@/webgl/Experience/World/Stade'
 
 export default class World {
   constructor() {
@@ -18,11 +16,8 @@ export default class World {
     this.resources.on('ready', () => {
       // Setup
       // this.skater = new Skater()
-      // this.catcher = new Catcher()
-      // this.skatepark = new Skatepark()
       this.skater = new SkaterLapin()
       this.floor = new Floor()
-      // this.skatepark = new Stade()
       this.environment = new Environment()
       this.animations = new Animations()
     })
@@ -34,11 +29,5 @@ export default class World {
     if (this.floor) {
       this.floor.update()
     }
-    if (this.catcher) {
-      this.catcher.update()
-    }
-    // if (this.skatepark) {
-    //   this.skatepark.update()
-    // }
   }
 }

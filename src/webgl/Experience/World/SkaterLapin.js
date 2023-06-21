@@ -19,6 +19,7 @@ export default class SkaterLapin {
     this.cameraOffset = new THREE.Vector3(-2, 1, -4)
     this.lookAtOffset = { value: 5 }
     this.started = false
+    this.shakeStrength = 1
 
     this.setModel()
     if (this.debug.active) {
@@ -31,8 +32,9 @@ export default class SkaterLapin {
 
   setModel() {
     this.model = this.resource.scene
-    console.log('Skater model', this.model)
-    this.model.position.set(0, 0.1, 0)
+    // console.log(this.model)
+    // console.log('Skater model', this.model)
+    this.model.position.set(0, 0, 0)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
@@ -53,7 +55,9 @@ export default class SkaterLapin {
 
   setDebug() {
     this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
-    this.debugFolder.add(this.resource.scene.position, 'y', -10, 10, 0.1).name('Skater Y')
+    this.debugFolder
+      .add(this.resource.scene.position, 'y', -10, 10, 0.01)
+      .name('Skater Y')
     this.debugFolder.add(this.resource.scene.position, 'z', -10, 10, 0.1).name('Skater Z')
 
     this.debugFolder.add(this.cameraOffset, 'x', -10, 10, 0.1).name('Camera Offset X')
@@ -62,16 +66,7 @@ export default class SkaterLapin {
 
     const debugObject = {
       changeCamera: () => {
-        gsap.to(this.cameraOffset, {
-          x: -2,
-          y: 0,
-          z: -1,
-          duration: 1,
-        })
-        gsap.to(this.lookAtOffset, {
-          value: 0,
-          duration: 1,
-        })
+        this.changeCamera()
       },
     }
     this.debugFolder.add(debugObject, 'changeCamera')
@@ -82,13 +77,13 @@ export default class SkaterLapin {
       x: -2,
       y: 0,
       z: -1,
-      duration: 2.5,
-      ease: 'Power3.easeOut',
+      duration: 2.3,
+      ease: 'Power1.easeIn',
     })
     gsap.to(this.lookAtOffset, {
-      value: 0,
-      duration: 2.5,
-      ease: 'Power3.easeOut',
+      value: 0.5,
+      duration: 2.3,
+      ease: 'Power1.easeIn',
     })
   }
 
@@ -98,6 +93,8 @@ export default class SkaterLapin {
     this.animation.actions = {}
 
     this.resource.animations.forEach((animation) => {
+      if (animation.name.includes('P_') || animation.name.includes('Board')) {
+      }
       this.animation.actions[animation.name] = this.animation.mixer.clipAction(
         THREE.AnimationClip.findByName(this.resource.animations, animation.name),
       )
@@ -108,7 +105,7 @@ export default class SkaterLapin {
     this.animation.actions.current = this.animation.actions['P_Cruise']
     // this.animation.actions.current.play()
 
-    console.log(this.animation.actions)
+    // console.log(this.animation.actions)
 
     this.animation.play = (name) => {
       const newAction = this.animation.actions[name]
@@ -126,9 +123,15 @@ export default class SkaterLapin {
     }
 
     this.animation.mixer.addEventListener('finished', (e) => {
-      // console.log('Action terminée : ', e.action.getClip().name)
+      console.log('Action terminée : ', e.action.getClip().name)
       this.animation.actions.current.reset()
       this.animation.actions.current.play()
+      if (
+        e.action.getClip().name == 'Move_P_Grind_Flip' ||
+        e.action.getClip().name == 'Move_P_Kickflip'
+      ) {
+        mittInstance.emit('Skate Figure Anim 3D End')
+      }
     })
 
     // Debug Part
@@ -149,6 +152,8 @@ export default class SkaterLapin {
         playCruise: () => {
           this.animation.actions['P_Cruise'].reset()
           this.animation.actions['P_Cruise'].play()
+          this.animation.actions['Board_Pose'].reset()
+          this.animation.actions['Board_Pose'].play()
         },
         playRail: () => {
           this.animation.play('Board_KickRail')
@@ -198,29 +203,28 @@ export default class SkaterLapin {
       }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000) - 200)
     })
 
-    mittInstance.on('Start Figure Game', (e) => {
-      // console.log('Start Figure Game')
-      const figure = FIGURES.find((figure) => figure.name === e.figure).anims
-      this.animation.play(figure.board)
-      this.animation.play(figure.perso)
-      // gsap.to(this.modelVelocity, {
-      //   z: 0,
-      //   duration: 2,
-      //   ease: 'Power3.easeOut',
-      // })
-      gsap.to(this.slowmotionFactor, {
-        value: 0,
-        duration: 0,
-        ease: 'Power3.easeOut',
-      })
+    mittInstance.on('Before Figure Game', () => {
       this.changeCamera()
     })
-    mittInstance.on('Skate Figure Anim 3D', () => {
-      // console.log('Skate Figure Anim 3D')
-      // gsap.to(this.modelVelocity, {
-      //   z: 0.2,
-      //   duration: 2,
+
+    mittInstance.on('Start Figure Game', (e) => {
+      // console.log('Start Figure Game')
+      // console.log('Data from emit : ', e.figure)
+      // const figure = FIGURES.find((figure) => figure.name === e.figure).anims
+      // this.animation.play(figure.board)
+      // this.animation.play(figure.perso)
+      // console.log('Figure :', figure)
+      // gsap.to(this.slowmotionFactor, {
+      //   value: 0,
+      //   duration: 0,
+      //   ease: 'Power3.easeOut',
       // })
+    })
+
+    mittInstance.on('Skate Figure Anim 3D', (anim) => {
+      console.log(anim)
+      var animDuration = this.animation.actions[anim.animation].getClip().duration
+      // console.log(animDuration)
       gsap.to(this.slowmotionFactor, {
         value: 0.001,
         duration: 0,
@@ -229,12 +233,12 @@ export default class SkaterLapin {
         x: -2,
         z: -4,
         y: 1,
-        duration: 2,
+        duration: animDuration / 2,
         ease: 'Power3.easeIn',
       })
       gsap.to(this.lookAtOffset, {
         value: 5,
-        duration: 3,
+        duration: animDuration / 2,
         ease: 'Power3.easeIn',
       })
     })
@@ -251,24 +255,7 @@ export default class SkaterLapin {
     })
   }
 
-  checkCollision() {
-    var skaterBox = new THREE.Box3().setFromObject(this.model) // Boîte englobante du skater
-    var rampBox = new THREE.Box3().setFromObject(this.experience.world.skatepark.model) // Boîte englobante de la rampe
-
-    if (skaterBox.intersectsBox(rampBox)) {
-      // Collision détectée
-      return true
-    } else {
-      return false
-    }
-  }
   update() {
-    // if (this.checkCollision()) {
-    //   console.log('Colision')
-    //   this.modelVelocity.y = 0.01
-    // } else {
-    //   this.modelVelocity.y = -0.01
-    // }
     const modelPosition = this.model.position
     if (this.started) {
       this.model.position.add(this.modelVelocity)
@@ -279,8 +266,8 @@ export default class SkaterLapin {
         .copy(modelPosition)
         .add(this.cameraOffset)
         .add(this.model.getObjectByName('Ctrl_Hips').position)
-      const smoothedCamPos = oldCamPos.lerp(cameraPosition, 1)
-      this.experience.camera.instance.position.copy(smoothedCamPos)
+      // const smoothedCamPos = oldCamPos.lerp(cameraPosition, 1)
+      this.experience.camera.instance.position.copy(cameraPosition)
     }
     this.animation.mixer.update(this.time.delta * this.slowmotionFactor.value)
     const cameraTarget = new THREE.Vector3()

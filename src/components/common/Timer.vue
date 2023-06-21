@@ -73,6 +73,8 @@ let startTime: any = null
 let timerIntervalId: any = null
 let maxTime: number = 30
 
+const timerCreated = ref(false)
+
 // declare global {
 //   interface Window {
 //     experience: Experience
@@ -90,8 +92,9 @@ watch(
   },
 )
 
-mittInstance.on('Start Timer', (e: any) => {
+mittInstance.on('Update Icon', (e: any) => {
   step.value = e.step
+
   if (e.isValid) {
     console.log('Valid', steps.value[step.value])
     steps.value[step.value].isValid = true
@@ -99,43 +102,78 @@ mittInstance.on('Start Timer', (e: any) => {
     console.log('Not Valid', steps.value[step.value])
     steps.value[step.value].isError = true
   }
+})
+
+mittInstance.on('Start Timer', () => {
   startTimer()
 })
 
-const startTimer = () => {
-  // console.log('Timer step value : ', step.value)
-
-  if (!isRunning.value) {
-    if (stoppedTime.value === 0) {
-      startTime = new Date().getTime()
-    } else {
-      startTime = new Date().getTime() - stoppedTime.value
+mittInstance.on('Time tick', (time: any) => {
+  if (timerCreated.value && isRunning.value) {
+    elapsedTime.value += time.deltaTime / 1000
+    timebarWidth.value = (elapsedTime.value / maxTime) * 100
+    if (elapsedTime.value >= maxTime) {
+      timebarWidth.value = 100
+      isRunning.value = false
+      mittInstance.emit('Sport finished')
+    } else if (elapsedTime.value >= 24 && step.value == 3) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
+    } else if (elapsedTime.value >= 18 && step.value == 2) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
+    } else if (elapsedTime.value >= 12 && step.value == 1) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
+    } else if (elapsedTime.value >= 6 && step.value == 0) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })
+    } else if (elapsedTime.value >= 5 && elapsedTime.value <= 5.1 && step.value == 0) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[0].name })
     }
-    isRunning.value = true
-
-    timerIntervalId = setInterval(() => {
-      elapsedTime.value = (new Date().getTime() - startTime) / 1000
-      timebarWidth.value = (elapsedTime.value / maxTime) * 100
-      if (elapsedTime.value >= maxTime) {
-        clearInterval(timerIntervalId)
-        timebarWidth.value = 100
-        isRunning.value = false
-        mittInstance.emit('Sport finished')
-      } else if (elapsedTime.value >= 24 && step.value == 3) {
-        stopTimer()
-        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
-      } else if (elapsedTime.value >= 18 && step.value == 2) {
-        stopTimer()
-        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
-      } else if (elapsedTime.value >= 12 && step.value == 1) {
-        stopTimer()
-        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
-      } else if (elapsedTime.value >= 6 && step.value == 0) {
-        stopTimer()
-        mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })
-      }
-    }, 10)
   }
+})
+
+const startTimer = () => {
+  console.log('Timer step value : ', step.value)
+  console.log('Timer created : ', timerCreated.value)
+  console.log('Timer isRunning : ', timerCreated.value)
+  if (!timerCreated.value) {
+    timerCreated.value = true
+  }
+  if (!isRunning.value) {
+    isRunning.value = true
+  }
+  // if (!isRunning.value) {
+  //   if (stoppedTime.value === 0) {
+  //     startTime = new Date().getTime()
+  //   } else {
+  //     startTime = new Date().getTime() - stoppedTime.value
+  //   }
+  //   isRunning.value = true
+  //   timerIntervalId = setInterval(() => {
+  //     elapsedTime.value = (new Date().getTime() - startTime) / 1000
+  //     timebarWidth.value = (elapsedTime.value / maxTime) * 100
+  //     if (elapsedTime.value >= maxTime) {
+  //       clearInterval(timerIntervalId)
+  //       timebarWidth.value = 100
+  //       isRunning.value = false
+  //       mittInstance.emit('Sport finished')
+  //     } else if (elapsedTime.value >= 24 && step.value == 3) {
+  //       stopTimer()
+  //       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
+  //     } else if (elapsedTime.value >= 18 && step.value == 2) {
+  //       stopTimer()
+  //       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
+  //     } else if (elapsedTime.value >= 12 && step.value == 1) {
+  //       stopTimer()
+  //       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
+  //     } else if (elapsedTime.value >= 6 && step.value == 0) {
+  //       stopTimer()
+  //       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })
+  //     }
+  //   }, 10)
+  // }
 }
 
 const stopTimer = () => {

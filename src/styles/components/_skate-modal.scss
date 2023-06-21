@@ -19,14 +19,6 @@
     transition: border-color 0.4s ease-out;
   }
 
-  &.is-active {
-    background-color: $color-blue;
-
-    .pattern-title {
-      color: $color-white;
-    }
-  }
-
   .pattern-title {
     font-family: MonumentExtended;
     font-size: clamp(20px, 4vw, 48px);
@@ -100,6 +92,30 @@
       }
     }
   }
+
+  .pattern-timer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 1rem;
+    pointer-events: none;
+
+    &__inside {
+      transform: skewX(-30deg);
+      border-radius: 4px;
+      display: block;
+      background-color: $color-red;
+      width: 100%;
+      max-width: 660px;
+      height: 8px;
+    }
+  }
+
   .skate-pattern {
     padding-bottom: 4vw;
   }

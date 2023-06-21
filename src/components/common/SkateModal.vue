@@ -1,5 +1,5 @@
 <template>
-  <div class="w-modal" :class="/*isEnd*/ false && 'is-active'">
+  <div class="w-modal">
     <div
       class="pattern-title"
       :class="[
@@ -9,6 +9,13 @@
       ]"
     >
       <div ref="titleRef">{{ title }}</div>
+    </div>
+    <div class="pattern-timer">
+      <span
+        class="pattern-timer__inside"
+        ref="patternTimerRef"
+        :style="{ transform: `scaleX(${1 - timerProgress})` }"
+      />
     </div>
     <Pattern
       :patternToDo="patternToDo"
@@ -39,11 +46,13 @@ const isLose = ref(false)
 const isEnd = ref(false)
 const title = ref('')
 const titleRef = ref<HTMLDivElement | null>(null)
+const patternTimerRef = ref<HTMLSpanElement | null>(null)
 const titleWin = ref(false)
 const titleWrong = ref(false)
 
 interface Props {
   pattern: number[][][]
+  timerProgress: number
 }
 
 const props = defineProps<Props>()
@@ -72,6 +81,22 @@ const getTitle = () => {
   })
 
   return figure?.name ?? ''
+}
+
+const elapsedTime = ref(0)
+
+const startTimer = () => {
+  if (!isAutoDrawing.value) {
+    const startTime = new Date().getTime()
+    const maxTime = 5
+
+    let timerIntervalId = setInterval(() => {
+      elapsedTime.value = (new Date().getTime() - startTime) / 1000
+      if (elapsedTime.value >= maxTime) {
+        clearInterval(timerIntervalId)
+      }
+    }, 10)
+  }
 }
 
 watch(

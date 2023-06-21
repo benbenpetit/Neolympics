@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import Leaderboard from '@/components/modules/Game/Leaderboard/Leaderboard.vue'
 import Scene from '@/components/views/Scene.vue'
-import { IGlobalScores, IMaxSessionWUser } from '@/core/types/IScore'
-import { ref, watch, computed, onMounted } from 'vue'
+import { IMaxSessionWUser } from '@/core/types/IScore'
+import { ref, watch, computed } from 'vue'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import { getAllMaxSessions } from '@/core/services/api/leaderboardApi'
@@ -77,7 +77,7 @@ watch(currentUser, async () => {
 })
 
 watch(
-  [sportState.doneSports, realtimeMaxSessions, realtimeUsers],
+  [realtimeMaxSessions, realtimeUsers],
   async () => {
     await fetchMaxSessions()
   },

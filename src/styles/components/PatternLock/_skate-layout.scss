@@ -23,9 +23,9 @@
   transform-origin: center center;
 
   &.is-active {
-    height: 90vh;
+    height: 80vh;
     width: 30vh;
-    right: 15vh;
+    right: calc(12.5vh - 2.5vh);
   }
 
   .skate-layout {

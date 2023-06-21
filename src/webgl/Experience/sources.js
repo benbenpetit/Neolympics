@@ -1,32 +1,22 @@
 export default [
   // {
-  //   name: 'floorColorTexture',
-  //   type: 'texture',
-  //   path: '/textures/concrete.jpg',
-  // },
-  // {
-  //   name: 'skater',
+  //   name: 'skaterFinal',
   //   type: 'gltfModel',
-  //   path: '/models/Skater.glb',
-  // },
-  // {
-  //   name: 'skaterJury',
-  //   type: 'gltfModel',
-  //   path: '/models/SkaterJury.glb',
+  //   path: '/models/Skater_Final-noCompression.glb',
   // },
   {
     name: 'skaterFinal',
     type: 'gltfModel',
-    path: '/models/Animations_Textures-v1.glb',
+    path: '/models/Skater_Final.glb',
   },
   {
     name: 'skateModule1',
     type: 'gltfModel',
-    path: '/models/Module_Kickflip-v1.glb',
+    path: '/models/Module_Kickflip-noText.glb',
   },
   {
     name: 'skateModule2',
     type: 'gltfModel',
-    path: '/models/Module_Grind_FLip-v1.glb',
+    path: '/models/Module_Grind_Flip-noText.glb',
   },
 ]

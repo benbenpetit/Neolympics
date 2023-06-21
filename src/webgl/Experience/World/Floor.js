@@ -67,7 +67,7 @@ export default class Floor {
         this.tilesMultiplicator = 1
         gsap.to(this.time, {
           timeScale: 1.5,
-          duration: 3,
+          duration: 1,
         })
       } else {
         this.timeScale = 1

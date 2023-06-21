@@ -221,26 +221,41 @@ export default class SkaterLapin {
       // })
     })
 
-    mittInstance.on('Skate Figure Anim 3D', (anim) => {
-      console.log(anim)
-      var animDuration = this.animation.actions[anim.animation].getClip().duration
-      // console.log(animDuration)
-      gsap.to(this.slowmotionFactor, {
-        value: 0.001,
-        duration: 0,
-      })
-      gsap.to(this.cameraOffset, {
-        x: -2,
-        z: -4,
-        y: 1,
-        duration: animDuration / 2,
-        ease: 'Power3.easeIn',
-      })
-      gsap.to(this.lookAtOffset, {
-        value: 5,
-        duration: animDuration / 2,
-        ease: 'Power3.easeIn',
-      })
+    mittInstance.on('Skate Figure Anim 3D', (data) => {
+      if (data.isValid) {
+        this.animation.play(data.animation.board)
+        this.animation.play(data.animation.perso)
+        var animDuration = this.animation.actions[data.animation.perso].getClip().duration
+        gsap.to(this.slowmotionFactor, {
+          value: 0.001,
+          duration: 0,
+        })
+        gsap.to(this.cameraOffset, {
+          x: -2,
+          z: -4,
+          y: 1,
+          duration: animDuration / 2,
+          ease: 'Power3.easeIn',
+        })
+        gsap.to(this.lookAtOffset, {
+          value: 5,
+          duration: animDuration / 2,
+          ease: 'Power3.easeIn',
+        })
+      } else {
+        gsap.to(this.cameraOffset, {
+          x: -2,
+          z: -4,
+          y: 1,
+          duration: 0,
+          ease: 'Power3.easeIn',
+        })
+        gsap.to(this.lookAtOffset, {
+          value: 5,
+          duration: 0,
+          ease: 'Power3.easeIn',
+        })
+      }
     })
     mittInstance.on('Sport finished', () => {
       // console.log('Sport finished')

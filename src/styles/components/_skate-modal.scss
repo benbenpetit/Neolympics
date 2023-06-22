@@ -39,6 +39,7 @@
     &.is-drawing {
       color: $color-red;
       transform: scale(1.2);
+      font-weight: 900;
       // transition-delay: 0.5s;
 
       &.is-valid {
@@ -106,13 +107,18 @@
     pointer-events: none;
 
     &__inside {
-      transform: skewX(-30deg);
       border-radius: 4px;
       display: block;
       background-color: $color-red;
       width: 100%;
       max-width: 660px;
       height: 8px;
+      opacity: 0;
+      transition: 0.3s opacity cubic-bezier(0.4, 0, 0, 1);
+
+      &.--show {
+        opacity: 1;
+      }
     }
   }
 

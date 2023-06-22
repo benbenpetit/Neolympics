@@ -344,6 +344,9 @@ const handleGoogleSignIn = async () => {
 }
 
 const handleTwitterSignIn = async () => {
-  await signInWithTwitter(window.location.pathname)
+  const result = await signInWithTwitter(window.location.pathname)
+  if (result === true) {
+    addUserSession()
+  }
 }
 </script>

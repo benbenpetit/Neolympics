@@ -6,6 +6,7 @@ interface Props {
   doneSports: {
     sport: ISport
     step: number
+    difficulty: number
   }[]
 }
 
@@ -27,7 +28,22 @@ export const useSportStore = defineStore(
       if (doc) {
         doc.step = step
       } else {
-        sportState.value.doneSports.push({ sport: sport, step: step })
+        sportState.value.doneSports.push({ sport: sport, step: step, difficulty: 0 })
+      }
+    }
+
+    const setSportDifficulty = (sport: ISport, difficulty: number) => {
+      const doc = sportState.value.doneSports.find(
+        (doneSport) => doneSport.sport === sport,
+      )
+      if (doc) {
+        doc.difficulty = difficulty
+      } else {
+        sportState.value.doneSports.push({
+          sport: sport,
+          step: 0,
+          difficulty: difficulty,
+        })
       }
     }
 
@@ -39,6 +55,7 @@ export const useSportStore = defineStore(
       sportState,
       setSportState,
       setSportStep,
+      setSportDifficulty,
       setInitialSportsStep,
     }
   },

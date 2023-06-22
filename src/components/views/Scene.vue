@@ -34,7 +34,6 @@
     <SkateModal
       v-if="state === 'figureGame'"
       :pattern="pattern"
-      :timerProgress="timerProgress"
       @onPatternEnd="handlePatternEnd"
     />
     <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
@@ -82,7 +81,7 @@ import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 
-const CURRENT_FIGURES = [PIGEON, KICKFLIP, KICKFLIP, KICKFLIP]
+const CURRENT_FIGURES = [PIGEON, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
@@ -95,9 +94,11 @@ const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
-const figureElapsedTime = ref<number>(0)
-const figureMaxTime = 5
-const timerProgress = computed(() => figureElapsedTime.value / figureMaxTime)
+const skateDifficulty = computed(
+  () =>
+    sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
+    1,
+)
 
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
@@ -184,6 +185,7 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 // })
 
 mittInstance.on('Sport finished', () => {
+  Math.round(score.value)
   setTimeout(() => {
     state.value = 'result'
   }, 1500)
@@ -207,21 +209,36 @@ const updateIcon = (isValid?: boolean) => {
 }
 
 const endEpreuve = () => {
-  const score: IScore = { points: 75, sportId: 'skate' }
-  setCurrentScore(score)
+  const tempScore: IScore = { points: Math.round(score.value), sportId: 'skate' }
+  setCurrentScore(tempScore)
   setSportStep('skate', 1)
 }
 
-const handlePatternEnd = (isValid: boolean = false) => {
+const calculateFigureScore = (timing: number) => {
+  const maxScoreByFigureDependingOnDifficulty = [16, 18, 20]
+  const tiers = maxScoreByFigureDependingOnDifficulty[skateDifficulty.value - 1] / 3
+  return tiers * 2 + tiers * timing
+}
+
+const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
   updateIcon(isValid)
   mittInstance.emit('Skate Figure Anim 3D', {
     animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
     isValid: isValid,
   })
-  updateIcon(isValid)
-  pattern.value = CURRENT_FIGURES[++currentFigureIndex.value].pattern
-  score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
-  if (isValid == true) {
+
+  const nextPattern = CURRENT_FIGURES[++currentFigureIndex.value]?.pattern
+
+  if (nextPattern) {
+    pattern.value = nextPattern
+  }
+
+  if (isValid === true) {
+    const calculatedScore = calculateFigureScore(timingRatio)
+    score.value += calculatedScore
+  }
+
+  if (isValid === true) {
     validPatternSound.play()
   } else {
     console.log('wrong pattern')

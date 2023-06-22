@@ -1,9 +1,9 @@
 export default [
-  // {
-  //   name: 'skaterFinal',
-  //   type: 'gltfModel',
-  //   path: '/models/Skater_Final-noCompression.glb',
-  // },
+  {
+    name: 'skatepark',
+    type: 'gltfModel',
+    path: '/models/Skatepark.glb',
+  },
   {
     name: 'skaterFinal',
     type: 'gltfModel',

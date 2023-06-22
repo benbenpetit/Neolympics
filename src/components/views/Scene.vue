@@ -1,64 +1,69 @@
 <template>
-  <OverlayIlluSkate />
-  <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
-  </Header>
-  <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
-  <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
-    <template v-slot:title>Tutoriel</template>
-    <template v-slot:content>
-      <div class="tutoriel-content">
-        <!-- <Pattern
-          class="tutoriel-content__pattern"
-          :patternToDo="patternToDoTutorial"
-          isAutoDrawing
-          :onDrawEnd="handleTutoEnd"
-        /> -->
-        <p>
-          Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
-          <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
-          Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
-        </p>
-      </div>
-    </template>
-    <template v-slot:buttons>
-      <div class="trial-details">
-        <div class="detail-container"><IconTImer /> 45 secondes</div>
-        <div class="detail-container"><IconSkate /> 5 figures</div>
-      </div>
-      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startGame">
-        <template v-slot:label>J'ai compris !</template>
-      </ButtonUI>
-    </template>
-  </Modal>
-  <SkateModal
-    v-if="state === 'figureGame'"
-    :pattern="pattern"
-    @onPatternEnd="handlePatternEnd"
-  />
-  <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
-    <template v-slot:title>Fin de l'épreuve</template>
-    <template v-slot:content>
-      <div>
-        <p>Bravo tu as fini l'épreuve !</p>
-        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
-          <template v-slot:label>Continuer</template>
+  <div :style="{ overflow: 'hidden', height: '100vh', position: 'relative' }">
+    <OverlayIlluSkate />
+    <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
+    </Header>
+    <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
+    <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
+      <template v-slot:title>Tutoriel</template>
+      <template v-slot:content>
+        <div class="tutoriel-content">
+          <Pattern
+            class="tutoriel-content__pattern"
+            :patternToDo="patternToDoTutorial"
+            isAutoDrawing
+            :onDrawEnd="handleTutoEnd"
+          />
+          <p>
+            Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
+            <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
+            Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
+          </p>
+        </div>
+      </template>
+      <template v-slot:buttons>
+        <div class="trial-details">
+          <div class="detail-container"><IconTImer /> 45 secondes</div>
+          <div class="detail-container"><IconSkate /> 5 figures</div>
+        </div>
+        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startGame">
+          <template v-slot:label>J'ai compris !</template>
         </ButtonUI>
-      </div>
-    </template>
-  </Modal>
-  <div
-    v-if="figureResult != ''"
-    class="figure-result"
-    :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
-  >
-    <img :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'" alt="" />
-    <span class="result-text">{{ figureResult }}</span>
+      </template>
+    </Modal>
+    <SkateModal
+      v-if="state === 'figureGame'"
+      :pattern="pattern"
+      @onPatternEnd="handlePatternEnd"
+    />
+    <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
+      <template v-slot:title>Fin de l'épreuve</template>
+      <template v-slot:content>
+        <div>
+          <p>Bravo tu as fini l'épreuve !</p>
+          <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
+            <template v-slot:label>Continuer</template>
+          </ButtonUI>
+        </div>
+      </template>
+    </Modal>
+    <div
+      v-if="figureResult != ''"
+      class="figure-result"
+      :class="figureResult == 'Parfait !' ? 'blue' : 'red'"
+    >
+      <img
+        :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'"
+        alt=""
+      />
+      <span class="result-text">{{ figureResult }}</span>
+    </div>
+    <canvas class="webgl" />
   </div>
-  <canvas class="webgl"></canvas>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import Experience from '@/webgl/Experience/Experience'
 import Timer from '@/components/common/Timer.vue'
 import SkateModal from '@/components/common/SkateModal.vue'
@@ -70,25 +75,30 @@ import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import OverlayIlluSkate from '@/components/common/OverlayIlluSkate.vue'
 import { IScore } from '@/core/types/IScore'
-import { GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE } from '@/data/figures'
+import { GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE, PIGEON } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 
-const CURRENT_FIGURES = [KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
+const CURRENT_FIGURES = [PIGEON, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
 const state = ref<'tutorial' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
 const currentFigureIndex = ref(0)
-const pattern = ref<number[][][]>([CURRENT_FIGURES[currentFigureIndex.value].pattern])
+const pattern = ref<number[][][]>(CURRENT_FIGURES[currentFigureIndex.value].pattern)
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
+const skateDifficulty = computed(
+  () =>
+    sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
+    1,
+)
 
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
@@ -122,7 +132,7 @@ mittInstance.on('Start tutorial', () => {
   // console.log('Tutorial')
 
   state.value = 'tutorial'
-  patternToDoTutorial.value = KICKFLIP.pattern
+  patternToDoTutorial.value = KICKFLIP.pattern[0]
 })
 
 mittInstance.on('Start Figure Game', () => {
@@ -175,6 +185,7 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 // })
 
 mittInstance.on('Sport finished', () => {
+  Math.round(score.value)
   setTimeout(() => {
     state.value = 'result'
   }, 1500)
@@ -198,20 +209,36 @@ const updateIcon = (isValid?: boolean) => {
 }
 
 const endEpreuve = () => {
-  const score: IScore = { points: 75, sportId: 'skate' }
-  setCurrentScore(score)
+  const tempScore: IScore = { points: Math.round(score.value), sportId: 'skate' }
+  setCurrentScore(tempScore)
   setSportStep('skate', 1)
 }
 
-const handlePatternEnd = (isValid: boolean = false) => {
+const calculateFigureScore = (timing: number) => {
+  const maxScoreByFigureDependingOnDifficulty = [16, 18, 20]
+  const tiers = maxScoreByFigureDependingOnDifficulty[skateDifficulty.value - 1] / 3
+  return tiers * 2 + tiers * timing
+}
+
+const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
   updateIcon(isValid)
   mittInstance.emit('Skate Figure Anim 3D', {
     animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
     isValid: isValid,
   })
-  pattern.value = [CURRENT_FIGURES[++currentFigureIndex.value].pattern]
-  score.value += Math.floor(Math.random() * (20 - 10 + 1) + 10)
-  if (isValid == true) {
+
+  const nextPattern = CURRENT_FIGURES[++currentFigureIndex.value]?.pattern
+
+  if (nextPattern) {
+    pattern.value = nextPattern
+  }
+
+  if (isValid === true) {
+    const calculatedScore = calculateFigureScore(timingRatio)
+    score.value += calculatedScore
+  }
+
+  if (isValid === true) {
     validPatternSound.play()
   } else {
     console.log('wrong pattern')
@@ -222,7 +249,7 @@ const handlePatternEnd = (isValid: boolean = false) => {
 const handleTutoEnd = () => {
   patternToDoTutorial.value = []
   setTimeout(() => {
-    patternToDoTutorial.value = KICKFLIP.pattern
+    patternToDoTutorial.value = KICKFLIP.pattern[0]
   })
 }
 

@@ -91,7 +91,7 @@
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import publicRouters from '@/data/publicRouters'
 import { onMounted } from 'vue'
 import { gsap } from 'gsap'
@@ -100,6 +100,7 @@ import { Howl, Howler } from 'howler'
 import { useSportStore } from '@/core/store/sport'
 
 gsap.registerPlugin(CustomEase)
+const { setSportStep, setSportDifficulty } = useSportStore()
 
 let chosenDifficulty = ref<number>(1)
 let sweepSound = new Howl({
@@ -112,11 +113,18 @@ let clickSound = new Howl({
   rate: 0.8,
 })
 
+watch(
+  chosenDifficulty,
+  () => {
+    setSportDifficulty('skate', chosenDifficulty.value)
+  },
+  { immediate: true },
+)
+
 const router = useRouter()
 const difficultyAnim = gsap.timeline({})
 
 const modalOlympicsVisible = ref<boolean>(false)
-const { setSportStep } = useSportStore()
 
 const difficultyInfo = [
   {
@@ -146,7 +154,6 @@ const gotoOlympics = () => {
   modalOlympicsVisible.value = false
   setSportStep('skate', 0)
   router.push('/competition/skate')
-  console.log('olympics')
 }
 
 onMounted(() => {

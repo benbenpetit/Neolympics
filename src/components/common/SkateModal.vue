@@ -1,5 +1,5 @@
 <template>
-  <div class="w-modal" :class="/*isEnd*/ false && 'is-active'">
+  <div class="w-modal">
     <div
       class="pattern-title"
       :class="[
@@ -10,6 +10,14 @@
     >
       <div ref="titleRef">{{ title }}</div>
     </div>
+    <div class="pattern-timer">
+      <span
+        class="pattern-timer__inside"
+        :class="!isAutoDrawing && '--show'"
+        ref="patternTimerRef"
+        :style="{ transform: `skewX(-30deg) scaleX(${1 - timerProgress})` }"
+      />
+    </div>
     <Pattern
       :patternToDo="patternToDo"
       :isAutoDrawing="isAutoDrawing"
@@ -19,7 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import { FIGURES } from '@/data/figures'
@@ -29,6 +38,7 @@ import { CustomEase } from 'gsap/all'
 gsap.registerPlugin(CustomEase)
 CustomEase.create('shakeEasing', '.36,.07,.19,.97')
 
+const { sportState } = useSportStore()
 const currentPatternIndex = ref(0)
 const patternToDo = ref<number[][]>([])
 const currentPatternToDoIndex = ref(0)
@@ -39,8 +49,18 @@ const isLose = ref(false)
 const isEnd = ref(false)
 const title = ref('')
 const titleRef = ref<HTMLDivElement | null>(null)
+const patternTimerRef = ref<HTMLSpanElement | null>(null)
 const titleWin = ref(false)
 const titleWrong = ref(false)
+const elapsedTime = ref(0)
+const skateDifficulty = computed(
+  () =>
+    sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
+    1,
+)
+const maxTime = computed(() => 5 + 3 - skateDifficulty.value)
+const timerProgress = computed(() => elapsedTime.value / maxTime.value)
+const scoreTimings = ref<number[]>([])
 
 interface Props {
   pattern: number[][][]
@@ -73,6 +93,33 @@ const getTitle = () => {
 
   return figure?.name ?? ''
 }
+
+let timerIntervalId: any = null
+
+const startTimer = () => {
+  if (!isAutoDrawing.value) {
+    const startTime = new Date().getTime()
+    elapsedTime.value = 0
+
+    timerIntervalId = setInterval(() => {
+      elapsedTime.value = (new Date().getTime() - startTime) / 1000
+      if (elapsedTime.value >= maxTime.value) {
+        handleDrawEnd(true)
+        clearInterval(timerIntervalId)
+      }
+    }, 10)
+  }
+}
+
+const clearTimer = () => {
+  clearInterval(timerIntervalId)
+}
+
+watch([patternToDo, isAutoDrawing], () => {
+  if (!isAutoDrawing.value) {
+    startTimer()
+  }
+})
 
 watch(
   [patternToDo, isPret],
@@ -128,7 +175,10 @@ const animText = (isWrong?: boolean) => {
 }
 
 const handleEndPattern = (isValid?: boolean) => {
-  emits('onPatternEnd', isValid)
+  const timingRatio =
+    scoreTimings.value.reduce((prev, curr) => prev + curr, 0) / scoreTimings.value.length
+  emits('onPatternEnd', { isValid, timingRatio })
+  scoreTimings.value = []
   // isWin.value = false
   // isLose.value = false
   // isAutoDrawing.value = true
@@ -161,9 +211,14 @@ const handleWin = () => {
 }
 
 const handleDrawEnd = (isWrong?: boolean) => {
+  clearTimer()
   if (isWrong) {
     handleFlop()
     return
+  }
+
+  if (!isAutoDrawing.value) {
+    scoreTimings.value.push(1 - timerProgress.value)
   }
 
   if (currentPatternToDoIndex.value < props.pattern.length - 1) {

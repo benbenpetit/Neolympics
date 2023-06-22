@@ -14,11 +14,11 @@
 <script setup lang="ts">
 import Leaderboard from '@/components/modules/Game/Leaderboard/Leaderboard.vue'
 import Scene from '@/components/views/Scene.vue'
-import { IGlobalScores, IMaxSessionWUser } from '@/core/types/IScore'
-import { ref, watch, computed, onMounted } from 'vue'
+import { IMaxSessionWUser, IScore } from '@/core/types/IScore'
+import { ref, watch, computed } from 'vue'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
-import { getAllMaxSessions } from '@/core/services/api/leaderboardApi'
+import { addScoreSkate, getAllMaxSessions } from '@/core/services/api/leaderboardApi'
 import Quiz from '@/pages/Quiz.vue'
 import { useCollection, useCurrentUser } from 'vuefire'
 import { IUser } from '@/core/types/IUser'
@@ -76,8 +76,23 @@ watch(currentUser, async () => {
   await fetchMaxSessions()
 })
 
+watch([skateStep, scoreState.currentScores.skate, currentUser], () => {
+  if (skateStep.value === 2 && currentUser.value) {
+    if (scoreState.currentScores.skate && scoreState.currentScores.skateQuiz) {
+      const tempScore: IScore = {
+        sportId: 'skate',
+        points: scoreState.currentScores.skate ?? 0,
+        quiz: scoreState.currentScores.skateQuiz,
+        createdAt: new Date(),
+        userId: currentUser.value.uid,
+      }
+      addScoreSkate(tempScore)
+    }
+  }
+})
+
 watch(
-  [sportState.doneSports, realtimeMaxSessions, realtimeUsers],
+  [scoreState, realtimeMaxSessions, realtimeUsers],
   async () => {
     await fetchMaxSessions()
   },

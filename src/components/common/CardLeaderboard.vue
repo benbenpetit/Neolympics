@@ -3,7 +3,8 @@
     <div class="c-card-leaderboard">
       <div class="c-card-leaderboard-name">
         <span class="--inverted-skew">
-          #{{ props.rank }} @{{ props.user?.displayName }}
+          #{{ props.rank }}
+          {{ props?.user?.displayName ? `@${props?.user?.displayName}` : 'Toi' }}
         </span>
       </div>
       <div class="c-card-leaderboard-content">

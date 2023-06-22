@@ -11,6 +11,7 @@ import {
   doc,
   updateDoc,
   DocumentReference,
+  QueryDocumentSnapshot,
 } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { IMaxSession, IMaxSessionWUser, IScore, IScoreWUser } from '@/core/types/IScore'
@@ -22,9 +23,26 @@ export const addScoreSkate = async (sport: IScore) => {
     sportId: 'skate',
   }
 
-  await addDoc(collection(db, 'scores'), {
-    ...sport,
-  })
+  const allUserScores = await getAllScoresByUserId(sport.userId ?? '')
+  const skateScore = allUserScores.find((score) => score.data().sportId === 'skate')
+
+  if (skateScore) {
+    if (
+      sport.points > skateScore.data().points ||
+      (sport.points >= skateScore.data().points &&
+        (sport?.quiz ?? 0) > (skateScore.data().quiz ?? 0))
+    ) {
+      await updateDoc(doc(db, 'scores', skateScore.id) as DocumentReference<IScore>, {
+        points: sport.points,
+        quiz: sport.quiz,
+        createdAt: new Date(),
+      })
+    }
+  } else {
+    await addDoc(collection(db, 'scores'), {
+      ...sport,
+    })
+  }
 }
 
 export const addScore = async (sport: IScore) => {
@@ -76,7 +94,7 @@ export const getMaxSessionHigherThanStored = async (
 }
 
 export const getAllScoresByUserId = async (userId: string) => {
-  let scores: IScore[] = []
+  let scores: QueryDocumentSnapshot<IScore>[] = []
 
   const scoresQuerySnapshot = await getDocs(
     query(
@@ -86,7 +104,7 @@ export const getAllScoresByUserId = async (userId: string) => {
   )
 
   for (const scoreDoc of scoresQuerySnapshot.docs) {
-    scores.push(scoreDoc.data())
+    scores.push(scoreDoc)
   }
 
   return scores

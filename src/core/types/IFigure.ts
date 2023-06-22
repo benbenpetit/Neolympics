@@ -4,5 +4,5 @@ export interface IFigure {
     board: string
     perso: string
   }
-  pattern: number[][]
+  pattern: number[][][]
 }

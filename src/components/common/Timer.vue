@@ -3,7 +3,7 @@
     <div class="score-wrapper">
       <div class="skew-container">
         <div class="score-container" ref="scoreContainerRef">
-          <div class="score--value">{{ score }}</div>
+          <div class="score--value">{{ Math.round(score) }}</div>
           <div class="score--unit">pts</div>
         </div>
       </div>
@@ -192,12 +192,6 @@ const resetTimer = () => {
   elapsedTime.value = 0
   stoppedTime.value = 0
   timebarWidth.value = 0
-}
-
-const endSport = () => {
-  const score: IScore = { points: 87, sportId: 'skate' }
-  setCurrentScore(score)
-  setSportStep('skate', 1)
 }
 
 const formatTime = (time: number) => {

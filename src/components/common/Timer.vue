@@ -112,7 +112,7 @@ mittInstance.on('Time tick', (time: any) => {
   if (timerCreated.value && isRunning.value) {
     elapsedTime.value += time.deltaTime / 1000
     timebarWidth.value = (elapsedTime.value / maxTime) * 100
-    if (elapsedTime.value >= maxTime) {
+    if (elapsedTime.value >= 10) {
       timebarWidth.value = 100
       isRunning.value = false
       mittInstance.emit('Sport finished')

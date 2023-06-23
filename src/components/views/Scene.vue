@@ -1,5 +1,6 @@
 <template>
-  <div :style="{ overflow: 'hidden', height: '100vh', position: 'relative' }">
+  <!-- <div :style="{ overflow: 'hidden', height: '100vh', position: 'relative' }"> -->
+  <div>
     <OverlayIlluSkate />
     <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
     </Header>

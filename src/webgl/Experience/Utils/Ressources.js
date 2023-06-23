@@ -39,6 +39,8 @@ export default class Ressources extends EventEmitter {
         })
       } else if (source.type === 'texture') {
         this.loaders.textureLoader.load(source.path, (file) => {
+          // file.colorSpace = THREE.SRGBColorSpace
+          file.flipY = false
           this.sourceLoaded(source, file)
         })
       } else if (source.type === 'cubeTexture') {

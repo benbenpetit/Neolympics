@@ -18,10 +18,12 @@ export default class Renderer {
       canvas: this.canvas,
       antialias: true,
     })
-    this.instance.useLegacyLights = true
-    this.instance.outputEncoding = THREE.sRGBEncoding
-    this.instance.toneMapping = THREE.CineonToneMapping
-    this.instance.toneMappingExposure = 1.75
+    // this.instance.useLegacyLights = true
+    // this.instance.outputEncoding = THREE.sRGBEncoding
+    // this.instance.outputColorSpace = THREE.SRGBColorSpace
+    THREE.ColorManagement.enabled = true
+    this.instance.toneMapping = THREE.LinearToneMapping
+    // this.instance.toneMappingExposure = 1.75
     this.instance.shadowMap.enabled = true
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     this.instance.setClearColor('#211d20')

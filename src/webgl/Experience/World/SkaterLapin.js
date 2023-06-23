@@ -22,6 +22,7 @@ export default class SkaterLapin {
     this.shakeStrength = 1
 
     this.setModel()
+    this.setMaterials()
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder('SkaterLapin')
       this.setDebug()
@@ -51,6 +52,100 @@ export default class SkaterLapin {
     //     .add(this.cameraOffset)
     //     .add(this.model.getObjectByName('Ctrl_Hips').position),
     // )
+  }
+
+  setMaterials() {
+    var chapeauTexture = this.resources.items.chapeauTexture
+    var teteTexture = this.resources.items.corpsTexture
+    var pantalonTexture = this.resources.items.pantalonTexture
+    var shirtTexture = this.resources.items.shirtTexture
+
+    var shoesTexture = this.resources.items.shoesTexture
+    this.model.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        // console.log(child.name)
+        switch (child.name) {
+          case 'Chapeau004':
+            child.material = new THREE.MeshLambertMaterial({
+              map: chapeauTexture,
+            })
+            break
+          case 'Tete002':
+            child.material = new THREE.MeshLambertMaterial({
+              map: teteTexture,
+            })
+            break
+          case 'CorpsCoupe001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: teteTexture,
+            })
+            break
+          case 'Pantalon004':
+            child.material = new THREE.MeshLambertMaterial({
+              map: pantalonTexture,
+            })
+            break
+          case 'Shirt003':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shirtTexture,
+            })
+            break
+          case 'D_CHAUSSURE':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'D_Coque001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'D_Lacet001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'D_Nike001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'D_Semelle001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'G_CHAUSSURE':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'G_Coque001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'G_Lacet001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'G_Nike001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+          case 'G_Semelle001':
+            child.material = new THREE.MeshLambertMaterial({
+              map: shoesTexture,
+            })
+            break
+
+          default:
+            break
+        }
+      }
+    })
   }
 
   setDebug() {

@@ -16,7 +16,8 @@
     "allowJs": true,
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "noImplicitAny": false
   },
   "include": [
     "src/**/*.ts",

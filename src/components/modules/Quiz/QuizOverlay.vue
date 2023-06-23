@@ -7,9 +7,9 @@
         <p>MICRO</p>
       </div>
     </div>
-    <div class="intro-quiz-mic">
+    <!-- <div class="intro-quiz-mic">
       <img src="/img/mic-quiz.png" alt="" />
-    </div>
+    </div> -->
   </div>
 </template>
 

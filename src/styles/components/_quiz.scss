@@ -7,6 +7,7 @@
 }
 
 .intro-quiz-wrapper {
+  overflow: hidden;
   height: 100%;
   width: 100%;
   align-items: center;
@@ -19,7 +20,7 @@
     position: relative;
     display: flex;
     transform: translate(100px, -150px);
-    width: 98vw;
+    width: 100%;
 
     img {
       max-width: 100%;
@@ -75,45 +76,58 @@
   width: 100%;
   display: flex;
   align-items: center;
-  // overflow: hidden;
+  z-index: 50;
 }
 
 .character-quiz {
   position: absolute;
   left: 0;
-  top: -100px;
+  width: 50%;
+  height: 100%;
+  z-index: 50;
   overflow: hidden;
 
-  video {
-    width: 800px;
-    transform: rotateY(180deg);
-    -webkit-transform: rotateY(180deg);
+  .--3d-model {
+    z-index: 50;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    left: 0;
   }
+
+  // video {
+  //   width: 800px;
+  //   transform: rotateY(180deg);
+  //   -webkit-transform: rotateY(180deg);
+  // }
 }
 
 .c-quiz {
-  z-index: 10;
-  width: 100%;
+  z-index: 30;
+  width: 50%;
   height: 100%;
-  position: relative;
+  position: absolute;
+  right: 0;
+  top: 0;
 
   .c-quiz-modals {
     position: absolute;
     right: 0;
-    top: 0;
-    transform: translateY(50%);
+    top: 50%;
+    transform: translateY(-40%);
+    // height: 100%;
 
     .c-info {
       position: relative;
-      top: 0;
+      top: 50%;
       right: 0;
-      transform: translateY(60%);
-      max-width: 50vw;
+      transform: translateY(50%);
     }
 
     .c-modal-wrapper {
-      max-width: 1000px;
-      min-width: 600px;
+      // max-width: 1000px;
+      // min-width: 600px;
+      z-index: 30;
 
       .c-modal {
         width: 100%;
@@ -128,6 +142,7 @@
           }
         }
       }
+
       .c-modal-buttons {
         display: flex;
         flex-flow: row wrap;
@@ -205,6 +220,7 @@
 
 .quiz-end-brush-wrapper {
   .quiz-end-brush {
+    z-index: 10;
     position: absolute;
     width: 80%;
     display: flex;
@@ -245,8 +261,8 @@
 
   img {
     bottom: 0;
-    margin-left: -60px;
-    margin-right: -60px;
+    margin-left: -50px;
+    margin-right: -50px;
     max-height: 800px;
     max-width: 400px;
 
@@ -255,12 +271,13 @@
     }
     &.gazelle {
       // transform: scale(-1, 1) translateY(100px);
-      max-width: 500px;
-      max-height: 900px;
     }
     &.shiba {
       // transform: rotate(-30deg) scale(-1, 1) translate(30px, 150px);
-      max-width: 600px;
+      max-width: 500px;
+      max-height: 850px;
+      margin-left: -100px;
+      margin-right: -80px;
     }
   }
 }
@@ -271,6 +288,7 @@
   right: 0%;
   top: 40%;
   transform: translateY(-50%);
+  z-index: 60;
 
   .c-modal {
     .c-modal-content {
@@ -341,6 +359,7 @@
               display: flex;
               flex-direction: row;
               align-items: center;
+              text-transform: lowercase;
             }
           }
         }

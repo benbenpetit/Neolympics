@@ -6,14 +6,23 @@
   </Header>
 
   <div class="c-quiz-wrapper" style="visibility: hidden">
-    <div class="quiz-brush">
-      <img src="/img/brush-header.png" alt="" />
-    </div>
-
     <div class="character-quiz">
-      <video autoplay loop>
-        <source src="/video/yuto-VP9.webm" type="video/webm" />
-      </video>
+      <model-viewer
+        class="--3d-model"
+        src="/models/YutoSkate.glb"
+        ar-modes="webxr"
+        shadow-intensity="0"
+        autoplay
+        :animation-name="animationToPlay"
+        disable-zoom
+        disable-tap
+        disable-pan
+        interaction-prompt="none"
+        camera-orbit="-15deg 80deg 2m"
+        camera-target="0m 1.1m 0m"
+      >
+        <div slot="progress-bar" style="visibility: none"></div>
+      </model-viewer>
     </div>
 
     <div class="c-quiz">
@@ -81,9 +90,9 @@
       </div>
     </div>
     <div class="quiz-end-animals">
-      <img :src="score >= 2 ? renardHappy : renardAngry" alt="" />
-      <img :src="score >= 2 ? gazelleHappy : gazelleAngry" alt="" />
-      <img :src="score >= 2 ? shibaHappy : shibaAngry" alt="" />
+      <img :src="score >= 2 ? renardHappy : renardAngry" alt="" class="renard" />
+      <img :src="score >= 2 ? gazelleHappy : gazelleAngry" alt="" class="gazelle" />
+      <img :src="score >= 2 ? shibaHappy : shibaAngry" alt="" class="shiba" />
     </div>
   </section>
 
@@ -116,9 +125,6 @@
           <p class="--answer">Réponses correctes</p>
         </div>
         <div class="recap-table">
-          <!-- <div class="--title">
-            <p>Questions</p>
-          </div> -->
           <div
             class="--table"
             v-for="({ question, answer, isValid }, index) in recapTable"
@@ -144,7 +150,7 @@
       </template>
       <template v-slot:buttons>
         <ButtonUI @click="endQuiz" imgSrc="/icon/go.svg">
-          <template v-slot:label>SUIVANT</template>
+          <template v-slot:label style="width: 350px">VOIR MON CLASSEMENT</template>
         </ButtonUI>
       </template>
     </Modal>
@@ -165,6 +171,8 @@ import { IScore } from '@/core/types/IScore'
 import { useScoreStore } from '@/core/store/score'
 import arrayShuffle from 'array-shuffle'
 import { Howl, Howler } from 'howler'
+// import { ModelObj } from 'vue-3d-model'
+import '@google/model-viewer'
 
 onMounted(async () => {
   questions.value = arrayShuffle(QUESTIONS_DATA)
@@ -198,6 +206,8 @@ let score = 0
 let questionAnswered = 0
 let quizCompleted = ref(false)
 let showRecap = ref(false)
+
+let animationToPlay = ref<string>('P_Discution')
 
 let quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
@@ -272,6 +282,7 @@ const handleQuizClick = (index: number) => {
       answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
       isValid: true,
     })
+    animationToPlay.value = 'P_ReponseCorrect'
   } else {
     quizWrongSound.play()
     recapTable.value.push({
@@ -279,6 +290,7 @@ const handleQuizClick = (index: number) => {
       answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
       isValid: false,
     })
+    animationToPlay.value = 'P_ReponseMauvais'
   }
 
   setTimeout(displayInfo, 1000)
@@ -309,6 +321,7 @@ const setNextQuestion = () => {
   if (questionAnswered < 2) {
     currentQuestion.value++
     questionAnswered++
+    animationToPlay.value = 'P_Discution'
   } else {
     quizCompleted.value = true
     gotoEndQuiz()
@@ -347,20 +360,20 @@ const quizOverlayAnimation = () => {
     },
     '-=0.3',
   )
-  quizOverlayTimeline.fromTo(
-    '.intro-quiz-mic',
-    {
-      x: '150%',
-      rotation: '45_short',
-    },
-    {
-      x: '10%',
-      rotation: '355_short',
-      duration: 0.8,
-      ease: 'Power2.easeInOut',
-    },
-    '-=0.2',
-  )
+  // quizOverlayTimeline.fromTo(
+  //   '.intro-quiz-mic',
+  //   {
+  //     x: '150%',
+  //     rotation: '45_short',
+  //   },
+  //   {
+  //     x: '10%',
+  //     rotation: '355_short',
+  //     duration: 0.8,
+  //     ease: 'Power2.easeInOut',
+  //   },
+  //   '-=0.2',
+  // )
 
   quizOverlayTimeline.to(
     '.intro-quiz-title img',
@@ -382,19 +395,19 @@ const quizOverlayAnimation = () => {
     '-=0.4',
   )
 
-  quizOverlayTimeline.to(
-    '.intro-quiz-mic',
-    {
-      x: '150%',
-      rotation: '45_short',
-      duration: 0.6,
-      ease: 'Power2.easeInOut',
-    },
-    '-=0.4',
-  )
+  // quizOverlayTimeline.to(
+  //   '.intro-quiz-mic',
+  //   {
+  //     x: '150%',
+  //     rotation: '45_short',
+  //     duration: 0.6,
+  //     ease: 'Power2.easeInOut',
+  //   },
+  //   '-=0.4',
+  // )
 
   quizOverlayTimeline.to('.intro-quiz-wrapper', {
-    visibility: 'hidden',
+    display: 'none',
     duration: 0,
   })
 }
@@ -412,17 +425,6 @@ const quizAnimation = () => {
       duration: 0,
       ease: 'Power4.easeInOut',
     },
-  )
-
-  quizTimeline.from(
-    '.quiz-brush',
-    {
-      x: '-100%',
-      y: '100%',
-      duration: 0.4,
-      ease: 'Power4.easeInOut',
-    },
-    '-=0.2',
   )
 
   quizTimeline.from(
@@ -483,6 +485,14 @@ const nextQuestion = () => {
 }
 
 const gotoEndQuiz = () => {
+  quizEndTimeline.add(function () {
+    if (score >= 2) {
+      animationToPlay.value = 'P_ReponseCorrect'
+    } else {
+      animationToPlay.value = 'P_ReponseMauvais'
+    }
+  })
+
   quizEndTimeline.fromTo(
     '.quiz-end-brush',
     {
@@ -490,7 +500,7 @@ const gotoEndQuiz = () => {
     },
     {
       x: '0%',
-      duration: 0.4,
+      duration: 0.3,
       ease: 'Power2.easeInOut',
     },
   )
@@ -506,9 +516,9 @@ const gotoEndQuiz = () => {
     {
       x: '0%',
       y: '150px',
-      duration: 0.4,
+      duration: 0.3,
       ease: 'Power2.easeInOut',
-      stagger: 0.2,
+      stagger: 0.15,
       scaleX: -1,
       rotate: '-10deg',
     },
@@ -521,19 +531,19 @@ const gotoEndQuiz = () => {
       x: '300%',
       y: '150px',
       scaleX: -1,
-      stagger: -0.2,
+      stagger: -0.15,
       rotate: '0deg',
-      duration: 0.4,
+      duration: 0.3,
       ease: 'Power2.easeInOut',
     },
-    '+=1.5',
+    '+=0.7',
   )
 
   quizEndTimeline.to(
     '.quiz-end-brush',
     {
       x: '100%',
-      duration: 0.4,
+      duration: 0.3,
       ease: 'Power2.easeInOut',
     },
     '-=0.2',
@@ -551,6 +561,9 @@ const gotoEndQuiz = () => {
 }
 
 const gotoRecapQuiz = () => {
+  quizRecapTimeline.add(function () {
+    animationToPlay.value = 'P_PushDouble'
+  })
   quizRecapTimeline.fromTo(
     '.--modal-recap-quiz',
     {
@@ -559,8 +572,6 @@ const gotoRecapQuiz = () => {
     { x: '0%', duration: 0.5, ease: 'Power4.easeInOut' },
   )
 }
-
-console.log(score)
 
 onMounted(() => {
   quizOverlayAnimation()

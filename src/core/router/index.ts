@@ -13,6 +13,7 @@ import CompetitionSportVue from '@/pages/Competition/CompetitionSport.vue'
 import TrainingVue from '@/pages/Training/Training.vue'
 import TrainingSportVue from '@/pages/Training/TrainingSport.vue'
 import publicRouters from '@/data/publicRouters'
+import Federation from '@/pages/Federation.vue'
 
 const routes = [
   { path: '/', component: HomeVue },
@@ -32,6 +33,7 @@ const routes = [
   },
   { path: `${publicRouters.TRAINING}`, component: TrainingVue },
   { path: `${publicRouters.TRAINING}/:sportSlug`, component: TrainingSportVue },
+  { path: `${publicRouters.FEDERATION}`, component: Federation },
 ]
 
 const router = createRouter({

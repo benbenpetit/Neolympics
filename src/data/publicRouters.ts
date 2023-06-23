@@ -3,4 +3,5 @@ export default {
   COMPETITION_PREPARATION: '/competition/preparation',
   COMPETITION_LEADERBOARD: '/competition/leaderboard',
   TRAINING: '/training',
+  FEDERATION: '/federation',
 }

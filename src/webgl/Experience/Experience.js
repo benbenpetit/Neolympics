@@ -9,6 +9,7 @@ import sources from './sources'
 import Debug from './Utils/Debug'
 import mittInstance from '@/core/lib/MittInstance'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import MaterialFactory from '@/webgl/Experience/Utils/MaterialFactory'
 
 let instance = null
 
@@ -30,6 +31,7 @@ export default class Experience {
     this.time = new Time()
     this.scene = new THREE.Scene()
     this.resources = new Ressources(sources)
+    this.materialFactory = new MaterialFactory()
     this.world = new World()
     this.camera = new Camera()
     this.renderer = new Renderer()

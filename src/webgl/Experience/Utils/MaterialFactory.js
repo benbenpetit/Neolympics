@@ -1,8 +1,11 @@
+import Experience from '@/webgl/Experience/Experience'
 import * as THREE from 'three'
 
 export default class MaterialFactory {
   constructor() {
-    const defaultMat = new MeshBasicMaterial({ color: 0xff0099 })
+    const defaultMat = new THREE.MeshBasicMaterial({ color: 0x888888 })
+    this.experience = new Experience()
+    this.resources = this.experience.resources
     this.materials = {
       default: defaultMat,
     }
@@ -11,6 +14,7 @@ export default class MaterialFactory {
   getMaterial(name) {
     let materialName = 'default'
     switch (name) {
+      // SKATER
       case 'Yuto':
         materialName = 'Chaussure'
         break
@@ -59,10 +63,30 @@ export default class MaterialFactory {
         materialName = 'Shirt'
         break
       case 'Tete002':
-        materialName = 'Corps'
+        materialName = 'Tete'
         break
       case 'CorpsCoupe001':
         materialName = 'Corps'
+        break
+
+      // SKATEPARK
+      case 'Marches':
+        materialName = 'Marches'
+        break
+      case 'Sol':
+        materialName = 'Sol'
+        break
+      case 'Barrieres':
+        materialName = 'Barrieres'
+        break
+      case 'Sieges_Public':
+        materialName = 'Siege'
+        break
+      case 'Sieges_Public_2':
+        materialName = 'Siege'
+        break
+      case 'Public':
+        materialName = 'Public'
         break
 
       default:
@@ -73,7 +97,7 @@ export default class MaterialFactory {
       console.error('missing material for ', name)
     }
 
-    if (!hasProperty(this.materials, materialName)) {
+    if (!this.hasProperty(this.materials, materialName)) {
       this.createMaterial(materialName)
     }
     return this.materials[materialName]
@@ -107,6 +131,36 @@ export default class MaterialFactory {
           map: this.resources.items.corpsTexture,
         })
         break
+      case 'Tete':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.teteTexture,
+        })
+        break
+      case 'Marches':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.marchesTexture,
+        })
+        break
+      case 'Sol':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.solTexture,
+        })
+        break
+      case 'Barriere':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.barriereTexture,
+        })
+        break
+      case 'Siege':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.siegeTexture,
+        })
+        break
+      case 'Public':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.shibaTexture,
+        })
+        break
       default:
         break
     }
@@ -119,5 +173,8 @@ export default class MaterialFactory {
       this.createMaterial(name)
     }
     return this.materials[name]
+  }
+  hasProperty(materials, materialName) {
+    return materials.hasOwnProperty(materialName)
   }
 }

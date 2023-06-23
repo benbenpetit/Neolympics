@@ -104,9 +104,10 @@ export default class Floor {
   setMesh() {
     var colors = [0xea4050, 0x3656ff, 0xfff965]
     this.floor = new THREE.Group()
+    this.floor.add(this.experience.world.skatepark.model)
     var module_index = 0
     var sol = []
-    for (let i = 1; i < 50; i++) {
+    for (let i = 1; i < 30; i++) {
       if (i % 4 == 0) {
         if (module_index <= 1) {
           var module = this.skateModules[module_index % 2].scene
@@ -118,16 +119,16 @@ export default class Floor {
           // console.log(box3.getSize(size))
         }
       } else {
-        this.mesh = new THREE.Mesh(
-          this.geometry,
-          new THREE.MeshStandardMaterial({
-            color: colors[i % 3],
-          }),
-        )
-        this.mesh.rotation.x = -Math.PI * 0.5
-        this.mesh.receiveShadow = true
-        this.mesh.position.z = (i - 1) * 10 + 5
-        this.floor.add(this.mesh)
+        // this.mesh = new THREE.Mesh(
+        //   this.geometry,
+        //   new THREE.MeshStandardMaterial({
+        //     color: colors[i % 3],
+        //   }),
+        // )
+        // this.mesh.rotation.x = -Math.PI * 0.5
+        // this.mesh.receiveShadow = true
+        // this.mesh.position.z = (i - 1) * 10 + 5
+        // this.floor.add(this.mesh)
       }
       // this.mesh = new THREE.Mesh(
       //   this.geometry,

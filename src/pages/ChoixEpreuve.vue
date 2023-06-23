@@ -68,13 +68,7 @@
       :nextLabel="sportParams[Math.abs((currentSport + 1) % 4)].title"
     />
 
-    <DifficultySelector v-if="sportConfirmed">
-      <template v-slot:nametag-title>YUTO</template>
-      <template v-slot:nametag-desc>
-        <p>-</p>
-        <p>SKATER DE<br />RÉPUBLIQUE</p>
-      </template>
-    </DifficultySelector>
+    <DifficultySelector v-if="sportConfirmed" />
   </div>
 </template>
 
@@ -367,6 +361,11 @@ const sliderAnimOut = () => {
         gsap.to('.c-floor__title__inside', {
           opacity: 0,
           duration: 0.3,
+        })
+        gsap.to('.c-sportslider-wrapper__forme', {
+          top: '150vh',
+          duration: 1,
+          ease: 'Power3.easeInOut',
         })
       },
     },

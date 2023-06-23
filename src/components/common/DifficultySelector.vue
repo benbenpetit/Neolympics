@@ -1,15 +1,71 @@
 <template>
-  <div class="c-difficulty-wrapper">
-    <div class="c-difficulty-nametag">
-      <div class="nametag-title">
-        <slot name="nametag-title">okok</slot>
+  <div class="c-difficulty">
+    <div class="c-difficulty__wrapper">
+      <div class="c-difficulty__poster c-poster">
+        <div>
+          <!-- <svg
+            id="mask-1"
+            width="875"
+            height="330"
+            viewBox="0 0 875 330"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            clipPathUnits="objectBoundingBox"
+            :style="{ display: 'none', clipRule: 'nonzero' }"
+          >
+            <path
+              d="M0.5 21V308.783C0.5 321.659 12.2313 331.347 24.8753 328.913L857.875 168.552C867.526 166.694 874.5 158.249 874.5 148.422V21C874.5 9.67815 865.322 0.5 854 0.5H21C9.67816 0.5 0.5 9.67816 0.5 21Z"
+              fill="#D9D9D9"
+              stroke="black"
+            />
+          </svg> -->
+          <img src="/img/difficulty/poster1.png" alt="" />
+        </div>
+        <div>
+          <img src="/img/difficulty/poster2.png" alt="" />
+        </div>
       </div>
-      <div class="nametag-desc">
-        <slot name="nametag-desc"></slot>
+      <div class="c-difficulty__selector c-selector">
+        <Modal class="--blue">
+          <template v-slot:title>Niveau de difficulté</template>
+          <template v-slot:content>
+            <div class="c-selector__wrapper">
+              <div class="c-selector__content">
+                <h2>Le niveau 1 est recommandé aux nouveaux joueurs !</h2>
+                <p>
+                  Étant donné que ce niveau est réservé aux débutants, le maximum de
+                  points que tu peux obtenir est de 80pts.
+                </p>
+                <p>
+                  Tu as 4s pour compléter un tracé sur ce skateboard et ainsi faire une
+                  figure de skate.
+                </p>
+                <p>
+                  Plus tu es rapide, plus tu gagnes des points mais si tu es trop lent et
+                  échoues, tu n'en gagneras aucun !
+                </p>
+              </div>
+              <div class="c-selector__board">
+                <img src="/img/difficulty/skate-template.webp" />
+              </div>
+            </div>
+            <div class="c-selector__difficulties">
+              <ul>
+                <li v-for="(_, index) in [...Array(3).fill(0)]">
+                  <button
+                    @click=";(chosenDifficulty = index), clickSound.play()"
+                    :class="chosenDifficulty === index && '--selected'"
+                  >
+                    Niveau {{ index + 1 }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </template>
+        </Modal>
       </div>
     </div>
-
-    <div class="c-difficulty-modal">
+    <!-- <div class="c-difficulty-modal">
       <Modal class="--blue">
         <template v-slot:title>Choisis ta difficulté</template>
         <template v-slot:content>
@@ -19,38 +75,9 @@
           </p>
         </template>
       </Modal>
-      <div class="c-difficulty-buttons">
-        <button
-          class="--nv1"
-          @click=";(chosenDifficulty = 1), clickSound.play()"
-          :class="chosenDifficulty == 1 ? '--selected' : ''"
-        >
-          Niveau 1
-        </button>
-        <button
-          class="--nv2"
-          @click=";(chosenDifficulty = 2), clickSound.play()"
-          :class="chosenDifficulty == 2 ? '--selected' : ''"
-        >
-          Niveau 2
-        </button>
-        <button
-          class="--nv3"
-          @click=";(chosenDifficulty = 3), clickSound.play()"
-          :class="chosenDifficulty == 3 ? '--selected' : ''"
-        >
-          Niveau 3
-        </button>
-      </div>
-    </div>
+    </div> -->
 
-    <div class="character-middle">
-      <!-- <video width="700" autoplay loop>
-        <source src="/video/yuto-VP9.webm" type="video/webm" />
-      </video> -->
-    </div>
-
-    <div class="difficulty-footer-wrapper">
+    <!-- <div class="difficulty-footer-wrapper">
       <footer class="c-difficulty-footer">
         <div class="footer-left"></div>
         <div class="footer-center">
@@ -63,7 +90,7 @@
         </div>
         <div class="footer-right"></div>
       </footer>
-    </div>
+    </div> -->
   </div>
 
   <Modal

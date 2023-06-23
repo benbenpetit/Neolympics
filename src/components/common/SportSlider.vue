@@ -23,7 +23,27 @@
       </div>
       <div class="sportimg-wrapper">
         <div class="sportimg">
-          <img :src="props.sport.img" alt="" />
+          <!-- <img :src="props.sport.img" alt="" /> -->
+          <model-viewer
+            class="--3d-model"
+            :src="props.sport.img"
+            ar-modes="webxr"
+            camera-controls
+            shadow-intensity="0"
+            autoplay
+            animation-name="Push_Stat"
+            disable-zoom
+            disable-tap
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="500%"
+            interaction-prompt="none"
+            camera-orbit="45deg 70deg 1.5m"
+            scale="1 1 1"
+            inputSensitivity="0.25"
+          >
+            <div slot="progress-bar" style="visibility: none"></div>
+          </model-viewer>
         </div>
       </div>
     </div>
@@ -82,6 +102,7 @@ import { Howl, Howler } from 'howler'
 import { IScoreWUser } from '@/core/types/IScore'
 import CardLeaderboard from '@/components/common/CardLeaderboard.vue'
 import ButtonUI from '@/components/common/ButtonUI.vue'
+import '@google/model-viewer'
 
 interface Props {
   topThreePlayers?: IScoreWUser[]
@@ -182,7 +203,8 @@ onMounted(() => {
   )
 
   sliderEntry.fromTo(
-    '.sportimg img',
+    '.sportimg .--3d-model',
+
     {
       scale: 0,
       y: '100%',
@@ -193,12 +215,12 @@ onMounted(() => {
     {
       scale: 1,
       y: '0%',
-      duration: 0.5,
+      duration: 0.7,
       ease: CustomEase.create('custom', 'M0,0 C0.256,-0.054 0.616,1.426 1,1 '),
       opacity: 1,
       filter: 'blur(0px)',
     },
-    '-=0.5',
+    '-=0.3',
   )
 
   sliderEntry.add(function () {
@@ -209,12 +231,14 @@ onMounted(() => {
   sliderEntry.fromTo(
     '.c-sportslider-center__info',
     {
-      y: '-50vh',
+      opacity: 0,
+      y: '-200%',
     },
     {
       y: '0',
       duration: 0.6,
       ease: 'Power2.easeInOut',
+      opacity: 1,
     },
     '-=0.1',
   )

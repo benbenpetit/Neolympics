@@ -144,4 +144,4 @@ export const QUESTIONS_DATA: IQuestion[] = [
   // },
 ]
 
-export const SPORTS: ISport[] = ['break', 'climbing', 'skate', 'surf']
+export const SPORTS: ISport[] = ['skate', 'climbing', 'break', 'climbing']

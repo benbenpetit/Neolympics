@@ -1,7 +1,6 @@
 <template>
-  <!-- <div :style="{ overflow: 'hidden', height: '100vh', position: 'relative' }"> -->
   <div>
-    <OverlayIlluSkate />
+    <FeedbackGame :imgSrc="feedbackImg" />
     <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
     </Header>
     <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
@@ -74,12 +73,14 @@ import mittInstance from '@/core/lib/MittInstance'
 import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
+import FeedbackGame from '@/components/common/FeedbackGame.vue'
 import { IScore } from '@/core/types/IScore'
 import { GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE, PIGEON } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
+import { gsap } from 'gsap'
 
 const CURRENT_FIGURES = [PIGEON, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
 
@@ -103,6 +104,14 @@ const skateDifficulty = computed(
 let skateTheme = new Howl({
   src: ['/sounds/soundtracks/skate-theme-long.mp3'],
   volume: 0.8,
+  onend: function () {
+    skateThemeLoop.play()
+  },
+})
+
+let skateThemeLoop = new Howl({
+  src: ['/sounds/soundtracks/skate-theme-loop.mp3'],
+  volume: 0.8,
   loop: true,
 })
 
@@ -120,6 +129,10 @@ let startingSkateTheme = new Howl({
   src: ['/sounds/soundtracks/before-trial.mp3'],
   volume: 0.5,
 })
+
+let feedbackImg = ref<string>('')
+
+let feedbackImgAnim = gsap.timeline({})
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -159,6 +172,12 @@ mittInstance.on('Skate Figure Anim 3D', () => {
 
 mittInstance.on('Skate Figure Anim 3D End', () => {
   mittInstance.emit('Start Timer', { step: step.value })
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 20000.0,
+    Q: 3.0,
+  })
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -181,8 +200,11 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 //       figureResult.value = ''
 //       startTimer()
 //     }, 3000)
+//     feedbackImg.value = '/img/skate/trop-lent.webp'
+//     feedbackAnimPlay()
 //   }
 // })
+
 
 mittInstance.on('Sport finished', () => {
   Math.round(score.value)
@@ -240,9 +262,13 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
 
   if (isValid === true) {
     validPatternSound.play()
+    feedbackImg.value = '/img/skate/parfait.webp'
+    feedbackAnimPlay()
   } else {
     console.log('wrong pattern')
     wrongPatternSound.play()
+    feedbackImg.value = '/img/skate/incorrect.webp'
+    feedbackAnimPlay()
   }
 }
 
@@ -269,6 +295,33 @@ const onModalClose = () => {
     frequency: 20000.0,
     Q: 3.0,
   })
+}
+
+const feedbackAnimPlay = () => {
+  feedbackImgAnim.to('.c-feedbackGame', {
+    opacity: 1,
+    duration: 0,
+  })
+
+  feedbackImgAnim.fromTo(
+    '.c-feedbackGame',
+    {
+      x: '-100%',
+    },
+    {
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+  )
+
+  feedbackImgAnim.to(
+    '.c-feedbackGame',
+    {
+      x: '-100%',
+    },
+    '+=0.6',
+  )
 }
 </script>
 

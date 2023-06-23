@@ -1,5 +1,8 @@
 <template>
-  <div class="o-background-points">
+  <div
+    class="o-background-points"
+    :class="[!sportParams[currentSport].available ? '--disabled' : '']"
+  >
     <Header
       ref="headerRef"
       @onModalOpen="onModalOpen"
@@ -295,26 +298,26 @@ const sportParams = [
   {
     title: 'SKATE',
     info: `L'épreuve de Street se déroule dans un décor reproduisant les éléments d'une rue, comme les escaliers, les rails, les bancs... Les athlètes doivent enchaîner 5 figures dans un run de 45 secondes, et sont jugés sur leur capacité à maîtriser leur planche.`,
-    img: '/img/planche-skate-slider.png',
+    img: '/models/PlancheSkate.glb',
     available: true,
     icon: '/icon/skateboarding.svg',
   },
   {
     title: 'SURF',
     info: `Les surfeurs effectuent des manœuvres et des figures sur une vague, et sont ensuite notés par cinq juges en fonction de la variété de leur enchaînement, du type de figures réalisées et de leur difficulté.`,
-    img: '/img/planche-surf-slider.png',
+    img: '/models/PlancheSurf.glb',
     available: false,
   },
   {
     title: 'BREAKING',
     info: `Les athlètes enchaîneront les « powermoves » comme les coupoles, les six-step ou encore les freezes en s'adaptant et en improvisant sur le son du DJ pour s'adjuger les votes des juges.`,
-    img: '/img/sneakers-slider.png',
+    img: '/models/SneakerBreak.glb',
     available: false,
   },
   {
     title: 'ESCALADE',
     info: `L'épreuve de vitesse s'effectue sur un mur de 15 mètres et les athlètes sont assurés par des assureurs automatiques. Les athlètes doivent terminer une voie d'un niveau de complexité très élevé sans tomber, car une chute résulte en la fin de leur essai.`,
-    img: '/img/baudrier-slider.png',
+    img: '/models/BaudrierClimb.glb',
     available: false,
   },
 ]
@@ -351,7 +354,7 @@ const sliderAnimOut = () => {
   })
 
   sliderAnim.to(
-    '.c-sportslider-center img',
+    '.c-sportslider-center .--3d-model',
     {
       y: '100%',
       // ease: 'Power4.easeInOut',
@@ -420,7 +423,7 @@ const sliderAnimIn = () => {
   })
 
   sliderAnim.to(
-    '.c-sportslider-center img',
+    '.c-sportslider-center .--3d-model',
     {
       y: '0%',
       ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),

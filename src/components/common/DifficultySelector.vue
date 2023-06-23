@@ -45,9 +45,9 @@
     </div>
 
     <div class="character-middle">
-      <video width="700" autoplay loop>
+      <!-- <video width="700" autoplay loop>
         <source src="/video/yuto-VP9.webm" type="video/webm" />
-      </video>
+      </video> -->
     </div>
 
     <div class="difficulty-footer-wrapper">
@@ -98,6 +98,7 @@ import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
 import { Howl, Howler } from 'howler'
 import { useSportStore } from '@/core/store/sport'
+import '@google/model-viewer'
 
 gsap.registerPlugin(CustomEase)
 const { setSportStep, setSportDifficulty } = useSportStore()
@@ -142,9 +143,7 @@ const difficultyInfo = [
   },
 ]
 
-const gotoTraining = () => {
-  console.log('training')
-}
+const gotoTraining = () => {}
 
 const showModalOlympics = () => {
   modalOlympicsVisible.value = true

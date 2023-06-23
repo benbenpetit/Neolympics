@@ -12,8 +12,8 @@
   background-image: url('/img/sportcard-mask.svg');
   background-size: cover;
   background-position: center;
-  border-left: solid 1px #b0baec;
-  border-right: solid 1px #b0baec;
+  border: solid 1px $color-blue-secondary;
+  border-bottom: none;
   transform: skew(-7deg);
   display: flex;
   flex-direction: column;
@@ -87,6 +87,7 @@
       color: white;
       font-weight: 600;
       transform: translateY(2px);
+      text-transform: uppercase;
     }
 
     img {

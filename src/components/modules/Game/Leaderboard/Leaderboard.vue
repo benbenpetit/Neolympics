@@ -100,7 +100,7 @@
           </button>
         </div>
       </div>
-      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover">
+      <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="handleNextPage">
         <template v-slot:label>SUIVANT</template>
       </ButtonUI>
     </footer>
@@ -348,5 +348,9 @@ const handleTwitterSignIn = async () => {
   if (result === true) {
     addUserSession()
   }
+}
+
+const handleNextPage = async () => {
+  router.push('/federation')
 }
 </script>

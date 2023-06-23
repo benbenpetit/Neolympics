@@ -8,6 +8,7 @@
   background-position: 0 0;
   background-size: auto 24px;
   animation: animatedBackground 500s linear infinite;
+  transition: all 0.5s ease-in-out;
 
   &::before {
     content: '';
@@ -52,6 +53,22 @@
     }
     to {
       opacity: 0;
+    }
+  }
+
+  &.--disabled {
+    background-image: url(/img/background-pattern-blue.webp);
+    background-color: rgba(0, 0, 0, 0);
+    transition: all 1s ease-in-out;
+
+    &::before {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 1) 55%, $color-blue 100%);
+      transition: all 1s ease-in-out;
+    }
+
+    &::after {
+      background: #1f28ff;
+      transition: all 1s ease-in-out;
     }
   }
 }

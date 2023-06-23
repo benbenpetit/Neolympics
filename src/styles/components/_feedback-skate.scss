@@ -1,0 +1,14 @@
+.c-feedbackGame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-height: 100%;
+  max-width: 100%;
+  opacity: 0;
+  overflow: hidden;
+  img {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+}

@@ -83,6 +83,12 @@ export default class Floor {
         duration: 1,
       })
     })
+    mittInstance.on('Sport finished', () => {
+      gsap.to(this.time, {
+        timeScale: 0,
+        duration: 1,
+      })
+    })
   }
 
   setModules() {

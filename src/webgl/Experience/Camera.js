@@ -20,7 +20,7 @@ export default class Camera {
     }
 
     mittInstance.on('Start skate intro', () => {
-      // this.skateIntro()
+      this.skateIntro()
     })
   }
 

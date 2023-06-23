@@ -1,4 +1,3 @@
-import Animations from '@/webgl/Experience/World/Animations'
 import * as THREE from 'three'
 import Experience from '../Experience'
 import Environment from './Environment'
@@ -17,10 +16,9 @@ export default class World {
     this.resources.on('ready', () => {
       // Setup
       this.skater = new SkaterLapin()
-      this.skatepark = new Skatepark()
-      // this.floor = new Floor()
+      // this.skatepark = new Skatepark()
+      this.floor = new Floor()
       this.environment = new Environment()
-      this.animations = new Animations()
     })
   }
   update() {

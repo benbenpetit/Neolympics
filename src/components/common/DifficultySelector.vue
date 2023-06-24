@@ -1,68 +1,70 @@
 <template>
-  <div class="c-difficulty-wrapper">
-    <div class="c-difficulty-nametag">
-      <div class="nametag-title">
-        <slot name="nametag-title">okok</slot>
-      </div>
-      <div class="nametag-desc">
-        <slot name="nametag-desc"></slot>
-      </div>
-    </div>
-
-    <div class="c-difficulty-modal">
-      <Modal class="--blue">
-        <template v-slot:title>Choisis ta difficulté</template>
-        <template v-slot:content>
-          <h3>{{ difficultyInfo[chosenDifficulty - 1].title }}</h3>
-          <p>
-            {{ difficultyInfo[chosenDifficulty - 1].info }}
-          </p>
-        </template>
-      </Modal>
-      <div class="c-difficulty-buttons">
-        <button
-          class="--nv1"
-          @click=";(chosenDifficulty = 1), clickSound.play()"
-          :class="chosenDifficulty == 1 ? '--selected' : ''"
-        >
-          Niveau 1
-        </button>
-        <button
-          class="--nv2"
-          @click=";(chosenDifficulty = 2), clickSound.play()"
-          :class="chosenDifficulty == 2 ? '--selected' : ''"
-        >
-          Niveau 2
-        </button>
-        <button
-          class="--nv3"
-          @click=";(chosenDifficulty = 3), clickSound.play()"
-          :class="chosenDifficulty == 3 ? '--selected' : ''"
-        >
-          Niveau 3
-        </button>
-      </div>
-    </div>
-
-    <div class="character-middle">
-      <!-- <video width="700" autoplay loop>
-        <source src="/video/yuto-VP9.webm" type="video/webm" />
-      </video> -->
-    </div>
-
-    <div class="difficulty-footer-wrapper">
-      <footer class="c-difficulty-footer">
-        <div class="footer-left"></div>
-        <div class="footer-center">
-          <ButtonUI class="--white" :isActive="false" @click="gotoTraining()">
-            <template v-slot:label>ENTRAINEMENT</template>
-          </ButtonUI>
-          <ButtonUI class="--red" @click="showModalOlympics()" imgSrc="/icon/go.svg">
-            <template v-slot:label>EPREUVE OLYMPIQUE</template>
-          </ButtonUI>
+  <div class="c-difficulty">
+    <div class="c-difficulty__wrapper">
+      <div class="c-difficulty__poster c-poster">
+        <div class="c-poster__cell">
+          <img src="/img/difficulty/poster1.webp" alt="" />
+          <img src="/img/difficulty/poster2.webp" alt="" />
         </div>
-        <div class="footer-right"></div>
-      </footer>
+        <div class="c-poster__cell">
+          <model-viewer
+            class="c-poster__cell__object"
+            src="/models/YutoSkate.glb"
+            poster="/img/difficulty/poster-model.webp"
+            loading="lazy"
+            ar-modes="webxr"
+            shadow-intensity="0"
+            autoplay
+            animation-name="P_PointerDuDoigt"
+            disable-zoom
+            disable-tap
+            disable-pan
+            interaction-prompt="none"
+            camera-orbit="-10deg 90deg 0m"
+            camera-target="0m 0.5m 0m"
+          >
+            <div slot="progress-bar" style="visibility: none"></div>
+          </model-viewer>
+          <div class="c-poster__cell__overlay">
+            <h3>Yuto</h3>
+            <p>Premier médaillé d'or en skateboard aux JO d'été 2020</p>
+          </div>
+        </div>
+        <div class="c-poster__cell">
+          <img src="/img/difficulty/poster4.webp" alt="" />
+        </div>
+      </div>
+      <div class="c-difficulty__selector c-selector">
+        <Modal class="--blue">
+          <template v-slot:title>Niveau de difficulté</template>
+          <template v-slot:content>
+            <div class="c-selector__wrapper">
+              <div class="c-selector__content">
+                <h2>{{ DIFFICULTY_INFOS[chosenDifficulty - 1].title }}</h2>
+                <div v-html="DIFFICULTY_INFOS[chosenDifficulty - 1].info" />
+              </div>
+              <div class="c-selector__board">
+                <img src="/img/difficulty/skate-template.webp" />
+              </div>
+            </div>
+            <div class="c-selector__difficulties">
+              <ul>
+                <li v-for="(_, index) in [...Array(3).fill(0)]">
+                  <button
+                    @click=";(chosenDifficulty = index + 1), clickSound.play()"
+                    :class="chosenDifficulty === index + 1 && '--selected'"
+                  >
+                    Niveau {{ index + 1 }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </template>
+        </Modal>
+        <ButtonUI imgSrc="/icon/go.svg" @click="showModalOlympics()">
+          <template v-slot:label>C'EST PARTI !</template>
+        </ButtonUI>
+      </div>
     </div>
   </div>
 
@@ -127,19 +129,30 @@ const difficultyAnim = gsap.timeline({})
 
 const modalOlympicsVisible = ref<boolean>(false)
 
-const difficultyInfo = [
+const DIFFICULTY_INFOS = [
   {
-    title: `Niveau recommandé pour les nouveaux joueurs`,
-    info: `Tu as 5s pour compléter les tracés, donc il te sera plus facile de faire un bon
-          score mais il te rapportera moins de points !`,
+    title: `Le niveau 1 est recommandé pour les nouveaux joueurs`,
+    info: `
+      <p>C'est plus dur, donc le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
+      <p>Tu as <strong>6s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
+      <p><strong>Plus tu es rapide, plus tu gagnes des points</strong> mais si tu es trop lent et échoues, tu n'en gagneras aucun ! </p>
+      `,
   },
   {
-    title: `Niveau pour les joueurs expérimentés`,
-    info: `Tu as 4s pour compléter un tracé, les figures sont plus complexes mais rapportent plus de points !`,
+    title: `Le niveau 2 est idéal si tu connais le jeu !`,
+    info: `
+      <p>C'est plus dur, donc le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
+      <p>Tu as <strong>6s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
+      <p><strong>Plus tu es rapide, plus tu gagnes des points</strong> mais si tu es trop lent et échoues, tu n'en gagneras aucun ! </p>
+      `,
   },
   {
-    title: `Niveau pour les joueurs experts`,
-    info: `Les figures sont complexes et s'enchainent rapidement, mais elles rapportent beaucoup de points !`,
+    title: `Le niveau 3 cible les joueurs experts`,
+    info: `
+      <p>C'est plus dur, donc le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
+      <p>Tu as <strong>6s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
+      <p><strong>Plus tu es rapide, plus tu gagnes des points</strong> mais si tu es trop lent et échoues, tu n'en gagneras aucun ! </p>
+      `,
   },
 ]
 
@@ -162,16 +175,16 @@ onMounted(() => {
   })
 
   difficultyAnim.fromTo(
-    '.character-middle',
+    '.c-difficulty__poster',
     {
-      y: '150%',
+      y: '100vh',
       opacity: 0,
     },
     {
-      y: '10%',
+      y: '0',
       opacity: 1,
-      ease: 'Power2.easeInOut',
-      duration: 0.5,
+      ease: 'Power3.easeInOut',
+      duration: 1,
     },
     // '-=0.1',
   )
@@ -182,53 +195,38 @@ onMounted(() => {
   })
 
   difficultyAnim.fromTo(
-    '.c-difficulty-nametag',
+    '.c-difficulty__selector',
     {
-      x: '-100%',
+      x: '100vw',
       opacity: 0,
     },
     {
-      x: '0%',
+      x: '0',
       opacity: 1,
-      ease: 'Power2.easeInOut',
-      duration: 0.3,
+      ease: 'Power3.easeInOut',
+      duration: 1,
+      onStart: () => {
+        gsap.set('.c-selector__difficulties ul li', {
+          opacity: 0,
+        })
+        gsap.fromTo(
+          '.c-selector__difficulties ul li',
+          {
+            y: '20px',
+            opacity: 0,
+          },
+          {
+            y: '0',
+            opacity: 1,
+            ease: 'Power3.easeInOut',
+            stagger: 0.05,
+            delay: 0.8,
+            duration: 0.6,
+          },
+        )
+      },
     },
-    '-=0.2',
-  )
-
-  difficultyAnim.fromTo(
-    '.c-difficulty-modal',
-    {
-      x: '100%',
-      opacity: 0,
-    },
-    {
-      x: '0%',
-      opacity: 1,
-      ease: 'Power2.easeInOut',
-      duration: 0.3,
-    },
-    '-=0.2',
-  )
-
-  difficultyAnim.add(function () {
-    sweepSound.rate(1.2)
-    sweepSound.play()
-  })
-
-  difficultyAnim.fromTo(
-    '.difficulty-footer-wrapper',
-    {
-      y: '100%',
-      opacity: 0,
-    },
-    {
-      y: '0%',
-      opacity: 1,
-      ease: 'Power2.easeInOut',
-      duration: 0.4,
-    },
-    '-=0.1',
+    '-=0.6',
   )
 })
 </script>

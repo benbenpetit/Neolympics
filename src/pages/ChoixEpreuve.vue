@@ -1,7 +1,10 @@
 <template>
   <div
     class="o-background-points"
-    :class="[!sportParams[currentSport].available ? '--disabled' : '']"
+    :class="[
+      !sportParams[currentSport].available && '--disabled',
+      sportConfirmed && `--difficulty-${currentDifficulty}`,
+    ]"
   >
     <Header
       ref="headerRef"
@@ -68,13 +71,7 @@
       :nextLabel="sportParams[Math.abs((currentSport + 1) % 4)].title"
     />
 
-    <DifficultySelector v-if="sportConfirmed">
-      <template v-slot:nametag-title>YUTO</template>
-      <template v-slot:nametag-desc>
-        <p>-</p>
-        <p>SKATER DE<br />RÉPUBLIQUE</p>
-      </template>
-    </DifficultySelector>
+    <DifficultySelector v-if="sportConfirmed" />
   </div>
 </template>
 
@@ -97,9 +94,11 @@ import { NONAME } from 'dns'
 import { Howl, Howler } from 'howler'
 import { getTopScoresBySport } from '@/core/services/api/leaderboardApi'
 import { IScoreWUser } from '@/core/types/IScore'
+import { useSportStore } from '@/core/store/sport'
 
 gsap.registerPlugin(CustomEase)
 
+const { sportState } = useSportStore()
 const router = useRouter()
 const headerRef = ref<any | null>(null)
 const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
@@ -112,6 +111,11 @@ let headerIcon = computed<string>(() =>
 )
 let showCardIndex = 0
 const topThreePlayers = ref<IScoreWUser[]>([])
+const currentDifficulty = computed(
+  () =>
+    sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
+    1,
+)
 
 const onModalOpen = () => {
   // @ts-ignore
@@ -367,6 +371,11 @@ const sliderAnimOut = () => {
         gsap.to('.c-floor__title__inside', {
           opacity: 0,
           duration: 0.3,
+        })
+        gsap.to('.c-sportslider-wrapper__forme', {
+          top: '150vh',
+          duration: 1,
+          ease: 'Power3.easeInOut',
         })
       },
     },

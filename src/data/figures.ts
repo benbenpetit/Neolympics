@@ -17,26 +17,13 @@ export const KICKFLIP: IFigure = {
   name: 'kickflip',
   anims: {
     board: 'Move_Board_Kickflip',
-    perso: 'Move_P_Kickflip',
+    perso: 'Move_P_KickFlip',
   },
+  module: 'ModuleKickflip',
   pattern: [KICKFLIP_PATTERN],
 }
 
-export const OLLIE_PATTERN = [
-  [0, 1, 2],
-  [12, 13, 14],
-]
-
-export const OLLIE: IFigure = {
-  name: 'ollie',
-  anims: {
-    board: 'Board_Ollie',
-    perso: 'P_Ollie',
-  },
-  pattern: [OLLIE_PATTERN],
-}
-
-export const GRINDFLIP_PATTERN = [[1, 5, 9]]
+export const GRINDFLIP_PATTERN = [[1, 2, 3]]
 
 export const GRINDFLIP: IFigure = {
   name: 'grindflip',
@@ -44,7 +31,32 @@ export const GRINDFLIP: IFigure = {
     board: 'Move_Board_Grind_Flip',
     perso: 'Move_P_Grind_Flip',
   },
+  module: 'ModuleGrindFlip',
   pattern: [GRINDFLIP_PATTERN],
+}
+
+export const SHOVEIT_PATTERN = [[4, 5, 6]]
+
+export const SHOVEIT: IFigure = {
+  name: 'shoveit',
+  anims: {
+    board: 'Move_Board_ShoveIt',
+    perso: 'Move_P_ShoveIt',
+  },
+  module: 'ModuleShoveIt',
+  pattern: [SHOVEIT_PATTERN],
+}
+
+export const BACK360_PATTERN = [[7, 8, 9]]
+
+export const BACK360: IFigure = {
+  name: 'back360',
+  anims: {
+    board: 'Move_Board_Back3',
+    perso: 'Move_P_Back3',
+  },
+  module: 'ModuleBack360',
+  pattern: [BACK360_PATTERN],
 }
 
 export const PIGEON: IFigure = {
@@ -53,9 +65,9 @@ export const PIGEON: IFigure = {
     board: 'Move_Board_Kickflip',
     perso: 'Move_P_Kickflip',
   },
-  pattern: [OLLIE_PATTERN, KICKFLIP_PATTERN],
+  pattern: [KICKFLIP_PATTERN],
 }
 
-export const FIGURES = [HARDFLIP, KICKFLIP, OLLIE, GRINDFLIP]
+export const FIGURES = [HARDFLIP, KICKFLIP, GRINDFLIP]
 
 export const COMBOS = [PIGEON]

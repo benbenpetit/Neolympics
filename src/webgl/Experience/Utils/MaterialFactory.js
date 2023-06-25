@@ -21,52 +21,71 @@ export default class MaterialFactory {
       case 'D_CHAUSSURE':
         materialName = 'Chaussure'
         break
-      case 'D_Coque001':
+      case 'D_Coque':
         materialName = 'Chaussure'
         break
-      case 'D_Lacet001':
+      case 'D_Lacet':
         materialName = 'Chaussure'
         break
-      case 'D_Nike001':
+      case 'D_Nike':
         materialName = 'Chaussure'
         break
-      case 'D_Semelle001':
-        materialName = 'Chaussure'
-        break
-      case 'G_CHAUSSURE':
-        materialName = 'Chaussure'
-        break
-      case 'G_Coque001':
+      case 'D_Semelle':
         materialName = 'Chaussure'
         break
       case 'G_CHAUSSURE':
         materialName = 'Chaussure'
         break
-      case 'G_Lacet001':
-        materialName = 'Chaussure'
-      case 'G_Languette001':
+      case 'G_Coque':
         materialName = 'Chaussure'
         break
-      case 'G_Nike001':
+      case 'G_Lacet':
+        materialName = 'Chaussure'
+      case 'G_Languette':
         materialName = 'Chaussure'
         break
-      case 'G_Semelle001':
+      case 'G_Nike':
         materialName = 'Chaussure'
         break
-      case 'Chapeau004':
+      case 'G_Semelle':
+        materialName = 'Chaussure'
+        break
+      case 'Chapeau':
         materialName = 'Chapeau'
         break
-      case 'Pantalon004':
+      case 'Pantalon':
         materialName = 'Pantalon'
         break
-      case 'Shirt003':
+      case 'Shirt':
         materialName = 'Shirt'
         break
-      case 'Tete002':
+      case 'Tete':
         materialName = 'Tete'
         break
       case 'CorpsCoupe001':
         materialName = 'Corps'
+        break
+      // BOARD
+      case 'Skate_Planche':
+        materialName = 'Skate'
+        break
+      case 'Skate_Roues':
+        materialName = 'Skate'
+        break
+      case 'Skate_Roulements':
+        materialName = 'Skate'
+        break
+      case 'Skate_Trucks_Bas':
+        materialName = 'Skate'
+        break
+      case 'Skate_Trucks_Haut':
+        materialName = 'Skate'
+        break
+      case 'Skate_Vis':
+        materialName = 'Skate'
+        break
+      case 'Skate_Vis_Trucks':
+        materialName = 'Skate'
         break
 
       // SKATEPARK
@@ -88,6 +107,19 @@ export default class MaterialFactory {
       case 'Public':
         materialName = 'Public'
         break
+      // MODULES
+      case 'Module_Kickflip':
+        materialName = 'Kickflip'
+        break
+      case 'Module_Grind_Flip':
+        materialName = 'Grindflip'
+        break
+      case 'Cube013':
+        materialName = 'Back360'
+        break
+      case 'Plane002':
+        materialName = '270Slide'
+        break
 
       default:
         break
@@ -106,6 +138,7 @@ export default class MaterialFactory {
   createMaterial(name) {
     let material = this.materials.default
     switch (name) {
+      //SKATER
       case 'Chaussure':
         material = new THREE.MeshLambertMaterial({
           map: this.resources.items.shoesTexture,
@@ -136,6 +169,13 @@ export default class MaterialFactory {
           map: this.resources.items.teteTexture,
         })
         break
+      // BOARD
+      case 'Skate':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.skateTexture,
+        })
+        break
+      // SKATEPARK
       case 'Marches':
         material = new THREE.MeshLambertMaterial({
           map: this.resources.items.marchesTexture,
@@ -159,6 +199,27 @@ export default class MaterialFactory {
       case 'Public':
         material = new THREE.MeshLambertMaterial({
           map: this.resources.items.shibaTexture,
+        })
+        break
+      // MODULES
+      case 'Kickflip':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.KickflipTexture,
+        })
+        break
+      case 'Grindflip':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.GrindFlipTexture,
+        })
+        break
+      case 'Back360':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.Back360Texture,
+        })
+        break
+      case '270Slide':
+        material = new THREE.MeshLambertMaterial({
+          map: this.resources.items.Slide270Texture,
         })
         break
       default:

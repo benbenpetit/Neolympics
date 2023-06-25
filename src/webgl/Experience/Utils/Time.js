@@ -1,7 +1,6 @@
 import Experience from '@/webgl/Experience/Experience'
 import EventEmitter from './EventEmitter'
 import mittInstance from '@/core/lib/MittInstance'
-import { estimateRefreshRate } from '@/webgl/Experience/Utils/Utils'
 
 export default class Time extends EventEmitter {
   constructor() {
@@ -19,8 +18,6 @@ export default class Time extends EventEmitter {
     window.requestAnimationFrame(() => {
       this.tick()
     })
-
-    estimateRefreshRate()
   }
 
   tick() {

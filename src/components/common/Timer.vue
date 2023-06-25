@@ -112,19 +112,25 @@ mittInstance.on('Time tick', (time: any) => {
   if (timerCreated.value && isRunning.value) {
     elapsedTime.value += time.deltaTime / 1000
     timebarWidth.value = (elapsedTime.value / maxTime) * 100
-    if (elapsedTime.value >= 10) {
+    if (elapsedTime.value >= maxTime) {
       timebarWidth.value = 100
       isRunning.value = false
       mittInstance.emit('Sport finished')
     } else if (elapsedTime.value >= 24 && step.value == 3) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
+    } else if (elapsedTime.value >= 23 && elapsedTime.value <= 23.1 && step.value == 3) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[3].name })
     } else if (elapsedTime.value >= 18 && step.value == 2) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
+    } else if (elapsedTime.value >= 17 && elapsedTime.value <= 17.1 && step.value == 2) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[2].name })
     } else if (elapsedTime.value >= 12 && step.value == 1) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
+    } else if (elapsedTime.value >= 11 && elapsedTime.value <= 11.1 && step.value == 1) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[1].name })
     } else if (elapsedTime.value >= 6 && step.value == 0) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })

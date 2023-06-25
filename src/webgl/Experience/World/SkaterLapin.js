@@ -58,7 +58,6 @@ export default class SkaterLapin {
   setMaterials() {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        // console.log(child.name)
         child.material = this.materialFactory.getMaterial(child.name)
       }
     })
@@ -115,10 +114,10 @@ export default class SkaterLapin {
     })
     this.animation.actions.current = this.animation.actions['P_Cruise']
     // this.animation.actions.current.play()
-
-    // console.log(this.animation.actions)
+    console.log(this.animation.actions)
 
     this.animation.play = (name) => {
+      console.log(name)
       const newAction = this.animation.actions[name]
       const oldAction = this.animation.actions.current
 
@@ -137,10 +136,7 @@ export default class SkaterLapin {
       console.log('Action terminée : ', e.action.getClip().name)
       this.animation.actions.current.reset()
       this.animation.actions.current.play()
-      if (
-        e.action.getClip().name == 'Move_P_Grind_Flip' ||
-        e.action.getClip().name == 'Move_P_Kickflip'
-      ) {
+      if (e.action.getClip().name.includes('Move_P')) {
         mittInstance.emit('Skate Figure Anim 3D End')
       }
     })
@@ -148,18 +144,6 @@ export default class SkaterLapin {
     // Debug Part
     if (this.debug.active) {
       const debugObject = {
-        playOllie: () => {
-          this.animation.play('Board_Ollie')
-          this.animation.play('P_Ollie')
-        },
-        playHardflip: () => {
-          this.animation.play('Board_Hardflip')
-          this.animation.play('P_Hardflip')
-        },
-        playKickflip: () => {
-          this.animation.play('Board_Kickflip')
-          this.animation.play('KickFlip')
-        },
         playCruise: () => {
           this.animation.actions['P_Cruise'].reset()
           this.animation.actions['P_Cruise'].play()
@@ -176,6 +160,14 @@ export default class SkaterLapin {
         playDoublePush: () => {
           this.animation.play('P_PushDouble')
         },
+        play270Slide: () => {
+          this.animation.play('Move_P_270Slide')
+          this.animation.play('Move_Board_270Slide')
+        },
+        playBack360: () => {
+          this.animation.play('Move_P_Back3')
+          this.animation.play('Move_Board_Back3')
+        },
         playGrindFlip: () => {
           this.animation.play('Move_P_Grind_Flip')
           this.animation.play('Move_Board_Grind_Flip')
@@ -184,15 +176,19 @@ export default class SkaterLapin {
           this.animation.play('Move_Board_Kickflip')
           this.animation.play('Move_P_Kickflip')
         },
+        playShoveIt: () => {
+          this.animation.play('Move_P_ShoveIt')
+          this.animation.play('Move_Board_ShoveIt')
+        },
       }
-      this.debugFolder.add(debugObject, 'playOllie')
-      this.debugFolder.add(debugObject, 'playHardflip')
-      this.debugFolder.add(debugObject, 'playKickflip')
       this.debugFolder.add(debugObject, 'playCruise')
       this.debugFolder.add(debugObject, 'playPush')
       this.debugFolder.add(debugObject, 'playDoublePush')
+      this.debugFolder.add(debugObject, 'play270Slide')
+      this.debugFolder.add(debugObject, 'playBack360')
       this.debugFolder.add(debugObject, 'playGrindFlip')
       this.debugFolder.add(debugObject, 'playKickFlip')
+      this.debugFolder.add(debugObject, 'playShoveIt')
     }
   }
 

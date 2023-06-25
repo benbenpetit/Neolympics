@@ -13,6 +13,7 @@
             :patternToDo="patternToDoTutorial"
             isAutoDrawing
             isRepeat
+            :onDrawEnd="handleTutoEnd"
           />
           <p>
             Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
@@ -75,14 +76,14 @@ import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
 import { IScore } from '@/core/types/IScore'
-import { GRINDFLIP, HARDFLIP, KICKFLIP, OLLIE, PIGEON } from '@/data/figures'
+import { KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap'
 
-const CURRENT_FIGURES = [PIGEON, KICKFLIP, KICKFLIP, KICKFLIP, KICKFLIP]
+const CURRENT_FIGURES = [KICKFLIP, GRINDFLIP, SHOVEIT, BACK360]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()

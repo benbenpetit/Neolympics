@@ -43,7 +43,7 @@ export default class Skatepark {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         if (!child.name.includes('Plane')) {
-          console.log(child.name)
+          // console.log(child.name)
           child.material = this.materialFactory.getMaterial(child.name)
         } else {
           child.material = this.materialFactory.getMaterial('Public')

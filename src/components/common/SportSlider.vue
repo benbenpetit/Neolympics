@@ -30,15 +30,13 @@
             ar-modes="webxr"
             camera-controls
             shadow-intensity="0"
-            autoplay
-            animation-name="Push_Stat"
             disable-zoom
             disable-tap
             auto-rotate
             auto-rotate-delay="0"
             rotation-per-second="500%"
             interaction-prompt="none"
-            camera-orbit="45deg 70deg 1.5m"
+            :camera-orbit="props.sport.cameraOrbit"
             scale="1 1 1"
             inputSensitivity="0.25"
           >
@@ -112,6 +110,7 @@ interface Props {
     img: string
     available: boolean
     icon?: string
+    cameraOrbit?: string
   }
   prevLabel: string
   nextLabel: string
@@ -165,19 +164,6 @@ onMounted(() => {
     },
   )
 
-  sliderEntry.fromTo(
-    '.c-sportslider-center h1',
-    {
-      opacity: 0,
-    },
-    {
-      duration: 0.5,
-      delay: 0.4,
-      ease: 'Power2.easeInOut',
-      opacity: 1,
-    },
-  )
-
   sliderEntry.add(function () {
     sliderSweepSound.rate(1.5)
     sliderSweepSound.play()
@@ -186,16 +172,16 @@ onMounted(() => {
   sliderEntry.fromTo(
     formeRef.value,
     {
-      top: '200vh',
+      // top: '200vh',
       // width: '0vw',
       // height: '0vh',
-      // opacity: 0,
+      opacity: 0,
     },
     {
-      top: '0%',
+      // top: '0%',
       // width: '100vw',
       // height: '100vh',
-      // opacity: 1,
+      opacity: 1,
       duration: 1,
       ease: 'Power3.easeInOut',
     },
@@ -215,12 +201,12 @@ onMounted(() => {
     {
       scale: 1,
       y: '0%',
-      duration: 0.7,
-      ease: CustomEase.create('custom', 'M0,0 C0.256,-0.054 0.616,1.426 1,1 '),
+      duration: 0.6,
+      ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
       opacity: 1,
       filter: 'blur(0px)',
     },
-    '-=0.3',
+    '-=0.2',
   )
 
   sliderEntry.add(function () {
@@ -240,7 +226,7 @@ onMounted(() => {
       ease: 'Power2.easeInOut',
       opacity: 1,
     },
-    '-=0.1',
+    '-=0.2',
   )
 
   sliderEntry.fromTo(

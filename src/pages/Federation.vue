@@ -1,5 +1,10 @@
 <template>
   <div class="c-federation o-background-points">
+    <img
+      class="c-leaderboard__top-scores__lines"
+      src="/img/lines-leaderboard.svg"
+      alt=""
+    />
     <div class="c-federation-modal-wrapper">
       <div class="c-federation-modal">
         <h1>merci d’avoir joué à neolympics !</h1>
@@ -119,29 +124,41 @@ const handleAgainClick = () => {
 const openingAnim = () => {
   cardsAnim.fromTo(
     '.c-federation-modal-wrapper',
-    { y: '-130%' },
-    { y: '0%', duration: 1, ease: 'Power2.easeInOut' },
-  ),
-    cardsAnim.fromTo(
-      '.c-federation-modal-buttons',
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, ease: 'Power2.easeInOut' },
-    ),
-    cardsAnim.fromTo(
-      '.card-fede-wrapper',
-      { y: '+100%', opacity: 0 },
-      {
-        y: '0%',
-        duration: 1.3,
-        ease: 'Power2.easeInOut',
-        opacity: 1,
-        stagger: {
-          each: 0.1,
-          from: 0,
-        },
+    { y: '-200%', opacity: 0 },
+    { y: '0%', opacity: 1, duration: 0.6, ease: 'Power2.easeInOut' },
+  )
+
+  cardsAnim.fromTo(
+    '.c-federation-modal-buttons button',
+    { opacity: 0, x: '-60vw' },
+    {
+      opacity: 1,
+      duration: 0.4,
+      x: '0',
+      stagger: {
+        each: 0.1,
+        from: 1,
       },
-      '-=0.8',
-    )
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  cardsAnim.fromTo(
+    '.card-fede-wrapper',
+    { y: '+100%', opacity: 0 },
+    {
+      y: '0%',
+      duration: 1.2,
+      ease: 'Power2.easeInOut',
+      opacity: 1,
+      stagger: {
+        each: 0.1,
+        from: 0,
+      },
+    },
+    '-=0.4',
+  )
 }
 
 onMounted(() => {

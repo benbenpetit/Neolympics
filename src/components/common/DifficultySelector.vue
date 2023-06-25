@@ -7,7 +7,7 @@
           <img src="/img/difficulty/poster2.webp" alt="" />
         </div>
         <div class="c-poster__cell">
-          <model-viewer
+          <!-- <model-viewer
             class="c-poster__cell__object"
             src="/models/YutoSkate.glb"
             poster="/img/difficulty/poster-model.webp"
@@ -24,7 +24,7 @@
             camera-target="0m 0.5m 0m"
           >
             <div slot="progress-bar" style="visibility: none"></div>
-          </model-viewer>
+          </model-viewer> -->
           <div class="c-poster__cell__overlay">
             <h3>Yuto</h3>
             <p>Premier médaillé d'or en skateboard aux JO d'été 2020</p>
@@ -44,7 +44,7 @@
                 <div v-html="DIFFICULTY_INFOS[chosenDifficulty - 1].info" />
               </div>
               <div class="c-selector__board">
-                <img src="/img/difficulty/skate-template.webp" />
+                <Pattern :patternToDo="patternToDoTutorial" isAutoDrawing isRepeat />
               </div>
             </div>
             <div class="c-selector__difficulties">
@@ -101,11 +101,14 @@ import { CustomEase } from 'gsap/CustomEase'
 import { Howl, Howler } from 'howler'
 import { useSportStore } from '@/core/store/sport'
 import '@google/model-viewer'
+import Pattern from '@/pages/Pattern.vue'
+import { KICKFLIP } from '@/data/figures'
 
 gsap.registerPlugin(CustomEase)
 const { setSportStep, setSportDifficulty } = useSportStore()
 
-let chosenDifficulty = ref<number>(1)
+const patternToDoTutorial = ref<number[][]>([])
+const chosenDifficulty = ref<number>(1)
 let sweepSound = new Howl({
   src: ['/sounds/ui-sounds/appear-1.mp3'],
   volume: 0.1,
@@ -131,10 +134,10 @@ const modalOlympicsVisible = ref<boolean>(false)
 
 const DIFFICULTY_INFOS = [
   {
-    title: `Le niveau 1 est recommandé pour les nouveaux joueurs`,
+    title: `Le niveau 1 est recommandé aux nouveaux joueurs !`,
     info: `
-      <p>C'est plus dur, donc le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
-      <p>Tu as <strong>6s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
+      <p>Étant donné que ce niveau est réservé aux débutants, le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
+      <p>Tu as <strong>7s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
       <p><strong>Plus tu es rapide, plus tu gagnes des points</strong> mais si tu es trop lent et échoues, tu n'en gagneras aucun ! </p>
       `,
   },
@@ -147,16 +150,14 @@ const DIFFICULTY_INFOS = [
       `,
   },
   {
-    title: `Le niveau 3 cible les joueurs experts`,
+    title: `Le niveau 3 : pour tenter le haut du classement !`,
     info: `
-      <p>C'est plus dur, donc le <strong>maximum de points que tu peux obtenir est de 80pts.</strong></p>
-      <p>Tu as <strong>6s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
+      <p>Si tu joues parfaitement, tu pourras battre des records :  le <strong>maximum de points que tu peux obtenir est de 100pts.</strong></p>
+      <p>Tu as <strong>5s pour compléter un tracé</strong> sur ce skateboard et ainsi faire une figure de skate. </p>
       <p><strong>Plus tu es rapide, plus tu gagnes des points</strong> mais si tu es trop lent et échoues, tu n'en gagneras aucun ! </p>
       `,
   },
 ]
-
-const gotoTraining = () => {}
 
 const showModalOlympics = () => {
   modalOlympicsVisible.value = true
@@ -222,6 +223,9 @@ onMounted(() => {
             stagger: 0.05,
             delay: 0.8,
             duration: 0.6,
+            onComplete: () => {
+              patternToDoTutorial.value = KICKFLIP.pattern[0]
+            },
           },
         )
       },

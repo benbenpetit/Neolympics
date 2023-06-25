@@ -67,7 +67,8 @@ CustomEase.create('shakeEasing', '.36,.07,.19,.97')
 interface Props {
   patternToDo: number[][]
   isAutoDrawing?: boolean
-  onDrawEnd: Function
+  onDrawEnd?: Function
+  isRepeat?: boolean
 }
 
 const props = defineProps<Props>()
@@ -314,7 +315,7 @@ const handleMouseOver = (point: Point) => {
       }, 400)
       isDisableClick.value = true
       isDragging.value = false
-      props.onDrawEnd(true)
+      props.onDrawEnd?.(true)
       gsap.to(patternRef.value, {
         keyframes: {
           '10%': { x: -1 },
@@ -340,7 +341,7 @@ const handleMouseOver = (point: Point) => {
       isDragging.value = false
       if (checkIfFullPatternValid()) {
         isDisableClick.value = true
-        props.onDrawEnd()
+        props.onDrawEnd?.()
         setTimeout(() => {
           validPatternSound.play()
         }, 300)
@@ -388,7 +389,15 @@ const animLines = (
   if (currentArrayIndex >= arrayLength) {
     setTimeout(() => {
       clearPattern()
-      props.onDrawEnd()
+      if (props.isRepeat) {
+        if (props.isAutoDrawing) {
+          setTimeout(() => {
+            setupAnimLines()
+          }, 600)
+        }
+      } else {
+        props.onDrawEnd?.()
+      }
     }, 500)
     return
   }
@@ -399,6 +408,10 @@ const animLines = (
     points.value[props.patternToDo[currentArrayIndex][currentPatternIndex + 1]],
   )
 
+  const normalizedLineDuration = getNormalizedLineDuration(
+    props.patternToDo[currentArrayIndex]?.length - 1,
+  )
+
   gsap.fromTo(
     lineRefs[props.patternToDo[currentArrayIndex][currentPatternIndex]],
     {
@@ -406,9 +419,7 @@ const animLines = (
     },
     {
       drawSVG: '100%',
-      duration: getNormalizedLineDuration(
-        props.patternToDo[currentArrayIndex]?.length - 1,
-      ),
+      duration: normalizedLineDuration,
       ease: 'linear',
       onStart: () => {
         lines.value[props.patternToDo[currentArrayIndex][currentPatternIndex]].isTracing =

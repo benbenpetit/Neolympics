@@ -12,7 +12,7 @@
             class="tutoriel-content__pattern"
             :patternToDo="patternToDoTutorial"
             isAutoDrawing
-            :onDrawEnd="handleTutoEnd"
+            isRepeat
           />
           <p>
             Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
@@ -204,7 +204,6 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 //     feedbackAnimPlay()
 //   }
 // })
-
 
 mittInstance.on('Sport finished', () => {
   Math.round(score.value)

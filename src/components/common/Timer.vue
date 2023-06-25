@@ -71,7 +71,7 @@ const step = ref(0)
 const steps = ref([...Array(6)].map((_) => ({ isError: false, isValid: false })))
 let startTime: any = null
 let timerIntervalId: any = null
-let maxTime: number = 30
+let maxTime: number = 35
 
 const timerCreated = ref(false)
 
@@ -116,6 +116,11 @@ mittInstance.on('Time tick', (time: any) => {
       timebarWidth.value = 100
       isRunning.value = false
       mittInstance.emit('Sport finished')
+    } else if (elapsedTime.value >= 30 && step.value == 4) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[4].name })
+    } else if (elapsedTime.value >= 29 && elapsedTime.value <= 29.1 && step.value == 4) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[4].name })
     } else if (elapsedTime.value >= 24 && step.value == 3) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })

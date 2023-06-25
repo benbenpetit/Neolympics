@@ -26,11 +26,11 @@ export default class Skatepark {
     let box3 = new THREE.Box3().setFromObject(this.model)
     let size = new THREE.Vector3()
     console.log(box3.getSize(size))
-    this.model.position.set(0, 0.3, 100)
-    this.model.scale.set(2, 2, 2)
+    this.model.position.set(0, 0.2, 52.5)
+    this.model.scale.set(1, 1, 1)
     this.model.rotation.y = Math.PI / 2
 
-    this.scene.add(this.model)
+    // this.scene.add(this.model)
 
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {

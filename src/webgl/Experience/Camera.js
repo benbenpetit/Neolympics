@@ -38,7 +38,7 @@ export default class Camera {
       0.1,
       10000,
     )
-    this.instance.position.set(10, 10, -10)
+    this.instance.position.set(10, 10, -30)
     // this.instance.position.set(0, 2, 5)
     this.scene.add(this.instance)
   }
@@ -51,8 +51,8 @@ export default class Camera {
   skateIntro() {
     gsap.to(this.instance.position, {
       x: -2.0000695940107107,
-      y: 1.861894166469574,
-      z: -3.993039016611874,
+      y: 3.661894166469574,
+      z: -28.993039016611874,
       duration: 5,
       onComplete: () => {
         this.experience.world.skater.started = true

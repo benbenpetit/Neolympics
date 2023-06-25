@@ -76,14 +76,14 @@ import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
 import { IScore } from '@/core/types/IScore'
-import { KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
+import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap'
 
-const CURRENT_FIGURES = [KICKFLIP, GRINDFLIP, SHOVEIT, BACK360]
+const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
@@ -244,16 +244,6 @@ const calculateFigureScore = (timing: number) => {
 
 const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
   updateIcon(isValid)
-  mittInstance.emit('Skate Figure Anim 3D', {
-    animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
-    isValid: isValid,
-  })
-
-  const nextPattern = CURRENT_FIGURES[++currentFigureIndex.value]?.pattern
-
-  if (nextPattern) {
-    pattern.value = nextPattern
-  }
 
   if (isValid === true) {
     const calculatedScore = calculateFigureScore(timingRatio)
@@ -270,6 +260,16 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
     feedbackImg.value = '/img/skate/incorrect.webp'
     feedbackAnimPlay()
   }
+  setTimeout(() => {
+    mittInstance.emit('Skate Figure Anim 3D', {
+      animation: CURRENT_FIGURES[currentFigureIndex.value].anims,
+      isValid: isValid,
+    })
+    const nextPattern = CURRENT_FIGURES[++currentFigureIndex.value]?.pattern
+    if (nextPattern) {
+      pattern.value = nextPattern
+    }
+  }, 700)
 }
 
 const onModalOpen = () => {

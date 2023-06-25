@@ -10,11 +10,11 @@ export default [
     type: 'gltfModel',
     path: '/models/Skater_Final.glb',
   },
-  // {
-  //   name: 'skateModule',
-  //   type: 'gltfModel',
-  //   path: '/models/Modules/Module_270_Slide.glb',
-  // },
+  {
+    name: 'Module270',
+    type: 'gltfModel',
+    path: '/models/Modules/Module_270_Slide.glb',
+  },
   {
     name: 'ModuleKickflip',
     type: 'gltfModel',
@@ -112,6 +112,16 @@ export default [
     type: 'texture',
     path: '/textures/Skatepark/Shiba_Texture.png',
   },
+  {
+    name: 'renardTexture',
+    type: 'texture',
+    path: '/textures/Skatepark/Renard_Texture.png',
+  },
+  {
+    name: 'gazelleTexture',
+    type: 'texture',
+    path: '/textures/Skatepark/Gazelle_Texture.png',
+  },
   // MODULES
   {
     name: 'Slide270Texture',
@@ -132,5 +142,10 @@ export default [
     name: 'KickflipTexture',
     type: 'texture',
     path: '/textures/Modules/Texture_Module_Kickflip.png',
+  },
+  {
+    name: 'ShoveItTexture',
+    type: 'texture',
+    path: '/textures/Modules/Texture_Module_Shove_It.png',
   },
 ]

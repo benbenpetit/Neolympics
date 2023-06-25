@@ -3,7 +3,7 @@ import Experience from '../Experience'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
 import mitt from 'mitt'
-import { KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
+import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
 
 export default class Floor {
   constructor() {
@@ -13,7 +13,7 @@ export default class Floor {
     this.resources = this.experience.resources
     this.materialFactory = this.experience.materialFactory
     this.figuresInterval = 6
-    this.tilesMultiplicator = 4
+    this.tilesMultiplicator = 2
     // this.scene.add(gridHelper)
 
     this.setGeometry()
@@ -85,7 +85,7 @@ export default class Floor {
     })
     mittInstance.on('Skate Figure Anim 3D End', () => {
       this.figuresInterval = 6
-      this.tilesMultiplicator = 4
+      this.tilesMultiplicator = 2
       gsap.to(this.time, {
         timeScale: 1,
         duration: 1,
@@ -100,68 +100,54 @@ export default class Floor {
   }
 
   setModules() {
-    const CURRENT_FIGURES = [SHOVEIT, KICKFLIP, BACK360, GRINDFLIP]
+    const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
     this.skateModules = CURRENT_FIGURES.map((item) => {
       return this.experience.resources.items[item.module]
     })
+    console.log(this.skateModules)
+  }
+
+  setMesh() {
+    var colors = [0xea4050, 0x3656ff, 0xfff965]
+    var tilesInterval = 3
+    var nbFigures = 5
+    this.floor = new THREE.Group()
+    // this.floor.add(this.experience.world.skatepark.model)
+    var module_index = 0
+    var sol = []
+    for (let i = 0; i < tilesInterval * nbFigures; i += tilesInterval) {
+      var module = this.skateModules[module_index].scene
+      this.floor.add(module)
+      if (module_index < 3 && module_index > 0) {
+        module.position.z = i * 10 - 5
+      } else {
+        module.position.z = i * 10
+      }
+      this.scene.add(this.floor)
+      module_index += 1
+      console.log(module.position.z)
+    }
+    // for (let i = 1; i < 20; i++) {
+    //   this.mesh = new THREE.Mesh(
+    //     this.geometry,
+    //     new THREE.MeshStandardMaterial({
+    //       color: colors[i % 3],
+    //     }),
+    //   )
+    //   this.mesh.rotation.x = -Math.PI * 0.5
+    //   this.mesh.receiveShadow = true
+    //   this.mesh.position.z = (i - 1) * 10
+    //   this.floor.add(this.mesh)
+    // }
   }
 
   // setMesh() {
   //   var colors = [0xea4050, 0x3656ff, 0xfff965]
-  //   var tilesInterval = 4
-  //   var nbFigures = 4
   //   this.floor = new THREE.Group()
-  //   // this.floor.add(this.experience.world.skatepark.model)
   //   var module_index = 0
   //   var sol = []
-  //   for (let i = 4; i < tilesInterval * nbFigures + 1; i += tilesInterval) {
-  //     var module = this.skateModules[module_index].scene
-  //     module.position.z = (i - 1) * 10 + 5
-  //     this.floor.add(module)
-  //     module_index += 1
-  //     console.log(module.position)
-  //   }
   //   this.scene.add(this.floor)
   // }
-
-  setMesh() {
-    var colors = [0xea4050, 0x3656ff, 0xfff965]
-    this.floor = new THREE.Group()
-    var module_index = 0
-    var sol = []
-    for (let i = 1; i < 50; i++) {
-      if (i % 5 == 0) {
-        if (module_index <= 3) {
-          var module = this.skateModules[module_index].scene
-          module.position.z = (i - 1) * 10 + 5
-          this.floor.add(module)
-          module_index += 1
-        }
-      } else {
-        this.mesh = new THREE.Mesh(
-          this.geometry,
-          new THREE.MeshStandardMaterial({
-            color: colors[i % 3],
-          }),
-        )
-        this.mesh.rotation.x = -Math.PI * 0.5
-        this.mesh.receiveShadow = true
-        this.mesh.position.z = (i - 1) * 10 + 5
-        this.floor.add(this.mesh)
-      }
-      // this.mesh = new THREE.Mesh(
-      //   this.geometry,
-      //   new THREE.MeshStandardMaterial({
-      //     color: colors[i % 3],
-      //   }),
-      // )
-      // this.mesh.rotation.x = -Math.PI * 0.5
-      // this.mesh.receiveShadow = true
-      // this.mesh.position.z = i * 10 + 5
-      // this.floor.add(this.mesh)
-    }
-    this.scene.add(this.floor)
-  }
   update() {
     this.modelVelocity = new THREE.Vector3(
       0,

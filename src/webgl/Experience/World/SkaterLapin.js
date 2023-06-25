@@ -36,7 +36,7 @@ export default class SkaterLapin {
     this.model = this.resource.scene
     // console.log(this.model)
     // console.log('Skater model', this.model)
-    this.model.position.set(0, 0, 0)
+    this.model.position.set(0, 1.9, -25)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
@@ -47,12 +47,12 @@ export default class SkaterLapin {
         child.castShadow = true
       }
     })
-    // console.log(
-    //   new THREE.Vector3()
-    //     .copy(this.model.position)
-    //     .add(this.cameraOffset)
-    //     .add(this.model.getObjectByName('Ctrl_Hips').position),
-    // )
+    console.log(
+      new THREE.Vector3()
+        .copy(this.model.position)
+        .add(this.cameraOffset)
+        .add(this.model.getObjectByName('Ctrl_Hips').position),
+    )
   }
 
   setMaterials() {
@@ -65,10 +65,8 @@ export default class SkaterLapin {
 
   setDebug() {
     this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
-    this.debugFolder
-      .add(this.resource.scene.position, 'y', -10, 10, 0.01)
-      .name('Skater Y')
-    this.debugFolder.add(this.resource.scene.position, 'z', -10, 10, 0.1).name('Skater Z')
+    this.debugFolder.add(this.resource.scene.position, 'y', 0, 20, 0.01).name('Skater Y')
+    this.debugFolder.add(this.resource.scene.position, 'z', -50, 0, 0.01).name('Skater Z')
 
     this.debugFolder.add(this.cameraOffset, 'x', -10, 10, 0.1).name('Camera Offset X')
     this.debugFolder.add(this.cameraOffset, 'y', -10, 10, 0.1).name('Camera Offset Y')
@@ -108,12 +106,16 @@ export default class SkaterLapin {
       this.animation.actions[animation.name] = this.animation.mixer.clipAction(
         THREE.AnimationClip.findByName(this.resource.animations, animation.name),
       )
-      if (animation.name != 'P_Cruise' && animation.name != 'Board_Pose') {
+      if (
+        animation.name != 'P_Cruise' &&
+        animation.name != 'Board_Pose' &&
+        animation.name != 'JoyfulJump'
+      ) {
         this.animation.actions[animation.name].setLoop(THREE.LoopOnce)
       }
     })
     this.animation.actions.current = this.animation.actions['P_Cruise']
-    // this.animation.actions.current.play()
+    // this.animation.actions['JoyfulJump'].play()
     console.log(this.animation.actions)
 
     this.animation.play = (name) => {
@@ -229,6 +231,7 @@ export default class SkaterLapin {
     })
 
     mittInstance.on('Skate Figure Anim 3D', (data) => {
+      this.model.position.y = 0
       if (data.isValid) {
         this.animation.play(data.animation.board)
         this.animation.play(data.animation.perso)
@@ -241,7 +244,7 @@ export default class SkaterLapin {
           x: -2,
           z: -4,
           y: 1,
-          duration: animDuration / 2,
+          duration: animDuration / 4,
           ease: 'Power3.easeIn',
         })
         gsap.to(this.lookAtOffset, {

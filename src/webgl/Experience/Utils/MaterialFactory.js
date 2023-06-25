@@ -3,7 +3,7 @@ import * as THREE from 'three'
 
 export default class MaterialFactory {
   constructor() {
-    const defaultMat = new THREE.MeshBasicMaterial({ color: 0x888888 })
+    const defaultMat = new THREE.MeshBasicMaterial({ color: 0xff0099 })
     this.experience = new Experience()
     this.resources = this.experience.resources
     this.materials = {
@@ -25,6 +25,9 @@ export default class MaterialFactory {
         materialName = 'Chaussure'
         break
       case 'D_Lacet':
+        materialName = 'Chaussure'
+        break
+      case 'D_Languette':
         materialName = 'Chaussure'
         break
       case 'D_Nike':
@@ -92,7 +95,7 @@ export default class MaterialFactory {
       case 'Marches':
         materialName = 'Marches'
         break
-      case 'Sol':
+      case 'SolBon':
         materialName = 'Sol'
         break
       case 'Barrieres':
@@ -105,7 +108,8 @@ export default class MaterialFactory {
         materialName = 'Siege'
         break
       case 'Public':
-        materialName = 'Public'
+        var materialNames = ['PublicShiba', 'PublicRenard', 'PublicGazelle']
+        materialName = materialNames[Math.floor(Math.random() * materialNames.length)]
         break
       // MODULES
       case 'Module_Kickflip':
@@ -119,6 +123,27 @@ export default class MaterialFactory {
         break
       case 'Plane002':
         materialName = '270Slide'
+        break
+      case 'Plane002_1':
+        materialName = 'ShoveIt'
+        break
+      case 'Module_Shove_It001':
+        materialName = 'ShoveIt'
+        break
+      case 'Barriere_Shoveit':
+        materialName = 'ShoveIt'
+        break
+      case 'Barriere_Shoveit2':
+        materialName = 'ShoveIt'
+        break
+      case 'Module_Shove_It002':
+        materialName = 'ShoveIt'
+        break
+      case 'Module_Shove_It003':
+        materialName = 'ShoveIt'
+        break
+      case 'Module_Back_360':
+        materialName = 'Back360'
         break
 
       default:
@@ -140,86 +165,164 @@ export default class MaterialFactory {
     switch (name) {
       //SKATER
       case 'Chaussure':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shoesTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Chapeau':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.chapeauTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Pantalon':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.pantalonTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Shirt':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shirtTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Corps':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.corpsTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Tete':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.teteTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       // BOARD
       case 'Skate':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.skateTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       // SKATEPARK
       case 'Marches':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.marchesTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Sol':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.solTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Barriere':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.barriereTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Siege':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.siegeTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
-      case 'Public':
-        material = new THREE.MeshLambertMaterial({
+      case 'PublicShiba':
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shibaTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'PublicRenard':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.renardTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'PublicGazelle':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.gazelleTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
         break
       // MODULES
       case 'Kickflip':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.KickflipTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Grindflip':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.GrindFlipTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case 'Back360':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.Back360Texture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       case '270Slide':
-        material = new THREE.MeshLambertMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.Slide270Texture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        break
+      case 'ShoveIt':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.ShoveItTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
         })
         break
       default:

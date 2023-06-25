@@ -58,6 +58,17 @@ export const BACK360: IFigure = {
   module: 'ModuleBack360',
   pattern: [BACK360_PATTERN],
 }
+export const SLIDE270_PATTERN = [[7, 8, 9]]
+
+export const SLIDE270: IFigure = {
+  name: 'slide270',
+  anims: {
+    board: 'Move_Board_270Slide',
+    perso: 'Move_P_270Slide',
+  },
+  module: 'Module270',
+  pattern: [SLIDE270_PATTERN],
+}
 
 export const PIGEON: IFigure = {
   name: 'pigeon',

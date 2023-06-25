@@ -15,8 +15,8 @@ export default class Environment {
     }
 
     // Setup
-    this.setSunLight()
-    // this.setEnvironmentMap()
+    // this.setSunLight()
+    this.setEnvironmentMap()
   }
 
   setSunLight() {
@@ -60,20 +60,18 @@ export default class Environment {
 
   setEnvironmentMap() {
     this.environmentMap = {}
-    this.environmentMap.intensity = 0.4
+    this.environmentMap.intensity = 1
     this.environmentMap.texture = this.resources.items.environmentMapTexture
     this.environmentMap.texture.encoding = THREE.sRGBEncoding
 
     this.scene.environment = this.environmentMap.texture
+    this.scene.background = this.environmentMap.texture
 
     console.log(this.environmentMap)
 
     this.environmentMap.updateMaterials = () => {
       this.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          if (child.name.includes('Barriere')) {
-            console.log(child.material)
-          }
           child.material.envMap = this.environmentMap.texture
           child.material.envMapIntensity = this.environmentMap.intensity
           child.needsUpdate = true

@@ -58,6 +58,7 @@
               :class="getOptionClasses(index)"
               :disabled="selectedAnswer != null"
               :sound="false"
+              :isActive="false"
             >
               <template v-slot:label>
                 {{ option }}

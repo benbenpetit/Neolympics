@@ -136,6 +136,12 @@
   }
 
   &:hover {
+    &:not(.--disabled) {
+      background-image: url('/img/sportcard-mask-hover.svg');
+      border: solid 1px #ffc38b;
+      border-bottom: none;
+    }
+
     .c-sportcard-content {
       .c-sportcard-sportimg {
         img {

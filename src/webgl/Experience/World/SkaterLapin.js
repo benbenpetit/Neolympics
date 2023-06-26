@@ -36,7 +36,7 @@ export default class SkaterLapin {
     this.model = this.resource.scene
     // console.log(this.model)
     // console.log('Skater model', this.model)
-    this.model.position.set(0, 1.91, -15)
+    this.model.position.set(0, 1.91, -25)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
@@ -45,6 +45,7 @@ export default class SkaterLapin {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
+        child.receiveShadow = true
       }
     })
     console.log(

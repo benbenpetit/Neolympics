@@ -26,7 +26,7 @@ export default class Skatepark {
     let box3 = new THREE.Box3().setFromObject(this.model)
     let size = new THREE.Vector3()
     console.log(box3.getSize(size))
-    this.model.position.set(0, 0.2, 52.5)
+    this.model.position.set(0, 0.2, 62)
     this.model.scale.set(1, 1, 1)
     this.model.rotation.y = Math.PI / 2
 
@@ -35,6 +35,7 @@ export default class Skatepark {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
+        child.receiveShadow = true
       }
     })
   }

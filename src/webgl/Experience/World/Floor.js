@@ -13,7 +13,7 @@ export default class Floor {
     this.resources = this.experience.resources
     this.materialFactory = this.experience.materialFactory
     this.figuresInterval = 6
-    this.tilesMultiplicator = 1
+    this.tilesMultiplicator = 2
     // this.scene.add(gridHelper)
 
     this.setGeometry()
@@ -85,7 +85,7 @@ export default class Floor {
     })
     mittInstance.on('Skate Figure Anim 3D End', () => {
       this.figuresInterval = 6
-      this.tilesMultiplicator = 1
+      this.tilesMultiplicator = 2
       gsap.to(this.time, {
         timeScale: 1.5,
         duration: 1,
@@ -109,7 +109,7 @@ export default class Floor {
 
   setMesh() {
     var colors = [0xea4050, 0x3656ff, 0xfff965]
-    var tilesInterval = 2
+    var tilesInterval = 3
     var nbFigures = 5
     this.floor = new THREE.Group()
     this.floor.add(this.experience.world.skatepark.model)

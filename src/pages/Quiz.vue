@@ -196,12 +196,12 @@ const recapTable = ref<QAType[]>([])
 
 const bluebrush = '/img/brush-blue-bravo.png'
 const redbrush = '/img/brush-red-oulah.png'
-const renardHappy = '/img/renard-happy.svg'
-const renardAngry = '/img/renard-angry.svg'
-const gazelleHappy = '/img/gazelle-happy.svg'
-const gazelleAngry = '/img/gazelle-angry.svg'
-const shibaHappy = '/img/shiba-happy.svg'
-const shibaAngry = '/img/shiba-angry.svg'
+const renardHappy = '/img/renard-happy.webp'
+const renardAngry = '/img/renard-angry.webp'
+const gazelleHappy = '/img/gazelle-happy.webp'
+const gazelleAngry = '/img/gazelle-angry.webp'
+const shibaHappy = '/img/shiba-happy.webp'
+const shibaAngry = '/img/shiba-angry.webp'
 
 let score = 0
 let questionAnswered = 0
@@ -522,18 +522,14 @@ const gotoEndQuiz = () => {
     '.quiz-end-animals img',
     {
       x: '300%',
+      scaleX: '-1',
       y: '150px',
-      scaleX: -1,
-      rotate: '0deg',
     },
     {
       x: '0%',
-      y: '150px',
       duration: 0.3,
       ease: 'Power2.easeInOut',
       stagger: 0.15,
-      scaleX: -1,
-      rotate: '-10deg',
     },
     '-=0.2',
   )

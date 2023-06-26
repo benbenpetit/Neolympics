@@ -36,6 +36,7 @@
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
     />
+
     <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
       <template v-slot:title>Fin de l'épreuve</template>
       <template v-slot:content>
@@ -47,6 +48,19 @@
         </div>
       </template>
     </Modal>
+
+    <!-- <div v-if="state == 'result'" class="c-modal-result-skate-wrapper">
+      <div class="c-modal-result-skate">
+        <img :src="resultImg" alt="" />
+        <div class="--rotate">
+          <h1>Bravo</h1>
+          <div class="--score-wrapper">
+            <p class="--score">Score</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
     <div
       v-if="figureResult != ''"
       class="figure-result"
@@ -131,6 +145,7 @@ let startingSkateTheme = new Howl({
 })
 
 let feedbackImg = ref<string>('')
+let resultImg = ref<string>('')
 
 let feedbackImgAnim = gsap.timeline({})
 
@@ -207,6 +222,12 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 
 mittInstance.on('Sport finished', () => {
   Math.round(score.value)
+  if (score.value >= 50) {
+    resultImg.value = '/img/skate/result-bravo.svg'
+  } else {
+    resultImg.value = '/img/skate/result-pas-mal.svg'
+  }
+
   setTimeout(() => {
     state.value = 'result'
   }, 1500)

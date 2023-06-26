@@ -1,3 +1,5 @@
+@use '/src/styles/settings' as *;
+
 .c-feedbackGame {
   position: absolute;
   top: 0;
@@ -10,5 +12,40 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
+  }
+}
+
+.c-modal-result-skate-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // height: 100%;
+  // width: 100%;
+  border: 2px solid red;
+
+  .c-modal-result-skate {
+    border: 2px solid blue;
+    right: 0;
+    // top: 50%;
+    img {
+    }
+
+    .--rotate {
+      border: 2px solid orange;
+      transform: rotate(6.5deg);
+      width: 90%;
+      display: flex;
+      flex-direction: column;
+      h1 {
+      }
+      .--score-wrapper {
+        border: solid 1px $color-blue-stroke;
+        border-radius: 8px;
+        .--score {
+          border: solid 2px $color-blue;
+          border-radius: 8px;
+        }
+      }
+    }
   }
 }

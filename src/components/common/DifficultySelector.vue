@@ -61,7 +61,7 @@
             </div>
           </template>
         </Modal>
-        <ButtonUI imgSrc="/icon/go.svg" @click="showModalOlympics()">
+        <ButtonUI imgSrc="/icon/go.svg" @click="gotoOlympics()">
           <template v-slot:label>C'EST PARTI !</template>
         </ButtonUI>
       </div>

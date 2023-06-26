@@ -8,7 +8,7 @@
   column-gap: 30px;
   width: 100%;
   padding: 0px 50px;
-  padding-top: 130px;
+  padding-top: clamp(110px, 15vh, 130px);
   height: 100vh;
   overflow: hidden;
 

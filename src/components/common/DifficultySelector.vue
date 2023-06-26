@@ -7,24 +7,9 @@
           <img src="/img/difficulty/poster2.webp" alt="" />
         </div>
         <div class="c-poster__cell">
-          <!-- <model-viewer
-            class="c-poster__cell__object"
-            src="/models/YutoSkate.glb"
-            poster="/img/difficulty/poster-model.webp"
-            loading="lazy"
-            ar-modes="webxr"
-            shadow-intensity="0"
-            autoplay
-            animation-name="P_PointerDuDoigt"
-            disable-zoom
-            disable-tap
-            disable-pan
-            interaction-prompt="none"
-            camera-orbit="-10deg 90deg 0m"
-            camera-target="0m 0.5m 0m"
-          >
-            <div slot="progress-bar" style="visibility: none"></div>
-          </model-viewer> -->
+          <video autoplay muted width="200" height="100">
+            <source src="/img/difficulty/model-difficulty.webm" type="video/webm" />
+          </video>
           <div class="c-poster__cell__overlay">
             <h3>Yuto</h3>
             <p>Premier médaillé d'or en skateboard aux JO d'été 2020</p>
@@ -43,9 +28,12 @@
                 <h2>{{ DIFFICULTY_INFOS[chosenDifficulty - 1].title }}</h2>
                 <div v-html="DIFFICULTY_INFOS[chosenDifficulty - 1].info" />
               </div>
-              <div class="c-selector__board">
-                <Pattern :patternToDo="patternToDoTutorial" isAutoDrawing isRepeat />
-              </div>
+              <Pattern
+                class="c-selector__board"
+                :patternToDo="patternToDoTutorial"
+                isAutoDrawing
+                isRepeat
+              />
             </div>
             <div class="c-selector__difficulties">
               <ul>

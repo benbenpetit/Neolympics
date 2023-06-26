@@ -249,6 +249,7 @@
 }
 
 .quiz-end-animals {
+  z-index: 100;
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -260,24 +261,21 @@
   max-height: 600px;
 
   img {
+    max-height: 100%;
     bottom: 0;
     margin-left: -50px;
     margin-right: -50px;
-    max-height: 800px;
-    max-width: 400px;
+    // max-height: 800px;
+    // max-width: 400px;
 
     &.renard {
-      // transform: rotate(-12deg) scale(-1, 1) translateY(150px);
     }
+
     &.gazelle {
-      // transform: scale(-1, 1) translateY(100px);
     }
+
     &.shiba {
-      // transform: rotate(-30deg) scale(-1, 1) translate(30px, 150px);
-      max-width: 500px;
-      max-height: 850px;
-      margin-left: -100px;
-      margin-right: -80px;
+      margin-left: -70px;
     }
   }
 }

@@ -15,7 +15,28 @@
         </p>
       </div>
       <div class="c-federation-modal-buttons">
-        <ButtonUI class="--white" imgSrc="/icon/share.svg"> </ButtonUI>
+        <div class="c-btn-wrapper">
+          <ButtonUI imgSrc="/icon/share.svg" :isActive="false" class="--white" />
+          <div class="c-btn-wrapper__inside --fedesharing">
+            <button @click="handleShareCopy">
+              <img src="/icon/link.svg" alt="" />
+              <span>Copier le lien</span>
+            </button>
+            <button @click="handleShareWhatsapp">
+              <img src="/icon/whatsapp.svg" alt="" />
+              <span>Partager sur WhatsApp</span>
+            </button>
+            <button @click="handleShareFacebook">
+              <img src="/icon/facebook.svg" alt="" />
+              <span>Partager sur Facebook</span>
+            </button>
+            <button @click="handleShareTwitter">
+              <img src="/icon/twitter.svg" alt="" />
+              <span>Partager sur Twitter</span>
+            </button>
+          </div>
+        </div>
+
         <ButtonUI
           class="--red --playagain"
           imgSrc="/icon/go.svg"
@@ -98,6 +119,9 @@ import { onMounted } from 'vue'
 import router from '@/core/router'
 import { useRouter } from 'vue-router'
 import { gsap } from 'gsap'
+import { useCurrentUser } from 'vuefire'
+
+const currentUser = useCurrentUser()
 
 const cardsAnim = gsap.timeline({})
 
@@ -119,6 +143,35 @@ const handleFedeClimbClick = () => {
 
 const handleAgainClick = () => {
   router.push('/competition/preparation')
+}
+
+const TEXT = `Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
+
+const handleShareWhatsapp = () => {
+  window.open(`https://web.whatsapp.com/send/?text=${TEXT} ${window.location.host}`)
+}
+
+const handleShareFacebook = () => {
+  window.open(`https://www.facebook.com/sharer/sharer.php/?u=${window.location.host}`)
+}
+
+const handleShareTwitter = () => {
+  window.open(
+    `https://twitter.com/share?text=${TEXT}&url=${window.location.host}&hashtags=neolympics,Paris2024`,
+  )
+}
+
+const handleShareCopy = () => {
+  const text = `Je viens de réaliser un super score de 307pts sur Neolympics ! ${window.location.host}`
+
+  navigator.clipboard.writeText(text).then(
+    () => {
+      console.log('Async: Copying to clipboard was successful!')
+    },
+    (err) => {
+      console.error('Async: Could not copy text: ', err)
+    },
+  )
 }
 
 const openingAnim = () => {

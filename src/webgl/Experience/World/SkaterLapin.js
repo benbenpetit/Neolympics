@@ -36,7 +36,7 @@ export default class SkaterLapin {
     this.model = this.resource.scene
     // console.log(this.model)
     // console.log('Skater model', this.model)
-    this.model.position.set(0, 1.9, -25)
+    this.model.position.set(0, 1.91, -15)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
@@ -85,12 +85,12 @@ export default class SkaterLapin {
       x: -2,
       y: 0,
       z: -1,
-      duration: 2.3,
+      duration: 2,
       ease: 'Power1.easeIn',
     })
     gsap.to(this.lookAtOffset, {
       value: 0.5,
-      duration: 2.3,
+      duration: 2,
       ease: 'Power1.easeIn',
     })
   }
@@ -209,7 +209,7 @@ export default class SkaterLapin {
           this.animation.actions['P_PushDouble'],
           0.2,
         )
-      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000) - 200)
+      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000 * 1) - 200)
     })
 
     mittInstance.on('Before Figure Game', () => {

@@ -15,17 +15,17 @@ export default class Environment {
     }
 
     // Setup
-    // this.setSunLight()
+    this.setSunLight()
     this.setEnvironmentMap()
   }
 
   setSunLight() {
-    this.sunLight = new THREE.DirectionalLight('#ffffff', 1)
+    this.sunLight = new THREE.DirectionalLight('#FFF0C2', 1)
     this.sunLight.castShadow = true
     this.sunLight.shadow.camera.far = 15
     this.sunLight.shadow.mapSize.set(1024, 1024)
     this.sunLight.shadow.normalBias = 0.05
-    this.sunLight.intensity = 1.7
+    this.sunLight.intensity = 1
     this.sunLight.position.set(-0.5, 1, -1.5)
     this.scene.add(this.sunLight)
 
@@ -40,20 +40,20 @@ export default class Environment {
       this.debugFolder
         .add(this.sunLight.position, 'x')
         .name('sunLightX')
-        .min(-5)
-        .max(5)
+        .min(-50)
+        .max(50)
         .step(0.001)
       this.debugFolder
         .add(this.sunLight.position, 'y')
         .name('sunLightY')
-        .min(-5)
-        .max(5)
+        .min(-50)
+        .max(50)
         .step(0.001)
       this.debugFolder
         .add(this.sunLight.position, 'z')
         .name('sunLightZ')
-        .min(-5)
-        .max(5)
+        .min(-50)
+        .max(50)
         .step(0.001)
     }
   }
@@ -86,7 +86,7 @@ export default class Environment {
         .add(this.environmentMap, 'intensity')
         .name('envMapIntensity')
         .min(0)
-        .max(4)
+        .max(20)
         .step(0.001)
         .onChange(this.environmentMap.updateMaterials)
     }

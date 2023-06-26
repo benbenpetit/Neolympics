@@ -238,7 +238,7 @@ export default class MaterialFactory {
           roughness: 1,
         })
         break
-      case 'Barriere':
+      case 'Barrieres':
         material = new THREE.MeshStandardMaterial({
           map: this.resources.items.barriereTexture,
           envMap: this.resources.items.environmentMapTexture,

@@ -13,7 +13,7 @@ export default class Floor {
     this.resources = this.experience.resources
     this.materialFactory = this.experience.materialFactory
     this.figuresInterval = 6
-    this.tilesMultiplicator = 2
+    this.tilesMultiplicator = 1
     // this.scene.add(gridHelper)
 
     this.setGeometry()
@@ -49,13 +49,13 @@ export default class Floor {
   }
   setMittActions() {
     mittInstance.on('Start Skate Animation', () => {
-      this.time.timeScale = 1
+      this.time.timeScale = 1.5
     })
 
     mittInstance.on('Before Figure Game', () => {
       this.sloMo = gsap.to(this.time, {
         timeScale: 0.2,
-        duration: 2,
+        duration: 1.5,
         onComplete: () => {
           console.log('Reduction finie')
         },
@@ -85,9 +85,9 @@ export default class Floor {
     })
     mittInstance.on('Skate Figure Anim 3D End', () => {
       this.figuresInterval = 6
-      this.tilesMultiplicator = 2
+      this.tilesMultiplicator = 1
       gsap.to(this.time, {
-        timeScale: 1,
+        timeScale: 1.5,
         duration: 1,
       })
     })
@@ -109,10 +109,10 @@ export default class Floor {
 
   setMesh() {
     var colors = [0xea4050, 0x3656ff, 0xfff965]
-    var tilesInterval = 3
+    var tilesInterval = 2
     var nbFigures = 5
     this.floor = new THREE.Group()
-    // this.floor.add(this.experience.world.skatepark.model)
+    this.floor.add(this.experience.world.skatepark.model)
     var module_index = 0
     var sol = []
     for (let i = 0; i < tilesInterval * nbFigures; i += tilesInterval) {
@@ -149,6 +149,7 @@ export default class Floor {
   //   this.scene.add(this.floor)
   // }
   update() {
+    // console.log(this.time.timeScale)
     this.modelVelocity = new THREE.Vector3(
       0,
       0,

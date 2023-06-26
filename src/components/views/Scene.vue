@@ -8,13 +8,13 @@
       <template v-slot:title>Tutoriel</template>
       <template v-slot:content>
         <div class="tutoriel-content">
-          <Pattern
+          <!-- <Pattern
             class="tutoriel-content__pattern"
             :patternToDo="patternToDoTutorial"
             isAutoDrawing
             isRepeat
             :onDrawEnd="handleTutoEnd"
-          />
+          /> -->
           <p>
             Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
             <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
@@ -234,6 +234,7 @@ const endEpreuve = () => {
   const tempScore: IScore = { points: Math.round(score.value), sportId: 'skate' }
   setCurrentScore(tempScore)
   setSportStep('skate', 1)
+  experience.value?.destroy()
 }
 
 const calculateFigureScore = (timing: number) => {

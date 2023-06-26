@@ -15,6 +15,7 @@
             <div v-for="step in steps" class="icon-container">
               <IconContainer :is-valid="step.isValid" :is-error="step.isError" />
             </div>
+            <span> </span>
           </div>
           <div class="timebar-wrapper">
             <div class="timebar" :style="{ width: timebarWidth + '%' }"></div>

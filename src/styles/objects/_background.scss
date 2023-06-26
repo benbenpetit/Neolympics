@@ -8,7 +8,7 @@
   background-position: 0 0;
   background-size: auto 24px;
   animation: animatedBackground 500s linear infinite;
-  transition: all 0.6s ease-in-out;
+  transition: background 0.6s ease-in-out, background-color 0.6s ease-in-out;
 
   @keyframes animatedBackground {
     from {

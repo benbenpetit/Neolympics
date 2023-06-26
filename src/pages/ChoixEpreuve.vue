@@ -139,7 +139,7 @@ let auth: Auth
 
 let sweepCardSound = new Howl({
   src: ['/sounds/ui-sounds/sweep-card.mp3'],
-  volume: 0.1,
+  volume: 0.3,
 })
 
 let gameSoundtrack = new Howl({
@@ -150,18 +150,18 @@ let gameSoundtrack = new Howl({
 
 let sliderAppearSound = new Howl({
   src: ['/sounds/ui-sounds/appear-4.mp3'],
-  volume: 0.1,
+  volume: 0.3,
 })
 
 let sliderDisappearSound = new Howl({
   src: ['/sounds/ui-sounds/disappear.mp3'],
-  volume: 0.1,
+  volume: 0.2,
   rate: 0.9,
 })
 
 let sliderPopSound = new Howl({
   src: ['/sounds/ui-sounds/appear-3.mp3'],
-  volume: 0.1,
+  volume: 0.3,
   rate: 1.1,
 })
 
@@ -316,7 +316,7 @@ const sportParams = [
   },
   {
     title: 'BREAKING',
-    info: `Les athlètes enchaîneront les « powermoves » comme les coupoles, les six-step ou encore les freezes en s'adaptant et en improvisant sur le son du DJ pour s'adjuger les votes des juges.`,
+    info: `Les athlètes enchaînent des « powermoves » comme les coupoles, les six-step ou encore les freezes en s'adaptant et en improvisant sur le son du DJ pour s'adjuger les votes des juges.`,
     img: '/models/Boombox.glb',
     available: false,
     cameraOrbit: '45deg 70deg 1',
@@ -398,17 +398,6 @@ const sliderAnimOut = () => {
 }
 
 const sliderAnimIn = () => {
-  sliderAnim.to(
-    '.dropshadow',
-    {
-      scale: 1.3,
-      duration: 0.4,
-      ease: 'Power2.easeInOut',
-      opacity: 1,
-    },
-    '-=0.2',
-  )
-
   sliderAnim.add(function () {
     sliderAppearSound.play()
   })
@@ -423,7 +412,6 @@ const sliderAnimIn = () => {
       scale: 1,
       filter: 'blur(0px)',
       onStart: () => {
-        console.log('aaa')
         gsap.to('.c-floor__title__inside', {
           opacity: 1,
           duration: 0.3,
@@ -431,7 +419,7 @@ const sliderAnimIn = () => {
         })
       },
     },
-    '-=0.2',
+    '+=0.2',
   )
 
   sliderAnim.add(function () {

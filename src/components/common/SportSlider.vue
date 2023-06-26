@@ -150,7 +150,7 @@ const getNormalizedFontSize = (word = '') => {
 }
 
 onMounted(() => {
-  gsap.fromTo(
+  sliderEntry.fromTo(
     floorRef.value,
     {
       y: '70vh',
@@ -159,15 +159,10 @@ onMounted(() => {
     {
       y: '30vh',
       opacity: 1,
-      duration: 1,
-      ease: 'Power3.easeInOut',
+      duration: 0.6,
+      ease: 'Power2.easeInOut',
     },
   )
-
-  sliderEntry.add(function () {
-    sliderSweepSound.rate(1.5)
-    sliderSweepSound.play()
-  })
 
   sliderEntry.fromTo(
     formeRef.value,
@@ -182,11 +177,16 @@ onMounted(() => {
       // width: '100vw',
       // height: '100vh',
       opacity: 1,
-      duration: 1,
-      ease: 'Power3.easeInOut',
+      duration: 0.6,
+      ease: 'Power2.easeInOut',
     },
-    '-=0.2',
+    '-=0.4',
   )
+
+  sliderEntry.add(function () {
+    sliderSweepSound.rate(1.5)
+    sliderSweepSound.play()
+  })
 
   sliderEntry.fromTo(
     '.sportimg .--3d-model',

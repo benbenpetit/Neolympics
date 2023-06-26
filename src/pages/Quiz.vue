@@ -211,7 +211,7 @@ let showRecap = ref(false)
 let animationToPlay = ref<string>('P_Discution')
 
 let quizOverlaySound = new Howl({
-  src: ['/sounds/ui-sounds/sweep-quiz.mp3'],
+  src: ['/sounds/ui-sounds/sweep-1.mp3'],
 })
 
 let quizSoundtrack = new Howl({
@@ -376,6 +376,12 @@ const quizOverlayAnimation = () => {
   //   '-=0.2',
   // )
 
+  // quizOverlayTimeline.add(function () {
+  //   quizOverlaySound.rate(0.7)
+  //   quizOverlaySound.volume(0.5)
+  //   quizOverlaySound.play()
+  // })
+
   quizOverlayTimeline.to(
     '.intro-quiz-title img',
     {
@@ -385,6 +391,12 @@ const quizOverlayAnimation = () => {
     },
     '+=0.5',
   )
+
+  quizOverlayTimeline.add(function () {
+    quizOverlaySound.rate(0.9)
+    quizOverlaySound.volume(0.5)
+    quizOverlaySound.play()
+  })
 
   quizOverlayTimeline.to(
     '.intro-quiz-title .text p',

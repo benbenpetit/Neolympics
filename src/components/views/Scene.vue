@@ -271,13 +271,6 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
   }
 }
 
-const handleTutoEnd = () => {
-  patternToDoTutorial.value = []
-  setTimeout(() => {
-    patternToDoTutorial.value = KICKFLIP.pattern[0]
-  })
-}
-
 const onModalOpen = () => {
   // @ts-ignore
   skateTheme.addFilter({

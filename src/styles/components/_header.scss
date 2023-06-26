@@ -6,7 +6,7 @@
   top: 10px;
   left: 10px;
   right: 10px;
-  height: 130px;
+  height: clamp(110px, 15vh, 130px);
 }
 
 .c-header-wrapper {

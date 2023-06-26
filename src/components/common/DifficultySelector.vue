@@ -7,7 +7,7 @@
           <img src="/img/difficulty/poster2.webp" alt="" />
         </div>
         <div class="c-poster__cell">
-          <video autoplay muted width="200" height="100">
+          <video autoplay muted loop width="200" height="100">
             <source src="/img/difficulty/model-difficulty.webm" type="video/webm" />
           </video>
           <div class="c-poster__cell__overlay">

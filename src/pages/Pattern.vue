@@ -135,6 +135,7 @@ watch(
   () => props.patternToDo,
   () => {
     clearPattern()
+    if (!props.patternToDo.length) return
     if (props.isAutoDrawing) {
       setTimeout(() => {
         setupAnimLines()
@@ -151,6 +152,7 @@ watch(
   () => props.isAutoDrawing,
   () => {
     if (!props.isAutoDrawing) {
+      isDisableClick.value = false
       clearPattern()
     }
   },

@@ -154,7 +154,7 @@ export default class Floor {
       0,
       0,
       -(10 / this.figuresInterval) *
-        (1 / 60) *
+        (1 / 120) *
         this.time.timeScale *
         this.tilesMultiplicator,
     )

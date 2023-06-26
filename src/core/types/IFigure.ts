@@ -4,5 +4,6 @@ export interface IFigure {
     board: string
     perso: string
   }
+  module?: string
   pattern: number[][][]
 }

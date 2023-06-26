@@ -39,7 +39,7 @@ export default class Ressources extends EventEmitter {
         })
       } else if (source.type === 'texture') {
         this.loaders.textureLoader.load(source.path, (file) => {
-          // file.colorSpace = THREE.SRGBColorSpace
+          file.colorSpace = THREE.SRGBColorSpace
           file.flipY = false
           this.sourceLoaded(source, file)
         })
@@ -55,7 +55,7 @@ export default class Ressources extends EventEmitter {
     this.loaded++
     if (this.loaded === this.toLoad) {
       this.trigger('ready')
-      // console.log('All loaded')
+      console.log('All loaded')
     }
   }
 }

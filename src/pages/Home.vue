@@ -27,16 +27,20 @@
       <div class="c-homepage-marquee" ref="homeMarqueeRef">
         <div class="c-marquee">
           <p>
-            <span>BEN</span>
-            <span>BEN</span>
+            <span>SKATE</span>
+            <span>SKATE</span>
           </p>
           <p>
-            <span>ARTH</span>
-            <span>ARTH</span>
+            <span>SURF</span>
+            <span>SURF</span>
           </p>
           <p>
-            <span>EMI</span>
-            <span>EMI</span>
+            <span>CLIMB</span>
+            <span>CLIMB</span>
+          </p>
+          <p>
+            <span>BREAK</span>
+            <span>BREAK</span>
           </p>
         </div>
       </div>

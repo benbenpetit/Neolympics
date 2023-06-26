@@ -3,6 +3,7 @@ import Experience from '../Experience'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
 import mitt from 'mitt'
+import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
 
 export default class Floor {
   constructor() {
@@ -10,21 +11,23 @@ export default class Floor {
     this.scene = this.experience.scene
     this.time = this.experience.time
     this.resources = this.experience.resources
+    this.materialFactory = this.experience.materialFactory
     this.figuresInterval = 6
-    this.tilesMultiplicator = 3
+    this.tilesMultiplicator = 1
     // this.scene.add(gridHelper)
 
     this.setGeometry()
     // this.setTextures()
-    this.setMaterial()
     this.setModules()
     this.setMesh()
+    this.setMaterial()
 
     this.setMittActions()
   }
   setGeometry() {
     this.geometry = new THREE.PlaneGeometry(1, 10)
   }
+
   setTextures() {
     this.textures = {}
 
@@ -35,19 +38,24 @@ export default class Floor {
     this.textures.color.wrapT = THREE.RepeatWrapping
   }
   setMaterial() {
-    // this.material = new THREE.MeshStandardMaterial({
-    //   map: this.textures.color,
-    // })
+    this.skateModules.forEach((module) => {
+      module.scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          child.material = this.materialFactory.getMaterial(child.name)
+          // console.log(child.material)
+        }
+      })
+    })
   }
   setMittActions() {
     mittInstance.on('Start Skate Animation', () => {
-      this.time.timeScale = 1
+      this.time.timeScale = 1.5
     })
 
     mittInstance.on('Before Figure Game', () => {
       this.sloMo = gsap.to(this.time, {
         timeScale: 0.2,
-        duration: 2,
+        duration: 1.5,
         onComplete: () => {
           console.log('Reduction finie')
         },
@@ -77,9 +85,9 @@ export default class Floor {
     })
     mittInstance.on('Skate Figure Anim 3D End', () => {
       this.figuresInterval = 6
-      this.tilesMultiplicator = 3
+      this.tilesMultiplicator = 1
       gsap.to(this.time, {
-        timeScale: 1,
+        timeScale: 1.5,
         duration: 1,
       })
     })
@@ -92,57 +100,56 @@ export default class Floor {
   }
 
   setModules() {
-    this.skateModules = []
-    Object.keys(this.experience.resources.items).forEach((item) => {
-      if (item.includes('skateModule')) {
-        this.skateModules.push(this.experience.resources.items[item])
-      }
+    const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
+    this.skateModules = CURRENT_FIGURES.map((item) => {
+      return this.experience.resources.items[item.module]
     })
-    // console.log('Rssources items : ', this.experience.resources.items)
+    console.log(this.skateModules)
   }
 
   setMesh() {
     var colors = [0xea4050, 0x3656ff, 0xfff965]
+    var tilesInterval = 2
+    var nbFigures = 5
     this.floor = new THREE.Group()
+    this.floor.add(this.experience.world.skatepark.model)
     var module_index = 0
     var sol = []
-    for (let i = 1; i < 50; i++) {
-      if (i % 4 == 0) {
-        if (module_index <= 1) {
-          var module = this.skateModules[module_index % 2].scene
-          module.position.z = (i - 1) * 10 + 5
-          this.floor.add(module)
-          module_index += 1
-          let box3 = new THREE.Box3().setFromObject(module)
-          let size = new THREE.Vector3()
-          // console.log(box3.getSize(size))
-        }
+    for (let i = 0; i < tilesInterval * nbFigures; i += tilesInterval) {
+      var module = this.skateModules[module_index].scene
+      this.floor.add(module)
+      if (module_index < 3 && module_index > 0) {
+        module.position.z = i * 10 - 5
       } else {
-        this.mesh = new THREE.Mesh(
-          this.geometry,
-          new THREE.MeshStandardMaterial({
-            color: colors[i % 3],
-          }),
-        )
-        this.mesh.rotation.x = -Math.PI * 0.5
-        this.mesh.receiveShadow = true
-        this.mesh.position.z = (i - 1) * 10 + 5
-        this.floor.add(this.mesh)
+        module.position.z = i * 10
       }
-      // this.mesh = new THREE.Mesh(
-      //   this.geometry,
-      //   new THREE.MeshStandardMaterial({
-      //     color: colors[i % 3],
-      //   }),
-      // )
-      // this.mesh.rotation.x = -Math.PI * 0.5
-      // this.mesh.receiveShadow = true
-      // this.mesh.position.z = i * 10 + 5
-      // this.floor.add(this.mesh)
+      this.scene.add(this.floor)
+      module_index += 1
+      console.log(module.position.z)
     }
-    this.scene.add(this.floor)
+    // for (let i = 1; i < 20; i++) {
+    //   this.mesh = new THREE.Mesh(
+    //     this.geometry,
+    //     new THREE.MeshStandardMaterial({
+    //       color: colors[i % 3],
+    //     }),
+    //   )
+    //   this.mesh.rotation.x = -Math.PI * 0.5
+    //   this.mesh.receiveShadow = true
+    //   this.mesh.position.z = (i - 1) * 10
+    //   this.floor.add(this.mesh)
+    // }
   }
+
+  // setMesh() {
+  //   var colors = [0xea4050, 0x3656ff, 0xfff965]
+  //   this.floor = new THREE.Group()
+  //   var module_index = 0
+  //   var sol = []
+  //   this.scene.add(this.floor)
+  // }
   update() {
+    // console.log(this.time.timeScale)
     this.modelVelocity = new THREE.Vector3(
       0,
       0,
@@ -151,7 +158,6 @@ export default class Floor {
         this.time.timeScale *
         this.tilesMultiplicator,
     )
-    // console.log(this.modelVelocity)
     this.floor.position.add(this.modelVelocity)
   }
 }

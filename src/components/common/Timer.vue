@@ -15,6 +15,7 @@
             <div v-for="step in steps" class="icon-container">
               <IconContainer :is-valid="step.isValid" :is-error="step.isError" />
             </div>
+            <span> </span>
           </div>
           <div class="timebar-wrapper">
             <div class="timebar" :style="{ width: timebarWidth + '%' }"></div>
@@ -71,7 +72,7 @@ const step = ref(0)
 const steps = ref([...Array(6)].map((_) => ({ isError: false, isValid: false })))
 let startTime: any = null
 let timerIntervalId: any = null
-let maxTime: number = 30
+let maxTime: number = 35
 
 const timerCreated = ref(false)
 
@@ -112,19 +113,30 @@ mittInstance.on('Time tick', (time: any) => {
   if (timerCreated.value && isRunning.value) {
     elapsedTime.value += time.deltaTime / 1000
     timebarWidth.value = (elapsedTime.value / maxTime) * 100
-    if (elapsedTime.value >= 10) {
+    if (elapsedTime.value >= maxTime) {
       timebarWidth.value = 100
       isRunning.value = false
       mittInstance.emit('Sport finished')
+    } else if (elapsedTime.value >= 30 && step.value == 4) {
+      stopTimer()
+      mittInstance.emit('Start Figure Game', { figure: props.currentFigures[4].name })
+    } else if (elapsedTime.value >= 29 && elapsedTime.value <= 29.1 && step.value == 4) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[4].name })
     } else if (elapsedTime.value >= 24 && step.value == 3) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[3].name })
+    } else if (elapsedTime.value >= 23 && elapsedTime.value <= 23.1 && step.value == 3) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[3].name })
     } else if (elapsedTime.value >= 18 && step.value == 2) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[2].name })
+    } else if (elapsedTime.value >= 17 && elapsedTime.value <= 17.1 && step.value == 2) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[2].name })
     } else if (elapsedTime.value >= 12 && step.value == 1) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[1].name })
+    } else if (elapsedTime.value >= 11 && elapsedTime.value <= 11.1 && step.value == 1) {
+      mittInstance.emit('Before Figure Game', { figure: props.currentFigures[1].name })
     } else if (elapsedTime.value >= 6 && step.value == 0) {
       stopTimer()
       mittInstance.emit('Start Figure Game', { figure: props.currentFigures[0].name })

@@ -11,6 +11,7 @@ export default class SkaterLapin {
     this.resources = this.experience.resources
     this.time = this.experience.time
     this.debug = this.experience.debug
+    this.materialFactory = this.experience.materialFactory
 
     //Setup
     this.resource = this.resources.items.skaterFinal
@@ -35,7 +36,7 @@ export default class SkaterLapin {
     this.model = this.resource.scene
     // console.log(this.model)
     // console.log('Skater model', this.model)
-    this.model.position.set(0, 0, 0)
+    this.model.position.set(0, 1.91, -15)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
     // this.model.scale.set(0.5, 0.5, 0.5)
 
@@ -46,114 +47,26 @@ export default class SkaterLapin {
         child.castShadow = true
       }
     })
-    // console.log(
-    //   new THREE.Vector3()
-    //     .copy(this.model.position)
-    //     .add(this.cameraOffset)
-    //     .add(this.model.getObjectByName('Ctrl_Hips').position),
-    // )
+    console.log(
+      new THREE.Vector3()
+        .copy(this.model.position)
+        .add(this.cameraOffset)
+        .add(this.model.getObjectByName('Ctrl_Hips').position),
+    )
   }
 
   setMaterials() {
-    var chapeauTexture = this.resources.items.chapeauTexture
-    var teteTexture = this.resources.items.corpsTexture
-    var pantalonTexture = this.resources.items.pantalonTexture
-    var shirtTexture = this.resources.items.shirtTexture
-
-    var shoesTexture = this.resources.items.shoesTexture
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
-        // console.log(child.name)
-        switch (child.name) {
-          case 'Chapeau004':
-            child.material = new THREE.MeshLambertMaterial({
-              map: chapeauTexture,
-            })
-            break
-          case 'Tete002':
-            child.material = new THREE.MeshLambertMaterial({
-              map: teteTexture,
-            })
-            break
-          case 'CorpsCoupe001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: teteTexture,
-            })
-            break
-          case 'Pantalon004':
-            child.material = new THREE.MeshLambertMaterial({
-              map: pantalonTexture,
-            })
-            break
-          case 'Shirt003':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shirtTexture,
-            })
-            break
-          case 'D_CHAUSSURE':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'D_Coque001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'D_Lacet001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'D_Nike001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'D_Semelle001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'G_CHAUSSURE':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'G_Coque001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'G_Lacet001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'G_Nike001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-          case 'G_Semelle001':
-            child.material = new THREE.MeshLambertMaterial({
-              map: shoesTexture,
-            })
-            break
-
-          default:
-            break
-        }
+        child.material = this.materialFactory.getMaterial(child.name)
       }
     })
   }
 
   setDebug() {
     this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
-    this.debugFolder
-      .add(this.resource.scene.position, 'y', -10, 10, 0.01)
-      .name('Skater Y')
-    this.debugFolder.add(this.resource.scene.position, 'z', -10, 10, 0.1).name('Skater Z')
+    this.debugFolder.add(this.resource.scene.position, 'y', 0, 20, 0.01).name('Skater Y')
+    this.debugFolder.add(this.resource.scene.position, 'z', -50, 0, 0.01).name('Skater Z')
 
     this.debugFolder.add(this.cameraOffset, 'x', -10, 10, 0.1).name('Camera Offset X')
     this.debugFolder.add(this.cameraOffset, 'y', -10, 10, 0.1).name('Camera Offset Y')
@@ -172,12 +85,12 @@ export default class SkaterLapin {
       x: -2,
       y: 0,
       z: -1,
-      duration: 2.3,
+      duration: 2,
       ease: 'Power1.easeIn',
     })
     gsap.to(this.lookAtOffset, {
       value: 0.5,
-      duration: 2.3,
+      duration: 2,
       ease: 'Power1.easeIn',
     })
   }
@@ -193,16 +106,20 @@ export default class SkaterLapin {
       this.animation.actions[animation.name] = this.animation.mixer.clipAction(
         THREE.AnimationClip.findByName(this.resource.animations, animation.name),
       )
-      if (animation.name != 'P_Cruise' && animation.name != 'Board_Pose') {
+      if (
+        animation.name != 'P_Cruise' &&
+        animation.name != 'Board_Pose' &&
+        animation.name != 'JoyfulJump'
+      ) {
         this.animation.actions[animation.name].setLoop(THREE.LoopOnce)
       }
     })
     this.animation.actions.current = this.animation.actions['P_Cruise']
-    // this.animation.actions.current.play()
-
-    // console.log(this.animation.actions)
+    // this.animation.actions['JoyfulJump'].play()
+    console.log(this.animation.actions)
 
     this.animation.play = (name) => {
+      console.log(name)
       const newAction = this.animation.actions[name]
       const oldAction = this.animation.actions.current
 
@@ -221,10 +138,7 @@ export default class SkaterLapin {
       console.log('Action terminée : ', e.action.getClip().name)
       this.animation.actions.current.reset()
       this.animation.actions.current.play()
-      if (
-        e.action.getClip().name == 'Move_P_Grind_Flip' ||
-        e.action.getClip().name == 'Move_P_Kickflip'
-      ) {
+      if (e.action.getClip().name.includes('Move_P')) {
         mittInstance.emit('Skate Figure Anim 3D End')
       }
     })
@@ -232,18 +146,6 @@ export default class SkaterLapin {
     // Debug Part
     if (this.debug.active) {
       const debugObject = {
-        playOllie: () => {
-          this.animation.play('Board_Ollie')
-          this.animation.play('P_Ollie')
-        },
-        playHardflip: () => {
-          this.animation.play('Board_Hardflip')
-          this.animation.play('P_Hardflip')
-        },
-        playKickflip: () => {
-          this.animation.play('Board_Kickflip')
-          this.animation.play('KickFlip')
-        },
         playCruise: () => {
           this.animation.actions['P_Cruise'].reset()
           this.animation.actions['P_Cruise'].play()
@@ -260,6 +162,14 @@ export default class SkaterLapin {
         playDoublePush: () => {
           this.animation.play('P_PushDouble')
         },
+        play270Slide: () => {
+          this.animation.play('Move_P_270Slide')
+          this.animation.play('Move_Board_270Slide')
+        },
+        playBack360: () => {
+          this.animation.play('Move_P_Back3')
+          this.animation.play('Move_Board_Back3')
+        },
         playGrindFlip: () => {
           this.animation.play('Move_P_Grind_Flip')
           this.animation.play('Move_Board_Grind_Flip')
@@ -268,15 +178,19 @@ export default class SkaterLapin {
           this.animation.play('Move_Board_Kickflip')
           this.animation.play('Move_P_Kickflip')
         },
+        playShoveIt: () => {
+          this.animation.play('Move_P_ShoveIt')
+          this.animation.play('Move_Board_ShoveIt')
+        },
       }
-      this.debugFolder.add(debugObject, 'playOllie')
-      this.debugFolder.add(debugObject, 'playHardflip')
-      this.debugFolder.add(debugObject, 'playKickflip')
       this.debugFolder.add(debugObject, 'playCruise')
       this.debugFolder.add(debugObject, 'playPush')
       this.debugFolder.add(debugObject, 'playDoublePush')
+      this.debugFolder.add(debugObject, 'play270Slide')
+      this.debugFolder.add(debugObject, 'playBack360')
       this.debugFolder.add(debugObject, 'playGrindFlip')
       this.debugFolder.add(debugObject, 'playKickFlip')
+      this.debugFolder.add(debugObject, 'playShoveIt')
     }
   }
 
@@ -295,7 +209,7 @@ export default class SkaterLapin {
           this.animation.actions['P_PushDouble'],
           0.2,
         )
-      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000) - 200)
+      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000 * 1) - 200)
     })
 
     mittInstance.on('Before Figure Game', () => {
@@ -317,6 +231,7 @@ export default class SkaterLapin {
     })
 
     mittInstance.on('Skate Figure Anim 3D', (data) => {
+      this.model.position.y = 0
       if (data.isValid) {
         this.animation.play(data.animation.board)
         this.animation.play(data.animation.perso)
@@ -329,7 +244,7 @@ export default class SkaterLapin {
           x: -2,
           z: -4,
           y: 1,
-          duration: animDuration / 2,
+          duration: animDuration / 4,
           ease: 'Power3.easeIn',
         })
         gsap.to(this.lookAtOffset, {

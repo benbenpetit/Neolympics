@@ -1,0 +1,83 @@
+.skate-tutorial {
+  &.c-modal-wrapper {
+    .c-modal {
+      .c-modal-content {
+        position: relative;
+        overflow: hidden;
+        padding: 10vh 3vw calc(10vh + 20px) 3vw;
+        transition: padding 0.8s cubic-bezier(0.4, 0, 0, 1);
+      }
+    }
+  }
+
+  &.--big {
+    &.c-modal-wrapper {
+      .c-modal {
+        .c-modal-content {
+          position: relative;
+          overflow: hidden;
+          padding: 25vh 30% calc(25vh + 20px) 3vw;
+        }
+      }
+    }
+  }
+}
+
+.tuto-skate-modal {
+  bottom: 6vh;
+  animation: opacityIn 1s cubic-bezier(0.4, 0, 0, 1) forwards;
+
+  &::before {
+    height: clamp(42px + 2vw, 7vw, 54px + 2vw);
+    border-width: 2px;
+    border-radius: 10px;
+  }
+
+  .pattern-title {
+    font-size: clamp(16px, 2.5vw, 32px);
+    line-height: clamp(16px, 2.5vw, 32px);
+    min-height: clamp(42px + 2vw, 7vw, 54px + 2vw);
+  }
+
+  @keyframes opacityIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.c-tutorial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 2rem;
+  overflow: hidden;
+
+  &__text {
+    width: 80%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1rem;
+    line-height: 1.45;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  .skate-container {
+    position: absolute;
+    bottom: -1.5rem;
+    right: 2rem;
+    width: auto;
+    height: 600%;
+    max-width: 100%;
+    max-height: 600%;
+    aspect-ratio: 1/2.5;
+  }
+}

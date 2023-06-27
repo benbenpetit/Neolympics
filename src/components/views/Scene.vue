@@ -30,12 +30,6 @@
               >
             </p>
           </div>
-          <!-- <Pattern
-            class="tutoriel-content__pattern"
-            :patternToDo="patternToDoTutorial"
-            :isAutoDrawing="isTutoAutoDrawing"
-            :onDrawEnd="handleTutoDrawEnd"
-          /> -->
           <SkateModal
             v-if="isTutorialOpen"
             class="tuto-skate-modal"
@@ -75,7 +69,6 @@
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
     />
-
     <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">
         <img :src="resultImg" alt="" />
@@ -118,7 +111,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import Experience from '@/webgl/Experience/Experience'
 import Timer from '@/components/common/Timer.vue'
 import SkateModal from '@/components/common/SkateModal.vue'
@@ -131,22 +124,45 @@ import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
 import router from '@/core/router'
 import { IScore } from '@/core/types/IScore'
-import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
 import { Howl, Howler } from 'howler'
 import { gsap } from 'gsap'
+import arrayShuffle from 'array-shuffle'
+import {
+  FIGURES,
+  FIGURES_EASY,
+  FIGURES_MEDIUM,
+  FIGURES_HARD,
+  FB270_EASY,
+  FB270_MEDIUM,
+  FB270_HARD,
+  KICKFLIP_EASY,
+} from '@/data/figures'
+import { IFigure } from '@/core/types/IFigure'
 
-const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
+let CURRENT_FIGURES = [KICKFLIP_EASY]
+const CURRENT_FIGURES_EASY: IFigure[] = [
+  FB270_EASY,
+  ...arrayShuffle(FIGURES_EASY.filter(({ name }) => name !== 'FS 270')),
+]
+const CURRENT_FIGURES_MEDIUM = [
+  FB270_MEDIUM,
+  ...arrayShuffle(FIGURES_MEDIUM.filter(({ name }) => name !== 'FS 270')),
+]
+const CURRENT_FIGURES_HARD = [
+  FB270_HARD,
+  ...arrayShuffle(FIGURES_HARD.filter(({ name }) => name !== 'FS 270')),
+]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
 const state = ref<'tutorial' | 'game' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
 const currentFigureIndex = ref(0)
-const pattern = ref<number[][][]>(CURRENT_FIGURES[currentFigureIndex.value].pattern)
-const tutoPattern = ref<number[][][]>(KICKFLIP.pattern)
+const pattern = ref<number[][][]>(KICKFLIP_EASY.pattern)
+const tutoPattern = ref<number[][][]>(KICKFLIP_EASY.pattern)
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
@@ -204,11 +220,29 @@ onMounted(() => {
   startingSkateTheme.play()
 })
 
-mittInstance.on('Start tutorial', () => {
-  // console.log('Tutorial')
+watch(
+  skateDifficulty,
+  () => {
+    if (skateDifficulty.value === 1) {
+      CURRENT_FIGURES = CURRENT_FIGURES_EASY
+      pattern.value = FB270_EASY.pattern
+      localStorage.setItem('modules', JSON.stringify(CURRENT_FIGURES_EASY))
+    } else if (skateDifficulty.value === 2) {
+      CURRENT_FIGURES = CURRENT_FIGURES_MEDIUM
+      pattern.value = FB270_MEDIUM.pattern
+      localStorage.setItem('modules', JSON.stringify(CURRENT_FIGURES_MEDIUM))
+    } else {
+      CURRENT_FIGURES = CURRENT_FIGURES_HARD
+      pattern.value = FB270_HARD.pattern
+      localStorage.setItem('modules', JSON.stringify(CURRENT_FIGURES_MEDIUM))
+    }
+  },
+  { immediate: true },
+)
 
+mittInstance.on('Start tutorial', () => {
   state.value = 'tutorial'
-  patternToDoTutorial.value = KICKFLIP.pattern[0]
+  patternToDoTutorial.value = KICKFLIP_EASY.pattern[0]
 })
 
 mittInstance.on('Start Figure Game', () => {

@@ -1,6 +1,6 @@
 export interface IFigure {
   name: string
-  anims: {
+  anims?: {
     board: string
     perso: string
   }

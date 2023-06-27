@@ -90,7 +90,7 @@ import { Howl, Howler } from 'howler'
 import { useSportStore } from '@/core/store/sport'
 import '@google/model-viewer'
 import Pattern from '@/pages/Pattern.vue'
-import { KICKFLIP } from '@/data/figures'
+import { KICKFLIP_EASY } from '@/data/figures'
 
 gsap.registerPlugin(CustomEase)
 const { setSportStep, setSportDifficulty } = useSportStore()
@@ -212,7 +212,7 @@ onMounted(() => {
             delay: 0.8,
             duration: 0.6,
             onComplete: () => {
-              patternToDoTutorial.value = KICKFLIP.pattern[0]
+              patternToDoTutorial.value = KICKFLIP_EASY.pattern[0]
             },
           },
         )

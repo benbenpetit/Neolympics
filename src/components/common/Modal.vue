@@ -6,7 +6,7 @@
     </div>
     <div :style="{ width: '100%', height: '100%' }" ref="modalRef">
       <div class="c-modal">
-        <div class="c-modal-title">
+        <div class="c-modal-title" v-if="hasSlot('title')">
           <img v-if="imgSrc" :src="imgSrc" alt="" />
           <h1>
             <slot name="title">nom</slot>
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { gsap } from 'gsap'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, useSlots } from 'vue'
 
 const { imgSrc } = defineProps<Props>()
 
@@ -35,7 +35,12 @@ interface Props {
 }
 
 const emits = defineEmits(['onBackdropClick'])
+const slots = useSlots()
 const modalRef = ref<HTMLDivElement | null>(null)
+
+const hasSlot = (name: string) => {
+  return !!slots[name]
+}
 
 onMounted(() => {
   gsap.from(modalRef.value, {

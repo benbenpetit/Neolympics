@@ -95,12 +95,22 @@ export default [
   {
     name: 'marchesTexture',
     type: 'texture',
-    path: '/textures/Skatepark/Marches_Textures.png',
+    path: '/textures/Skatepark/Marches_Texture.png',
+  },
+  {
+    name: 'marches2Texture',
+    type: 'texture',
+    path: '/textures/Skatepark/Marches2_Texture.png',
   },
   {
     name: 'solTexture',
     type: 'texture',
     path: '/textures/Skatepark/Sol_Texture.png',
+  },
+  {
+    name: 'solTexture2',
+    type: 'texture',
+    path: '/textures/Skatepark/Sol2_Texture.png',
   },
   {
     name: 'siegeTexture',

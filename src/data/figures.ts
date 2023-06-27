@@ -63,7 +63,7 @@ export const KICKFLIP: IFigure = {
 
 export const OLLIE_PATTERN = [
   [4, 2],
-  [11, 12, 13],
+  [12, 13, 14],
 ]
 
 export const OLLIE: IFigure = {

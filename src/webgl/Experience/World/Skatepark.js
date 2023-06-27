@@ -26,18 +26,28 @@ export default class Skatepark {
     let box3 = new THREE.Box3().setFromObject(this.model)
     let size = new THREE.Vector3()
     console.log(box3.getSize(size))
-    this.model.position.set(0, 0.2, 62)
+    this.model.position.set(0, 0.2, 84.5)
     this.model.scale.set(1, 1, 1)
-    this.model.rotation.y = Math.PI / 2
+    this.model.rotation.y = (3 * Math.PI) / 2
 
     // this.scene.add(this.model)
 
+    const p = new Array()
+
     this.model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
+      if (child.isMesh) {
         child.castShadow = true
         child.receiveShadow = true
       }
+      if (child.name.includes('Plane')) {
+        p.push(child)
+        // this.model.remove(child)
+      }
     })
+
+    for (let i = 0; i < p.length; i++) {
+      this.model.remove(p[i])
+    }
   }
 
   setMaterials() {
@@ -45,7 +55,7 @@ export default class Skatepark {
       if (child instanceof THREE.Mesh) {
         // console.log(child.name)
         if (child.name.includes('Plane')) {
-          child.material = this.materialFactory.getMaterial('Public')
+          // child.material = this.materialFactory.getMaterial('Public')
         } else {
           child.material = this.materialFactory.getMaterial(child.name)
         }

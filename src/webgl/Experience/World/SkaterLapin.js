@@ -45,7 +45,6 @@ export default class SkaterLapin {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true
-        child.receiveShadow = true
       }
     })
     console.log(
@@ -126,22 +125,25 @@ export default class SkaterLapin {
 
       newAction.reset()
       newAction.play()
-      newAction.crossFadeFrom(oldAction, 0.5)
+      newAction.crossFadeFrom(
+        oldAction,
+        name == 'Move_P_270Slide' || name == 'Move_Board_270Slide' ? 0 : 0.5,
+      )
 
       // setTimeout(() => {
       //   oldAction.reset()
       //   oldAction.play()
-      //   oldAction.crossFadeFrom(newAction, 0.2)
-      // }, parseInt(this.animation.actions[name].getClip().duration * 1000) - 200)
+      //   oldAction.crossFadeFrom(newAction, 0.1)
+      // }, parseInt(this.animation.actions[name].getClip().duration * 1000) - 100)
     }
 
     this.animation.mixer.addEventListener('finished', (e) => {
-      console.log('Action terminée : ', e.action.getClip().name)
       this.animation.actions.current.reset()
       this.animation.actions.current.play()
       if (e.action.getClip().name.includes('Move_P')) {
         mittInstance.emit('Skate Figure Anim 3D End')
       }
+      console.log('Action terminée : ', e.action.getClip().name)
     })
 
     // Debug Part
@@ -245,12 +247,12 @@ export default class SkaterLapin {
           x: -2,
           z: -4,
           y: 1,
-          duration: animDuration / 4,
+          duration: 0.5,
           ease: 'Power3.easeIn',
         })
         gsap.to(this.lookAtOffset, {
           value: 5,
-          duration: animDuration / 2,
+          duration: 0.5,
           ease: 'Power3.easeIn',
         })
       } else {

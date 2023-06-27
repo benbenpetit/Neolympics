@@ -51,8 +51,8 @@ export default class Camera {
   skateIntro() {
     gsap.to(this.instance.position, {
       x: -2.0000695940107107,
-      y: 3.661894166469574,
-      z: -18.993039016611874,
+      y: 3.671894166469574,
+      z: -28.993039016611874,
       duration: 5,
       onComplete: () => {
         this.experience.world.skater.started = true

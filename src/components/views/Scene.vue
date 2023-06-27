@@ -90,7 +90,7 @@ import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
 import { IScore } from '@/core/types/IScore'
-import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
+import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
 import Pattern from '@/pages/Pattern.vue'
@@ -165,15 +165,13 @@ mittInstance.on('Start tutorial', () => {
 })
 
 mittInstance.on('Start Figure Game', () => {
-  setTimeout(() => {
-    state.value = 'figureGame'
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 1500.0,
-      Q: 3.0,
-    })
-  }, 1500)
+  state.value = 'figureGame'
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: 1500.0,
+    Q: 3.0,
+  })
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {

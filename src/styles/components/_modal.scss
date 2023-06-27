@@ -107,7 +107,7 @@
       justify-content: center;
       border-radius: 0px 0px 4px 4px;
       width: 100%;
-      padding: 40px 40px 40px 40px;
+      padding: 40px 40px 50px 40px;
     }
   }
 
@@ -116,7 +116,7 @@
     flex-direction: row;
     justify-content: center;
     column-gap: 0.5rem;
-    transform: translateY(-25px);
+    transform: translateY(-35px);
 
     .c-buttonUI {
       flex: 1 1 0px;

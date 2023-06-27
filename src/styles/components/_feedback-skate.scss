@@ -16,36 +16,98 @@
 }
 
 .c-modal-result-skate-wrapper {
+  opacity: 0;
   position: absolute;
   top: 0;
   right: 0;
-  // height: 100%;
-  // width: 100%;
-  border: 2px solid red;
+  height: 100%;
+  width: 55%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 
   .c-modal-result-skate {
-    border: 2px solid blue;
+    position: relative;
+    top: 15vh;
     right: 0;
-    // top: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: flex-end;
+
     img {
+      // position: absolute;
+      max-width: 100%;
+      max-height: 100%;
     }
 
     .--rotate {
-      border: 2px solid orange;
-      transform: rotate(6.5deg);
-      width: 90%;
-      display: flex;
-      flex-direction: column;
-      h1 {
+      // position: absolute;
+      width: 80%;
+      transform: translateY(-94%) rotate(6.5deg);
+
+      .--texte {
+        text-align: center;
+        position: relative;
+        font-size: 7vw;
+        font-weight: 900;
+        font-family: Anybody;
+        text-transform: uppercase;
+        font-style: italic;
+        transform: translateY(20px);
+
+        > span {
+          &:first-child {
+            position: relative;
+            z-index: 2;
+            color: $color-red;
+          }
+
+          &:last-child {
+            position: absolute;
+            transform: translate(-101%, -7%);
+            z-index: 1;
+            color: #3d3aa9;
+          }
+        }
       }
+
       .--score-wrapper {
-        border: solid 1px $color-blue-stroke;
-        border-radius: 8px;
+        border: solid 2px $color-blue-stroke;
+        border-radius: 16px;
+        // transform: translateY(-25px);
         .--score {
-          border: solid 2px $color-blue;
-          border-radius: 8px;
+          text-align: center;
+          border: solid 6px $color-blue;
+          background-image: url('/img/skate/modale.svg');
+          background-color: white;
+          background-size: cover;
+          border-radius: 14px;
+          font-size: 3vw;
+          font-family: MonumentExtended;
+          color: $color-darkgrey;
+          font-weight: 600;
+          padding: 20px;
+          span {
+            font-weight: 200;
+            font-size: 2vw;
+          }
         }
       }
     }
+  }
+}
+
+.footer-skate-result {
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .c-buttonUI {
+    margin: 20px 10px;
   }
 }

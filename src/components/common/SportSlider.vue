@@ -177,8 +177,8 @@ onMounted(() => {
       // width: '100vw',
       // height: '100vh',
       opacity: 1,
-      duration: 0.6,
       ease: 'Power2.easeInOut',
+      duration: 0.6,
     },
     '-=0.4',
   )

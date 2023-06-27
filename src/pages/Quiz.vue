@@ -9,7 +9,7 @@
     <div class="character-quiz">
       <model-viewer
         class="--3d-model"
-        src="/models/YutoSkate.glb"
+        src="/models/AnimationsPourMenus.glb"
         ar-modes="webxr"
         shadow-intensity="0"
         autoplay
@@ -18,7 +18,7 @@
         disable-tap
         disable-pan
         interaction-prompt="none"
-        camera-orbit="-15deg 80deg 2m"
+        camera-orbit="-20deg 80deg 2m"
         camera-target="0m 1.1m 0m"
       >
         <div slot="progress-bar" style="visibility: none"></div>
@@ -208,7 +208,7 @@ let questionAnswered = 0
 let quizCompleted = ref(false)
 let showRecap = ref(false)
 
-let animationToPlay = ref<string>('P_Discution')
+let animationToPlay = ref<string>('P_Interview_Discution')
 
 let quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
@@ -283,7 +283,7 @@ const handleQuizClick = (index: number) => {
       answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
       isValid: true,
     })
-    animationToPlay.value = 'P_ReponseCorrect'
+    animationToPlay.value = 'P_Interview_Correct2'
   } else {
     quizWrongSound.play()
     recapTable.value.push({
@@ -291,7 +291,7 @@ const handleQuizClick = (index: number) => {
       answer: getCurrentQuestion.value.options[getCurrentQuestion.value.answer],
       isValid: false,
     })
-    animationToPlay.value = 'P_ReponseMauvais'
+    animationToPlay.value = 'P_Interview_Faux'
   }
 
   setTimeout(displayInfo, 1000)
@@ -322,7 +322,7 @@ const setNextQuestion = () => {
   if (questionAnswered < 2) {
     currentQuestion.value++
     questionAnswered++
-    animationToPlay.value = 'P_Discution'
+    animationToPlay.value = 'P_Interview_Discution'
   } else {
     quizCompleted.value = true
     gotoEndQuiz()
@@ -500,9 +500,9 @@ const nextQuestion = () => {
 const gotoEndQuiz = () => {
   quizEndTimeline.add(function () {
     if (score >= 2) {
-      animationToPlay.value = 'P_ReponseCorrect'
+      animationToPlay.value = 'Backflip'
     } else {
-      animationToPlay.value = 'P_ReponseMauvais'
+      animationToPlay.value = 'Nope'
     }
   })
 
@@ -571,7 +571,7 @@ const gotoEndQuiz = () => {
 
 const gotoRecapQuiz = () => {
   quizRecapTimeline.add(function () {
-    animationToPlay.value = 'P_PushDouble'
+    animationToPlay.value = 'P_Interview_Discution'
   })
   quizRecapTimeline.fromTo(
     '.--modal-recap-quiz',

@@ -8,6 +8,7 @@
     "
     class="c-buttonUI"
     :class="isActive && '--red'"
+    ref="domButtonRef"
   >
     <div class="c-buttonUI-content">
       <p><slot name="label"></slot></p>
@@ -18,6 +19,7 @@
 
 <script setup lang="ts">
 import { Howl, Howler } from 'howler'
+import { ref } from 'vue'
 
 const emit = defineEmits(['onClick'])
 
@@ -32,6 +34,10 @@ interface Props {
   isActive?: boolean
   sound?: boolean
 }
+
+const domButtonRef = ref<HTMLButtonElement | null>(null)
+
+defineExpose({ domButtonRef })
 
 let buttonUISound = new Howl({
   src: ['/sounds/ui-sounds/button-beep2.mp3'],

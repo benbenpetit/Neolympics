@@ -123,6 +123,12 @@
       &__divider {
         // background-color: #ffffff;
         z-index: 2;
+
+        &.--hide-lines {
+          span {
+            box-shadow: 0px 4px 37px 0px rgba(40, 48, 92, 0.06);
+          }
+        }
       }
 
       &__list {

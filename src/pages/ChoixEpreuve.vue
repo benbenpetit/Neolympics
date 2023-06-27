@@ -14,7 +14,11 @@
     >
       <template v-slot:title>
         {{
-          sportConfirmed ? sportParams[currentSport].title : `CHOIX D'ÉPREUVE`
+          sportConfirmed
+            ? sportParams[currentSport].title
+            : selectedTrial
+            ? `PRÉPARATION`
+            : `CHOIX DU SPORT`
         }}</template
       >
     </Header>
@@ -85,6 +89,7 @@ import SportSlider from '@/components/common/SportSlider.vue'
 import DifficultySelector from '@/components/common/DifficultySelector.vue'
 import Header from '@/components/common/Header.vue'
 import CardLeaderboard from '@/components/common/CardLeaderboard.vue'
+import mittInstance from '@/core/lib/MittInstance'
 
 import { gsap } from 'gsap'
 import { CustomEase } from 'gsap/CustomEase'
@@ -116,6 +121,12 @@ const currentDifficulty = computed(
     sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
     1,
 )
+
+mittInstance.on('start again', () => {
+  currentSport.value = 0
+  selectedTrial.value = true
+  sportConfirmed.value = true
+})
 
 const onModalOpen = () => {
   // @ts-ignore

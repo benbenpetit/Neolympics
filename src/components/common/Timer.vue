@@ -44,7 +44,7 @@
 import IconContainer from '@/components/common/IconContainer.vue'
 import mittInstance from '@/core/lib/MittInstance'
 import Experience from '@/webgl/Experience/Experience'
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useScoreStore } from '@/core/store/score'
 import { useSportStore } from '@/core/store/sport'
@@ -92,6 +92,15 @@ watch(
       .to(scoreContainerRef.value, { scale: 1, duration: 0.2 })
   },
 )
+
+onMounted(() => {
+  gsap.from('.infos-container', {
+    y: '-150%',
+    opacity: 0.4,
+    duration: 1,
+    ease: 'Power4.easeInOut',
+  })
+})
 
 mittInstance.on('Update Icon', (e: any) => {
   step.value = e.step

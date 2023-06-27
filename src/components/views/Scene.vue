@@ -4,31 +4,69 @@
     <Header @onModalOpen="onModalOpen" @onModalClose="onModalClose" :background="false">
     </Header>
     <Timer :currentFigures="CURRENT_FIGURES" :score="score" />
-    <Modal v-if="state == 'tutorial'" imgSrc="null" class="--blue skate-tutorial">
-      <template v-slot:title>Tutoriel</template>
+    <Modal
+      v-if="state == 'tutorial'"
+      imgSrc="null"
+      class="--blue skate-tutorial"
+      :class="isTutorialOpen && '--big'"
+    >
+      <template v-slot:title>Entraîne-toi avant l'épreuve !</template>
       <template v-slot:content>
-        <div class="tutoriel-content">
+        <div class="c-tutorial">
+          <div class="c-tutorial__text">
+            <p>
+              Reproduis les <strong>motifs</strong> le plus vite possible pour réaliser
+              des <strong>figures de skate</strong> dans le
+              <strong>temps imparti</strong>.
+            </p>
+            <p>
+              Pour ce niveau, tu as <strong>5 secondes</strong> pour réaliser chaque
+              figure !
+            </p>
+            <p>
+              <strong
+                >Tu peux t'entraîner autant que tu veux avec la planche avant de lancer
+                l'épreuve</strong
+              >
+            </p>
+          </div>
           <!-- <Pattern
             class="tutoriel-content__pattern"
             :patternToDo="patternToDoTutorial"
-            isAutoDrawing
-            isRepeat
-            :onDrawEnd="handleTutoEnd"
+            :isAutoDrawing="isTutoAutoDrawing"
+            :onDrawEnd="handleTutoDrawEnd"
           /> -->
-          <p>
-            Reproduis les <b>motifs</b> le plus vite possible pour réaliser des
-            <b>figures de skate</b> dans <b>le temps imparti.</b> <br /><br />
-            Pour ce niveau, tu as <b>5 secondes</b> pour réaliser chaque figure !
-          </p>
+          <SkateModal
+            v-if="isTutorialOpen"
+            class="tuto-skate-modal"
+            :pattern="tutoPattern"
+            @onPatternEnd="handleTutoPatternEnd"
+            repeat
+            isSpeed
+          />
         </div>
       </template>
       <template v-slot:buttons>
-        <div class="trial-details">
+        <!-- <div class="trial-details">
           <div class="detail-container"><IconTImer /> 45 secondes</div>
           <div class="detail-container"><IconSkate /> 5 figures</div>
-        </div>
-        <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="startGame">
-          <template v-slot:label>J'ai compris !</template>
+        </div> -->
+        <ButtonUI
+          :isActive="false"
+          class="--white"
+          @click="startGame"
+          ref="firstButtonRef"
+        >
+          <template v-slot:label>Aller à l'épreuve</template>
+        </ButtonUI>
+        <ButtonUI
+          imgSrc="/icon/go.svg"
+          class="--no-hover"
+          @click="!isTutorialOpen ? train() : startGame()"
+        >
+          <template v-slot:label>{{
+            !isTutorialOpen ? ` M'entrainer` : `J'ai compris !`
+          }}</template>
         </ButtonUI>
       </template>
     </Modal>
@@ -38,29 +76,20 @@
       @onPatternEnd="handlePatternEnd"
     />
 
-    <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
-      <template v-slot:title>Fin de l'épreuve</template>
-      <template v-slot:content>
-        <div>
-          <p>Bravo tu as fini l'épreuve !</p>
-          <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
-            <template v-slot:label>Continuer</template>
-          </ButtonUI>
-        </div>
-      </template>
-    </Modal>
-
-    <!-- <div v-if="state == 'result'" class="c-modal-result-skate-wrapper">
+    <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">
         <img :src="resultImg" alt="" />
         <div class="--rotate">
-          <h1>Bravo</h1>
+          <p class="--texte">
+            <span>{{ resultTxt }}</span>
+            <span>{{ resultTxt }}</span>
+          </p>
           <div class="--score-wrapper">
-            <p class="--score">Score</p>
+            <p class="--score">SCORE : {{ Math.round(score) }}<span>pts</span></p>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <div
       v-if="figureResult != ''"
@@ -71,9 +100,18 @@
         :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'"
         alt=""
       />
-      <span class="result-text">{{ figureResult }}</span>
     </div>
-    <canvas class="webgl" />
+
+    <div v-if="showResult" class="footer-skate-result">
+      <ButtonUI class="--white --startagain" :isActive="false" @click="startAgain">
+        <template v-slot:label
+          ><img src="/icon/gobackred.svg" alt="" />recommencer</template
+        >
+      </ButtonUI>
+      <ButtonUI :imgSrc="'/icon/go.svg'" @click="endEpreuve">
+        <template v-slot:label>passer à l'interview</template>
+      </ButtonUI>
+    </div>
   </div>
 </template>
 
@@ -89,6 +127,7 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
+import router from '@/core/router'
 import { IScore } from '@/core/types/IScore'
 import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360, OLLIE } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
@@ -101,15 +140,18 @@ const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
-const state = ref<'tutorial' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
+const state = ref<'tutorial' | 'game' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
 const step = ref(0)
 const currentFigureIndex = ref(0)
 const pattern = ref<number[][][]>(CURRENT_FIGURES[currentFigureIndex.value].pattern)
+const tutoPattern = ref<number[][][]>(KICKFLIP.pattern)
 const figureResult = ref('')
 const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
+const isTutorialOpen = ref(false)
+const firstButtonRef = ref<any | null>(null)
 const skateDifficulty = computed(
   () =>
     sportState.doneSports.find((doneSport) => doneSport.sport === 'skate')?.difficulty ??
@@ -146,9 +188,12 @@ let startingSkateTheme = new Howl({
 })
 
 let feedbackImg = ref<string>('')
+let showResult = ref<boolean>(false)
 let resultImg = ref<string>('')
+let resultTxt = ref<string>('')
 
 let feedbackImgAnim = gsap.timeline({})
+let feedbackResultAnim = gsap.timeline({})
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -166,32 +211,61 @@ mittInstance.on('Start tutorial', () => {
 
 mittInstance.on('Start Figure Game', () => {
   state.value = 'figureGame'
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 1500.0,
-    Q: 3.0,
-  })
+  setTimeout(() => {
+    if (skateTheme.playing()) {
+      // @ts-ignore
+      skateTheme.addFilter({
+        filterType: 'lowpass',
+        frequency: 1500.0,
+        Q: 3.0,
+      })
+    } else {
+      // @ts-ignore
+      skateThemeLoop.addFilter({
+        filterType: 'lowpass',
+        frequency: 1500.0,
+        Q: 3.0,
+      })
+    }
+  }, 1500)
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 })
 
 mittInstance.on('Skate Figure Anim 3D End', () => {
   mittInstance.emit('Start Timer', { step: step.value })
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -220,27 +294,55 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 // })
 
 mittInstance.on('Sport finished', () => {
+  showResult.value = true
   Math.round(score.value)
   if (score.value >= 50) {
-    resultImg.value = '/img/skate/result-bravo.svg'
+    resultImg.value = '/img/skate/result-bravo.webp'
+    resultTxt.value = 'bravo'
+  } else if (score.value >= 20) {
+    resultImg.value = '/img/skate/result-pas-mal.webp'
+    resultTxt.value = 'pas mal'
   } else {
-    resultImg.value = '/img/skate/result-pas-mal.svg'
+    resultImg.value = '/img/skate/result-dommage.webp'
+    resultTxt.value = 'dommage'
   }
 
   setTimeout(() => {
     state.value = 'result'
+    feedbackResultPlay()
   }, 1500)
 })
 
 const startGame = () => {
   mittInstance.emit('Start Timer', { step: step.value })
   mittInstance.emit('Start Skate Animation')
-  state.value = ''
+  state.value = 'game'
   skateTheme.play()
   skateTheme.fade(0, 0.8, 100)
   if (startingSkateTheme.playing()) {
     startingSkateTheme.fade(0.5, 0, 600)
   }
+}
+
+const train = () => {
+  gsap.to(firstButtonRef.value?.domButtonRef, {
+    marginLeft: '-35%',
+    visibility: 'none',
+    opacity: 0,
+    duration: 0.4,
+    ease: 'Power4.easeOut',
+  })
+  isTutorialOpen.value = true
+}
+
+const handleTutoPatternEnd = ({ isValid = false, timingRatio = 0 }) => {}
+
+const startAgain = () => {
+  Howler.stop()
+  router.push('/competition/preparation')
+  setTimeout(() => {
+    mittInstance.emit('start again')
+  }, 200)
 }
 
 const updateIcon = (isValid?: boolean) => {
@@ -293,47 +395,130 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
 }
 
 const onModalOpen = () => {
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 1500.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 1500.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 1500.0,
+      Q: 3.0,
+    })
+  }
 }
 
 const onModalClose = () => {
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 }
 
 const feedbackAnimPlay = () => {
-  feedbackImgAnim.to('.c-feedbackGame', {
-    opacity: 1,
-    duration: 0,
-  })
-
   feedbackImgAnim.fromTo(
     '.c-feedbackGame',
     {
       x: '-100%',
+      opacity: 0,
     },
     {
-      x: '0%',
+      x: '-0%',
+      opacity: 1,
       duration: 0.4,
       ease: 'Power2.easeInOut',
     },
+    '+=0.2',
   )
 
   feedbackImgAnim.to(
     '.c-feedbackGame',
     {
       x: '-100%',
+      opacity: 0,
     },
-    '+=0.6',
+    '+=0.4',
+  )
+}
+
+const feedbackResultPlay = () => {
+  feedbackResultAnim.to('.c-modal-result-skate-wrapper', {
+    opacity: 1,
+    duration: 0,
+  })
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate img',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.3,
+      ease: 'Power2.easeInOut',
+    },
+  )
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate .--texte',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate .--score-wrapper',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  feedbackResultAnim.fromTo(
+    '.footer-skate-result',
+    {
+      opacity: 0,
+      y: '100%',
+    },
+    {
+      opacity: 1,
+      y: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
   )
 }
 </script>

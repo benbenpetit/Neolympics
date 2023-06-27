@@ -1,5 +1,6 @@
 <template>
-  <div class="c-homepage-wrapper">
+  <Mobile v-if="isMobile" />
+  <div v-if="!isMobile" class="c-homepage-wrapper">
     <div class="c-homepage-banner" ref="homeBannerRef">
       <img src="/img/home-banner-bg.svg" alt="" />
       <img src="/img/home-banner-title.svg" alt="" class="--title" />
@@ -74,6 +75,7 @@
     </div>
   </div>
   <Cursor
+    v-if="!isMobile"
     class="c-homepage-cursor"
     :style="{
       transform: `translate3d(calc(-50% + ${cursorPos.x}px), calc(-50% + ${cursorPos.y}px), 0)`,
@@ -84,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+import Mobile from '@/components/modules/Home/Mobile.vue'
 import Cursor from '@/components/modules/Home/Cursor.vue'
 import router from '@/core/router'
 import publicRouters from '@/data/publicRouters'
@@ -93,6 +96,7 @@ import { gsap } from 'gsap/all'
 import { SPORTS } from '@/data/constants'
 import SwiperType, { Navigation, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { useMediaQuery } from '@vueuse/core'
 
 const cursorRef = ref<any>(null)
 const cursorPos = ref<{ x: number; y: number }>({ x: 0, y: 0 })
@@ -104,6 +108,8 @@ const homeAthleteRef = ref<any | null>(null)
 const homeMarqueeRef = ref<HTMLDivElement | null>(null)
 const figuresSwiperRef = ref<SwiperType | null>(null)
 const athletesSwiperRef = ref<SwiperType | null>(null)
+const isMobile = useMediaQuery('(max-width: 930px)')
+
 let mouse = { x: 0, y: 0 }
 
 const SPORTS_IMAGES = SPORTS.map((sport) => ({

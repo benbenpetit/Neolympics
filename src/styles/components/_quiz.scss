@@ -64,10 +64,12 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: url('/img/bg-quiz.jpg');
+  // background-image: url('/img/bg-quiz.jpg');
+  background-image: url('/img/bg-quiz-2.png');
   background-size: cover;
   z-index: -1;
   overflow: hidden;
+  filter: blur(3px);
 }
 
 .c-quiz-wrapper {
@@ -146,12 +148,12 @@
       .c-modal-buttons {
         display: flex;
         flex-flow: row wrap;
-        transform: translateY(-25px);
+        transform: translateY(-35px);
         padding: 0px, 40px;
 
         :nth-child(3),
         :nth-child(4) {
-          transform: translateX(-25px) skew(-30deg);
+          transform: translateX(-30px) skew(-30deg);
         }
 
         .c-buttonUI {

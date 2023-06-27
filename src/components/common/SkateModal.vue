@@ -15,7 +15,7 @@
         class="pattern-timer__inside"
         :class="!isAutoDrawing && '--show'"
         ref="patternTimerRef"
-        :style="{ transform: `skewX(-30deg) scaleX(${1 - timerProgress})` }"
+        :style="{ transform: `scaleX(${Math.max(1 - timerProgress - 0.01, 0)})` }"
       />
     </div>
     <Pattern
@@ -64,20 +64,26 @@ const scoreTimings = ref<number[]>([])
 
 interface Props {
   pattern: number[][][]
+  repeat?: boolean
+  isSpeed?: boolean
 }
 
 const props = defineProps<Props>()
 const emits = defineEmits(['onPatternEnd'])
 
 onMounted(() => {
-  setTimeout(() => {
+  if (props?.isSpeed) {
     patternToDo.value = props.pattern[0]
-  }, 2000)
+  } else {
+    setTimeout(() => {
+      patternToDo.value = props.pattern[0]
+    }, 2000)
+  }
 })
 
 const getTitle = () => {
   if (!patternToDo.value?.length) {
-    return 'Mémorise les tracés'
+    return props?.isSpeed ? '' : 'Mémorise les tracés'
   }
 
   if (isPret.value) {
@@ -179,6 +185,18 @@ const handleEndPattern = (isValid?: boolean) => {
     scoreTimings.value.reduce((prev, curr) => prev + curr, 0) / scoreTimings.value.length
   emits('onPatternEnd', { isValid, timingRatio })
   scoreTimings.value = []
+
+  if (props?.repeat) {
+    isAutoDrawing.value = true
+    patternToDo.value = []
+    setTimeout(
+      () => {
+        patternToDo.value = props.pattern[0]
+      },
+      props?.isSpeed ? 0 : 2000,
+    )
+  }
+
   // isWin.value = false
   // isLose.value = false
   // isAutoDrawing.value = true

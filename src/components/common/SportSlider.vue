@@ -37,7 +37,7 @@
             rotation-per-second="500%"
             interaction-prompt="none"
             :camera-orbit="props.sport.cameraOrbit"
-            scale="1 1 1"
+            scale="0.9 0.9 0.9"
             inputSensitivity="0.25"
           >
             <div slot="progress-bar" style="visibility: none"></div>
@@ -177,8 +177,8 @@ onMounted(() => {
       // width: '100vw',
       // height: '100vh',
       opacity: 1,
-      duration: 0.6,
       ease: 'Power2.easeInOut',
+      duration: 0.6,
     },
     '-=0.4',
   )

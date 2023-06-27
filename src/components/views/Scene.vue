@@ -75,28 +75,21 @@
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
     />
-    <Modal v-if="state == 'result'" imgSrc="null" class="--blue skate-tutorial">
-      <template v-slot:title>Fin de l'épreuve</template>
-      <template v-slot:content>
-        <div>
-          <p>Bravo tu as fini l'épreuve !</p>
-          <ButtonUI imgSrc="/icon/go.svg" class="--no-hover" @click="endEpreuve">
-            <template v-slot:label>Continuer</template>
-          </ButtonUI>
-        </div>
-      </template>
-    </Modal>
-    <!-- <div v-if="state == 'result'" class="c-modal-result-skate-wrapper">
+
+    <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">
         <img :src="resultImg" alt="" />
         <div class="--rotate">
-          <h1>Bravo</h1>
+          <p class="--texte">
+            <span>{{ resultTxt }}</span>
+            <span>{{ resultTxt }}</span>
+          </p>
           <div class="--score-wrapper">
-            <p class="--score">Score</p>
+            <p class="--score">SCORE : {{ Math.round(score) }}<span>pts</span></p>
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <div
       v-if="figureResult != ''"
       class="figure-result"
@@ -106,9 +99,16 @@
         :src="result == 'gagné' ? '/img/brush-blue.png' : '/img/brush-red.png'"
         alt=""
       />
-      <span class="result-text">{{ figureResult }}</span>
     </div>
-    <canvas class="webgl" />
+
+    <ButtonUI class="--white --startagain" :isActive="false" @click="startAgain">
+      <template v-slot:label
+        ><img src="/icon/gobackred.svg" alt="" />recommencer</template
+      >
+    </ButtonUI>
+    <ButtonUI :imgSrc="'/icon/go.svg'" @click="endEpreuve">
+      <template v-slot:label>passer à l'interview</template>
+    </ButtonUI>
   </div>
 </template>
 
@@ -124,6 +124,7 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
+import router from '@/core/router'
 import { IScore } from '@/core/types/IScore'
 import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
 import { useScoreStore } from '@/core/store/score'
@@ -184,9 +185,12 @@ let startingSkateTheme = new Howl({
 })
 
 let feedbackImg = ref<string>('')
+let showResult = ref<boolean>(false)
 let resultImg = ref<string>('')
+let resultTxt = ref<string>('')
 
 let feedbackImgAnim = gsap.timeline({})
+let feedbackResultAnim = gsap.timeline({})
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -205,34 +209,60 @@ mittInstance.on('Start tutorial', () => {
 mittInstance.on('Start Figure Game', () => {
   setTimeout(() => {
     state.value = 'figureGame'
-    console.log('aaaaa')
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 1500.0,
-      Q: 3.0,
-    })
+    if (skateTheme.playing()) {
+      // @ts-ignore
+      skateTheme.addFilter({
+        filterType: 'lowpass',
+        frequency: 1500.0,
+        Q: 3.0,
+      })
+    } else {
+      // @ts-ignore
+      skateThemeLoop.addFilter({
+        filterType: 'lowpass',
+        frequency: 1500.0,
+        Q: 3.0,
+      })
+    }
   }, 1500)
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
   state.value = 'figureAnim'
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 })
 
 mittInstance.on('Skate Figure Anim 3D End', () => {
   mittInstance.emit('Start Timer', { step: step.value })
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -261,15 +291,22 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 // })
 
 mittInstance.on('Sport finished', () => {
+  showResult.value = true
   Math.round(score.value)
   if (score.value >= 50) {
-    resultImg.value = '/img/skate/result-bravo.svg'
+    resultImg.value = '/img/skate/result-bravo.webp'
+    resultTxt.value = 'bravo'
+  } else if (score.value >= 20) {
+    resultImg.value = '/img/skate/result-pas-mal.webp'
+    resultTxt.value = 'pas mal'
   } else {
-    resultImg.value = '/img/skate/result-pas-mal.svg'
+    resultImg.value = '/img/skate/result-dommage.webp'
+    resultTxt.value = 'dommage'
   }
 
   setTimeout(() => {
     state.value = 'result'
+    feedbackResultPlay()
   }, 1500)
 })
 
@@ -296,6 +333,14 @@ const train = () => {
 }
 
 const handleTutoPatternEnd = ({ isValid = false, timingRatio = 0 }) => {}
+
+const startAgain = () => {
+  Howler.stop()
+  router.push('/competition/preparation')
+  setTimeout(() => {
+    mittInstance.emit('start again')
+  }, 200)
+}
 
 const updateIcon = (isValid?: boolean) => {
   step.value = step.value + 1
@@ -347,47 +392,130 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
 }
 
 const onModalOpen = () => {
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 1500.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 1500.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 1500.0,
+      Q: 3.0,
+    })
+  }
 }
 
 const onModalClose = () => {
-  // @ts-ignore
-  skateTheme.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
-  })
+  if (skateTheme.playing()) {
+    // @ts-ignore
+    skateTheme.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  } else {
+    // @ts-ignore
+    skateThemeLoop.addFilter({
+      filterType: 'lowpass',
+      frequency: 20000.0,
+      Q: 3.0,
+    })
+  }
 }
 
 const feedbackAnimPlay = () => {
-  feedbackImgAnim.to('.c-feedbackGame', {
-    opacity: 1,
-    duration: 0,
-  })
-
   feedbackImgAnim.fromTo(
     '.c-feedbackGame',
     {
       x: '-100%',
+      opacity: 0,
     },
     {
-      x: '0%',
+      x: '-0%',
+      opacity: 1,
       duration: 0.4,
       ease: 'Power2.easeInOut',
     },
+    '+=0.2',
   )
 
   feedbackImgAnim.to(
     '.c-feedbackGame',
     {
       x: '-100%',
+      opacity: 0,
     },
-    '+=0.6',
+    '+=0.4',
+  )
+}
+
+const feedbackResultPlay = () => {
+  feedbackResultAnim.to('.c-modal-result-skate-wrapper', {
+    opacity: 1,
+    duration: 0,
+  })
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate img',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.3,
+      ease: 'Power2.easeInOut',
+    },
+  )
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate .--texte',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  feedbackResultAnim.fromTo(
+    '.c-modal-result-skate .--score-wrapper',
+    {
+      opacity: 0,
+      x: '100%',
+    },
+    {
+      opacity: 1,
+      x: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
+  )
+
+  feedbackResultAnim.fromTo(
+    '.footer-skate-result',
+    {
+      opacity: 0,
+      y: '100%',
+    },
+    {
+      opacity: 1,
+      y: '0%',
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    },
+    '-=0.2',
   )
 }
 </script>

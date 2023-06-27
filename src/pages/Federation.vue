@@ -9,7 +9,7 @@
       <div class="c-federation-modal">
         <h1>merci d’avoir joué à neolympics !</h1>
         <p>
-          N’hésite pas <strong>essayer d’améliorer ton score</strong>, et à visiter les
+          Rejoue et essaye <strong>d’améliorer ton score</strong>, ou découvre les
           <strong>sites des fédérations</strong> des sports additionnels des Jeux
           Olympiques de 2024 !
         </p>

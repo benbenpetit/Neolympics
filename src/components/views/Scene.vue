@@ -90,6 +90,7 @@
         </div>
       </div>
     </div>
+
     <div
       v-if="figureResult != ''"
       class="figure-result"
@@ -101,14 +102,16 @@
       />
     </div>
 
-    <ButtonUI class="--white --startagain" :isActive="false" @click="startAgain">
-      <template v-slot:label
-        ><img src="/icon/gobackred.svg" alt="" />recommencer</template
-      >
-    </ButtonUI>
-    <ButtonUI :imgSrc="'/icon/go.svg'" @click="endEpreuve">
-      <template v-slot:label>passer à l'interview</template>
-    </ButtonUI>
+    <div v-if="showResult" class="footer-skate-result">
+      <ButtonUI class="--white --startagain" :isActive="false" @click="startAgain">
+        <template v-slot:label
+          ><img src="/icon/gobackred.svg" alt="" />recommencer</template
+        >
+      </ButtonUI>
+      <ButtonUI :imgSrc="'/icon/go.svg'" @click="endEpreuve">
+        <template v-slot:label>passer à l'interview</template>
+      </ButtonUI>
+    </div>
   </div>
 </template>
 

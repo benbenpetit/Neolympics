@@ -113,6 +113,8 @@
       </ButtonUI>
     </div>
   </div>
+
+  <canvas class="webgl" />
 </template>
 
 <script setup lang="ts">

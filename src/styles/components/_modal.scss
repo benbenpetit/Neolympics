@@ -16,6 +16,15 @@
     padding: 0px 30%;
   }
 
+  &__voila {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
   &__backdrop {
     display: none;
     position: absolute;

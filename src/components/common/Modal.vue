@@ -4,7 +4,7 @@
     <div class="c-modal-upper-img">
       <slot name="upper-img"></slot>
     </div>
-    <div :style="{ width: '100%', height: '100%' }" ref="modalRef">
+    <div class="c-modal-wrapper__voila" ref="modalRef">
       <div class="c-modal">
         <div class="c-modal-title" v-if="hasSlot('title')">
           <img v-if="imgSrc" :src="imgSrc" alt="" />

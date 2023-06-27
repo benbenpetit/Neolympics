@@ -12,13 +12,10 @@ export default class Time extends EventEmitter {
     this.elapsed = 0
     this.delta = 16
     this.experience = new Experience()
-    // this.frameRate = (1 / 60) * 1000
-    this.frameRate = (1 / 120) * 1000
+    this.frameRate = (1 / 60) * 1000
+    // this.frameRate = (1 / 120) * 1000
     this.timeScale = 0
-
-    window.requestAnimationFrame(() => {
-      this.tick()
-    })
+    this.tick()
   }
 
   tick() {

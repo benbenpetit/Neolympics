@@ -2,8 +2,13 @@ import * as THREE from 'three'
 import Experience from '../Experience'
 import mittInstance from '@/core/lib/MittInstance'
 import { gsap } from 'gsap'
-import mitt from 'mitt'
-import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360 } from '@/data/figures'
+import {
+  KICKFLIP_EASY,
+  GRINDFLIP_EASY,
+  SHOVEIT_EASY,
+  BACK360_EASY,
+  FB270_EASY,
+} from '@/data/figures'
 
 export default class Floor {
   constructor() {
@@ -111,8 +116,14 @@ export default class Floor {
   }
 
   setModules() {
-    const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
-    this.skateModules = CURRENT_FIGURES.map((item) => {
+    const storedFigures = localStorage.getItem('modules')
+    let figures = [FB270_EASY, KICKFLIP_EASY, GRINDFLIP_EASY, SHOVEIT_EASY, BACK360_EASY]
+
+    if (storedFigures) {
+      figures = JSON.parse(storedFigures)
+    }
+
+    this.skateModules = figures.map((item) => {
       return this.experience.resources.items[item.module]
     })
     // this.skateModules[0].scene.position.y -= 0.5
@@ -170,5 +181,11 @@ export default class Floor {
         this.tilesMultiplicator,
     )
     this.floor.position.add(this.modelVelocity)
+  }
+
+  updateModules(figures) {
+    this.setModules(figures)
+    this.setMesh()
+    this.setMaterial()
   }
 }

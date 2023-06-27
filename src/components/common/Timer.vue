@@ -93,14 +93,14 @@ watch(
   },
 )
 
-onMounted(() => {
-  gsap.from('.infos-container', {
-    y: '-150%',
-    opacity: 0.4,
-    duration: 1,
-    ease: 'Power4.easeInOut',
-  })
-})
+// onMounted(() => {
+//   gsap.from('.infos-container', {
+//     y: '-150%',
+//     opacity: 0.4,
+//     duration: 1,
+//     ease: 'Power4.easeInOut',
+//   })
+// })
 
 mittInstance.on('Update Icon', (e: any) => {
   step.value = e.step

@@ -336,7 +336,7 @@ mittInstance.on('Sport finished', () => {
   showResult.value = true
   skateTheme.fade(skateTheme.volume(), 0, 300)
   endingSkateTheme.play()
-  endingSkateTheme.fade(0.5, 0, 8000)
+  endingSkateTheme.fade(0.7, 0, 8000)
 })
 
 const startGame = () => {

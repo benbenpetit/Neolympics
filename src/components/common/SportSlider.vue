@@ -183,31 +183,30 @@ onMounted(() => {
     '-=0.4',
   )
 
-  sliderEntry.add(function () {
-    sliderSweepSound.rate(1.5)
-    sliderSweepSound.play()
-  })
+  // sliderEntry.add(function () {
+  //   sliderSweepSound.rate(1.5)
+  //   sliderSweepSound.play()
+  // })
 
-  sliderEntry.fromTo(
-    '.sportimg .--3d-model',
+  // sliderEntry.fromTo(
+  //   '.sportimg .--3d-model',
 
-    {
-      scale: 0,
-      y: '100%',
-      opacity: 0,
-      filter: 'blur(20px)',
-    },
+  //   {
+  //     scale: 0,
+  //     y: '100%',
+  //     opacity: 0,
+  //     // filter: 'blur(20px)',
+  //   },
 
-    {
-      scale: 1,
-      y: '0%',
-      duration: 0.6,
-      ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
-      opacity: 1,
-      filter: 'blur(0px)',
-    },
-    '-=0.2',
-  )
+  //   {
+  //     scale: 1,
+  //     y: '0%',
+  //     duration: 0.8,
+  //     ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
+  //     opacity: 1,
+  //     // filter: 'blur(0px)',
+  //   },
+  // )
 
   sliderEntry.add(function () {
     sliderPopSound.rate(1.2)
@@ -241,6 +240,32 @@ onMounted(() => {
       opacity: 1,
     },
     '-=0.4',
+  )
+
+  sliderEntry.add(function () {
+    sliderSweepSound.rate(1.5)
+    sliderSweepSound.play()
+  })
+
+  sliderEntry.fromTo(
+    '.sportimg .--3d-model',
+
+    {
+      scale: 0,
+      y: '100%',
+      opacity: 0,
+      // filter: 'blur(20px)',
+    },
+
+    {
+      scale: 1,
+      y: '0%',
+      duration: 0.6,
+      ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
+      opacity: 1,
+      // filter: 'blur(0px)',
+    },
+    '-=0.2',
   )
 
   sliderEntry.fromTo(

@@ -183,6 +183,14 @@ import '@google/model-viewer'
 
 onMounted(async () => {
   questions.value = arrayShuffle(QUESTIONS_DATA)
+  questions.value.unshift({
+    question: `Belle performance ! Quelle était cette première figure ?`,
+    answer: 3,
+    options: ['PigeonFlip', 'Ollie', 'Kickflip', 'FS 270 Boardslide'],
+    selected: null,
+    img: '/img/quiz/quiz-ollie.webp',
+    info: `Cette figure consiste à faire tourner la planche de 180° sous les pieds du skateur. Il existe aussi des variantes à 360° et 540°.`,
+  })
 })
 
 const { setCurrentScore } = useScoreStore()
@@ -225,6 +233,7 @@ const quizOverlaySound = new Howl({
 
 const quizSoundtrack = new Howl({
   src: ['/sounds/soundtracks/quiz-and-skatepark.mp3'],
+  volume: 0.7,
   loop: true,
 })
 
@@ -241,9 +250,9 @@ const quizWrongSound = new Howl({
 
 const quizBlablaSound = new Howl({
   src: ['/sounds/ui-sounds/blabla-quiz.mp3'],
-  volume: 0.3,
+  volume: 0.2,
   sprite: {
-    blabla1: [0, 2000, false],
+    blabla1: [0, 2100, false],
     blabla2: [2000, 2450, false],
     blabla3: [5200, 6000, false],
     blabla4: [7000, 8000, false],
@@ -584,7 +593,7 @@ const gotoRecapQuiz = () => {
 
 onMounted(() => {
   Howler.stop()
-  quizSoundtrack.fade(0, 0.85, 1000)
+  quizSoundtrack.fade(0, 0.7, 1000)
   quizSoundtrack.play()
   // @ts-ignore
   quizSoundtrack.addFilter({

@@ -69,6 +69,7 @@
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
       :isSpeed="currentFigureIndex >= 1"
+      withScratch
     />
     <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">

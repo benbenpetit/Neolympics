@@ -68,6 +68,7 @@
       v-if="state === 'figureGame'"
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
+      :isSpeed="currentFigureIndex >= 1"
     />
     <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">

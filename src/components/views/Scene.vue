@@ -99,7 +99,7 @@
     <div v-if="showResult" class="footer-skate-result">
       <ButtonUI class="--white --startagain" :isActive="false" @click="startAgain">
         <template v-slot:label
-          ><img src="/icon/gobackred.svg" alt="" />recommencer</template
+          ><img src="/icon/goblack.svg" alt="" />recommencer</template
         >
       </ButtonUI>
       <ButtonUI :imgSrc="'/icon/go.svg'" @click="endEpreuve">
@@ -183,41 +183,46 @@ const skateDifficulty = computed(
 )
 
 let skateTheme = new Howl({
-  src: ['/sounds/soundtracks/skate-theme-long.mp3'],
+  src: ['/sounds/soundtracks/skate-theme-long-2.mp3'],
   volume: 0.8,
+  sprite: {
+    full: [0, 65000, false],
+    looped: [17000, 48000, false],
+  },
   onend: function () {
-    skateThemeLoop.play()
+    skateTheme.play('looped')
   },
 })
 
-let skateThemeLoop = new Howl({
-  src: ['/sounds/soundtracks/skate-theme-loop.mp3'],
-  volume: 0.8,
-  loop: true,
-})
-
-let validPatternSound = new Howl({
+const validPatternSound = new Howl({
   src: ['/sounds/soundtracks/crowd-cheer.mp3'],
   volume: 0.5,
 })
 
-let wrongPatternSound = new Howl({
+const wrongPatternSound = new Howl({
   src: ['/sounds/soundtracks/crowd-bouh.mp3'],
   volume: 0.5,
 })
 
-let startingSkateTheme = new Howl({
+const startingSkateTheme = new Howl({
   src: ['/sounds/soundtracks/before-trial.mp3'],
-  volume: 0.5,
+  volume: 0.4,
+})
+
+const endingSkateTheme = new Howl({
+  src: ['/sounds/soundtracks/skate-theme-end.mp3'],
+  volume: 0,
 })
 
 let feedbackImg = ref<string>('')
 let showResult = ref<boolean>(false)
 let resultImg = ref<string>('')
 let resultTxt = ref<string>('')
+let soundtrackFilter = ref({ frequency: 20000 })
 
 let feedbackImgAnim = gsap.timeline({})
 let feedbackResultAnim = gsap.timeline({})
+let soundGsapTl = gsap.timeline({})
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
@@ -230,6 +235,12 @@ mittInstance.on('All ressources loaded', () => {
   setTimeout(() => {
     state.value = ''
   }, 1000)
+  // @ts-ignore
+  skateTheme.addFilter({
+    filterType: 'lowpass',
+    frequency: soundtrackFilter.value.frequency,
+    Q: 6.0,
+  })
 })
 
 watch(
@@ -259,61 +270,25 @@ mittInstance.on('Start tutorial', () => {
 
 mittInstance.on('Start Figure Game', () => {
   state.value = 'figureGame'
-  setTimeout(() => {
-    if (skateTheme.playing()) {
-      // @ts-ignore
-      skateTheme.addFilter({
-        filterType: 'lowpass',
-        frequency: 1500.0,
-        Q: 3.0,
-      })
-    } else {
-      // @ts-ignore
-      skateThemeLoop.addFilter({
-        filterType: 'lowpass',
-        frequency: 1500.0,
-        Q: 3.0,
-      })
-    }
-  }, 1500)
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 500,
+    duration: 3,
+    ease: 'expo.out',
+  })
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
+  console.log('fig 3D')
   state.value = 'figureAnim'
-  if (skateTheme.playing()) {
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  } else {
-    // @ts-ignore
-    skateThemeLoop.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  }
+  // soundGsapTl.to(soundtrackFilter.value, {
+  //   frequency: 20000,
+  //   duration: 2,
+  //   ease: 'expo.in',
+  // })
 })
 
 mittInstance.on('Skate Figure Anim 3D End', () => {
   mittInstance.emit('Start Timer', { step: step.value })
-  if (skateTheme.playing()) {
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  } else {
-    // @ts-ignore
-    skateThemeLoop.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  }
 })
 
 mittInstance.emit('Start Anim 3D', { step: step.value })
@@ -342,7 +317,6 @@ mittInstance.emit('Start Anim 3D', { step: step.value })
 // })
 
 mittInstance.on('Sport finished', () => {
-  showResult.value = true
   Math.round(score.value)
   if (score.value >= 50) {
     resultImg.value = '/img/skate/result-bravo.webp'
@@ -358,14 +332,18 @@ mittInstance.on('Sport finished', () => {
   setTimeout(() => {
     state.value = 'result'
     feedbackResultPlay()
-  }, 1500)
+  }, 200)
+  showResult.value = true
+  skateTheme.fade(skateTheme.volume(), 0, 300)
+  endingSkateTheme.play()
+  endingSkateTheme.fade(0.5, 0, 8000)
 })
 
 const startGame = () => {
   mittInstance.emit('Start Timer', { step: step.value })
   mittInstance.emit('Start Skate Animation')
   state.value = 'game'
-  skateTheme.play()
+  skateTheme.play('full')
   skateTheme.fade(0, 0.8, 100)
   if (startingSkateTheme.playing()) {
     startingSkateTheme.fade(0.5, 0, 600)
@@ -414,6 +392,11 @@ const calculateFigureScore = (timing: number) => {
 
 const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
   updateIcon(isValid)
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 20000,
+    duration: 2,
+    ease: 'expo.in',
+  })
 
   if (isValid === true) {
     const calculatedScore = calculateFigureScore(timingRatio)
@@ -442,40 +425,26 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
 }
 
 const onModalOpen = () => {
-  if (skateTheme.playing()) {
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 1500.0,
-      Q: 3.0,
-    })
-  } else {
-    // @ts-ignore
-    skateThemeLoop.addFilter({
-      filterType: 'lowpass',
-      frequency: 1500.0,
-      Q: 3.0,
-    })
-  }
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 500,
+    duration: 0.6,
+    ease: 'expo.out',
+  })
 }
 
 const onModalClose = () => {
-  if (skateTheme.playing()) {
-    // @ts-ignore
-    skateTheme.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  } else {
-    // @ts-ignore
-    skateThemeLoop.addFilter({
-      filterType: 'lowpass',
-      frequency: 20000.0,
-      Q: 3.0,
-    })
-  }
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 20000,
+    duration: 0.6,
+    ease: 'expo.in',
+  })
 }
+
+watch(soundtrackFilter.value, () => {
+  // @ts-ignore
+  skateTheme.frequency(soundtrackFilter.value.frequency)
+  console.log(`freq is ${soundtrackFilter.value.frequency}`)
+})
 
 const feedbackAnimPlay = () => {
   feedbackImgAnim.fromTo(
@@ -490,7 +459,7 @@ const feedbackAnimPlay = () => {
       duration: 0.4,
       ease: 'Power2.easeInOut',
     },
-    '+=0.2',
+    '+=0.3',
   )
 
   feedbackImgAnim.to(
@@ -499,7 +468,7 @@ const feedbackAnimPlay = () => {
       x: '-100%',
       opacity: 0,
     },
-    '+=1.2',
+    '+=1',
   )
 }
 

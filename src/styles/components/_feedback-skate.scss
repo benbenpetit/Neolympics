@@ -5,12 +5,12 @@
   top: 0;
   left: 0;
   max-height: 100%;
-  max-width: 100%;
+  width: 100vw;
   opacity: 0;
   overflow: hidden;
   img {
     height: 100%;
-    width: 100%;
+    width: 120%;
     overflow: hidden;
   }
 }
@@ -44,7 +44,7 @@
 
     .--rotate {
       // position: absolute;
-      width: 80%;
+      width: 100%;
       transform: translateY(-94%) rotate(6.5deg);
 
       .--texte {
@@ -74,6 +74,7 @@
       }
 
       .--score-wrapper {
+        margin: 0px 5%;
         border: solid 2px $color-blue-stroke;
         border-radius: 16px;
         // transform: translateY(-25px);

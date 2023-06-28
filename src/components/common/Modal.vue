@@ -28,10 +28,13 @@
 import { gsap } from 'gsap'
 import { onMounted, ref, useSlots } from 'vue'
 
-const { imgSrc } = defineProps<Props>()
+const { imgSrc, isAnim } = withDefaults(defineProps<Props>(), {
+  isAnim: true,
+})
 
 interface Props {
   imgSrc?: string
+  isAnim?: boolean
 }
 
 const emits = defineEmits(['onBackdropClick'])
@@ -43,11 +46,13 @@ const hasSlot = (name: string) => {
 }
 
 onMounted(() => {
-  gsap.from(modalRef.value, {
-    opacity: 0,
-    y: 8,
-    duration: 0.4,
-    ease: 'Power3.easeInOut',
-  })
+  if (isAnim) {
+    gsap.from(modalRef.value, {
+      opacity: 0,
+      y: 8,
+      duration: 0.4,
+      ease: 'Power2.easeInOut',
+    })
+  }
 })
 </script>

@@ -21,12 +21,10 @@
   // }
 
   .c-buttonUI-content {
+    margin-right: 0.25rem;
+
     p {
       transform: translateY(2px);
-      margin: 0px 5px;
-    }
-    img {
-      margin: 0px 5px;
     }
   }
 
@@ -48,8 +46,12 @@
     border: solid 2px black;
     color: black;
 
+    &.--border {
+      border-color: $color-blue-secondary;
+    }
+
     img {
-      transform: translateY(2px);
+      transform: translateY(1px);
       filter: none;
       -webkit-transition: -webkit-filter 0.2s ease-in-out;
     }
@@ -58,6 +60,10 @@
       background-color: $color-blue-secondary;
       border-color: $color-blue;
       color: $color-blue;
+
+      &.--border {
+        border-color: $color-blue-secondary;
+      }
 
       img {
         filter: invert(25%) sepia(97%) saturate(2590%) hue-rotate(227deg) brightness(99%)
@@ -102,8 +108,9 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-  justify-content: space-evenly;
+  justify-content: center;
   text-transform: uppercase;
+  column-gap: 0.5rem;
 
   p {
     font-size: 1em;

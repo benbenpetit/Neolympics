@@ -182,11 +182,12 @@
       right: 0;
       bottom: 0;
       pointer-events: none;
+      opacity: 0.5;
       background: linear-gradient(
         0deg,
-        #45231f 0%,
+        #5b221c 0%,
         rgba(131, 111, 109, 0) 100%,
-        rgba(69, 35, 31, 0) 100%
+        rgba(91, 34, 28, 0) 100%
       );
     }
 

@@ -10,6 +10,9 @@ export default defineConfig({
         transformAssetUrls: {
           includeAbsolute: false,
         },
+        compilerOptions: {
+          isCustomElement: (tag) => ['model-viewer'].includes(tag),
+        },
       },
     }),
   ],

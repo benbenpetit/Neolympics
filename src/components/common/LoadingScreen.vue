@@ -4,7 +4,7 @@
     :class="`--difficulty-${skateDifficulty}`"
   >
     <img src="/img/loading.gif" alt="" class="loading-sreen__gif" />
-    <div class="loading-screen__title">CHARGEMENT</div>
+    <div class="loading-screen__title">DIRECTION LA CONCORDE</div>
     <div class="loading-screen__bar-container">
       <div class="loading-screen__bar">
         <div

@@ -82,18 +82,23 @@ export default class SkaterLapin {
   }
 
   changeCamera() {
-    gsap.to(this.cameraOffset, {
+    var cameraMovement = gsap.timeline()
+    cameraMovement.to(this.cameraOffset, {
       x: -2,
       y: 0,
       z: -1,
-      duration: 2,
-      ease: 'Power1.easeIn',
+      duration: 15,
+      ease: 'Power3.easeOut',
     })
-    gsap.to(this.lookAtOffset, {
-      value: 0.5,
-      duration: 2,
-      ease: 'Power1.easeIn',
-    })
+    cameraMovement.to(
+      this.lookAtOffset,
+      {
+        value: 0.5,
+        duration: 15,
+        ease: 'Power3.easeOut',
+      },
+      '>-15',
+    )
   }
 
   setAnimation() {
@@ -120,7 +125,7 @@ export default class SkaterLapin {
     console.log(this.animation.actions)
 
     this.animation.play = (name) => {
-      console.log(name)
+      // console.log(name)
       const newAction = this.animation.actions[name]
       const oldAction = this.animation.actions.current
 
@@ -144,7 +149,7 @@ export default class SkaterLapin {
       if (e.action.getClip().name.includes('Move_P')) {
         mittInstance.emit('Skate Figure Anim 3D End')
       }
-      console.log('Action terminée : ', e.action.getClip().name)
+      // console.log('Action terminée : ', e.action.getClip().name)
     })
 
     // Debug Part
@@ -277,10 +282,16 @@ export default class SkaterLapin {
         z: 0.0,
         duration: 1,
       })
-      gsap.to(this.slowmotionFactor, {
-        value: 0,
-        duration: 0,
-      })
+      // gsap.to(this.slowmotionFactor, {
+      //   value: 0,
+      //   duration: 0,
+      // })
+      this.animation.actions['JoyfulJump'].reset()
+      this.animation.actions['JoyfulJump'].play()
+      this.animation.actions['JoyfulJump'].crossFadeFrom(
+        this.animation.actions.current,
+        name == 'Move_P_270Slide' || name == 'Move_Board_270Slide' ? 0 : 0.5,
+      )
     })
   }
 

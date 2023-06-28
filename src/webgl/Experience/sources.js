@@ -6,6 +6,11 @@ export default [
     path: '/models/Skatepark.glb',
   },
   {
+    name: 'skateparkNew',
+    type: 'gltfModel',
+    path: '/models/Skatepark_Deco.glb',
+  },
+  {
     name: 'public',
     type: 'gltfModel',
     path: '/models/Public.glb',
@@ -118,11 +123,6 @@ export default [
     path: '/textures/Skatepark/Sol2_Texture.png',
   },
   {
-    name: 'siegeTexture',
-    type: 'texture',
-    path: '/textures/Skatepark/Siege_Texture.png',
-  },
-  {
     name: 'shibaTexture',
     type: 'texture',
     path: '/textures/Skatepark/Shiba_Texture.png',
@@ -136,6 +136,36 @@ export default [
     name: 'gazelleTexture',
     type: 'texture',
     path: '/textures/Skatepark/Gazelle_Texture.png',
+  },
+  {
+    name: 'decoGrind',
+    type: 'texture',
+    path: '/textures/Skatepark/Deco/Deco_Grind_Texture.png',
+  },
+  {
+    name: 'decoGrind2',
+    type: 'texture',
+    path: '/textures/Skatepark/Deco/Deco_Grind2_Texture.png',
+  },
+  {
+    name: 'decoPtitBail',
+    type: 'texture',
+    path: '/textures/Skatepark/Deco/Deco_PtitBail_Texture.png',
+  },
+  {
+    name: 'rings',
+    type: 'texture',
+    path: '/textures/Skatepark/Deco/Rings_Texture.png',
+  },
+  {
+    name: 'gradient',
+    type: 'texture',
+    path: '/textures/Skatepark/Gradients.png',
+  },
+  {
+    name: 'obelisque',
+    type: 'texture',
+    path: '/textures/Skatepark/Deco/Deco_Obelisque_Texture.png',
   },
   // MODULES
   {

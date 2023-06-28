@@ -409,6 +409,7 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
     feedbackImg.value = '/img/skate/parfait.webp'
     feedbackAnimPlay()
   } else {
+    // console.log('wrong pattern')
     wrongPatternSound.play()
     feedbackImg.value = '/img/skate/incorrect.webp'
     feedbackAnimPlay()

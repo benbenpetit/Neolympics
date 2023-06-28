@@ -76,20 +76,28 @@ watch(currentUser, async () => {
   await fetchMaxSessions()
 })
 
-watch([skateStep, scoreState.currentScores.skate, currentUser], () => {
-  if (skateStep.value === 2 && currentUser.value) {
-    if (scoreState.currentScores.skate && scoreState.currentScores.skateQuiz) {
-      const tempScore: IScore = {
-        sportId: 'skate',
-        points: scoreState.currentScores.skate ?? 0,
-        quiz: scoreState.currentScores.skateQuiz,
-        createdAt: new Date(),
-        userId: currentUser.value.uid,
+watch(
+  [
+    skateStep,
+    scoreState.currentScores.skate,
+    scoreState.currentScores.skateQuiz,
+    currentUser,
+  ],
+  () => {
+    if (skateStep.value === 2 && currentUser.value) {
+      if (scoreState.currentScores.skate && scoreState.currentScores.skateQuiz) {
+        const tempScore: IScore = {
+          sportId: 'skate',
+          points: scoreState.currentScores.skate ?? 0,
+          quiz: scoreState.currentScores.skateQuiz,
+          createdAt: new Date(),
+          userId: currentUser.value.uid,
+        }
+        addScoreSkate(tempScore)
       }
-      addScoreSkate(tempScore)
     }
-  }
-})
+  },
+)
 
 watch(
   [scoreState, realtimeMaxSessions, realtimeUsers],

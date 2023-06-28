@@ -269,7 +269,6 @@ const onModalClose = () => {
 watch(soundtrackFilter.value, () => {
   // @ts-ignore
   quizSoundtrack.frequency(soundtrackFilter.value.frequency)
-  console.log(`freq is ${soundtrackFilter.value.frequency}`)
 })
 
 const quizOverlayTimeline = gsap.timeline({

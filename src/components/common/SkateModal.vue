@@ -18,11 +18,18 @@
         :style="{ transform: `scaleX(${Math.max(1 - timerProgress - 0.01, 0)})` }"
       />
     </div>
-    <Pattern
-      :patternToDo="patternToDo"
-      :isAutoDrawing="isAutoDrawing"
-      :onDrawEnd="handleDrawEnd"
-    />
+    <div class="pattern-pattern">
+      <Pattern
+        :patternToDo="patternToDo"
+        :isAutoDrawing="isAutoDrawing"
+        :onDrawEnd="handleDrawEnd"
+      />
+      <img
+        src="/img/skate/skate-scratch.webp"
+        class="pattern-pattern__scratch"
+        ref="scratchRef"
+      />
+    </div>
   </div>
 </template>
 
@@ -50,6 +57,7 @@ const isEnd = ref(false)
 const title = ref('')
 const titleRef = ref<HTMLDivElement | null>(null)
 const patternTimerRef = ref<HTMLSpanElement | null>(null)
+const scratchRef = ref<HTMLImageElement | null>(null)
 const titleWin = ref(false)
 const titleWrong = ref(false)
 const elapsedTime = ref(0)
@@ -237,6 +245,24 @@ const handleDrawEnd = (isWrong?: boolean) => {
 
   if (!isAutoDrawing.value) {
     scoreTimings.value.push(1 - timerProgress.value)
+    gsap.fromTo(
+      scratchRef.value,
+      {
+        scale: 0.5,
+      },
+      {
+        scale: 1,
+        duration: 0.6,
+        ease: 'Power3.easeInOut',
+        onComplete: () => {
+          gsap.to(scratchRef.value, {
+            scale: 1,
+            duration: 0.6,
+            ease: 'Bounce.easeInOut',
+          })
+        },
+      },
+    )
   }
 
   if (currentPatternToDoIndex.value < props.pattern.length - 1) {

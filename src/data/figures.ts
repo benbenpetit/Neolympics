@@ -364,7 +364,7 @@ export const FB270_HARD: IFigure = {
     perso: 'Move_P_270Slide',
   },
   module: 'Module270',
-  pattern: [FB270_HARD_1.pattern[0], FB270_HARD_1.pattern[0], FB270_HARD_1.pattern[0]],
+  pattern: [FB270_HARD_1.pattern[0], FB270_HARD_2.pattern[0], FB270_HARD_3.pattern[0]],
 }
 
 export const FIGURES = [

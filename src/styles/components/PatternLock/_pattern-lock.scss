@@ -36,6 +36,7 @@
 
   .pattern-container {
     position: relative;
+    z-index: 1;
     width: calc(100% / 4 * 3);
     height: calc(100% / 6 * 5);
     margin: auto;
@@ -96,6 +97,7 @@
       }
     }
   }
+
   .game-side {
     width: 50%;
     display: flex;

@@ -46,8 +46,8 @@ onMounted(() => {
   gsap.from(modalRef.value, {
     opacity: 0,
     y: 8,
-    duration: 0.5,
-    ease: 'Power2.easeInOut',
+    duration: 0.4,
+    ease: 'Power3.easeInOut',
   })
 })
 </script>

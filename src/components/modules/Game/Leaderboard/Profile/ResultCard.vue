@@ -63,8 +63,8 @@ const isActive = computed(() => props?.user?.id === currentUser?.value?.uid)
 const currentUser = useCurrentUser()
 
 const rankBrush: string[] = [
-  '/img/rank-brush-1.png',
-  '/img/rank-brush-2.png',
-  '/img/rank-brush-3.png',
+  '/img/rank-brush-1.webp',
+  '/img/rank-brush-2.webp',
+  '/img/rank-brush-3.webp',
 ]
 </script>

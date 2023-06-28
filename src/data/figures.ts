@@ -294,7 +294,7 @@ export const GRINDFLIP_HARD: IFigure = {
 }
 
 export const FB270_EASY_1: IFigure = {
-  name: '270 Frontside Boardslide',
+  name: '270 FS Boardslide',
   pattern: [
     [
       [2, 1, 0, 3, 6, 9, 12, 13, 14],
@@ -317,7 +317,7 @@ export const FB270_MEDIUM_1: IFigure = {
   pattern: [[[2, 1, 0, 3, 6, 9, 12, 13, 14]]],
 }
 export const FB270_MEDIUM_2: IFigure = {
-  name: '270 Frontside Boardslide',
+  name: '270 FS Boardslide',
   pattern: [
     [
       [0, 1, 2],
@@ -349,7 +349,7 @@ export const FB270_HARD_2: IFigure = {
   pattern: [[[2, 1, 0, 3, 6, 9, 12, 13, 14]]],
 }
 export const FB270_HARD_3: IFigure = {
-  name: '270 Frontside Boardslide',
+  name: '270 FS Boardslide',
   pattern: [
     [
       [0, 1, 2],
@@ -364,7 +364,7 @@ export const FB270_HARD: IFigure = {
     perso: 'Move_P_270Slide',
   },
   module: 'Module270',
-  pattern: [FB270_HARD_1.pattern[0], FB270_HARD_1.pattern[0], FB270_HARD_1.pattern[0]],
+  pattern: [FB270_HARD_1.pattern[0], FB270_HARD_2.pattern[0], FB270_HARD_3.pattern[0]],
 }
 
 export const FIGURES = [

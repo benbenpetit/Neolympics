@@ -13,19 +13,10 @@
         <ButtonUI
           @click="soundClick()"
           :isActive="false"
-          class="--white"
-          style="border: none"
-        >
-          <template v-slot:label>
-            <img :src="soundEnabled ? soundOnSrc : soundOffSrc" alt="" />
-          </template>
-        </ButtonUI>
-        <ButtonUI
-          @click="showModalHome"
-          :isActive="false"
-          class="--white"
-          style="border: none"
-        >
+          class="--white --border"
+          :imgSrc="soundEnabled ? soundOnSrc : soundOffSrc"
+        />
+        <ButtonUI @click="showModalHome" :isActive="false" class="--white --border">
           <template v-slot:label>ACCUEIL</template>
         </ButtonUI>
       </div>

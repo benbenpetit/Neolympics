@@ -68,6 +68,7 @@
       v-if="state === 'figureGame'"
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
+      :isSpeed="currentFigureIndex >= 1"
     />
     <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">
@@ -424,7 +425,6 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
     feedbackImg.value = '/img/skate/parfait.webp'
     feedbackAnimPlay()
   } else {
-    console.log('wrong pattern')
     wrongPatternSound.play()
     feedbackImg.value = '/img/skate/incorrect.webp'
     feedbackAnimPlay()

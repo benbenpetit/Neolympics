@@ -29,12 +29,4 @@
 import Modal from '@/components/common/Modal.vue'
 import Nametag from '@/components/common/Nametag.vue'
 import DisplayCharacter from '@/components/common/DisplayCharacter.vue'
-
-const startTraining = () => {
-  console.log('click entrainement')
-}
-
-const startTrial = () => {
-  console.log('click epreuve')
-}
 </script>

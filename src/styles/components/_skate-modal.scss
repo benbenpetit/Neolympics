@@ -16,6 +16,8 @@
     border-radius: 25px;
     transform: skewX(-30deg);
     width: 100%;
+    opacity: 0.6;
+    backdrop-filter: blur(6px);
     transition: border-color 0.4s ease-out;
   }
 
@@ -122,8 +124,34 @@
     }
   }
 
+  .pattern-pattern {
+    position: absolute;
+    right: 12.5vh;
+    bottom: 0;
+    width: 25vh;
+    height: 70vh;
+
+    .skate-container {
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+      right: initial;
+    }
+
+    &__scratch {
+      position: absolute;
+      z-index: 0;
+      bottom: -5%;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 40vh;
+      height: auto;
+    }
+  }
+
   .skate-container {
-    bottom: -1.5rem;
+    bottom: -1rem;
+    box-shadow: 0px 4px 32px 0px rgba(40, 48, 92, 0.12);
   }
 
   .skate-pattern {

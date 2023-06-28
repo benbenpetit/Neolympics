@@ -7,23 +7,23 @@
       }
     "
     class="c-buttonUI"
-    :class="isActive && '--red'"
+    :class="props.isActive && '--red'"
     ref="domButtonRef"
   >
     <div class="c-buttonUI-content">
-      <p><slot name="label"></slot></p>
-      <slot name="icon" v-if="imgSrc"><img :src="imgSrc" alt="" /></slot>
+      <p v-if="hasSlot('label')"><slot name="label"></slot></p>
+      <slot name="icon" v-if="props.imgSrc"><img :src="props.imgSrc" alt="" /></slot>
     </div>
   </button>
 </template>
 
 <script setup lang="ts">
 import { Howl, Howler } from 'howler'
-import { ref } from 'vue'
+import { ref, useSlots } from 'vue'
 
 const emit = defineEmits(['onClick'])
 
-const { imgSrc, isActive, sound } = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   imgSrc: undefined,
   isActive: true,
   sound: true,
@@ -36,8 +36,13 @@ interface Props {
 }
 
 const domButtonRef = ref<HTMLButtonElement | null>(null)
+const slots = useSlots()
 
 defineExpose({ domButtonRef })
+
+const hasSlot = (name: string) => {
+  return !!slots[name]
+}
 
 let buttonUISound = new Howl({
   src: ['/sounds/ui-sounds/button-beep2.mp3'],
@@ -45,7 +50,7 @@ let buttonUISound = new Howl({
 })
 
 const clickSound = () => {
-  if (sound) {
+  if (props.sound) {
     buttonUISound.play()
   }
 }

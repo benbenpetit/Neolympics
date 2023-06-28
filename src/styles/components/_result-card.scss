@@ -145,5 +145,10 @@
     .c-result-card.--big & {
       transform: translateY(-35%);
     }
+
+    img {
+      width: 100px;
+      object-fit: contain;
+    }
   }
 }

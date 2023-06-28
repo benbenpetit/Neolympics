@@ -444,7 +444,6 @@ const onModalClose = () => {
 watch(soundtrackFilter.value, () => {
   // @ts-ignore
   skateTheme.frequency(soundtrackFilter.value.frequency)
-  console.log(`freq is ${soundtrackFilter.value.frequency}`)
 })
 
 const feedbackAnimPlay = () => {

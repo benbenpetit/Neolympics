@@ -1,0 +1,98 @@
+@use '/src/styles/settings' as *;
+
+.o-background-points {
+  position: relative;
+  background-color: $color-yellow;
+  background-image: url(/img/background-pattern-yellow.webp);
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: auto 24px;
+  animation: animatedBackground 500s linear infinite;
+  transition: background 0.6s ease-in-out, background-color 0.6s ease-in-out;
+
+  @keyframes animatedBackground {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 10000px -20000px;
+    }
+  }
+
+  &::before {
+    content: '';
+    z-index: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, #1f28ff 100%);
+    mix-blend-mode: color-burn;
+    pointer-events: none;
+    transition: all 0.6s ease-in-out;
+  }
+
+  &::after {
+    content: '';
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    pointer-events: none;
+    animation: animIn 0.8s ease-in-out forwards;
+    transition: all 0.6s ease-in-out;
+
+    @keyframes animIn {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  }
+
+  &.--disabled {
+    background-image: url(/img/background-pattern-blue.webp);
+    background-color: rgba(0, 0, 0, 0);
+
+    &::before {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 1) 50%, $color-blue 100%);
+    }
+
+    &::after {
+      background: #1f28ff;
+    }
+  }
+
+  &.--difficulty {
+    &-1 {
+      background-color: #c8ff91;
+      background-image: url(/img/background-pattern-green.webp);
+
+      &::before {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #1f28ff 100%);
+      }
+    }
+
+    &-2 {
+      background-color: $color-yellow;
+      background-image: url(/img/background-pattern-yellow.webp);
+    }
+
+    &-3 {
+      background-color: #ffa775;
+      background-image: url(/img/background-pattern-red.webp);
+
+      &::before {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, #0090f8 100%);
+      }
+    }
+  }
+}

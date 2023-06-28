@@ -1,0 +1,66 @@
+@use '/src/styles/settings' as *;
+.c-loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0 7vw;
+  transition: transform 0.5s ease-out;
+  .loading-sreen__gif {
+    width: 35vw;
+    height: auto;
+    margin: 0 auto;
+  }
+  .loading-screen__title {
+    color: $color-red;
+    font-size: 9vw;
+    font-family: MonumentExtended;
+    font-weight: 600;
+    text-align: center;
+  }
+  .loading-screen__bar-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    .loading-screen__bar {
+      flex-grow: 1;
+      height: 40px;
+      background: $color-white;
+      transform: skewX(-30deg);
+      border-radius: 32px 8px;
+      border: 2px solid $color-red;
+      overflow: hidden;
+      .loading-screen__bar-inside {
+        border-radius: 32px 8px;
+        height: 100%;
+        width: var(--loadingWidth);
+        background-color: $color-red;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.5s ease-out;
+      }
+    }
+    .loading-screen__value {
+      margin-left: 40px;
+      color: $color-red;
+      font-size: 100px;
+      font-family: MonumentExtended;
+      font-weight: 600;
+      position: absolute;
+      right: 0;
+      top: 0;
+      &.invisible {
+        position: inherit;
+        opacity: 0;
+      }
+    }
+  }
+}

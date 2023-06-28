@@ -1,0 +1,61 @@
+@use '/src/styles/settings/' as *;
+
+.c-score-sport {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #000000;
+  color: $color-darkgrey;
+  background-color: $color-blue-secondary;
+
+  &__icon {
+    flex: 1 0 auto;
+    width: 100%;
+    max-width: 44px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background-color: $color-blue;
+
+    .c-score-sport.--disabled & {
+      background-color: $color-darkgrey;
+    }
+
+    > img {
+      width: 100%;
+      max-width: 24px;
+      height: 100%;
+      max-height: 24px;
+      object-fit: contain;
+    }
+  }
+
+  &__content {
+    flex: 1 0 auto;
+    padding: 0 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__big {
+      font-size: 1.5rem;
+    }
+
+    img {
+      margin-bottom: -2px;
+      margin-left: 4px;
+      width: auto;
+      height: 17px;
+    }
+  }
+
+  &__italic {
+    font-style: italic;
+    font-size: 1.5rem;
+  }
+}

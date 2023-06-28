@@ -1,0 +1,130 @@
+@use '/src/styles/settings' as *;
+
+.c-buttonUI {
+  font-family: Anybody;
+  font-weight: 700;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  transform: skew(-30deg);
+  margin: 5px;
+  border: none;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: solid 2px #111111;
+  background-color: #ffffff;
+  outline: none;
+
+  // &:hover {
+  //   background-color: darken(#ffffff, 5%);
+  // }
+
+  .c-buttonUI-content {
+    margin-right: 0.25rem;
+
+    p {
+      transform: translateY(2px);
+    }
+  }
+
+  &.--red {
+    background-color: $color-red;
+    border: solid 1px white;
+
+    .c-buttonUI-content {
+      color: white;
+    }
+
+    &:hover {
+      background-color: $color-red-hover;
+    }
+  }
+
+  &.--white {
+    background-color: white;
+    border: solid 2px black;
+    color: black;
+
+    &.--border {
+      border-color: $color-blue-secondary;
+    }
+
+    img {
+      transform: translateY(1px);
+      filter: none;
+      -webkit-transition: -webkit-filter 0.2s ease-in-out;
+    }
+
+    &:hover {
+      background-color: $color-blue-secondary;
+      border-color: $color-blue;
+      color: $color-blue;
+
+      &.--border {
+        border-color: $color-blue-secondary;
+      }
+
+      img {
+        filter: invert(25%) sepia(97%) saturate(2590%) hue-rotate(227deg) brightness(99%)
+          contrast(104%);
+      }
+    }
+  }
+
+  &.--startagain {
+    background-color: $color-white;
+    border: solid 2px $color-red;
+    color: $color-red;
+
+    .c-buttonUI-content {
+      p {
+      }
+
+      img {
+        transform: translate(-6px, -2px);
+      }
+    }
+    &:hover {
+      background-color: white;
+      border-color: $color-red-hover;
+      color: $color-red-hover;
+      .c-buttonUI-content {
+        p {
+          color: $color-red-hover;
+        }
+        img {
+          filter: brightness(90%);
+        }
+      }
+    }
+  }
+}
+
+.c-buttonUI-content {
+  transform: skew(30deg);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-transform: uppercase;
+  column-gap: 0.5rem;
+
+  p {
+    font-size: 1em;
+    display: flex;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    // padding: 0px 10px;
+  }
+
+  img {
+    width: auto;
+    height: auto;
+    max-height: 20px;
+    // padding: 0px 10px;
+    // margin-left: 10px;
+  }
+}

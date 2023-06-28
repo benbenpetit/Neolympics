@@ -1,0 +1,154 @@
+@use '/src/styles/settings/' as *;
+
+.c-result-card {
+  position: relative;
+  border-radius: 16px;
+  // box-shadow: 0px 4px 37px rgba(40, 48, 92, 0.06);
+  border: 1px solid #b0baec;
+  background-color: #ffffff;
+  transition: 0.2s box-shadow ease-in-out;
+  animation: 1s cubic-bezier(0.4, 0, 0, 1) opacityIn forwards;
+
+  @keyframes opacityIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // &:hover {
+  //   box-shadow: 0px 4px 37px rgba(123, 123, 123, 0.3);
+  // }
+
+  &.--horizontal {
+    padding: 0;
+    display: flex;
+  }
+
+  &.--active {
+    border: 4px solid $color-blue;
+  }
+
+  &__rank {
+    flex: 1 0 auto;
+    align-self: stretch;
+    max-width: 6rem;
+    aspect-ratio: 1/1;
+    background-color: $color-darkgrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    .c-result-card.--active & {
+      background-color: $color-blue;
+    }
+
+    > span {
+      color: #ffffff;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+
+    .c-result-card.--horizontal & {
+      flex-direction: row;
+      padding: 1rem 1.5rem;
+    }
+
+    .c-result-card.--big & {
+      padding-bottom: 2.5rem;
+    }
+  }
+
+  &__pic {
+    min-width: 0;
+    width: 100%;
+    max-width: 9.5rem;
+    min-height: 0;
+    height: auto;
+    border-radius: 9999px;
+    object-fit: cover;
+
+    .c-result-card.--horizontal & {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    .c-result-card.--big & {
+      max-width: 10.75rem;
+    }
+  }
+
+  &__pseudo {
+    flex: 0 1 auto;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    .c-result-card.--horizontal & {
+      text-align: left;
+      max-width: 200px;
+    }
+
+    > span {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &:nth-child(2) {
+        font-weight: 400;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__stat {
+    flex: 1 0 auto;
+    align-self: stretch;
+    justify-content: flex-end;
+
+    .c-result-card.--horizontal & {
+      align-self: initial;
+    }
+  }
+
+  &__sticker {
+    position: absolute;
+    top: 100%;
+    transform: translateY(-30%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .c-result-card.--big & {
+      transform: translateY(-35%);
+    }
+
+    img {
+      width: 100px;
+      object-fit: contain;
+    }
+  }
+}

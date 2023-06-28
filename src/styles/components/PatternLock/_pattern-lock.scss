@@ -1,0 +1,125 @@
+@use '../../settings' as *;
+
+.lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+
+  line {
+    stroke-width: 0.5vw;
+    stroke: $color-red;
+    // transition: opacity 0.25s ease-in-out;
+    opacity: 0;
+
+    &.is-active {
+      transition-duration: 0s;
+      opacity: 1;
+    }
+  }
+}
+
+.pattern-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .pattern-container {
+    position: relative;
+    z-index: 1;
+    width: calc(100% / 4 * 3);
+    height: calc(100% / 6 * 5);
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+
+    .pattern-point__zone {
+      height: 3vmin;
+      width: 3vmin;
+      min-width: 32px;
+      min-height: 32px;
+      background: rgba($color: #000000, $alpha: 0);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+
+      &.is-active {
+        cursor: default;
+        pointer-events: none;
+
+        .pattern-point {
+          background: $color-red;
+          transition: all 0.25s cubic-bezier(0, 0, 0.45, 1.9);
+          transform: scale(1.3);
+        }
+      }
+
+      &.is-disabled {
+        pointer-events: none;
+        cursor: default;
+
+        &:not(.is-active) {
+          .pattern-point {
+            background-color: #b0baec;
+          }
+        }
+      }
+
+      .pattern-point {
+        height: 1.5vmin;
+        width: 1.5vmin;
+        min-width: 16px;
+        min-height: 16px;
+        border-radius: 50%;
+        background: $color-blue;
+        transition: all 0.25s ease-in-out;
+
+        &:hover {
+          transition: all 0.2s cubic-bezier(0, 0, 0.45, 1.9);
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+
+  .game-side {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .pattern-to-do,
+    .current-pattern {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      h2 {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+.tutoriel-content {
+  .pattern-container {
+    width: calc(100% / 6 * 5);
+    height: calc(100% / 4 * 3);
+  }
+}

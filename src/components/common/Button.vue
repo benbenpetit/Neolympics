@@ -1,11 +1,9 @@
 <template>
-	<button class="c-button">{{ label }}</button>
+  <button class="c-button" @click="emit('onClick')">
+    <slot />
+  </button>
 </template>
 
 <script setup lang="ts">
-interface Props {
-	label: string
-}
-
-const { label } = defineProps<Props>()
+const emit = defineEmits(['onClick'])
 </script>

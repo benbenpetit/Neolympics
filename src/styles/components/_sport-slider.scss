@@ -1,0 +1,295 @@
+@use '/src/styles/settings' as *;
+
+.c-sportslider-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: clamp(110px, 15vh, 130px);
+  z-index: 0;
+  overflow: hidden;
+
+  &__forme {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    transform-origin: center center;
+    margin: auto;
+  }
+
+  .c-sportslider-buttons {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    // z-index: 5;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+
+    button {
+      display: flex;
+      flex-direction: row;
+      background: none;
+      border: none;
+      align-items: center;
+      justify-content: space-evenly;
+      z-index: 20;
+      cursor: pointer;
+      height: 100%;
+      min-width: 10vw;
+
+      h3 {
+        font-weight: 400;
+        font-size: 1.2rem;
+        color: $color-darkgrey;
+        transform: translateY(2px);
+        margin: 0px 10px;
+        z-index: 20;
+      }
+      img {
+        height: 2em;
+        z-index: 20;
+      }
+    }
+  }
+
+  .c-sportslider-center {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 140px;
+    right: 0;
+    bottom: 0;
+
+    &__info {
+      width: 100%;
+      max-width: 1280px;
+      margin-top: 3rem;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 1rem;
+
+      p {
+        font-size: 1.125rem;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: justify;
+        padding: 1.25rem 2.5rem;
+        z-index: 10;
+        border: 6px solid $color-blue;
+        border-radius: 12px;
+        background-color: #ffffff;
+        background-image: url(/img/sport-info-bg.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+      }
+    }
+
+    .sportimg-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      height: 100%;
+      width: 100%;
+
+      .sportimg {
+        z-index: 10;
+        height: 100%;
+        width: 100%;
+        .--3d-model {
+          // height: 800px;
+          // width: 800px;
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      .dropshadow {
+        position: relative;
+        display: block;
+        bottom: 0;
+        z-index: -1;
+        height: 80px;
+        width: 40%;
+        background: radial-gradient($color-blue 0%, rgba(255, 255, 255, 0) 50%);
+        transform: translateY(-45%);
+      }
+    }
+
+    h1 {
+      font-size: 10rem;
+      font-family: MonumentExtended;
+      color: white;
+      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-color: $color-blue;
+      filter: blur(2px);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .sportslider-footer-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 100;
+
+    footer {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+      padding: 4vh 4vw;
+
+      .footer-left {
+        display: flex;
+        flex-direction: column;
+
+        p {
+          text-transform: uppercase;
+          font-size: 1.2rem;
+          font-weight: bold;
+          padding-bottom: 15px;
+        }
+
+        .footer-left-leaderboard {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          column-gap: 15px;
+        }
+      }
+
+      .footer-center {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 20px;
+
+        p {
+          transform: translateY(5px);
+        }
+
+        img {
+          height: 2rem;
+        }
+      }
+    }
+  }
+
+  &.--disabled {
+    .c-sportslider-center {
+      .sportimg-wrapper {
+        .dropshadow {
+          background: radial-gradient($color-darkgrey 0%, rgba(255, 255, 255, 0) 50%);
+          opacity: 0.6;
+        }
+      }
+
+      h1 {
+        color: white;
+        -webkit-text-stroke-color: $color-darkgrey;
+        filter: blur(2px);
+      }
+    }
+
+    .sportslider-footer-wrapper {
+      footer {
+        background-color: $color-darkgrey;
+        border-radius: 8px 8px 0px 0px;
+        max-height: 8vh;
+        align-items: center;
+        justify-content: center;
+
+        .footer-center {
+          color: white;
+          font-weight: 300;
+          font-size: 1.5em;
+        }
+      }
+    }
+  }
+}
+
+.c-floor {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  width: 130vw;
+  height: 60vh;
+  transform: translate(-50%, 50%);
+
+  &__circle {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-image: url(/img/sport-floor.svg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+    transform: translateY(-5%);
+  }
+
+  &__title {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 400px;
+    padding-bottom: 14vh;
+
+    &__inside {
+      position: relative;
+      font-family: MonumentExtended;
+      text-transform: uppercase;
+      font-weight: 900;
+      color: #b1d7ec;
+      transform: rotateX(45deg);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 70vw;
+        height: 12vw;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(
+          50% 50% at 50% 50%,
+          rgba(86, 105, 186, 0.44) 0%,
+          rgba(92, 123, 216, 0) 100%
+        );
+        opacity: 1;
+      }
+    }
+  }
+}

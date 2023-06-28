@@ -1,9 +1,9 @@
 <template>
-	<div>
-		<Button label="Click me" />
-	</div>
+  <UIComponents />
+  <Quiz />
 </template>
 
 <script setup lang="ts">
-import Button from '@/components/common/Button.vue'
+import UIComponents from '@/components/common/UIComponents.vue'
+import Quiz from '@/pages/Quiz.vue'
 </script>

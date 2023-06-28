@@ -1,0 +1,24 @@
+@use '../settings' as *;
+.figure-result {
+  width: 100vw;
+  transform: translate3d(-5%, -50%, 0) rotate(-5deg);
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  .result-text {
+    color: $color-white;
+    text-align: center;
+    font-size: 10.6vw;
+    text-transform: uppercase;
+    font-family: 'MonumentExtended';
+    background-size: cover;
+    background-position: center center;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0, -50%, 0) rotate(-5deg);
+    width: 100%;
+  }
+}

@@ -69,6 +69,7 @@
       :pattern="pattern"
       @onPatternEnd="handlePatternEnd"
       :isSpeed="currentFigureIndex >= 1"
+      withScratch
     />
     <div v-if="showResult" class="c-modal-result-skate-wrapper">
       <div class="c-modal-result-skate">
@@ -443,7 +444,6 @@ const onModalClose = () => {
 watch(soundtrackFilter.value, () => {
   // @ts-ignore
   skateTheme.frequency(soundtrackFilter.value.frequency)
-  console.log(`freq is ${soundtrackFilter.value.frequency}`)
 })
 
 const feedbackAnimPlay = () => {

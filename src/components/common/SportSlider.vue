@@ -59,20 +59,19 @@
 
     <div class="sportslider-footer-wrapper">
       <footer class="c-sportslider-footer">
-        <div
-          class="footer-left"
-          v-if="!!topThreePlayers?.length && props.sport.available"
-        >
-          <p>Battez le score des champions !</p>
-          <div class="footer-left-leaderboard">
-            <CardLeaderboard
-              v-for="(topPlayer, index) in topThreePlayers"
-              :rank="index + 1"
-              :user="topPlayer.user"
-              :points="topPlayer.score.points"
-              :quiz="topPlayer.score.quiz"
-            />
-          </div>
+        <div class="footer-left">
+          <template v-if="!!topThreePlayers?.length && props.sport.available">
+            <p>Battez le score des champions !</p>
+            <div class="footer-left-leaderboard">
+              <CardLeaderboard
+                v-for="(topPlayer, index) in topThreePlayers"
+                :rank="index + 1"
+                :user="topPlayer.user"
+                :points="topPlayer.score.points"
+                :quiz="topPlayer.score.quiz"
+              />
+            </div>
+          </template>
         </div>
         <div class="footer-center" v-if="!props.sport.available">
           <p>À VENIR</p>

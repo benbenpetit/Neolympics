@@ -130,6 +130,7 @@ import { ScrollToPlugin } from 'gsap/all'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useCurrentUser } from 'vuefire'
 import { Howl, Howler } from 'howler'
+import { useScoreStore } from '@/core/store/score'
 gsap.registerPlugin(ScrollToPlugin)
 
 interface Props {
@@ -142,6 +143,7 @@ const props = defineProps<Props>()
 
 const popupText = ref('Score enregistré !')
 const isOpenScores = ref(false)
+const { scoreState } = useScoreStore()
 const currentUser = useCurrentUser()
 const currentUserIndex = computed(() =>
   props.maxSessions
@@ -279,7 +281,7 @@ const toggleLowScores = () => {
   !isOpenScores.value ? openLowScores() : closeLowScores()
 }
 
-const TEXT = `Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
+const TEXT = `Je viens de réaliser un super score de ${scoreState.currentScores.skate}pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
 
 const handleShareWhatsapp = () => {
   window.open(`https://web.whatsapp.com/send/?text=${TEXT} ${window.location.host}`)
@@ -296,9 +298,7 @@ const handleShareTwitter = () => {
 }
 
 const handleShareCopy = () => {
-  const text = `Je viens de réaliser un super score de 307pts sur Neolympics ! ${window.location.host}`
-
-  navigator.clipboard.writeText(text).then(
+  navigator.clipboard.writeText(TEXT).then(
     () => {
       console.log('Async: Copying to clipboard was successful!')
     },

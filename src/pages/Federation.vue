@@ -120,8 +120,10 @@ import router from '@/core/router'
 import { useRouter } from 'vue-router'
 import { gsap } from 'gsap'
 import { useCurrentUser } from 'vuefire'
+import { useScoreStore } from '@/core/store/score'
 
 const currentUser = useCurrentUser()
+const { scoreState } = useScoreStore()
 
 const cardsAnim = gsap.timeline({})
 
@@ -145,7 +147,7 @@ const handleAgainClick = () => {
   router.push('/competition/preparation')
 }
 
-const TEXT = `Je viens de réaliser un super score de 307pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
+const TEXT = `Je viens de réaliser un super score de ${scoreState.currentScores.skate}pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`
 
 const handleShareWhatsapp = () => {
   window.open(`https://web.whatsapp.com/send/?text=${TEXT} ${window.location.host}`)
@@ -162,9 +164,7 @@ const handleShareTwitter = () => {
 }
 
 const handleShareCopy = () => {
-  const text = `Je viens de réaliser un super score de 307pts sur Neolympics ! ${window.location.host}`
-
-  navigator.clipboard.writeText(text).then(
+  navigator.clipboard.writeText(TEXT).then(
     () => {
       console.log('Async: Copying to clipboard was successful!')
     },

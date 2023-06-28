@@ -3,7 +3,6 @@ import Experience from '../Experience'
 
 export default class Skatepark {
   constructor() {
-    console.log('Skatepark')
     this.experience = new Experience()
     this.scene = this.experience.scene
     this.resources = this.experience.resources
@@ -30,24 +29,13 @@ export default class Skatepark {
     this.model.scale.set(1, 1, 1)
     this.model.rotation.y = (3 * Math.PI) / 2
 
-    // this.scene.add(this.model)
-
-    const p = new Array()
-
     this.model.traverse((child) => {
       if (child.isMesh) {
-        child.castShadow = true
         child.receiveShadow = true
-      }
-      if (child.name.includes('Plane')) {
-        p.push(child)
-        // this.model.remove(child)
+        child.castShadow = true
       }
     })
-
-    for (let i = 0; i < p.length; i++) {
-      this.model.remove(p[i])
-    }
+    this.scene.add(this.model)
   }
 
   setMaterials() {

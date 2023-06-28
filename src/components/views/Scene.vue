@@ -112,6 +112,7 @@
         <template v-slot:label>passer à l'interview</template>
       </ButtonUI>
     </div>
+    <LoadingScreen v-if="state == 'loading'" :skateDifficulty="skateDifficulty" />
   </div>
 
   <canvas class="webgl" />
@@ -129,6 +130,7 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import IconSkate from '@/components/common/IconSkate.vue'
 import IconTImer from '@/components/common/IconTImer.vue'
 import FeedbackGame from '@/components/common/FeedbackGame.vue'
+import LoadingScreen from '@/components/common/LoadingScreen.vue'
 import router from '@/core/router'
 import { IScore } from '@/core/types/IScore'
 import { SLIDE270, KICKFLIP, GRINDFLIP, SHOVEIT, BACK360, OLLIE } from '@/data/figures'
@@ -142,7 +144,9 @@ const CURRENT_FIGURES = [SLIDE270, KICKFLIP, GRINDFLIP, BACK360, SHOVEIT]
 
 const { setCurrentScore } = useScoreStore()
 const { sportState, setSportStep } = useSportStore()
-const state = ref<'tutorial' | 'game' | 'figureGame' | 'figureAnim' | 'result' | ''>('')
+const state = ref<
+  'loading' | 'tutorial' | 'game' | 'figureGame' | 'figureAnim' | 'result' | ''
+>('loading')
 const step = ref(0)
 const currentFigureIndex = ref(0)
 const pattern = ref<number[][][]>(CURRENT_FIGURES[currentFigureIndex.value].pattern)
@@ -152,6 +156,7 @@ const result = ref('')
 const experience = ref<Experience | null>(null)
 const patternToDoTutorial = ref<number[][]>([])
 const score = ref<number>(0)
+const sources = ref<number>(0)
 const isTutorialOpen = ref(false)
 const firstButtonRef = ref<any | null>(null)
 const skateDifficulty = computed(
@@ -199,9 +204,15 @@ let feedbackResultAnim = gsap.timeline({})
 
 onMounted(() => {
   experience.value = new Experience(document.querySelector('canvas.webgl'))
+})
+
+mittInstance.on('All ressources loaded', () => {
   mittInstance.emit('Start skate intro')
   Howler.stop()
   startingSkateTheme.play()
+  setTimeout(() => {
+    state.value = ''
+  }, 1000)
 })
 
 mittInstance.on('Start tutorial', () => {
@@ -393,7 +404,7 @@ const handlePatternEnd = ({ isValid = false, timingRatio = 0 }) => {
     if (nextPattern) {
       pattern.value = nextPattern
     }
-  }, 700)
+  }, 1200)
 }
 
 const onModalOpen = () => {
@@ -454,7 +465,7 @@ const feedbackAnimPlay = () => {
       x: '-100%',
       opacity: 0,
     },
-    '+=0.4',
+    '+=1.2',
   )
 }
 

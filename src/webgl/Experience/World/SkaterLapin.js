@@ -34,17 +34,15 @@ export default class SkaterLapin {
 
   setModel() {
     this.model = this.resource.scene
-    // console.log(this.model)
-    // console.log('Skater model', this.model)
     this.model.position.set(0, 1.91, -25)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
-    // this.model.scale.set(0.5, 0.5, 0.5)
 
     this.scene.add(this.model)
 
     this.model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
+      if (child.isMesh) {
         child.castShadow = true
+        // child.receiveShadow = true
       }
     })
     console.log(
@@ -57,8 +55,9 @@ export default class SkaterLapin {
 
   setMaterials() {
     this.model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
+      if (child.isMesh) {
         child.material = this.materialFactory.getMaterial(child.name)
+        // console.log(child)
       }
     })
   }
@@ -66,7 +65,9 @@ export default class SkaterLapin {
   setDebug() {
     this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
     this.debugFolder.add(this.resource.scene.position, 'y', 0, 20, 0.01).name('Skater Y')
-    this.debugFolder.add(this.resource.scene.position, 'z', -50, 0, 0.01).name('Skater Z')
+    this.debugFolder
+      .add(this.resource.scene.position, 'z', -300, 300, 0.01)
+      .name('Skater Z')
 
     this.debugFolder.add(this.cameraOffset, 'x', -10, 10, 0.1).name('Camera Offset X')
     this.debugFolder.add(this.cameraOffset, 'y', -10, 10, 0.1).name('Camera Offset Y')
@@ -294,8 +295,8 @@ export default class SkaterLapin {
         .copy(modelPosition)
         .add(this.cameraOffset)
         .add(this.model.getObjectByName('Ctrl_Hips').position)
-      // const smoothedCamPos = oldCamPos.lerp(cameraPosition, 1)
-      this.experience.camera.instance.position.copy(cameraPosition)
+      const smoothedCamPos = oldCamPos.lerp(cameraPosition, 0.7)
+      this.experience.camera.instance.position.copy(smoothedCamPos)
     }
     this.animation.mixer.update(this.time.delta * this.slowmotionFactor.value)
     const cameraTarget = new THREE.Vector3()

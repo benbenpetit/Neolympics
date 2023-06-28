@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import EventEmitter from './EventEmitter'
+import mittInstance from '@/core/lib/MittInstance'
 
 export default class Ressources extends EventEmitter {
   constructor(sources) {
@@ -14,6 +15,22 @@ export default class Ressources extends EventEmitter {
     this.items = {}
     this.toLoad = this.sources.length
     this.loaded = 0
+    this.loadingManager = new THREE.LoadingManager(
+      // Loaded
+      () => {
+        setTimeout(() => {
+          mittInstance.emit('All ressources loaded')
+        }, 1000)
+      },
+
+      // Progress
+      (itemsUrl, itemsLoaded, itemsTotal) => {
+        mittInstance.emit('Ressources loaded', {
+          loadingProgress: (itemsLoaded / itemsTotal) * 100,
+        })
+      },
+    )
+    console.log('Loading Manager : ', this.loadingManager)
 
     this.setLoaders()
     this.startLoading()
@@ -21,9 +38,9 @@ export default class Ressources extends EventEmitter {
 
   setLoaders() {
     this.loaders = {}
-    this.loaders.gltfLoader = new GLTFLoader()
-    this.loaders.textureLoader = new THREE.TextureLoader()
-    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader()
+    this.loaders.gltfLoader = new GLTFLoader(this.loadingManager)
+    this.loaders.textureLoader = new THREE.TextureLoader(this.loadingManager)
+    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(this.loadingManager)
 
     const dracoLoader = new DRACOLoader()
     dracoLoader.setDecoderPath('/draco/')
@@ -54,7 +71,6 @@ export default class Ressources extends EventEmitter {
     this.items[source.name] = file
     this.loaded++
     if (this.loaded === this.toLoad) {
-      this.trigger('ready')
       console.log('All loaded')
     }
   }

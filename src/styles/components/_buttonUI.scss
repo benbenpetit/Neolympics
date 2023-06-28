@@ -53,7 +53,7 @@
     img {
       transform: translateY(1px);
       filter: none;
-      -webkit-transition: -webkit-filter 0.2s ease-in-out;
+      -webkit-transition: -webkit-filter 0.1s ease-in-out;
     }
 
     &:hover {
@@ -73,29 +73,9 @@
   }
 
   &.--startagain {
-    background-color: $color-white;
-    border: solid 2px $color-red;
-    color: $color-red;
-
     .c-buttonUI-content {
-      p {
-      }
-
       img {
         transform: translate(-6px, -2px);
-      }
-    }
-    &:hover {
-      background-color: white;
-      border-color: $color-red-hover;
-      color: $color-red-hover;
-      .c-buttonUI-content {
-        p {
-          color: $color-red-hover;
-        }
-        img {
-          filter: brightness(90%);
-        }
       }
     }
   }

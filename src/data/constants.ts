@@ -11,13 +11,21 @@ export const QUESTIONS_DATA: IQuestion[] = [
   //   info: `Le kickflip, ou simplement flip, est une figure de skateboard, inventée par Curt Lindren, en 1978, puis modifiée et popularisée par Rodney Mullen. Autrefois, on l'appelait encore magic flip, ollie flip ou ollie kickflip. Le but d'un kickflip est de sauter et de faire vriller la planche autour de son axe longitudinal, lui faisant effectuer une rotation de 360°.`,
   // },
   {
+    question: `Belle performance ! Quelle était cette première figure ?`,
+    answer: 3,
+    options: ['PigeonFlip', 'Ollie', 'Kickflip', 'FS 270 Boardslide'],
+    selected: null,
+    img: '/img/quiz/quiz-ollie.png',
+    info: `Cette figure consiste à faire tourner la planche de 180° sous les pieds du skateur. Il existe aussi des variantes à 360° et 540°.`,
+  },
+  {
     question: "Qu'est ce qu'un skatepark ?",
     answer: 0,
     options: [
-      'LIEU DE PRATIQUE DU SKATE',
-      'COMPETITION DE SKATE',
-      'MAGASIN DE SKATE',
-      'GARAGE POUR SKATEBOARD',
+      'Lieu de pratique du skate',
+      'Competition de skate',
+      'Magasin de skate',
+      'Garage pour skateboard',
     ],
     selected: null,
     img: '/img/quiz/quiz-skatepark.png',
@@ -29,10 +37,10 @@ export const QUESTIONS_DATA: IQuestion[] = [
     question: 'Qui est le créateur de la première marque de planche à roulettes ?',
     answer: 3,
     options: [
-      'PAS DE CRÉATEUR SPÉCIFIQUE',
-      'TONY HAWK',
-      'STEVE CABALLERO',
-      'LARRY STEVENSON',
+      'Pas de créateur spécifique',
+      'Tony Hawk',
+      'Steve Caballero',
+      'Larry Stevenson',
     ],
     selected: null,
     img: '/img/quiz/quiz-creator.png',
@@ -42,7 +50,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
   {
     question: `Comment s'appelle la technique pour descendre un escalier en skateboard ?`,
     answer: 1,
-    options: ['SLIDE', 'OLLIE DROP', 'FLYING IN THE AIR', 'PUMPING THE STAIRS'],
+    options: ['Slide', 'Ollie Drop', 'Flying in the air', 'Pumping the stairs'],
     selected: null,
     img: '/img/quiz/quiz-stair.png',
     info: `Le "ollie drop" est un trick de skateboard qui consiste à réaliser un
@@ -61,7 +69,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
   {
     question: `Comment s'appelle la position sur le skateboard lorsque le pied gauche est placé à l'avant et le pied droit à l'arrière ?`,
     answer: 0,
-    options: ['REGULAR', 'GOOFY', 'SWITCH', 'MONGO'],
+    options: ['Regular', 'Goofy', 'Switch', 'Mongo'],
     selected: null,
     img: '/img/quiz/quiz-stance.png',
     info: `C'est la position la plus courante chez les skateurs, mais il existe
@@ -70,7 +78,7 @@ export const QUESTIONS_DATA: IQuestion[] = [
   {
     question: `Quel est le nom de la technique de saut où le skateur tape sur l'arrière pour faire sauter sa planche ?`,
     answer: 1,
-    options: ['KICKFLIP', 'OLLIE', 'JUMP 50-50', 'BACKSIDE SMITH GRIND'],
+    options: ['Kickflip', 'Ollie', 'Jump 50-50', 'Backside Smith Grind'],
     selected: null,
     img: '/img/quiz/quiz-ollie.png',
     info: `Pour réaliser un ollie, le skateur doit taper l'arrière de la

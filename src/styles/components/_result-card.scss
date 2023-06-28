@@ -105,10 +105,11 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    max-width: 18ch;
 
     .c-result-card.--horizontal & {
       text-align: left;
-      max-width: 200px;
+      max-width: 20ch;
     }
 
     > span {

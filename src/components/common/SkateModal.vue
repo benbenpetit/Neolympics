@@ -148,6 +148,7 @@ watch(
     if (!isPret) {
       return
     }
+    if (!titleRef.value) return
     gsap.fromTo(
       titleRef.value,
       {

@@ -20,7 +20,8 @@
               <strong>temps imparti</strong>.
             </p>
             <p>
-              Pour ce niveau, tu as <strong>5 secondes</strong> pour réaliser chaque
+              Pour ce niveau, tu as
+              <strong>{{ 8 - skateDifficulty }} secondes</strong> pour réaliser chaque
               figure !
             </p>
             <p>

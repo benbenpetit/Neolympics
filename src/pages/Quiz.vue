@@ -297,8 +297,6 @@ const getCurrentQuestion = computed(() => {
 })
 
 const endQuiz = () => {
-  const tempScore: IScore = { points: score, sportId: 'skateQuiz' }
-  setCurrentScore(tempScore)
   setSportStep('skate', 2)
 }
 
@@ -567,6 +565,8 @@ const gotoEndQuiz = () => {
   })
 
   quizEndTimeline.add(function () {
+    const tempScore: IScore = { points: score, sportId: 'skateQuiz' }
+    setCurrentScore(tempScore)
     showRecap.value = true
     gotoRecapQuiz()
   })

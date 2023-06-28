@@ -38,6 +38,7 @@ onMounted(() => {
 })
 
 const handleSignOut = () => {
+  console.log('signOut')
   signOut(auth).then(() => {
     router.push('/')
   })

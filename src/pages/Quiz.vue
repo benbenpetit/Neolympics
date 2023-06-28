@@ -10,6 +10,7 @@
       <model-viewer
         class="--3d-model"
         src="/models/AnimationsPourMenus.glb"
+        poster="/img/quiz/poster-quiz.webp"
         ar-modes="webxr"
         shadow-intensity="0"
         autoplay
@@ -27,7 +28,12 @@
 
     <div class="c-quiz">
       <div class="c-quiz-modals">
-        <Modal imgSrc="/icon/mic.svg" class="--blue" v-if="showQuiz && !quizCompleted">
+        <Modal
+          imgSrc="/icon/mic.svg"
+          class="--blue"
+          v-if="showQuiz && !quizCompleted"
+          :isAnim="false"
+        >
           <template v-slot:upper-img>
             <img
               :src="getCurrentQuestion?.img"
@@ -67,7 +73,7 @@
           </template>
         </Modal>
         <div class="c-info" v-if="!showQuiz">
-          <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue">
+          <Modal imgSrc="/icon/info.svg" class="gsap-quiz-info --blue" :isAnim="false">
             <template v-slot:title>Informations</template>
             <template v-slot:content>
               <p>{{ getCurrentQuestion?.info }}</p>
@@ -164,7 +170,7 @@ import Modal from '@/components/common/Modal.vue'
 import Header from '@/components/common/Header.vue'
 import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
 import { IQuestion } from '@/core/types/IQuiz'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
 import { gsap } from 'gsap'
 import { useSportStore } from '@/core/store/sport'
@@ -185,6 +191,7 @@ const showQuiz = ref(true)
 const selectedAnswer = ref<number | null>(null)
 const questions = ref<IQuestion[]>([])
 const currentQuestion = ref(0)
+const questionIndex = ref(1)
 
 interface QAType {
   question: string
@@ -207,52 +214,67 @@ let score = 0
 let questionAnswered = 0
 let quizCompleted = ref(false)
 let showRecap = ref(false)
+let soundtrackFilter = ref({ frequency: 20000 })
+let soundGsapTl = gsap.timeline({})
 
 let animationToPlay = ref<string>('P_Interview_Discution')
 
-let quizOverlaySound = new Howl({
+const quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
 })
 
-let quizSoundtrack = new Howl({
-  src: ['/sounds/soundtracks/game-intro.mp3'],
+const quizSoundtrack = new Howl({
+  src: ['/sounds/soundtracks/quiz-and-skatepark.mp3'],
   loop: true,
 })
 
-let quizCorrectSound = new Howl({
+const quizCorrectSound = new Howl({
   src: ['/sounds/ui-sounds/quiz-correct.mp3'],
   volume: 0.2,
   rate: 0.9,
 })
 
-let quizWrongSound = new Howl({
+const quizWrongSound = new Howl({
   src: ['/sounds/ui-sounds/quiz-wrong.mp3'],
   volume: 0.3,
 })
 
+const quizBlablaSound = new Howl({
+  src: ['/sounds/ui-sounds/blabla-quiz.mp3'],
+  volume: 0.3,
+  sprite: {
+    blabla1: [0, 2000, false],
+    blabla2: [2000, 2450, false],
+    blabla3: [5200, 6000, false],
+    blabla4: [7000, 8000, false],
+  },
+})
+
 const onModalOpen = () => {
-  // @ts-ignore
-  quizSoundtrack.addFilter({
-    filterType: 'lowpass',
-    frequency: 1500.0,
-    Q: 3.0,
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 500,
+    duration: 0.6,
+    ease: 'expo.out',
   })
 }
 
 const onModalClose = () => {
-  // @ts-ignore
-  quizSoundtrack.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 20000,
+    duration: 0.6,
+    ease: 'expo.in',
   })
 }
+
+watch(soundtrackFilter.value, () => {
+  // @ts-ignore
+  quizSoundtrack.frequency(soundtrackFilter.value.frequency)
+  console.log(`freq is ${soundtrackFilter.value.frequency}`)
+})
 
 const quizOverlayTimeline = gsap.timeline({
   onComplete: function () {
     quizAnimation()
-    quizSoundtrack.fade(0, 0.8, 100)
-    quizSoundtrack.play()
   },
 })
 const quizTimeline = gsap.timeline({})
@@ -331,7 +353,6 @@ const setNextQuestion = () => {
 
 const quizOverlayAnimation = () => {
   quizOverlayTimeline.add(function () {
-    Howler.stop()
     quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })
@@ -361,26 +382,6 @@ const quizOverlayAnimation = () => {
     },
     '-=0.3',
   )
-  // quizOverlayTimeline.fromTo(
-  //   '.intro-quiz-mic',
-  //   {
-  //     x: '150%',
-  //     rotation: '45_short',
-  //   },
-  //   {
-  //     x: '10%',
-  //     rotation: '355_short',
-  //     duration: 0.8,
-  //     ease: 'Power2.easeInOut',
-  //   },
-  //   '-=0.2',
-  // )
-
-  // quizOverlayTimeline.add(function () {
-  //   quizOverlaySound.rate(0.7)
-  //   quizOverlaySound.volume(0.5)
-  //   quizOverlaySound.play()
-  // })
 
   quizOverlayTimeline.to(
     '.intro-quiz-title img',
@@ -407,17 +408,6 @@ const quizOverlayAnimation = () => {
     },
     '-=0.4',
   )
-
-  // quizOverlayTimeline.to(
-  //   '.intro-quiz-mic',
-  //   {
-  //     x: '150%',
-  //     rotation: '45_short',
-  //     duration: 0.6,
-  //     ease: 'Power2.easeInOut',
-  //   },
-  //   '-=0.4',
-  // )
 
   quizOverlayTimeline.to('.intro-quiz-wrapper', {
     display: 'none',
@@ -476,6 +466,11 @@ const displayInfo = () => {
     x: '0%',
     duration: 0.4,
     ease: 'Power4.easeInOut',
+  })
+
+  quizTimeline.add(function () {
+    quizBlablaSound.play(`blabla${questionIndex.value}`)
+    questionIndex.value += 1
   })
 }
 
@@ -571,8 +566,9 @@ const gotoEndQuiz = () => {
 
 const gotoRecapQuiz = () => {
   quizRecapTimeline.add(function () {
-    animationToPlay.value = 'P_Interview_Discution'
+    animationToPlay.value = 'P_Interview_Penseur'
   })
+
   quizRecapTimeline.fromTo(
     '.--modal-recap-quiz',
     {
@@ -580,9 +576,22 @@ const gotoRecapQuiz = () => {
     },
     { x: '0%', duration: 0.5, ease: 'Power4.easeInOut' },
   )
+
+  quizRecapTimeline.add(function () {
+    quizBlablaSound.play(`blabla4`)
+  })
 }
 
 onMounted(() => {
+  Howler.stop()
+  quizSoundtrack.fade(0, 0.85, 1000)
+  quizSoundtrack.play()
+  // @ts-ignore
+  quizSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: soundtrackFilter.value.frequency,
+    Q: 6.0,
+  })
   quizOverlayAnimation()
 })
 </script>

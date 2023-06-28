@@ -18,7 +18,7 @@
         :style="{ transform: `scaleX(${Math.max(1 - timerProgress - 0.01, 0)})` }"
       />
     </div>
-    <div class="pattern-pattern">
+    <div class="pattern-pattern" v-if="withModal">
       <Pattern
         :patternToDo="patternToDo"
         :isAutoDrawing="isAutoDrawing"
@@ -30,6 +30,12 @@
         ref="scratchRef"
       />
     </div>
+    <Pattern
+      v-else
+      :patternToDo="patternToDo"
+      :isAutoDrawing="isAutoDrawing"
+      :onDrawEnd="handleDrawEnd"
+    />
   </div>
 </template>
 
@@ -74,6 +80,7 @@ interface Props {
   pattern: number[][][]
   repeat?: boolean
   isSpeed?: boolean
+  withModal?: boolean
 }
 
 const props = defineProps<Props>()
@@ -245,24 +252,26 @@ const handleDrawEnd = (isWrong?: boolean) => {
 
   if (!isAutoDrawing.value) {
     scoreTimings.value.push(1 - timerProgress.value)
-    gsap.fromTo(
-      scratchRef.value,
-      {
-        scale: 0.5,
-      },
-      {
-        scale: 1,
-        duration: 0.6,
-        ease: 'Power3.easeInOut',
-        onComplete: () => {
-          gsap.to(scratchRef.value, {
-            scale: 1,
-            duration: 0.6,
-            ease: 'Bounce.easeInOut',
-          })
+    if (scratchRef.value) {
+      gsap.fromTo(
+        scratchRef.value,
+        {
+          scale: 0.5,
         },
-      },
-    )
+        {
+          scale: 1,
+          duration: 0.6,
+          ease: 'Power3.easeInOut',
+          onComplete: () => {
+            gsap.to(scratchRef.value, {
+              scale: 1,
+              duration: 0.6,
+              ease: 'Bounce.easeInOut',
+            })
+          },
+        },
+      )
+    }
   }
 
   if (currentPatternToDoIndex.value < props.pattern.length - 1) {

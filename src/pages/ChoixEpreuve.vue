@@ -80,7 +80,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import publicRouters from '@/data/publicRouters'
 import ButtonUI from '@/components/common/ButtonUI.vue'
@@ -107,10 +107,13 @@ const { sportState } = useSportStore()
 const router = useRouter()
 const headerRef = ref<any | null>(null)
 const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
-//false pour commenncer du début
+
 let selectedTrial = ref<boolean>(false)
 let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
+let soundtrackFilter = ref({ frequency: 20000 })
+let soundGsapTl = gsap.timeline({})
+
 let headerIcon = computed<string>(() =>
   !sportConfirmed.value ? '/icon/whistle-icon.svg' : '/icon/skateboarding.svg',
 )
@@ -129,22 +132,25 @@ mittInstance.on('start again', () => {
 })
 
 const onModalOpen = () => {
-  // @ts-ignore
-  gameSoundtrack.addFilter({
-    filterType: 'lowpass',
-    frequency: 1500.0,
-    Q: 3.0,
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 500,
+    duration: 0.6,
+    ease: 'expo.out',
   })
 }
 
 const onModalClose = () => {
-  // @ts-ignore
-  gameSoundtrack.addFilter({
-    filterType: 'lowpass',
-    frequency: 20000.0,
-    Q: 3.0,
+  soundGsapTl.to(soundtrackFilter.value, {
+    frequency: 20000,
+    duration: 0.6,
+    ease: 'expo.in',
   })
 }
+
+watch(soundtrackFilter.value, () => {
+  // @ts-ignore
+  gameSoundtrack.frequency(soundtrackFilter.value.frequency)
+})
 
 let auth: Auth
 
@@ -184,6 +190,12 @@ onMounted(async () => {
 
   gameSoundtrack.play()
   gameSoundtrack.fade(0, 0.8, 300)
+  // @ts-ignore
+  gameSoundtrack.addFilter({
+    filterType: 'lowpass',
+    frequency: soundtrackFilter.value.frequency,
+    Q: 6.0,
+  })
 })
 
 onMounted(() => {

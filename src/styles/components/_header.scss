@@ -7,6 +7,19 @@
   left: 10px;
   right: 10px;
   height: clamp(110px, 15vh, 130px);
+
+  .c-buttonUI {
+    border: solid 2px $color-blue-stroke;
+    &:hover {
+      border: solid 2px $color-blue-hover;
+    }
+
+    .c-buttonUI-content {
+      img {
+        transform: translateY(-2px);
+      }
+    }
+  }
 }
 
 .c-header-wrapper {

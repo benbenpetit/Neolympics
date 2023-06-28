@@ -27,10 +27,10 @@ export default class Environment {
     this.sunLight.castShadow = true
     this.sunLight.shadow.camera.far = 20
     this.sunLight.shadow.camera.near = 0.1
-    this.sunLight.shadow.camera.top = 2
-    this.sunLight.shadow.camera.right = 2
-    this.sunLight.shadow.camera.bottom = -2
-    this.sunLight.shadow.camera.left = -2
+    this.sunLight.shadow.camera.top = 1.5
+    this.sunLight.shadow.camera.right = 1
+    this.sunLight.shadow.camera.bottom = -0.5
+    this.sunLight.shadow.camera.left = -1
     this.sunLight.shadow.mapSize.width = 1024
     this.sunLight.shadow.mapSize.height = 1024
 
@@ -38,8 +38,8 @@ export default class Environment {
     this.sunLight.target = this.experience.world.skater.model
     this.sunLight.position.copy(new THREE.Vector3(-2, 4, -26.5))
     console.log(this.sunLight.shadow.camera)
-    // const helper = new THREE.CameraHelper(this.sunLight.shadow.camera)
-    // this.scene.add(helper)
+    const helper = new THREE.CameraHelper(this.sunLight.shadow.camera)
+    this.scene.add(helper)
     this.scene.add(this.sunLight)
 
     // Debug

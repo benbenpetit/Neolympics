@@ -32,7 +32,7 @@ export default class Skatepark {
     this.model.traverse((child) => {
       if (child.isMesh) {
         child.receiveShadow = true
-        child.castShadow = true
+        // child.castShadow = true
       }
     })
     this.scene.add(this.model)

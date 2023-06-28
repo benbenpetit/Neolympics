@@ -36,7 +36,7 @@ export default class Floor {
       module.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = this.materialFactory.getMaterial(child.name)
-          child.castShadow = true
+          // child.castShadow = true
           child.receiveShadow = true
           // console.log(child.material)
         }

@@ -87,17 +87,17 @@ export default class SkaterLapin {
       x: -2,
       y: 0,
       z: -1,
-      duration: 15,
+      duration: 10,
       ease: 'Power3.easeOut',
     })
     cameraMovement.to(
       this.lookAtOffset,
       {
         value: 0.5,
-        duration: 15,
+        duration: 10,
         ease: 'Power3.easeOut',
       },
-      '>-15',
+      '>-10',
     )
   }
 

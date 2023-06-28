@@ -11,6 +11,7 @@ export default class Renderer {
 
     this.setInstance()
     this.resize()
+    console.log(this.instance.info)
   }
 
   setInstance() {
@@ -20,12 +21,12 @@ export default class Renderer {
     })
     // this.instance.useLegacyLights = true
     // this.instance.outputEncoding = THREE.sRGBEncoding
-    // this.instance.outputColorSpace = THREE.SRGBColorSpace
+    this.instance.outputColorSpace = THREE.SRGBColorSpace
     THREE.ColorManagement.enabled = true
     this.instance.toneMapping = THREE.LinearToneMapping
     // this.instance.toneMappingExposure = 1.75
     this.instance.shadowMap.enabled = true
-    this.instance.shadowMap.type = THREE.PCFSoftShadowMap
+    // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     this.instance.setClearColor('#211d20')
     this.instance.setSize(this.sizes.width, this.sizes.height)
     this.instance.setPixelRatio(this.sizes.pixelRatio)

@@ -16,7 +16,7 @@ export default class MaterialFactory {
     switch (name) {
       // SKATER
       case 'Yuto':
-        materialName = 'Chaussure'
+        materialName = 'Corps'
         break
       case 'D_CHAUSSURE':
         materialName = 'Chaussure'
@@ -64,9 +64,6 @@ export default class MaterialFactory {
         break
       case 'Tete':
         materialName = 'Tete'
-        break
-      case 'CorpsCoupe001':
-        materialName = 'Corps'
         break
       // BOARD
       case 'Skate_Planche':
@@ -174,202 +171,181 @@ export default class MaterialFactory {
     switch (name) {
       //SKATER
       case 'Chaussure':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shoesTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Chapeau':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.chapeauTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Pantalon':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.pantalonTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Shirt':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shirtTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Corps':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.corpsTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Tete':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.teteTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       // BOARD
       case 'Skate':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.skateTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       // SKATEPARK
       case 'Marches':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.marchesTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Marches2':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.marches2Texture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Sol':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.solTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Sol2':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.solTexture2,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Barrieres':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.barriereTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Siege':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.siegeTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'PublicShiba':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shibaTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         material.side = THREE.DoubleSide
         material.transparent = true
         break
       case 'PublicRenard':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.renardTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         material.side = THREE.DoubleSide
         material.transparent = true
         break
       case 'PublicGazelle':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.gazelleTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         material.side = THREE.DoubleSide
         material.transparent = true
         break
       // MODULES
       case 'Kickflip':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.KickflipTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Grindflip':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.GrindFlipTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'Back360':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.Back360Texture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case '270Slide':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.Slide270Texture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       case 'ShoveIt':
-        ;(material = new THREE.MeshStandardMaterial({
+        material = new THREE.MeshStandardMaterial({
           map: this.resources.items.ShoveItTexture,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,
-        })),
-          (material.shadowSide = THREE.DoubleSide)
+        })
         break
       default:
         break

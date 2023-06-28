@@ -11,7 +11,10 @@ export default class Environment {
 
     // Debug
     if (this.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder('Environment')
+      this.debugFolder = this.debug.ui.addFolder('Environment').open()
+      this.parameters = {
+        sunLightColor: 0xfff0c2,
+      }
     }
 
     // Setup
@@ -21,47 +24,38 @@ export default class Environment {
 
   setSunLight() {
     this.sunLight = new THREE.DirectionalLight('#FFF0C2', 1)
-    // this.sunLight.castShadow = true
-    // this.sunLight.shadow.camera.far = 500
-    // this.sunLight.shadow.camera.near = 0.5
-    // this.sunLight.shadow.mapSize.set(2048, 2048)
-    // this.sunLight.shadow.normalBias = 0.05
+    this.sunLight.castShadow = true
+    this.sunLight.shadow.camera.far = 20
+    this.sunLight.shadow.camera.near = 0.1
+    this.sunLight.shadow.camera.top = 2
+    this.sunLight.shadow.camera.right = 2
+    this.sunLight.shadow.camera.bottom = -2
+    this.sunLight.shadow.camera.left = -2
+    this.sunLight.shadow.mapSize.width = 1024
+    this.sunLight.shadow.mapSize.height = 1024
+
     this.sunLight.intensity = 1
-    this.sunLight.position.set(-0.5, 1, -1.5)
+    this.sunLight.target = this.experience.world.skater.model
+    this.sunLight.position.copy(new THREE.Vector3(-2, 4, -26.5))
+    console.log(this.sunLight.shadow.camera)
+    // const helper = new THREE.CameraHelper(this.sunLight.shadow.camera)
+    // this.scene.add(helper)
     this.scene.add(this.sunLight)
 
     // Debug
     if (this.debug.active) {
       this.debugFolder
-        .add(this.sunLight, 'intensity')
+        .add(this.sunLight, 'intensity', 0, 10, 0.01)
         .name('sunLightIntensity')
-        .min(0)
-        .max(10)
-        .step(0.001)
+      this.debugFolder.add(this.sunLight.position, 'x', -200, 200, 0.1).name('sunLightX')
+      this.debugFolder.add(this.sunLight.position, 'y', -200, 200, 0.1).name('sunLightY')
+      this.debugFolder.add(this.sunLight.position, 'z', -200, 200, 0.1).name('sunLightZ')
       this.debugFolder
-        .add(this.sunLight.position, 'x')
-        .name('sunLightX')
-        .min(-50)
-        .max(50)
-        .step(0.001)
-      this.debugFolder
-        .add(this.sunLight.position, 'y')
-        .name('sunLightY')
-        .min(-50)
-        .max(50)
-        .step(0.001)
-      this.debugFolder
-        .add(this.sunLight.position, 'z')
-        .name('sunLightZ')
-        .min(-50)
-        .max(50)
-        .step(0.001)
-      this.debugFolder
-        .add(this.sunLight.shadow.camera, 'far')
-        .name('shadowMap')
-        .min(0)
-        .max(100)
-        .step(0.01)
+        .addColor(this.parameters, 'sunLightColor')
+        .name('sunLightColor')
+        .onChange(() => {
+          this.sunLight.color.set(this.parameters.sunLightColor)
+        })
     }
   }
 
@@ -73,8 +67,6 @@ export default class Environment {
 
     this.scene.environment = this.environmentMap.texture
     this.scene.background = this.environmentMap.texture
-
-    console.log(this.environmentMap)
 
     this.environmentMap.updateMaterials = () => {
       this.scene.traverse((child) => {

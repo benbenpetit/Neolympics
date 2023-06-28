@@ -13,7 +13,7 @@ export default class World {
     this.resources = this.experience.resources
     this.time = this.experience.time
     // Wait for ressources
-    this.resources.on('ready', () => {
+    mittInstance.on('All ressources loaded', () => {
       // Setup
       this.skater = new SkaterLapin()
       this.skatepark = new Skatepark()

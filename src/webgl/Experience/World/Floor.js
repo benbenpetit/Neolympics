@@ -22,40 +22,22 @@ export default class Floor {
     // this.scene.add(gridHelper)
 
     this.setGeometry()
-    // this.setTextures()
     this.setModules()
     this.setMesh()
     this.setMaterial()
 
     this.setMittActions()
-
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(100, 100),
-      new THREE.ShadowMaterial(),
-    )
-    ground.rotation.x = -Math.PI / 2
-    ground.position.set(0, 5, 20)
-    ground.receiveShadow = true
-    // this.scene.add(ground)
   }
   setGeometry() {
     this.geometry = new THREE.PlaneGeometry(1, 10)
-  }
-
-  setTextures() {
-    this.textures = {}
-
-    this.textures.color = this.resources.items.floorColorTexture
-    this.textures.color.encoding = THREE.sRGBEncoding
-    this.textures.color.repeat.set(10, 10)
-    this.textures.color.wrapS = THREE.RepeatWrapping
-    this.textures.color.wrapT = THREE.RepeatWrapping
   }
   setMaterial() {
     this.skateModules.forEach((module) => {
       module.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = this.materialFactory.getMaterial(child.name)
+          child.castShadow = true
+          child.receiveShadow = true
           // console.log(child.material)
         }
       })
@@ -147,7 +129,7 @@ export default class Floor {
       }
       this.scene.add(this.floor)
       module_index += 1
-      console.log(module.position.z)
+      // console.log(module.position.z)
     }
     // for (let i = 1; i < 20; i++) {
     //   this.mesh = new THREE.Mesh(

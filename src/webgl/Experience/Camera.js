@@ -13,7 +13,7 @@ export default class Camera {
     this.debug = this.experience.debug
 
     this.setInstance()
-    // this.setOrbitControls()
+    this.setOrbitControls()
     // Debug
     if (this.debug.active) {
       this.setDebug()
@@ -35,7 +35,7 @@ export default class Camera {
     this.instance = new THREE.PerspectiveCamera(
       35,
       this.sizes.width / this.sizes.height,
-      0.1,
+      0.001,
       10000,
     )
     this.instance.position.set(12, 20, -42)

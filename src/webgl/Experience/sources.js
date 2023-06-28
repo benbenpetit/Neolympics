@@ -6,6 +6,11 @@ export default [
     path: '/models/Skatepark.glb',
   },
   {
+    name: 'public',
+    type: 'gltfModel',
+    path: '/models/Public.glb',
+  },
+  {
     name: 'skaterFinal',
     type: 'gltfModel',
     path: '/models/Skater_Final.glb',

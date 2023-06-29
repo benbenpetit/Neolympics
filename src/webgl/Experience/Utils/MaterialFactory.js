@@ -104,15 +104,32 @@ export default class MaterialFactory {
       case 'Barrieres':
         materialName = 'Barrieres'
         break
-      case 'Sieges_Public':
-        materialName = 'Siege'
+      case 'Deco_Grinds':
+        materialName = 'DecoGrind'
         break
-      case 'Sieges_Public_2':
-        materialName = 'Siege'
+      case 'Deco_Grind2':
+        materialName = 'DecoGrind2'
         break
-      case 'Public':
-        var materialNames = ['PublicShiba', 'PublicRenard', 'PublicGazelle']
-        materialName = materialNames[Math.floor(Math.random() * materialNames.length)]
+      case 'Deco_GrindFlip':
+        materialName = 'Grindflip'
+        break
+      case 'Déco_Kickflip':
+        materialName = 'Kickflip'
+        break
+      case 'Deco_PtitBail':
+        materialName = 'Deco_PtitBail'
+        break
+      case 'Rings_JO':
+        materialName = 'Rings_JO'
+        break
+      case 'Deco_Demi-Cercle':
+        materialName = 'Gradient'
+        break
+      case 'Deco_Demi-Cercle2':
+        materialName = 'Gradient'
+        break
+      case 'Obelisque':
+        materialName = 'Obelisque'
         break
       // MODULES
       case 'Module_Kickflip':
@@ -268,14 +285,6 @@ export default class MaterialFactory {
           roughness: 1,
         })
         break
-      case 'Siege':
-        material = new THREE.MeshStandardMaterial({
-          map: this.resources.items.siegeTexture,
-          envMap: this.resources.items.environmentMapTexture,
-          metalness: 0,
-          roughness: 1,
-        })
-        break
       case 'PublicShiba':
         material = new THREE.MeshStandardMaterial({
           map: this.resources.items.shibaTexture,
@@ -299,6 +308,66 @@ export default class MaterialFactory {
       case 'PublicGazelle':
         material = new THREE.MeshStandardMaterial({
           map: this.resources.items.gazelleTexture,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'DecoGrind':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.decoGrind,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'DecoGrind2':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.decoGrind2,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'Deco_PtitBail':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.decoPtitBail,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'Rings_JO':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.rings,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'Gradient':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.gradient,
+          envMap: this.resources.items.environmentMapTexture,
+          metalness: 0,
+          roughness: 1,
+        })
+        material.side = THREE.DoubleSide
+        material.transparent = true
+        break
+      case 'Obelisque':
+        material = new THREE.MeshStandardMaterial({
+          map: this.resources.items.obelisque,
           envMap: this.resources.items.environmentMapTexture,
           metalness: 0,
           roughness: 1,

@@ -13,9 +13,9 @@ export default class Camera {
     this.debug = this.experience.debug
 
     this.setInstance()
-    this.setOrbitControls()
     // Debug
     if (this.debug.active) {
+      this.setOrbitControls()
       this.setDebug()
     }
 

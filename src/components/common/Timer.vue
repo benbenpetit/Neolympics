@@ -20,7 +20,7 @@
           <div class="timebar-wrapper">
             <div class="timebar" :style="{ width: timebarWidth + '%' }"></div>
           </div>
-          <h2 class="timer-value">{{ formatTime(elapsedTime) }}</h2>
+          <h2 class="timer-value">{{ formatTime(displayedTime) }}</h2>
         </div>
       </div>
       <!-- <button
@@ -65,6 +65,7 @@ const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const isRunning = ref(false)
 const elapsedTime = ref(0)
+const displayedTime = ref(0)
 const stoppedTime = ref(0)
 const timebarWidth = ref(0)
 const scoreContainerRef = ref<HTMLDivElement | null>(null)
@@ -85,7 +86,7 @@ const timerCreated = ref(false)
 watch(
   () => props.score,
   () => {
-    console.log('Value changed')
+    // console.log('Value changed')
     gsap
       .timeline()
       .to(scoreContainerRef.value, { scale: 2, duration: 0.2 })
@@ -106,10 +107,10 @@ mittInstance.on('Update Icon', (e: any) => {
   step.value = e.step
 
   if (e.isValid) {
-    console.log('Valid', steps.value[step.value])
+    // console.log('Valid', steps.value[step.value])
     steps.value[step.value].isValid = true
   } else {
-    console.log('Not Valid', steps.value[step.value])
+    // console.log('Not Valid', steps.value[step.value])
     steps.value[step.value].isError = true
   }
 })
@@ -121,6 +122,7 @@ mittInstance.on('Start Timer', () => {
 mittInstance.on('Time tick', (time: any) => {
   if (timerCreated.value && isRunning.value) {
     elapsedTime.value += time.deltaTime / 1000
+    displayedTime.value = (elapsedTime.value * 45) / 35
     timebarWidth.value = (elapsedTime.value / maxTime) * 100
     if (elapsedTime.value >= maxTime) {
       timebarWidth.value = 100
@@ -156,9 +158,9 @@ mittInstance.on('Time tick', (time: any) => {
 })
 
 const startTimer = () => {
-  console.log('Timer step value : ', step.value)
-  console.log('Timer created : ', timerCreated.value)
-  console.log('Timer isRunning : ', timerCreated.value)
+  // console.log('Timer step value : ', step.value)
+  // console.log('Timer created : ', timerCreated.value)
+  // console.log('Timer isRunning : ', timerCreated.value)
   if (!timerCreated.value) {
     timerCreated.value = true
   }

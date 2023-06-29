@@ -11,7 +11,6 @@ export default class Renderer {
 
     this.setInstance()
     this.resize()
-    console.log(this.instance.info)
   }
 
   setInstance() {

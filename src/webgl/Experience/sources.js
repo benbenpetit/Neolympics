@@ -18,7 +18,7 @@ export default [
   {
     name: 'skaterFinal',
     type: 'gltfModel',
-    path: '/models/Skater_Final.glb',
+    path: '/models/Skater_Final-Test.glb',
   },
   {
     name: 'Module270',

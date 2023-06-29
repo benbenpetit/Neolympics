@@ -18,7 +18,7 @@ export default class SkaterLapin {
 
     this.slowmotionFactor = { value: 0.001 }
     this.cameraOffset = new THREE.Vector3(-2, 1, -4)
-    this.lookAtOffset = { value: 5 }
+    this.lookAtOffset = new THREE.Vector3(0, 0, 5)
     this.started = false
     this.shakeStrength = 1
 
@@ -34,7 +34,7 @@ export default class SkaterLapin {
 
   setModel() {
     this.model = this.resource.scene
-    this.model.position.set(0, 1.91, -25)
+    this.model.position.set(0, 1.9, -25)
     this.modelVelocity = new THREE.Vector3(0, 0, 0)
 
     this.scene.add(this.model)
@@ -64,7 +64,7 @@ export default class SkaterLapin {
 
   setDebug() {
     this.debugFolder.add(this.resource.scene.position, 'x', -10, 10, 0.1).name('Skater X')
-    this.debugFolder.add(this.resource.scene.position, 'y', 0, 20, 0.01).name('Skater Y')
+    this.debugFolder.add(this.resource.scene.position, 'y', -1, 20, 0.01).name('Skater Y')
     this.debugFolder
       .add(this.resource.scene.position, 'z', -300, 300, 0.01)
       .name('Skater Z')
@@ -74,14 +74,50 @@ export default class SkaterLapin {
     this.debugFolder.add(this.cameraOffset, 'z', -10, 10, 0.1).name('Camera Offset Z')
 
     const debugObject = {
-      changeCamera: () => {
-        this.changeCamera()
+      changeCameraIntro: () => {
+        this.changeCameraIntro()
+      },
+      changeCameraEnd: () => {
+        this.changeCameraEnd()
       },
     }
-    this.debugFolder.add(debugObject, 'changeCamera')
+    this.debugFolder.add(debugObject, 'changeCameraIntro')
+    this.debugFolder.add(debugObject, 'changeCameraEnd')
   }
 
-  changeCamera() {
+  changeCameraEnd() {
+    var cameraMovement = gsap.timeline()
+    cameraMovement.to(this.lookAtOffset, {
+      z: 0,
+      y: 1,
+      x: 4,
+      duration: 2,
+      ease: 'Power1.easeIn',
+    })
+    cameraMovement.to(
+      this.cameraOffset,
+      {
+        x: -4,
+        y: 1,
+        z: 0,
+        duration: 1.5,
+        ease: 'Power3.easeIn',
+      },
+      '<',
+    )
+    cameraMovement.to(
+      this.cameraOffset,
+      {
+        x: -4,
+        y: 1,
+        z: 4,
+        duration: 1.5,
+        ease: 'Power3.easeOut',
+      },
+      '>-0.2',
+    )
+  }
+  changeCameraIntro() {
     var cameraMovement = gsap.timeline()
     cameraMovement.to(this.cameraOffset, {
       x: -2,
@@ -93,11 +129,11 @@ export default class SkaterLapin {
     cameraMovement.to(
       this.lookAtOffset,
       {
-        value: 0.5,
+        z: 0.5,
         duration: 10,
         ease: 'Power3.easeOut',
       },
-      '>-10',
+      '<',
     )
   }
 
@@ -112,16 +148,16 @@ export default class SkaterLapin {
       this.animation.actions[animation.name] = this.animation.mixer.clipAction(
         THREE.AnimationClip.findByName(this.resource.animations, animation.name),
       )
-      if (
-        animation.name != 'P_Cruise' &&
-        animation.name != 'Board_Pose' &&
-        animation.name != 'JoyfulJump'
-      ) {
+      if (animation.name != 'P_Cruise' && animation.name != 'Board_Pose') {
         this.animation.actions[animation.name].setLoop(THREE.LoopOnce)
+      }
+      if (animation.name == 'P_Debut_Epreuve') {
+        this.animation.actions[animation.name].setLoop(THREE.LoopRepeat)
       }
     })
     this.animation.actions.current = this.animation.actions['P_Cruise']
-    // this.animation.actions['JoyfulJump'].play()
+    this.animation.actions['P_Debut_Epreuve'].play()
+    this.animation.actions['P_Debut_Epreuve'].paused = true
     console.log(this.animation.actions)
 
     this.animation.play = (name) => {
@@ -144,8 +180,10 @@ export default class SkaterLapin {
     }
 
     this.animation.mixer.addEventListener('finished', (e) => {
-      this.animation.actions.current.reset()
-      this.animation.actions.current.play()
+      if (!e.action.getClip().name.includes('Push')) {
+        this.animation.actions.current.reset()
+        this.animation.actions.current.play()
+      }
       if (e.action.getClip().name.includes('Move_P')) {
         mittInstance.emit('Skate Figure Anim 3D End')
       }
@@ -191,6 +229,13 @@ export default class SkaterLapin {
           this.animation.play('Move_P_ShoveIt')
           this.animation.play('Move_Board_ShoveIt')
         },
+        playDebutEpreuve: () => {
+          this.animation.play('P_Debut_Epreuve')
+        },
+        playFinEpreuve: () => {
+          this.animation.play('P_Fin_Epreuve')
+          this.animation.play('Board_Fin_Epreuve')
+        },
       }
       this.debugFolder.add(debugObject, 'playCruise')
       this.debugFolder.add(debugObject, 'playPush')
@@ -200,6 +245,8 @@ export default class SkaterLapin {
       this.debugFolder.add(debugObject, 'playGrindFlip')
       this.debugFolder.add(debugObject, 'playKickFlip')
       this.debugFolder.add(debugObject, 'playShoveIt')
+      this.debugFolder.add(debugObject, 'playDebutEpreuve')
+      this.debugFolder.add(debugObject, 'playFinEpreuve')
     }
   }
 
@@ -211,6 +258,8 @@ export default class SkaterLapin {
       //   z: 0.2,
       //   duration: 3,
       // })
+      this.animation.actions['P_Debut_Epreuve'].paused = false
+      this.animation.actions['P_Debut_Epreuve'].fadeOut(0.5)
       setTimeout(() => {
         this.animation.actions.current.reset()
         this.animation.actions.current.play()
@@ -218,11 +267,11 @@ export default class SkaterLapin {
           this.animation.actions['P_PushDouble'],
           0.2,
         )
-      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000 * 1) - 200)
+      }, parseInt(this.animation.actions['P_PushDouble'].getClip().duration * 1000) - 200)
     })
 
     mittInstance.on('Before Figure Game', () => {
-      this.changeCamera()
+      this.changeCameraIntro()
     })
 
     mittInstance.on('Start Figure Game', (e) => {
@@ -257,7 +306,7 @@ export default class SkaterLapin {
           ease: 'Power3.easeIn',
         })
         gsap.to(this.lookAtOffset, {
-          value: 5,
+          z: 5,
           duration: 0.5,
           ease: 'Power3.easeIn',
         })
@@ -270,28 +319,40 @@ export default class SkaterLapin {
           ease: 'Power3.easeIn',
         })
         gsap.to(this.lookAtOffset, {
-          value: 5,
+          z: 5,
           duration: 0,
           ease: 'Power3.easeIn',
         })
       }
+    })
+    mittInstance.on('Skate Figure Anim 3D End', () => {
+      this.model.position.y = -0.035
+      this.animation.play('P_Push')
+      setTimeout(() => {
+        this.animation.actions.current.reset()
+        this.animation.actions.current.play()
+        this.animation.actions.current.crossFadeFrom(
+          this.animation.actions['P_Push'],
+          0.2,
+        )
+      }, this.animation.actions['P_Push'].getClip().duration * 1000 - 400)
     })
     mittInstance.on('Sport finished', () => {
       // console.log('Sport finished')
       gsap.to(this.modelVelocity, {
         z: 0.0,
         duration: 1,
+        onComplete: () => {
+          this.animation.play('P_Fin_Epreuve')
+          this.animation.play('Board_Fin_Epreuve')
+          this.changeCameraEnd()
+          setTimeout(() => {
+            this.animation.actions['P_Fin_Epreuve'].paused = true
+            this.animation.actions['Board_Fin_Epreuve'].paused = true
+            this.time.timeScale = 0
+          }, this.animation.actions['Board_Fin_Epreuve'].getClip().duration * 1000 - 17)
+        },
       })
-      // gsap.to(this.slowmotionFactor, {
-      //   value: 0,
-      //   duration: 0,
-      // })
-      this.animation.actions['JoyfulJump'].reset()
-      this.animation.actions['JoyfulJump'].play()
-      this.animation.actions['JoyfulJump'].crossFadeFrom(
-        this.animation.actions.current,
-        name == 'Move_P_270Slide' || name == 'Move_Board_270Slide' ? 0 : 0.5,
-      )
     })
   }
 
@@ -312,7 +373,7 @@ export default class SkaterLapin {
     this.animation.mixer.update(this.time.delta * this.slowmotionFactor.value)
     const cameraTarget = new THREE.Vector3()
     cameraTarget.copy(modelPosition)
-    cameraTarget.z += this.lookAtOffset.value
+    cameraTarget.add(this.lookAtOffset)
     this.experience.camera.instance.lookAt(cameraTarget)
   }
 }

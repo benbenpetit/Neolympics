@@ -90,8 +90,8 @@ export default class Floor {
       })
     })
     mittInstance.on('Sport finished', () => {
-      gsap.to(this.time, {
-        timeScale: 0,
+      gsap.to(this.modelVelocity, {
+        z: 0,
         duration: 1,
       })
     })

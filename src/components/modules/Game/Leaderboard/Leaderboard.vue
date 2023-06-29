@@ -120,9 +120,10 @@ import ResultCard from '@/components/modules/Game/Leaderboard/Profile/ResultCard
 import router from '@/core/router'
 import {
   addMaxSession,
+  addScoreSkate,
   getMaxSessionHigherThanStored,
 } from '@/core/services/api/leaderboardApi'
-import { IMaxSessionWUser } from '@/core/types/IScore'
+import { IMaxSessionWUser, IScore } from '@/core/types/IScore'
 import { signInWithGoogle, signInWithTwitter } from '@/core/utils/auth'
 import { getSortedMaxSessionsWUser } from '@/core/utils/scores'
 import { gsap } from 'gsap'
@@ -258,6 +259,18 @@ watch(
   },
   { immediate: true, deep: true },
 )
+
+const addUserScore = async () => {
+  if (!currentUser.value) return
+  const tempScore: IScore = {
+    sportId: 'skate',
+    points: scoreState.currentScores.skate ?? 0,
+    quiz: scoreState.currentScores.skateQuiz,
+    createdAt: new Date(),
+    userId: currentUser.value.uid,
+  }
+  addScoreSkate(tempScore)
+}
 
 const addUserSession = async () => {
   if (!props?.localMaxSession) return

@@ -109,7 +109,6 @@ watch(
           userId: currentUser.value.uid,
         }
         addScoreSkate(tempScore)
-        // addUserSession()
       }
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Scene v-if="skateStep === 0" />
-    <Quiz v-if="skateStep === 1" />
+    <Quiz v-if="skateStep === 1" @onEnd="addUserSession" />
     <Leaderboard
       v-if="skateStep === 2"
       :maxSessions="maxSessions"
@@ -109,7 +109,6 @@ watch(
           userId: currentUser.value.uid,
         }
         addScoreSkate(tempScore)
-        addUserSession()
       }
     }
   },

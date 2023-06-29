@@ -1,4 +1,5 @@
 <template>
+  <!-- <LoadingQuiz /> -->
   <div class="quiz-background"></div>
   <QuizOverlay />
 
@@ -169,6 +170,7 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
 import Header from '@/components/common/Header.vue'
 import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
+import LoadingQuiz from '@/components/modules/Quiz/LoadingQuiz.vue'
 import { IQuestion } from '@/core/types/IQuiz'
 import { ref, computed, onMounted, watch } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
@@ -193,6 +195,7 @@ onMounted(async () => {
   })
 })
 
+const emit = defineEmits(['onEnd'])
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const showQuiz = ref(true)
@@ -227,8 +230,13 @@ let soundGsapTl = gsap.timeline({})
 
 let animationToPlay = ref<string>('P_Interview_Discution')
 
+const ready = () => {
+  console.log('dom ready')
+}
+
 const quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
+  volume: 0.3,
 })
 
 const quizSoundtrack = new Howl({
@@ -353,13 +361,13 @@ const setNextQuestion = () => {
     animationToPlay.value = 'P_Interview_Discution'
   } else {
     quizCompleted.value = true
+    emit('onEnd')
     gotoEndQuiz()
   }
 }
 
 const quizOverlayAnimation = () => {
   quizOverlayTimeline.add(function () {
-    quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })
 
@@ -396,12 +404,11 @@ const quizOverlayAnimation = () => {
       duration: 0.4,
       ease: 'Power2.easeInOut',
     },
-    '+=0.5',
+    '+=2',
   )
 
   quizOverlayTimeline.add(function () {
     quizOverlaySound.rate(0.9)
-    quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })
 
@@ -470,7 +477,7 @@ const displayInfo = () => {
 
   quizTimeline.to('.c-quiz-modals', {
     x: '0%',
-    duration: 0.4,
+    duration: 0.6,
     ease: 'Power4.easeInOut',
   })
 
@@ -491,11 +498,15 @@ const nextQuestion = () => {
     setNextQuestion()
   })
 
-  quizTimeline.to('.c-quiz-modals', {
-    x: '0%',
-    duration: 0.4,
-    ease: 'Power4.easeInOut',
-  })
+  quizTimeline.to(
+    '.c-quiz-modals',
+    {
+      x: '0%',
+      duration: 0.8,
+      ease: 'Power4.easeInOut',
+    },
+    '+=0.3',
+  )
 }
 
 const gotoEndQuiz = () => {

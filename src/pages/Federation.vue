@@ -50,12 +50,12 @@
     <div class="c-federation-animals">
       <div class="card-fede-wrapper">
         <div class="--fede-perso">
-          <img src="/img/fede/skater.svg" alt="" />
+          <img src="/img/fede/skater.webp" alt="" />
         </div>
 
         <SportCard @click="handleFedeSkateClick()">
           <template v-slot:sportimg>
-            <img src="/img/fede/logo-skate.svg" alt="" />
+            <img src="/img/fede/logo-skate.webp" alt="" />
           </template>
           <template v-slot:footer>
             <p>découvrir</p>
@@ -66,11 +66,11 @@
 
       <div class="card-fede-wrapper">
         <div class="--fede-perso">
-          <img src="/img/fede/surfer.svg" alt="" />
+          <img src="/img/fede/surfer.webp" alt="" />
         </div>
         <SportCard @click="handleFedeSurfClick()">
           <template v-slot:sportimg>
-            <img src="/img/fede/logo-surf.svg" alt="" />
+            <img src="/img/fede/logo-surf.webp" alt="" />
           </template>
           <template v-slot:footer>
             <p>découvrir</p>
@@ -81,11 +81,11 @@
 
       <div class="card-fede-wrapper">
         <div class="--fede-perso">
-          <img src="/img/fede/breaker.svg" alt="" />
+          <img src="/img/fede/breaker.webp" alt="" />
         </div>
         <SportCard @click="handleFedeBreakClick()">
           <template v-slot:sportimg>
-            <img src="/img/fede/logo-danse.svg" alt="" />
+            <img src="/img/fede/logo-danse.webp" alt="" />
           </template>
           <template v-slot:footer>
             <p>découvrir</p>
@@ -96,11 +96,11 @@
 
       <div class="card-fede-wrapper">
         <div class="--fede-perso">
-          <img src="/img/fede/climber.svg" alt="" />
+          <img src="/img/fede/climber.webp" alt="" />
         </div>
         <SportCard @click="handleFedeClimbClick()">
           <template v-slot:sportimg>
-            <img src="/img/fede/logo-climb.svg" alt="" />
+            <img src="/img/fede/logo-climb.webp" alt="" />
           </template>
           <template v-slot:footer>
             <p>découvrir</p>
@@ -144,7 +144,7 @@ const handleFedeClimbClick = () => {
 }
 
 const handleAgainClick = () => {
-  router.push('/competition/preparation')
+  location.replace('/competition/preparation')
 }
 
 const TEXT = `Je viens de réaliser un super score de ${scoreState.currentScores.skate}pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`

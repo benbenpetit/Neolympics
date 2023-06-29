@@ -161,8 +161,13 @@ let sweepCardSound = new Howl({
 
 let gameSoundtrack = new Howl({
   src: ['/sounds/soundtracks/main-theme.mp3'],
-  loop: true,
   volume: 0.8,
+  sprite: {
+    full: [0, 24000, false],
+  },
+  onend: function () {
+    gameSoundtrack.play('full')
+  },
 })
 
 let sliderAppearSound = new Howl({
@@ -172,8 +177,8 @@ let sliderAppearSound = new Howl({
 
 let sliderDisappearSound = new Howl({
   src: ['/sounds/ui-sounds/disappear.mp3'],
-  volume: 0.4,
-  rate: 0.9,
+  volume: 0.2,
+  rate: 0.8,
 })
 
 let sliderPopSound = new Howl({
@@ -188,7 +193,7 @@ onMounted(async () => {
   const topScoresBySport = await getTopScoresBySport('skate', 3)
   topThreePlayers.value = topScoresBySport.reverse()
 
-  gameSoundtrack.play()
+  gameSoundtrack.play('full')
   gameSoundtrack.fade(0, 0.8, 300)
   // @ts-ignore
   gameSoundtrack.addFilter({

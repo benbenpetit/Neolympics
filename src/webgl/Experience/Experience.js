@@ -35,9 +35,9 @@ export default class Experience {
     this.world = new World()
     this.camera = new Camera()
     this.renderer = new Renderer()
-    this.stats = new Stats()
-    this.stats.dom.classList.add('stats-container')
-    document.body.appendChild(this.stats.dom)
+    // this.stats = new Stats()
+    // this.stats.dom.classList.add('stats-container')
+    // document.body.appendChild(this.stats.dom)
 
     //Sizes resize event
     this.sizes.on('resize', () => {
@@ -56,7 +56,9 @@ export default class Experience {
   }
 
   update() {
-    this.stats.update()
+    if (this.stats) {
+      this.stats.update()
+    }
     this.camera.update()
     this.world.update()
     this.renderer.update()

@@ -293,7 +293,7 @@ const handleEnterGame = () => {
     delay: 0.2,
     ease: 'Power4.easeInOut',
     onComplete: () => {
-      router.push('/competition/preparation')
+      location.replace('/competition/preparation')
     },
   })
 }

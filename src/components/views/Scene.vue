@@ -367,7 +367,7 @@ const handleTutoPatternEnd = ({ isValid = false, timingRatio = 0 }) => {}
 
 const startAgain = () => {
   Howler.stop()
-  router.push('/competition/preparation')
+  location.replace('/competition/preparation')
   setTimeout(() => {
     mittInstance.emit('start again')
   }, 200)

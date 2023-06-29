@@ -25,6 +25,4 @@ export function estimateRefreshRate() {
 }
 
 // Utilisation de la fonction pour estimer le taux de rafraîchissement
-estimateRefreshRate().then(function (fps) {
-  console.log('Estimation du taux de rafraîchissement : ' + fps + ' FPS')
-})
+estimateRefreshRate().then(function (fps) {})

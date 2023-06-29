@@ -190,8 +190,8 @@ onMounted(async () => {
     answer: 3,
     options: ['PigeonFlip', 'Ollie', 'Kickflip', 'FS 270 Boardslide'],
     selected: null,
-    img: '/img/quiz/quiz-ollie.webp',
-    info: `Cette figure consiste à faire tourner la planche de 180° sous les pieds du skateur. Il existe aussi des variantes à 360° et 540°.`,
+    img: '/img/quiz/first-fig.webp',
+    info: `Le FS 270 Boardslide est la figure de prédiléction de Yuto, le premier médaillé olympique aux JO de Tokyo 2020`,
   })
 })
 
@@ -229,10 +229,6 @@ let soundtrackFilter = ref({ frequency: 20000 })
 let soundGsapTl = gsap.timeline({})
 
 let animationToPlay = ref<string>('P_Interview_Discution')
-
-const ready = () => {
-  console.log('dom ready')
-}
 
 const quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
@@ -331,7 +327,6 @@ const handleQuizClick = (index: number) => {
   }
 
   setTimeout(displayInfo, 1000)
-  console.log(recapTable)
 }
 
 const getOptionClasses = (index: number) => {

@@ -52,9 +52,6 @@ export default class Floor {
       this.sloMo = gsap.to(this.time, {
         timeScale: 0.2,
         duration: 1.5,
-        onComplete: () => {
-          console.log('Reduction finie')
-        },
       })
     })
 

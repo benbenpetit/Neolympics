@@ -155,7 +155,10 @@
             transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
 
             &:hover {
-              background-color: #f0f0f0;
+              background-color: $color-blue-secondary;
+              border: 2px solid $color-blue;
+              color: $color-blue;
+              transition: all 0.1s cubic-bezier(0.4, 0, 0, 1);
             }
 
             &.--selected {

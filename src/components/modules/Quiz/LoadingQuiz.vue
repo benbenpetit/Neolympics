@@ -6,11 +6,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const startQuiz = () => {
-  console.log('okok')
-}
-</script>
+<script setup lang="ts"></script>
 
 <style>
 .--loading-quiz {

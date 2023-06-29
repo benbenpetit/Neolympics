@@ -108,7 +108,7 @@ const router = useRouter()
 const headerRef = ref<any | null>(null)
 const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
 
-let selectedTrial = ref<boolean>(true)
+let selectedTrial = ref<boolean>(false)
 let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
 let soundtrackFilter = ref({ frequency: 20000 })

@@ -193,6 +193,7 @@ onMounted(async () => {
   })
 })
 
+const emit = defineEmits['onEnd']
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const showQuiz = ref(true)
@@ -353,6 +354,7 @@ const setNextQuestion = () => {
     animationToPlay.value = 'P_Interview_Discution'
   } else {
     quizCompleted.value = true
+    emit('onEnd')
     gotoEndQuiz()
   }
 }

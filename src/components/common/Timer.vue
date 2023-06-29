@@ -72,7 +72,7 @@ const step = ref(0)
 const steps = ref([...Array(6)].map((_) => ({ isError: false, isValid: false })))
 let startTime: any = null
 let timerIntervalId: any = null
-let maxTime: number = 35
+let maxTime: number = 5
 
 const timerCreated = ref(false)
 

@@ -144,7 +144,7 @@ const handleFedeClimbClick = () => {
 }
 
 const handleAgainClick = () => {
-  router.push('/competition/preparation')
+  location.replace('/competition/preparation')
 }
 
 const TEXT = `Je viens de réaliser un super score de ${scoreState.currentScores.skate}pts🔥 sur Neolympics ! Viens essayer de me battre ⚔.`

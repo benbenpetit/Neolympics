@@ -193,7 +193,7 @@ onMounted(async () => {
   })
 })
 
-const emit = defineEmits['onEnd']
+const emit = defineEmits(['onEnd'])
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const showQuiz = ref(true)

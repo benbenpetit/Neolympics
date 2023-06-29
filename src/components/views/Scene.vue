@@ -78,7 +78,7 @@
         <div class="--rotate">
           <p class="--texte">
             <span>{{ resultTxt }}</span>
-            <span>{{ resultTxt }}</span>
+            <!-- <span>{{ resultTxt }}</span> -->
           </p>
           <div class="--score-wrapper">
             <p class="--score">SCORE : {{ Math.round(score) }}<span>pts</span></p>

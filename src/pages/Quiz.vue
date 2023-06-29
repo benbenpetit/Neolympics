@@ -230,10 +230,6 @@ let soundGsapTl = gsap.timeline({})
 
 let animationToPlay = ref<string>('P_Interview_Discution')
 
-const ready = () => {
-  console.log('dom ready')
-}
-
 const quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
   volume: 0.3,
@@ -331,7 +327,6 @@ const handleQuizClick = (index: number) => {
   }
 
   setTimeout(displayInfo, 1000)
-  console.log(recapTable)
 }
 
 const getOptionClasses = (index: number) => {

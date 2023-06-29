@@ -45,12 +45,6 @@ export default class SkaterLapin {
         // child.receiveShadow = true
       }
     })
-    console.log(
-      new THREE.Vector3()
-        .copy(this.model.position)
-        .add(this.cameraOffset)
-        .add(this.model.getObjectByName('Ctrl_Hips').position),
-    )
   }
 
   setMaterials() {
@@ -158,7 +152,6 @@ export default class SkaterLapin {
     this.animation.actions.current = this.animation.actions['P_Cruise']
     this.animation.actions['P_Debut_Epreuve'].play()
     this.animation.actions['P_Debut_Epreuve'].paused = true
-    console.log(this.animation.actions)
 
     this.animation.play = (name) => {
       // console.log(name)

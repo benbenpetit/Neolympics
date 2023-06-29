@@ -280,7 +280,6 @@ mittInstance.on('Start Figure Game', () => {
 })
 
 mittInstance.on('Skate Figure Anim 3D', () => {
-  console.log('fig 3D')
   state.value = 'figureAnim'
   // soundGsapTl.to(soundtrackFilter.value, {
   //   frequency: 20000,

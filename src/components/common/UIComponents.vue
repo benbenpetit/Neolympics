@@ -48,21 +48,16 @@ import { ref } from 'vue'
 let isShowModal = ref(false)
 
 const retourArriere = () => {
-  console.log('retour en arrière')
   isShowModal.value = false
 }
 
 const continuer = () => {
-  console.log('continuer')
   isShowModal.value = false
 }
 
-const startTraining = () => {
-  console.log('entrainement')
-}
+const startTraining = () => {}
 
 const startTrial = () => {
-  console.log('epreuve olympique')
   isShowModal.value = true
 }
 </script>

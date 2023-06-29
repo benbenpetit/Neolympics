@@ -10,7 +10,7 @@ export default class Skatepark {
     this.materialFactory = this.experience.materialFactory
 
     //Setup
-    this.resource = this.resources.items.skatepark
+    this.resource = this.resources.items.skateparkNew
 
     this.setModel()
     this.setMaterials()
@@ -18,35 +18,30 @@ export default class Skatepark {
       this.debugFolder = this.debug.ui.addFolder('Skatepark')
       this.setDebug()
     }
+    this.model.traverse((child) => {
+      if (child.isMesh && child.name.includes('Sol')) {
+        child.receiveShadow = true
+        // child.castShadow = true
+      }
+    })
   }
 
   setModel() {
     this.model = this.resource.scene
-    let box3 = new THREE.Box3().setFromObject(this.model)
-    let size = new THREE.Vector3()
-    console.log(box3.getSize(size))
-    this.model.position.set(0, 0.2, 84.5)
+    // let box3 = new THREE.Box3().setFromObject(this.model)
+    // let size = new THREE.Vector3()
+    // console.log(box3.getSize(size))
+    this.model.position.set(0, 0.19, 84.5)
     this.model.scale.set(1, 1, 1)
     this.model.rotation.y = (3 * Math.PI) / 2
-
-    this.model.traverse((child) => {
-      if (child.isMesh) {
-        child.receiveShadow = true
-        child.castShadow = true
-      }
-    })
     this.scene.add(this.model)
   }
 
   setMaterials() {
     this.model.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
+      if (child.isMesh) {
         // console.log(child.name)
-        if (child.name.includes('Plane')) {
-          // child.material = this.materialFactory.getMaterial('Public')
-        } else {
-          child.material = this.materialFactory.getMaterial(child.name)
-        }
+        child.material = this.materialFactory.getMaterial(child.name)
       }
     })
   }

@@ -36,7 +36,7 @@ export default class Floor {
       module.scene.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = this.materialFactory.getMaterial(child.name)
-          child.castShadow = true
+          // child.castShadow = true
           child.receiveShadow = true
           // console.log(child.material)
         }
@@ -90,8 +90,8 @@ export default class Floor {
       })
     })
     mittInstance.on('Sport finished', () => {
-      gsap.to(this.time, {
-        timeScale: 0,
+      gsap.to(this.modelVelocity, {
+        z: 0,
         duration: 1,
       })
     })

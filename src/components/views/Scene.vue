@@ -259,7 +259,7 @@ watch(
     } else {
       CURRENT_FIGURES = CURRENT_FIGURES_HARD
       pattern.value = FB270_HARD.pattern
-      localStorage.setItem('modules', JSON.stringify(CURRENT_FIGURES_MEDIUM))
+      localStorage.setItem('modules', JSON.stringify(CURRENT_FIGURES_HARD))
     }
   },
   { immediate: true },

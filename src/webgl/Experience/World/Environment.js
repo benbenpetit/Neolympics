@@ -13,7 +13,7 @@ export default class Environment {
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder('Environment').open()
       this.parameters = {
-        sunLightColor: 0xfff0c2,
+        sunLightColor: 0xede9d4,
       }
     }
 
@@ -23,21 +23,21 @@ export default class Environment {
   }
 
   setSunLight() {
-    this.sunLight = new THREE.DirectionalLight('#FFF0C2', 1)
+    this.sunLight = new THREE.DirectionalLight('#ede9d4', 1)
     this.sunLight.castShadow = true
-    this.sunLight.shadow.camera.far = 20
+    this.sunLight.shadow.camera.far = 7
     this.sunLight.shadow.camera.near = 0.1
-    this.sunLight.shadow.camera.top = 2
-    this.sunLight.shadow.camera.right = 2
-    this.sunLight.shadow.camera.bottom = -2
-    this.sunLight.shadow.camera.left = -2
+    this.sunLight.shadow.camera.top = 1.5
+    this.sunLight.shadow.camera.right = 1
+    this.sunLight.shadow.camera.bottom = -0.5
+    this.sunLight.shadow.camera.left = -1
     this.sunLight.shadow.mapSize.width = 1024
     this.sunLight.shadow.mapSize.height = 1024
 
-    this.sunLight.intensity = 1
+    this.sunLight.intensity = 0.6
     this.sunLight.target = this.experience.world.skater.model
     this.sunLight.position.copy(new THREE.Vector3(-2, 4, -26.5))
-    console.log(this.sunLight.shadow.camera)
+    // console.log(this.sunLight.shadow.camera)
     // const helper = new THREE.CameraHelper(this.sunLight.shadow.camera)
     // this.scene.add(helper)
     this.scene.add(this.sunLight)
@@ -61,7 +61,7 @@ export default class Environment {
 
   setEnvironmentMap() {
     this.environmentMap = {}
-    this.environmentMap.intensity = 1
+    this.environmentMap.intensity = 0.8
     this.environmentMap.texture = this.resources.items.environmentMapTexture
     this.environmentMap.texture.encoding = THREE.sRGBEncoding
 

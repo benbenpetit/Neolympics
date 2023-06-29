@@ -108,7 +108,7 @@ const router = useRouter()
 const headerRef = ref<any | null>(null)
 const sportCardsWrapperRef = ref<HTMLDivElement | null>(null)
 
-let selectedTrial = ref<boolean>(false)
+let selectedTrial = ref<boolean>(true)
 let sportConfirmed = ref<boolean>(false)
 let currentSport = ref<number>(0)
 let soundtrackFilter = ref({ frequency: 20000 })
@@ -156,29 +156,34 @@ let auth: Auth
 
 let sweepCardSound = new Howl({
   src: ['/sounds/ui-sounds/sweep-card.mp3'],
-  volume: 0.3,
+  volume: 0.4,
 })
 
 let gameSoundtrack = new Howl({
   src: ['/sounds/soundtracks/main-theme.mp3'],
-  loop: true,
   volume: 0.8,
+  sprite: {
+    full: [0, 24000, false],
+  },
+  onend: function () {
+    gameSoundtrack.play('full')
+  },
 })
 
 let sliderAppearSound = new Howl({
   src: ['/sounds/ui-sounds/appear-4.mp3'],
-  volume: 0.3,
+  volume: 0.5,
 })
 
 let sliderDisappearSound = new Howl({
   src: ['/sounds/ui-sounds/disappear.mp3'],
   volume: 0.2,
-  rate: 0.9,
+  rate: 0.8,
 })
 
 let sliderPopSound = new Howl({
   src: ['/sounds/ui-sounds/appear-3.mp3'],
-  volume: 0.3,
+  volume: 0.4,
   rate: 1.1,
 })
 
@@ -188,7 +193,7 @@ onMounted(async () => {
   const topScoresBySport = await getTopScoresBySport('skate', 3)
   topThreePlayers.value = topScoresBySport.reverse()
 
-  gameSoundtrack.play()
+  gameSoundtrack.play('full')
   gameSoundtrack.fade(0, 0.8, 300)
   // @ts-ignore
   gameSoundtrack.addFilter({
@@ -295,7 +300,10 @@ const gotoNextSport = () => {
   // sliderDirection.value = 'next'
   sliderAnimOut()
   sliderAnim.add(setNextSport)
-  sliderAnimIn()
+
+  setTimeout(function () {
+    sliderAnimIn()
+  }, 100)
 }
 
 const gotoPreviousSport = () => {
@@ -328,14 +336,14 @@ const sportParams = [
     img: '/models/PlancheSkate.glb',
     available: true,
     icon: '/icon/skateboarding.svg',
-    cameraOrbit: '45deg 70deg 1.5m',
+    cameraOrbit: '70deg 70deg 1.5m',
   },
   {
     title: 'SURF',
     info: `Les surfeurs effectuent des manœuvres et des figures sur une vague, et sont ensuite notés par cinq juges en fonction de la variété de leur enchaînement, du type de figures réalisées et de leur difficulté.`,
     img: '/models/PlancheSurf.glb',
     available: false,
-    cameraOrbit: '45deg 70deg 1.5m',
+    cameraOrbit: '45deg 50deg 1.5m',
   },
   {
     title: 'BREAKING',
@@ -358,16 +366,12 @@ const sliderAnimOut = () => {
     '.c-sportslider-buttons button',
     {
       ease: 'Power2.easeInOut',
-      duration: 0.2,
+      duration: 0.3,
       opacity: 0,
+      pointerEvents: 'none',
     },
     // '-=0.1',
   )
-
-  sliderAnim.to('.c-sportslider-buttons button', {
-    visibility: 'hidden',
-    duration: 0,
-  })
 
   sliderAnim.add(function () {
     sliderDisappearSound.play()
@@ -395,7 +399,7 @@ const sliderAnimOut = () => {
         })
       },
     },
-    '-=0.2',
+    '-=0.1',
   )
 
   sliderAnim.to(
@@ -421,8 +425,29 @@ const sliderAnimOut = () => {
 }
 
 const sliderAnimIn = () => {
+  sliderAnim.to(
+    '.sportslider-footer-wrapper',
+    {
+      y: '0%',
+      duration: 0.3,
+      ease: 'Power2.easeInOut',
+    },
+    '+=0.2',
+  )
+
+  sliderAnim.to(
+    '.c-sportslider-center p',
+    {
+      ease: 'Power2.easeInOut',
+      duration: 0.3,
+      y: '0%',
+      opacity: 1,
+    },
+    '-=0.3',
+  )
+
   sliderAnim.add(function () {
-    sliderAppearSound.play()
+    sliderPopSound.play()
   })
 
   sliderAnim.to(
@@ -430,7 +455,7 @@ const sliderAnimIn = () => {
     {
       y: '0%',
       ease: CustomEase.create('custom', 'M0,0,C0.2,0,0.604,1.392,1,1'),
-      duration: 0.6,
+      duration: 0.8,
       opacity: 1,
       scale: 1,
       filter: 'blur(0px)',
@@ -446,29 +471,9 @@ const sliderAnimIn = () => {
   )
 
   sliderAnim.add(function () {
-    sliderPopSound.play()
+    sliderAppearSound.rate(0.9)
+    sliderAppearSound.play()
   })
-
-  sliderAnim.to(
-    '.sportslider-footer-wrapper',
-    {
-      y: '0%',
-      duration: 0.3,
-      ease: 'Power2.easeInOut',
-    },
-    '-=0.2',
-  )
-
-  sliderAnim.to(
-    '.c-sportslider-center p',
-    {
-      ease: 'Power2.easeInOut',
-      duration: 0.3,
-      y: '0%',
-      opacity: 1,
-    },
-    '-=0.3',
-  )
 
   sliderAnim.to(
     '.c-sportslider-buttons button',
@@ -477,6 +482,7 @@ const sliderAnimIn = () => {
       ease: 'Power2.easeInOut',
       duration: 0.2,
       opacity: 1,
+      pointerEvents: 'auto',
     },
     '-=0.1',
   )

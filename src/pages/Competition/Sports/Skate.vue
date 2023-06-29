@@ -1,7 +1,7 @@
 <template>
   <div>
     <Scene v-if="skateStep === 0" />
-    <Quiz v-if="skateStep === 1" />
+    <Quiz v-if="skateStep === 1" @onEnd="addUserSession" />
     <Leaderboard
       v-if="skateStep === 2"
       :maxSessions="maxSessions"
@@ -25,6 +25,8 @@ import { IUser } from '@/core/types/IUser'
 import { getSortedInProgressMaxSessions } from '@/core/utils/scores'
 import { collection } from 'firebase/firestore'
 import { db } from '@/firebase'
+import { getMaxSessionHigherThanStored } from '@/core/services/api/leaderboardApi'
+import { addMaxSession } from '@/core/services/api/leaderboardApi'
 
 const { sportState, setSportStep } = useSportStore()
 const { scoreState } = useScoreStore()
@@ -72,6 +74,19 @@ const fetchMaxSessions = async () => {
   )
 }
 
+const addUserSession = async () => {
+  if (!localMaxSession.value) return
+
+  const isMaxSessionHigherThanStored = await getMaxSessionHigherThanStored(
+    localMaxSession.value.maxSession,
+    currentUser.value?.uid,
+  )
+
+  if (isMaxSessionHigherThanStored) {
+    await addMaxSession(localMaxSession.value.maxSession, currentUser.value?.uid)
+  }
+}
+
 watch(currentUser, async () => {
   await fetchMaxSessions()
 })
@@ -94,6 +109,7 @@ watch(
           userId: currentUser.value.uid,
         }
         addScoreSkate(tempScore)
+        // addUserSession()
       }
     }
   },

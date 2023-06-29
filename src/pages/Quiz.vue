@@ -1,4 +1,5 @@
 <template>
+  <!-- <LoadingQuiz /> -->
   <div class="quiz-background"></div>
   <QuizOverlay />
 
@@ -169,6 +170,7 @@ import ButtonUI from '@/components/common/ButtonUI.vue'
 import Modal from '@/components/common/Modal.vue'
 import Header from '@/components/common/Header.vue'
 import QuizOverlay from '@/components/modules/Quiz/QuizOverlay.vue'
+import LoadingQuiz from '@/components/modules/Quiz/LoadingQuiz.vue'
 import { IQuestion } from '@/core/types/IQuiz'
 import { ref, computed, onMounted, watch } from 'vue'
 import { QUESTIONS_DATA } from '@/data/constants'
@@ -183,8 +185,17 @@ import '@google/model-viewer'
 
 onMounted(async () => {
   questions.value = arrayShuffle(QUESTIONS_DATA)
+  questions.value.unshift({
+    question: `Belle performance ! Quelle était cette première figure ?`,
+    answer: 3,
+    options: ['PigeonFlip', 'Ollie', 'Kickflip', 'FS 270 Boardslide'],
+    selected: null,
+    img: '/img/quiz/quiz-ollie.webp',
+    info: `Cette figure consiste à faire tourner la planche de 180° sous les pieds du skateur. Il existe aussi des variantes à 360° et 540°.`,
+  })
 })
 
+const emit = defineEmits(['onEnd'])
 const { setCurrentScore } = useScoreStore()
 const { setSportStep } = useSportStore()
 const showQuiz = ref(true)
@@ -219,12 +230,18 @@ let soundGsapTl = gsap.timeline({})
 
 let animationToPlay = ref<string>('P_Interview_Discution')
 
+const ready = () => {
+  console.log('dom ready')
+}
+
 const quizOverlaySound = new Howl({
   src: ['/sounds/ui-sounds/sweep-1.mp3'],
+  volume: 0.3,
 })
 
 const quizSoundtrack = new Howl({
   src: ['/sounds/soundtracks/quiz-and-skatepark.mp3'],
+  volume: 0.7,
   loop: true,
 })
 
@@ -241,9 +258,9 @@ const quizWrongSound = new Howl({
 
 const quizBlablaSound = new Howl({
   src: ['/sounds/ui-sounds/blabla-quiz.mp3'],
-  volume: 0.3,
+  volume: 0.2,
   sprite: {
-    blabla1: [0, 2000, false],
+    blabla1: [0, 2100, false],
     blabla2: [2000, 2450, false],
     blabla3: [5200, 6000, false],
     blabla4: [7000, 8000, false],
@@ -288,8 +305,6 @@ const getCurrentQuestion = computed(() => {
 })
 
 const endQuiz = () => {
-  const tempScore: IScore = { points: score, sportId: 'skateQuiz' }
-  setCurrentScore(tempScore)
   setSportStep('skate', 2)
 }
 
@@ -346,13 +361,13 @@ const setNextQuestion = () => {
     animationToPlay.value = 'P_Interview_Discution'
   } else {
     quizCompleted.value = true
+    emit('onEnd')
     gotoEndQuiz()
   }
 }
 
 const quizOverlayAnimation = () => {
   quizOverlayTimeline.add(function () {
-    quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })
 
@@ -389,12 +404,11 @@ const quizOverlayAnimation = () => {
       duration: 0.4,
       ease: 'Power2.easeInOut',
     },
-    '+=0.5',
+    '+=2',
   )
 
   quizOverlayTimeline.add(function () {
     quizOverlaySound.rate(0.9)
-    quizOverlaySound.volume(0.5)
     quizOverlaySound.play()
   })
 
@@ -463,7 +477,7 @@ const displayInfo = () => {
 
   quizTimeline.to('.c-quiz-modals', {
     x: '0%',
-    duration: 0.4,
+    duration: 0.6,
     ease: 'Power4.easeInOut',
   })
 
@@ -484,11 +498,15 @@ const nextQuestion = () => {
     setNextQuestion()
   })
 
-  quizTimeline.to('.c-quiz-modals', {
-    x: '0%',
-    duration: 0.4,
-    ease: 'Power4.easeInOut',
-  })
+  quizTimeline.to(
+    '.c-quiz-modals',
+    {
+      x: '0%',
+      duration: 0.8,
+      ease: 'Power4.easeInOut',
+    },
+    '+=0.3',
+  )
 }
 
 const gotoEndQuiz = () => {
@@ -558,6 +576,8 @@ const gotoEndQuiz = () => {
   })
 
   quizEndTimeline.add(function () {
+    const tempScore: IScore = { points: score, sportId: 'skateQuiz' }
+    setCurrentScore(tempScore)
     showRecap.value = true
     gotoRecapQuiz()
   })
@@ -583,7 +603,7 @@ const gotoRecapQuiz = () => {
 
 onMounted(() => {
   Howler.stop()
-  quizSoundtrack.fade(0, 0.85, 1000)
+  quizSoundtrack.fade(0, 0.7, 1000)
   quizSoundtrack.play()
   // @ts-ignore
   quizSoundtrack.addFilter({

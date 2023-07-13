@@ -1,4 +1,4 @@
-# Neo JO
+# Neolympics 🟧
 
 ```
 yarn install

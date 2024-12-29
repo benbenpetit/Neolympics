@@ -1,7 +1,7 @@
 <template>
   <div class="intro-quiz-wrapper">
     <div class="intro-quiz-title">
-      <img src="/img/brush-quiz.png" alt="" />
+      <img src="/img/brush-quiz.webp" alt="" />
       <div class="text">
         <p>PLACE AU</p>
         <p>MICRO</p>

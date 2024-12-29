@@ -49,7 +49,7 @@
       <img src="/img/paris2024.svg" alt="" />
     </div>
     <div class="c-homepage-brush" ref="homeBrushRef">
-      <img src="/img/brush-home.png" alt="" />
+      <img src="/img/brush-home.webp" alt="" />
       <p>
         Découvrez les <strong>sports additionnels</strong> des JEUX OLYMPIQUES 2024 et
         <strong>décrochez la première place du classement en ligne</strong>

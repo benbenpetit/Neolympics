@@ -213,7 +213,7 @@ interface QAType {
 const recapTable = ref<QAType[]>([])
 
 const bluebrush = '/img/brush-blue-bravo.png'
-const redbrush = '/img/brush-red-oulah.png'
+const redbrush = '/img/brush-red-oulah.webp'
 const renardHappy = '/img/renard-happy.webp'
 const renardAngry = '/img/renard-angry.webp'
 const gazelleHappy = '/img/gazelle-happy.webp'
